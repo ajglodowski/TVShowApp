@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Silicon Valley",
+        "id": 1001,
+        "service": "HBO",
+        "status": "Show Ended",
+        "watched": false,
+        "running": true
+    },
+    {
+        "name": "Game of Thrones",
+        "id": 1002,
+        "service": "HBO",
+        "status": "Show Ended",
+        "watched": false,
+        "running": false
+    },
+    {
+        "name": "Euphoria",
+        "id": 1003,
+        "service": "HBO",
+        "status": "Show Ended",
+        "watched": true,
+        "running": true
+    },
+    {
+        "name": "Turtle Rock",
+        "id": 1004,
+        "service": "HBO",
+        "status": "Watchlist",
+        "watched": false,
+        "running": true
+    }
+]

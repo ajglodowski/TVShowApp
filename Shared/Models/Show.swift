@@ -19,7 +19,7 @@ enum ShowLength : String, Codable, CaseIterable {
 struct Show : Hashable, Identifiable, Codable {
     var id: Int
     var name: String
-    var service: String
+    var service: Service
     var status: String
     var watched: Bool
     var running: Bool

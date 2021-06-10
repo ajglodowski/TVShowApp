@@ -45,7 +45,7 @@ struct ShowDetail: View {
                     Text("Dates:")
                         .font(.subheadline)
                     Spacer()
-                    Text(show.service)
+                    Text(show.service.rawValue)
                         .font(.subheadline)
                 }
                 Text("Status: " + show.status)

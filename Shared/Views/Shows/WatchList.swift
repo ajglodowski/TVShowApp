@@ -15,6 +15,8 @@ struct WatchList: View {
     @State private var showUnwatchedOnly = false
     @State private var showRunningOnly = false
     
+    @State private var showServiceFilterOnly = false
+    
     @State private var searchText = ""
     
     
@@ -45,7 +47,10 @@ struct WatchList: View {
     
     
     var body: some View {
+        
         List {
+            
+            
         
             HStack { // Search Bar
                 Image(systemName: "magnifyingglass")
@@ -72,7 +77,20 @@ struct WatchList: View {
                         Text("Show Currently Running")
                     }
                     
+                    Menu {
+                        Button("service.rawValue",action: {})
+                        /*
+                        ForEach(Service.allCases) { service in
+                            Button(service.rawValue,action: {})
+                        }
+                        */
+                    } label: {
+                        Image(systemName: "line.horizontal.3.decrease.circle")
+                    }
+                    .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    
                 }
+                
                 
                 HStack {
                     Text("Show Title")

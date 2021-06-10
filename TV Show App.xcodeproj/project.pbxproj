@@ -166,9 +166,9 @@
 		1A66E10B263A060F00B47B88 /* Shows */ = {
 			isa = PBXGroup;
 			children = (
+				1AF396AC2638FF4C000C4996 /* WatchList.swift */,
 				1AF396A52638F977000C4996 /* ListShowRow.swift */,
 				1A66E1042639119300B47B88 /* ShowDetail.swift */,
-				1AF396AC2638FF4C000C4996 /* WatchList.swift */,
 				1A2FE973263F8CAB00B11F73 /* ScrollShowRow.swift */,
 			);
 			path = Shows;

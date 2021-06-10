@@ -44,6 +44,8 @@ struct WatchList: View {
         }
     }
     
+    @State var serviceFilteredShows = [Show]()
+    @State var appliedFilters = [Service]()
     
     
     var body: some View {
@@ -78,12 +80,21 @@ struct WatchList: View {
                     }
                     
                     Menu {
-                        Button("service.rawValue",action: {})
-                        /*
+                        
                         ForEach(Service.allCases) { service in
-                            Button(service.rawValue,action: {})
+                            Button(action: {
+                                serviceFilteredShows = applyFilter(applied: appliedFilters, shows: serviceFilteredShows, serivce: service)
+                                if (appliedFilters.contains(service)) {
+                                    appliedFilters = appliedFilters.filter { $0 != service}
+                                } else {
+                                    appliedFilters.append(service)
+                                }
+                            }) {
+                                Label(service.rawValue, systemImage: appliedFilters.contains(service) ?
+                                        "checkmark" : "")
+                            }
                         }
-                        */
+                        
                     } label: {
                         Image(systemName: "line.horizontal.3.decrease.circle")
                     }
@@ -104,6 +115,8 @@ struct WatchList: View {
                 }
                 
                 
+                
+                /*
                 if (showRunningOnly && showUnwatchedOnly) {
                     ForEach(runningUnwatchedShows) { show in
                         NavigationLink(destination: ShowDetail(show: show)) {
@@ -129,6 +142,22 @@ struct WatchList: View {
                         }
                     }
                 }
+                */
+                
+                if (serviceFilteredShows.count > 0) {
+                    ForEach(serviceFilteredShows) { show in
+                        NavigationLink(destination: ShowDetail(show: show)) {
+                            ListShowRow(show: show)
+                        }
+                    }
+                } else {
+                    ForEach(ModelData().shows) { show in
+                        NavigationLink(destination: ShowDetail(show: show)) {
+                            ListShowRow(show: show)
+                        }
+                    }
+                }
+                
             } else {
                 ForEach(searchShows) { show in
                     NavigationLink(destination: ShowDetail(show: show)) {

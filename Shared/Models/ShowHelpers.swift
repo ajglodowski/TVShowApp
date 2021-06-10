@@ -12,11 +12,6 @@ import UIKit
 
 
 func getRandPic(shows: [Show]) -> String {
-    
-    //@EnvironmentObject var modelData : ModelData
-    
-    //fatalError("Hehe")
-    
     var x = 0
     var showName = shows[0].name
     var counter = 0
@@ -32,9 +27,24 @@ func getRandPic(shows: [Show]) -> String {
     if (!exists) {
         showName = "broken"
     }
-    
     return showName
 }
+
+func applyFilter(applied: [Service], shows: [Show], serivce: Service) -> [Show] {
+    if (!applied.contains(serivce)) {
+        let add: [Show] = ModelData().shows.filter { $0.service == serivce }
+        var combined: [Show] = shows
+        for new in add {
+            combined.append(new)
+        }
+        return combined
+    } else {
+        let removed: [Show] = shows.filter { $0.service != serivce }
+        return removed
+    }
+    
+}
+
 
 
 

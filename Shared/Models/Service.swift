@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Service: String, CaseIterable, Codable {
+enum Service: String, CaseIterable, Codable, Identifiable {
     case AMC = "AMC"
     case ABC
     case Amazon
@@ -23,6 +23,6 @@ enum Service: String, CaseIterable, Codable {
     case USA
     case Viceland
     
-    
+    var id: String { self.rawValue }
 }
 

@@ -10,7 +10,7 @@ import Combine
 
 final class ModelData : ObservableObject {
     //@Published var shows: [Show] = load("showData.json")
-    @Published var shows: [Show] = load("convertcsv.json")
+    @Published var shows: [Show] = load("convertcsv-2.json")
     
     @Published var needsUpdated: Bool = false
     //save(shows,"showData")

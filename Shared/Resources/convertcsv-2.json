@@ -1,0 +1,872 @@
+[
+ {
+   "name": "American Crime Story",
+   "service": "FX",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1002,
+   "length": "30"
+ },
+ {
+   "name": "American Horror Story",
+   "service": "FX",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1003,
+   "length": "30"
+ },
+ {
+   "name": "American Idol",
+   "service": "ABC",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1004,
+   "length": "30"
+ },
+ {
+   "name": "Arrested Development",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1005,
+   "length": "30"
+ },
+ {
+   "name": "Arrow",
+   "service": "CW",
+   "wanted": false,
+   "status": "Seen Enough",
+   "running": true,
+   "watched": false,
+   "id": 1006,
+   "length": "30"
+ },
+ {
+   "name": "Atlanta",
+   "service": "FX",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1007,
+   "length": "30"
+ },
+ {
+   "name": "Barry",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1008,
+   "length": "30"
+ },
+ {
+   "name": "Big Little Lies",
+   "service": "HBO",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1009,
+   "length": "30"
+ },
+ {
+   "name": "Black Mirror",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1010,
+   "length": "30"
+ },
+ {
+   "name": "Bodyguard",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1011,
+   "length": "30"
+ },
+ {
+   "name": "Catastophe",
+   "service": "Amazon",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1012,
+   "length": "30"
+ },
+ {
+   "name": "Hacks",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Currently Watching",
+   "running": true,
+   "watched": false,
+   "id": 1013,
+   "length": "30"
+ },
+ {
+   "name": "Dead to Me",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1014,
+   "length": "30"
+ },
+ {
+   "name": "Dear White People",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1015,
+   "length": "30"
+ },
+ {
+   "name": "Defenders",
+   "service": "Netflix",
+   "wanted": false,
+   "status": "Seen Enough",
+   "running": true,
+   "watched": false,
+   "id": 1016,
+   "length": "30"
+ },
+ {
+   "name": "Dickinson",
+   "service": "Apple TV+",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1017,
+   "length": "30"
+ },
+ {
+   "name": "Elite",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1018,
+   "length": "30"
+ },
+ {
+   "name": "Emily in Paris",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1019,
+   "length": "30"
+ },
+ {
+   "name": "End of the Fucking World",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1020,
+   "length": "30"
+ },
+ {
+   "name": "Euphoria",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1021,
+   "length": "30"
+ },
+ {
+   "name": "Falcon and the Winter Soldier",
+   "service": "Disney+",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1022,
+   "length": "30"
+ },
+ {
+   "name": "Flash",
+   "service": "CW",
+   "wanted": false,
+   "status": "Seen Enough",
+   "running": true,
+   "watched": false,
+   "id": 1023,
+   "length": "30"
+ },
+ {
+   "name": "Fleabag",
+   "service": "Amazon",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1024,
+   "length": "30"
+ },
+ {
+   "name": "Flight Attendant",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1025,
+   "length": "30"
+ },
+ {
+   "name": "Game of Thrones",
+   "service": "HBO",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1026,
+   "length": "30"
+ },
+ {
+   "name": "Glow",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1027,
+   "length": "30"
+ },
+ {
+   "name": "Good Place",
+   "service": "NBC",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1028,
+   "length": "30"
+ },
+ {
+   "name": "Grace & Frankie",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1029,
+   "length": "30"
+ },
+ {
+   "name": "Handsmaid's Tale",
+   "service": "Hulu",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1030,
+   "length": "30"
+ },
+ {
+   "name": "Hard Knocks",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1031,
+   "length": "30"
+ },
+ {
+   "name": "High School Musical",
+   "service": "Disney+",
+   "wanted": true,
+   "status": "Currently Watching",
+   "running": true,
+   "watched": false,
+   "id": 1032,
+   "length": "30"
+ },
+ {
+   "name": "Hollywood",
+   "service": "Netflix",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1033,
+   "length": "30"
+ },
+ {
+   "name": "House of Cards",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1034,
+   "length": "30"
+ },
+ {
+   "name": "How to With John Wilson",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1035,
+   "length": "30"
+ },
+ {
+   "name": "I May Destroy You",
+   "service": "HBO",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1036,
+   "length": "30"
+ },
+ {
+   "name": "Industry",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1037,
+   "length": "30"
+ },
+ {
+   "name": "Insecure",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1038,
+   "length": "30"
+ },
+ {
+   "name": "Killing Eve",
+   "service": "Hulu",
+   "wanted": true,
+   "status": "Currently Watching",
+   "running": true,
+   "watched": false,
+   "id": 1039,
+   "length": "30"
+ },
+ {
+   "name": "La Casa de Papel",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to date",
+   "running": true,
+   "watched": true,
+   "id": 1040,
+   "length": "30"
+ },
+ {
+   "name": "Last Week Tonight",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Currently Watching",
+   "running": true,
+   "watched": false,
+   "id": 1041,
+   "length": "30"
+ },
+ {
+   "name": "Looking",
+   "service": "HBO",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1042,
+   "length": "30"
+ },
+ {
+   "name": "Love Victor",
+   "service": "Hulu",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1043,
+   "length": "30"
+ },
+ {
+   "name": "Lovecraft Country",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Currently Watching",
+   "running": true,
+   "watched": false,
+   "id": 1044,
+   "length": "30"
+ },
+ {
+   "name": "Luke Cage",
+   "service": "Netflix",
+   "wanted": false,
+   "status": "Seen Enough",
+   "running": true,
+   "watched": false,
+   "id": 1045,
+   "length": "30"
+ },
+ {
+   "name": "Lupin",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1046,
+   "length": "30"
+ },
+ {
+   "name": "Mandalorian",
+   "service": "Disney+",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1047,
+   "length": "30"
+ },
+ {
+   "name": "Maniac",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1048,
+   "length": "30"
+ },
+ {
+   "name": "Mare of Easttown",
+   "service": "HBO",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1049,
+   "length": "30"
+ },
+ {
+   "name": "Master of None",
+   "service": "Netflix",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1050,
+   "length": "30"
+ },
+ {
+   "name": "Mindhunter",
+   "service": "Netflix",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1051,
+   "length": "30"
+ },
+ {
+   "name": "Mr. Robot",
+   "service": "USA",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1052,
+   "length": "30"
+ },
+ {
+   "name": "Mrs. Maisel",
+   "service": "Amazon",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1053,
+   "length": "30"
+ },
+ {
+   "name": "My Brilliant Friend",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Currently Watching",
+   "running": true,
+   "watched": false,
+   "id": 1054,
+   "length": "30"
+ },
+ {
+   "name": "Narcos",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1055,
+   "length": "30"
+ },
+ {
+   "name": "Never Have I Ever",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1056,
+   "length": "30"
+ },
+ {
+   "name": "New Girl",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1057,
+   "length": "30"
+ },
+ {
+   "name": "Normal People",
+   "service": "Hulu",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1058,
+   "length": "30"
+ },
+ {
+   "name": "Nuts and Bolts",
+   "service": "Viceland",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1059,
+   "length": "30"
+ },
+ {
+   "name": "On My Block",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1060,
+   "length": "30"
+ },
+ {
+   "name": "Parks and Rec",
+   "service": "NBC",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1061,
+   "length": "30"
+ },
+ {
+   "name": "Pose",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1062,
+   "length": "30"
+ },
+ {
+   "name": "Queer Eye",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1063,
+   "length": "30"
+ },
+ {
+   "name": "Riverdale",
+   "service": "CW",
+   "wanted": false,
+   "status": "Seen Enough",
+   "running": true,
+   "watched": false,
+   "id": 1064,
+   "length": "30"
+ },
+ {
+   "name": "RUN",
+   "service": "HBO",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1065,
+   "length": "30"
+ },
+ {
+   "name": "Russian Doll",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1066,
+   "length": "30"
+ },
+ {
+   "name": "Schitts Creek",
+   "service": "Netflix",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1067,
+   "length": "30"
+ },
+ {
+   "name": "Search Party",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1068,
+   "length": "30"
+ },
+ {
+   "name": "Sex and the City",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Currently Watching",
+   "running": true,
+   "watched": false,
+   "id": 1069,
+   "length": "30"
+ },
+ {
+   "name": "Sex Education",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1070,
+   "length": "30"
+ },
+ {
+   "name": "Silicon Valley",
+   "service": "HBO",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1071,
+   "length": "30"
+ },
+ {
+   "name": "Stranger Things",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1072,
+   "length": "30"
+ },
+ {
+   "name": "Succession",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1073,
+   "length": "30"
+ },
+ {
+   "name": "Ted Lasso",
+   "service": "Apple TV+",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1074,
+   "length": "30"
+ },
+ {
+   "name": "The Americans",
+   "service": "FX",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1075,
+   "length": "30"
+ },
+ {
+   "name": "The Chi",
+   "service": "Showtime",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1076,
+   "length": "30"
+ },
+ {
+   "name": "The Circle",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1077,
+   "length": "30"
+ },
+ {
+   "name": "The Crown",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1078,
+   "length": "60"
+ },
+ {
+   "name": "The Office",
+   "service": "NBC",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1079,
+   "length": "30"
+ },
+ {
+   "name": "The Politician",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1080,
+   "length": "30"
+ },
+ {
+   "name": "Unbreakable Kimmy Schmidt",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Needs Watched",
+   "running": true,
+   "watched": false,
+   "id": 1081,
+   "length": "30"
+ },
+ {
+   "name": "Underground Railroad",
+   "service": "Amazon",
+   "wanted": true,
+   "status": "Currently Watching",
+   "running": true,
+   "watched": false,
+   "id": 1082,
+   "length": "30"
+ },
+ {
+   "name": "Veep",
+   "service": "HBO",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1083,
+   "length": "30"
+ },
+ {
+   "name": "Walking Dead",
+   "service": "AMC",
+   "wanted": false,
+   "status": "Seen Enough",
+   "running": true,
+   "watched": false,
+   "id": 1084,
+   "length": "30"
+ },
+ {
+   "name": "Wandavision",
+   "service": "Disney+",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1085,
+   "length": "30"
+ },
+ {
+   "name": "Watchmen",
+   "service": "HBO",
+   "wanted": false,
+   "status": "Show Ended",
+   "running": false,
+   "watched": true,
+   "id": 1086,
+   "length": "30"
+ },
+ {
+   "name": "We Are Who We Are",
+   "service": "HBO",
+   "wanted": true,
+   "status": "Currently Watching",
+   "running": true,
+   "watched": false,
+   "id": 1087,
+   "length": "30"
+ },
+ {
+   "name": "You",
+   "service": "Netflix",
+   "wanted": true,
+   "status": "Up to Date",
+   "running": true,
+   "watched": true,
+   "id": 1088,
+   "length": "30"
+ }
+]

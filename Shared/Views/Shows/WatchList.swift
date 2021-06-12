@@ -15,8 +15,6 @@ struct WatchList: View {
     @State private var showUnwatchedOnly = false
     @State private var showRunningOnly = false
     
-    @State private var showServiceFilterOnly = false
-    
     @State private var searchText = ""
     
     
@@ -44,8 +42,11 @@ struct WatchList: View {
         }
     }
     
-    @State var serviceFilteredShows = [Show]()
-    @State var appliedFilters = [Service]()
+    @State var filteredShows = [Show]()
+    @State var appliedServiceFilters = [Service]()
+    
+    @State var selectedLength: ShowLength = ShowLength.min
+    @State var usingLengthFilter = false
     
     
     var body: some View {
@@ -72,25 +73,46 @@ struct WatchList: View {
                 
                 HStack {
                     
+                    /*
                     Toggle(isOn: $showUnwatchedOnly) {
                         Text("Show Watchlist")
                     }
                     Toggle(isOn: $showRunningOnly) {
                         Text("Show Currently Running")
                     }
+                    */
+                    
+                    VStack {
+                        Text("Length").bold()
+                        Picker("Length", selection: $selectedLength) {
+                            ForEach(ShowLength.allCases) { length in
+                                Text(length.rawValue).tag(length)
+                            }
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        Button("Apply Length Filter", action: {
+                                usingLengthFilter = true
+                                filteredShows = applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength, usingLengthFilter: usingLengthFilter)})
+                            .buttonStyle(PlainButtonStyle())
+                            .foregroundColor(.white)
+                            .padding(5)
+                            .background(Color.blue.cornerRadius(10))
+                        
+                    }
                     
                     Menu {
                         
                         ForEach(Service.allCases) { service in
                             Button(action: {
-                                serviceFilteredShows = applyFilter(applied: appliedFilters, shows: serviceFilteredShows, serivce: service)
-                                if (appliedFilters.contains(service)) {
-                                    appliedFilters = appliedFilters.filter { $0 != service}
+                                
+                                if (appliedServiceFilters.contains(service)) {
+                                    appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
                                 } else {
-                                    appliedFilters.append(service)
+                                    appliedServiceFilters.append(service)
                                 }
+                                filteredShows = applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength, usingLengthFilter: usingLengthFilter)
                             }) {
-                                Label(service.rawValue, systemImage: appliedFilters.contains(service) ?
+                                Label(service.rawValue, systemImage: appliedServiceFilters.contains(service) ?
                                         "checkmark" : "")
                             }
                         }
@@ -100,6 +122,21 @@ struct WatchList: View {
                     }
                     .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     
+                }
+                
+                HStack {
+                    
+                    ForEach(appliedServiceFilters) { service in
+                    
+                        // Bug in removing service functionality
+                        Button(service.rawValue, action: {
+                            appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
+                        })
+                        .foregroundColor(.white)
+                        .padding(5)
+                        .background(Color.blue.opacity(0.80).cornerRadius(4))
+                    }
+                        
                 }
                 
                 
@@ -144,8 +181,9 @@ struct WatchList: View {
                 }
                 */
                 
-                if (serviceFilteredShows.count > 0) {
-                    ForEach(serviceFilteredShows) { show in
+                
+                if (appliedServiceFilters.count > 0 || usingLengthFilter) {
+                    ForEach(filteredShows) { show in
                         NavigationLink(destination: ShowDetail(show: show)) {
                             ListShowRow(show: show)
                         }
@@ -157,6 +195,7 @@ struct WatchList: View {
                         }
                     }
                 }
+                 
                 
             } else {
                 ForEach(searchShows) { show in

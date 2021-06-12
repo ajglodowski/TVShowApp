@@ -42,7 +42,7 @@ struct ShowDetail: View {
                 }
                 
                 HStack {
-                    Text("Dates:")
+                    Text("Show Length: " + show.length.rawValue)
                         .font(.subheadline)
                     Spacer()
                     Text(show.service.rawValue)

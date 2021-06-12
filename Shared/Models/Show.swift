@@ -20,12 +20,11 @@ struct Show : Hashable, Identifiable, Codable {
     var id: Int
     var name: String
     var service: Service
+    var length: ShowLength
     var status: String
     var watched: Bool
     var running: Bool
     var wanted: Bool
-    
-    //var length: ShowLength
 
 }
 

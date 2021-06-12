@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+func showIndex(show: Show) -> Int {
+    let ind = ModelData().shows.firstIndex(where: { _ in show.id == show.id })!
+    return ind
+}
+
 func getRandPic(shows: [Show]) -> String {
     var x = 0
     var showName = shows[0].name

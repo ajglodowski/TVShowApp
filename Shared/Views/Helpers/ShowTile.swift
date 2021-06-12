@@ -18,12 +18,12 @@ struct ShowTile: View {
             Image(show.name)
                 .resizable()
                 .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 .scaledToFit()
 
             Text(show.name)
                 .font(.caption)
         }
+        .frame(width: 175, height: 175, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         .padding(.leading, 10)
         .padding(.trailing, 10)
     }
@@ -34,6 +34,6 @@ struct ShowTile_Previews: PreviewProvider {
     static var shows = ModelData().shows
     
     static var previews: some View {
-        ShowTile(show: shows[1])
+        ShowTile(show: shows[30])
     }
 }

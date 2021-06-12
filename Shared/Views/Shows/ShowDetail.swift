@@ -29,8 +29,7 @@ struct ShowDetail: View {
                 .resizable()
                 .cornerRadius(20)
                 .frame(width: 300, height: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                .scaledToFit()
-            
+                .scaledToFit()            
             VStack (alignment: .leading) {
                 HStack {
                     Text(show.name)
@@ -53,6 +52,7 @@ struct ShowDetail: View {
                 
                 Divider()
                 Text("About Show")
+                
             }
             .padding()
             .navigationTitle(show.name)
@@ -69,7 +69,7 @@ struct ShowDetail_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            ShowDetail(show: modelData.shows[49])
+            ShowDetail(show: modelData.shows[30])
                 .environmentObject(modelData)
         }
     }

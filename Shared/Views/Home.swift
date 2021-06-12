@@ -26,13 +26,19 @@ struct Home: View {
     
     var unwatchedShows: [Show] {
         ModelData().shows.filter { show in
-            !show.watched && show.status != "Currently Watching"
+            !show.watched && show.status != "Currently Watching" && show.discovered
         }
     }
     
     var currentlyWatching: [Show] {
         ModelData().shows.filter { show in
             show.status == "Currently Watching"
+        }
+    }
+    
+    var undiscoveredShows: [Show] {
+        ModelData().shows.filter { show in
+            !show.discovered
         }
     }
     
@@ -64,6 +70,8 @@ struct Home: View {
                 }
                 
                 ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
+                
+                SquareTileScrollRow(items: undiscoveredShows, scrollName: "Discover Something New")
                 
                 ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
                 

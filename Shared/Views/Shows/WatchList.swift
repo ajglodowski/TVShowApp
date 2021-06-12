@@ -53,8 +53,6 @@ struct WatchList: View {
         
         List {
             
-            
-        
             HStack { // Search Bar
                 Image(systemName: "magnifyingglass")
                 TextField("Search for show here", text: $searchText)

@@ -25,6 +25,7 @@ struct Show : Hashable, Identifiable, Codable {
     var watched: Bool
     var running: Bool
     var wanted: Bool
+    var discovered: Bool
 
 }
 

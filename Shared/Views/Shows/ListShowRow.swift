@@ -16,7 +16,9 @@ struct ListShowRow: View {
             Text(show.name)
             Spacer()
             
-            if (show.watched) {
+            let index = showIndex(show: show)
+            
+            if (ModelData().shows[index].watched) {
                 Image(systemName: "eye.fill")
             } else {
                 Image(systemName: "calendar.circle")

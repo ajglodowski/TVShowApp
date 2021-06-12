@@ -10,5 +10,6 @@ Current TODO:
 - Get saving to json file
 - Add edit feature
 - Update ShowDetail to have dynamic background
+  - https://medium.com/swlh/swiftui-read-the-average-color-of-an-image-c736adb43000
 - Add new "Undiscovered" show type
 - Add new show tile for homepage

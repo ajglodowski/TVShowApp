@@ -7,6 +7,7 @@ This is a side project of mine to experiment with iOS development.
 - Add edit feature
 - Update ShowDetail to have dynamic background
   - https://medium.com/swlh/swiftui-read-the-average-color-of-an-image-c736adb43000
+- Fix / Add applied filters buttons on appropriate screens
 
 # Past TODO:
 - Add Show Service filter

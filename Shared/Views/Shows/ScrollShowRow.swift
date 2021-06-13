@@ -18,7 +18,6 @@ struct ScrollShowRow: View {
         
             Text(scrollName)
                 .font(.headline)
-                .padding(.leading, 15)
                 .padding(.top, 5)
             
             ScrollView(.horizontal, showsIndicators: false) {

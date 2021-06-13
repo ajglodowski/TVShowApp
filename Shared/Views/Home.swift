@@ -71,7 +71,20 @@ struct Home: View {
                 
                 ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
                 
-                SquareTileScrollRow(items: undiscoveredShows, scrollName: "Discover Something New")
+                VStack {
+                    NavigationLink(destination: DiscoverPage()) {               Text("Discover Other Shows")
+                        .font(.headline)
+                        .padding(.top, 5)
+                    }
+                    SquareTileScrollRow(items: undiscoveredShows)
+                }
+                
+                /*
+                VStack {
+                    Text("Discover")
+                    SquareTileScrollRow(items: undiscoveredShows, scrollName: "Discover Something New")
+                 */
+                
                 
                 ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
                 

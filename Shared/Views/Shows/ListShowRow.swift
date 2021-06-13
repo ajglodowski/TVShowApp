@@ -31,8 +31,8 @@ struct ListShowRow: View {
             } else {
                 Image(systemName: "x.circle")
             }
-            
         }
+        .padding()
     }
 }
 

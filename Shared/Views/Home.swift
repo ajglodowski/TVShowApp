@@ -25,19 +25,25 @@ struct Home: View {
     @EnvironmentObject var modelData : ModelData
     
     var unwatchedShows: [Show] {
-        ModelData().shows.filter { show in
-            !show.watched && show.status != "Currently Watching" && show.discovered
+        modelData.shows.filter { show in
+            !show.watched && show.status != "Currently Watching" && show.wanted && show.discovered
         }
     }
     
     var currentlyWatching: [Show] {
-        ModelData().shows.filter { show in
+        modelData.shows.filter { show in
             show.status == "Currently Watching"
         }
     }
     
+    var newSeasons: [Show] {
+        modelData.shows.filter { show in
+            show.status == "New Season"
+        }
+    }
+    
     var undiscoveredShows: [Show] {
-        ModelData().shows.filter { show in
+        modelData.shows.filter { show in
             !show.discovered
         }
     }
@@ -68,6 +74,8 @@ struct Home: View {
                 //.listRowInsets(EdgeInsets())
                     
                 }
+                
+                ScrollShowRow(items: newSeasons, scrollName: "New Seasons")
                 
                 ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
                 

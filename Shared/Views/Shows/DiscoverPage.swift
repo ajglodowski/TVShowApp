@@ -87,7 +87,9 @@ struct DiscoverPage: View {
                 GridItem(.flexible(minimum: 150, maximum: 300), spacing: 12, alignment: .top)
             ], spacing: 12, content: {
                 ForEach(displayedShows) { show in
-                    ShowSquareTile(show: show)
+                    NavigationLink(destination: ShowDetail(show: show)) {
+                        ShowSquareTile(show: show)
+                    }
                 }
             })
         }

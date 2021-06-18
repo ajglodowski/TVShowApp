@@ -15,7 +15,7 @@ struct WatchList: View {
     @State private var searchText = ""
     
     var searchShows: [Show] {
-        ModelData().shows.filter { show in
+        modelData.shows.filter { show in
             show.name.contains(searchText)
         }
     }
@@ -53,6 +53,8 @@ struct WatchList: View {
                 
                 HStack {
                     
+                    
+                    
                     VStack {
                         Text("Length").bold()
                         Picker("Length", selection: $selectedLength) {
@@ -62,6 +64,7 @@ struct WatchList: View {
                         }
                         .pickerStyle(SegmentedPickerStyle())
                     }
+                    
                     
                     Menu {
                         ForEach(Service.allCases) { service in
@@ -99,6 +102,16 @@ struct WatchList: View {
                         .background(Color.blue.opacity(0.80).cornerRadius(4))
                     }
                         
+                }
+                
+                HStack {
+                    var text = "But"
+                    Button(action: {
+                        text = "bar"
+                        //ModelData().shows[0].watched = false
+                    }, label: {
+                        Text(text)
+                    })
                 }
                 
                 

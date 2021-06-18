@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ListShowRow: View {
     
+    //@EnvironmentObject var modelData : ModelData
+    
     var show: Show
     
     var body: some View {
@@ -16,9 +18,9 @@ struct ListShowRow: View {
             Text(show.name)
             Spacer()
             
-            let index = showIndex(show: show)
+            //let index = showIndex(show: show)
             
-            if (ModelData().shows[index].watched) {
+            if (show.watched) {
                 Image(systemName: "eye.fill")
             } else {
                 Image(systemName: "calendar.circle")

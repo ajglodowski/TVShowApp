@@ -7,7 +7,7 @@
    "running": true,
    "watched": true,
    "id": 1002,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -18,7 +18,7 @@
    "running": true,
    "watched": false,
    "id": 1003,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -29,7 +29,7 @@
    "running": true,
    "watched": true,
    "id": 1004,
-   "length": "30",
+   "length": "30-60",
    "discovered": true
  },
  {
@@ -51,7 +51,7 @@
    "running": true,
    "watched": false,
    "id": 1006,
-   "length": "30",
+   "length": "30-60",
    "discovered": true
  },
  {
@@ -62,7 +62,7 @@
    "running": true,
    "watched": true,
    "id": 1007,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -84,7 +84,7 @@
    "running": false,
    "watched": true,
    "id": 1009,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -95,7 +95,7 @@
    "running": true,
    "watched": false,
    "id": 1010,
-   "length": "30",
+   "length": "60+",
    "discovered": true
  },
  {
@@ -106,7 +106,7 @@
    "running": true,
    "watched": true,
    "id": 1011,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -179,11 +179,11 @@
    "name": "Elite",
    "service": "Netflix",
    "wanted": true,
-   "status": "Up to Date",
+   "status": "New Season",
    "running": true,
    "watched": true,
    "id": 1018,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -216,7 +216,7 @@
    "running": true,
    "watched": true,
    "id": 1021,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -227,7 +227,7 @@
    "running": true,
    "watched": true,
    "id": 1022,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -238,7 +238,7 @@
    "running": true,
    "watched": false,
    "id": 1023,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -260,7 +260,7 @@
    "running": true,
    "watched": true,
    "id": 1025,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -271,7 +271,7 @@
    "running": false,
    "watched": true,
    "id": 1026,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -282,7 +282,7 @@
    "running": true,
    "watched": false,
    "id": 1027,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -293,7 +293,7 @@
    "running": false,
    "watched": true,
    "id": 1028,
-   "length": "30",
+   "length": "30-60",
    "discovered": true
  },
  {
@@ -315,7 +315,7 @@
    "running": true,
    "watched": false,
    "id": 1030,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -326,7 +326,7 @@
    "running": true,
    "watched": true,
    "id": 1031,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -359,7 +359,7 @@
    "running": true,
    "watched": false,
    "id": 1034,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -381,7 +381,7 @@
    "running": false,
    "watched": true,
    "id": 1036,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -392,7 +392,7 @@
    "running": true,
    "watched": true,
    "id": 1037,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -403,7 +403,7 @@
    "running": true,
    "watched": true,
    "id": 1038,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -414,7 +414,7 @@
    "running": true,
    "watched": false,
    "id": 1039,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -425,7 +425,7 @@
    "running": true,
    "watched": true,
    "id": 1040,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -436,7 +436,7 @@
    "running": true,
    "watched": false,
    "id": 1041,
-   "length": "30",
+   "length": "30-60",
    "discovered": true
  },
  {
@@ -458,7 +458,7 @@
    "running": true,
    "watched": true,
    "id": 1043,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -469,7 +469,7 @@
    "running": true,
    "watched": false,
    "id": 1044,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -480,14 +480,14 @@
    "running": true,
    "watched": false,
    "id": 1045,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
    "name": "Lupin",
    "service": "Netflix",
    "wanted": true,
-   "status": "Up to Date",
+   "status": "New Season",
    "running": true,
    "watched": true,
    "id": 1046,
@@ -502,7 +502,7 @@
    "running": true,
    "watched": false,
    "id": 1047,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -524,7 +524,7 @@
    "running": false,
    "watched": true,
    "id": 1049,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -535,7 +535,7 @@
    "running": false,
    "watched": true,
    "id": 1050,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -546,7 +546,7 @@
    "running": false,
    "watched": true,
    "id": 1051,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -557,7 +557,7 @@
    "running": true,
    "watched": false,
    "id": 1052,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -579,7 +579,7 @@
    "running": true,
    "watched": false,
    "id": 1054,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -590,7 +590,7 @@
    "running": true,
    "watched": false,
    "id": 1055,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -612,7 +612,7 @@
    "running": true,
    "watched": false,
    "id": 1057,
-   "length": "30",
+   "length": "30-60",
    "discovered": true
  },
  {
@@ -623,7 +623,7 @@
    "running": false,
    "watched": true,
    "id": 1058,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -645,7 +645,7 @@
    "running": true,
    "watched": true,
    "id": 1060,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -667,7 +667,7 @@
    "running": true,
    "watched": true,
    "id": 1062,
-   "length": "30",
+   "length": "30-60",
    "discovered": true
  },
  {
@@ -678,7 +678,7 @@
    "running": true,
    "watched": true,
    "id": 1063,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -689,7 +689,7 @@
    "running": true,
    "watched": false,
    "id": 1064,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -711,7 +711,7 @@
    "running": true,
    "watched": true,
    "id": 1066,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -722,7 +722,7 @@
    "running": false,
    "watched": true,
    "id": 1067,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -744,7 +744,7 @@
    "running": true,
    "watched": false,
    "id": 1069,
-   "length": "30",
+   "length": "30-60",
    "discovered": true
  },
  {
@@ -755,7 +755,7 @@
    "running": true,
    "watched": true,
    "id": 1070,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -777,7 +777,7 @@
    "running": true,
    "watched": true,
    "id": 1072,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -788,7 +788,7 @@
    "running": true,
    "watched": true,
    "id": 1073,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -810,7 +810,7 @@
    "running": true,
    "watched": false,
    "id": 1075,
-   "length": "30",
+   "length": "60",
    "discovered": false
  },
  {
@@ -821,7 +821,7 @@
    "running": true,
    "watched": false,
    "id": 1076,
-   "length": "30",
+   "length": "60",
    "discovered": false
  },
  {
@@ -832,7 +832,7 @@
    "running": true,
    "watched": true,
    "id": 1077,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -854,7 +854,7 @@
    "running": false,
    "watched": true,
    "id": 1079,
-   "length": "30",
+   "length": "30-60",
    "discovered": true
  },
  {
@@ -865,7 +865,7 @@
    "running": true,
    "watched": true,
    "id": 1080,
-   "length": "30",
+   "length": "30-60",
    "discovered": true
  },
  {
@@ -880,14 +880,14 @@
    "discovered": true
  },
  {
-   "name": "Underground Railroad",
+   "name": "The Underground Railroad",
    "service": "Amazon",
    "wanted": true,
    "status": "Currently Watching",
    "running": true,
    "watched": false,
    "id": 1082,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -909,7 +909,7 @@
    "running": true,
    "watched": false,
    "id": 1084,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -931,7 +931,7 @@
    "running": false,
    "watched": true,
    "id": 1086,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -942,7 +942,7 @@
    "running": true,
    "watched": false,
    "id": 1087,
-   "length": "30",
+   "length": "60",
    "discovered": true
  },
  {
@@ -953,7 +953,7 @@
    "running": true,
    "watched": true,
    "id": 1088,
-   "length": "30",
+   "length": "60",
    "discovered": true
  }
 ]

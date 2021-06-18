@@ -27,15 +27,16 @@ struct ShowSquareTile: View {
                     .font(.headline)
                     .scaledToFit()
                     
-                Text(show.service.rawValue)
-                    .font(.subheadline)
-                    .scaledToFit()
             }
             .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
             
             HStack {
-                Text("Episode Length: " + show.length.rawValue + " minutes")
+                Text(show.length.rawValue + "m")
                     .font(.subheadline)
+                
+                Text(show.service.rawValue)
+                    .font(.subheadline)
+                    .scaledToFit()
             }
             
         }

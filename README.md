@@ -8,6 +8,9 @@ This is a side project of mine to experiment with iOS development.
   - https://medium.com/swlh/swiftui-read-the-average-color-of-an-image-c736adb43000
 - Make "Status" an enum
 
+# Known Bugs:
+- Navigation after editing shows is wrong
+
 # Past TODO:
 - Add Show Service filter
 - Add Show Length Feature

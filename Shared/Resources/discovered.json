@@ -741,7 +741,7 @@
    "service": "HBO",
    "wanted": true,
    "status": "Currently Watching",
-   "running": true,
+   "running": false,
    "watched": false,
    "id": 1069,
    "length": "30-60",
@@ -953,6 +953,17 @@
    "running": true,
    "watched": true,
    "id": 1088,
+   "length": "60",
+   "discovered": true
+ },
+ {
+   "name": "Loki",
+   "service": "Disney+",
+   "wanted": true,
+   "status": "Currently Watching",
+   "running": true,
+   "watched": false,
+   "id": 1089,
    "length": "60",
    "discovered": true
  }

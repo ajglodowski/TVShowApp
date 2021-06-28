@@ -21,11 +21,14 @@ struct WatchList: View {
     }
     
     var displayedShows : [Show] {
+        /*
         if (searchText != "") {
             return searchShows
         } else {
             return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
         }
+         */
+        return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength, shows: modelData.shows)
     }
     
     @State var appliedServiceFilters = [Service]()
@@ -89,31 +92,21 @@ struct WatchList: View {
                     
                 }
                 
-                HStack {
-                    
-                    ForEach(appliedServiceFilters) { service in
-                    
-                        // Bug in removing service functionality
-                        Button(service.rawValue, action: {
-                            appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
-                        })
-                        .foregroundColor(.white)
-                        .padding(5)
-                        .background(Color.blue.opacity(0.80).cornerRadius(4))
-                    }
+                if (!appliedServiceFilters.isEmpty) {
+                    HStack {
+                        ForEach(appliedServiceFilters) { service in
                         
+                            // Bug in removing service functionality
+                            Button(service.rawValue, action: {
+                                appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
+                            })
+                            .foregroundColor(.white)
+                            .padding(5)
+                            .background(Color.blue.opacity(0.80).cornerRadius(8))
+                            .buttonStyle(BorderlessButtonStyle())
+                        }
+                    }
                 }
-                
-                HStack {
-                    var text = "But"
-                    Button(action: {
-                        text = "bar"
-                        //ModelData().shows[0].watched = false
-                    }, label: {
-                        Text(text)
-                    })
-                }
-                
                 
                 HStack {
                     Text("Show Title")

@@ -63,6 +63,8 @@ func applyLengthFilter(shows: [Show], selection: ShowLength) -> [Show] {
      */
 }
 
+
+// Shouldn't be used because ModelData doesn't update
 func applyAllFilters(serviceFilters: [Service], showLengthFilter: ShowLength) -> [Show] {
     
     var filtered = [Show]()

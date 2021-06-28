@@ -15,6 +15,8 @@ struct ShowDetail: View {
     
     var show : Show
     
+    @State private var isPresented = false
+    
     var showIndex: Int {
         modelData.shows.firstIndex(where: { $0.id == show.id })!
     }
@@ -58,6 +60,26 @@ struct ShowDetail: View {
             .navigationTitle(show.name)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(false)
+            
+            .navigationBarItems(trailing: Button("Edit") {
+                        isPresented = true
+                    })
+            
+            .sheet(isPresented: $isPresented) {
+                        NavigationView {
+                            ShowDetailEdit(show: show)
+                                .navigationTitle(show.name)
+                                .navigationBarItems(trailing: Button("Done") {
+                                    isPresented = false
+                                })
+                        }
+                    }
+            
+            /*
+            .toolbar{
+                NavigationLink("Edit", destination: ShowDetail(show: show))
+            }
+             */
         }
         .ignoresSafeArea()
     }

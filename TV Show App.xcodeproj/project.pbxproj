@@ -41,6 +41,10 @@
 		1A66E1062639119300B47B88 /* ShowDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A66E1042639119300B47B88 /* ShowDetail.swift */; };
 		1A66E109263A042600B47B88 /* WatchedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A66E108263A042600B47B88 /* WatchedButton.swift */; };
 		1A66E10A263A042600B47B88 /* WatchedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A66E108263A042600B47B88 /* WatchedButton.swift */; };
+		1AC953B126896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
+		1AC953B226896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
+		1AC953B326896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
+		1AC953B426896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
 		1AF20DE22674731D0021A08F /* discovered.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AF20DE12674731D0021A08F /* discovered.json */; };
 		1AF20DE32674731D0021A08F /* discovered.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AF20DE12674731D0021A08F /* discovered.json */; };
 		1AF20DE42674731D0021A08F /* discovered.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AF20DE12674731D0021A08F /* discovered.json */; };
@@ -121,6 +125,7 @@
 		1A3B8B3F2671D82C0033C433 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		1A66E1042639119300B47B88 /* ShowDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetail.swift; sourceTree = "<group>"; };
 		1A66E108263A042600B47B88 /* WatchedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedButton.swift; sourceTree = "<group>"; };
+		1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowDetailEdit.swift; sourceTree = "<group>"; };
 		1AF20DE12674731D0021A08F /* discovered.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = discovered.json; sourceTree = "<group>"; };
 		1AF20DE6267473930021A08F /* ShowSquareTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSquareTile.swift; sourceTree = "<group>"; };
 		1AF2C88B26700BD600463718 /* convertcsv.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = convertcsv.json; path = ../../../../../Downloads/convertcsv.json; sourceTree = "<group>"; };
@@ -193,6 +198,7 @@
 		1A66E10B263A060F00B47B88 /* Shows */ = {
 			isa = PBXGroup;
 			children = (
+				1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */,
 				1AF396AC2638FF4C000C4996 /* WatchList.swift */,
 				1AF396A52638F977000C4996 /* ListShowRow.swift */,
 				1A66E1042639119300B47B88 /* ShowDetail.swift */,
@@ -493,6 +499,7 @@
 				1AF396932638F6E9000C4996 /* ModelData.swift in Sources */,
 				1A66E109263A042600B47B88 /* WatchedButton.swift in Sources */,
 				1AF396762638F54E000C4996 /* ContentView.swift in Sources */,
+				1AC953B126896D5C00B293FB /* ShowDetailEdit.swift in Sources */,
 				1A2FE96F263F8B0700B11F73 /* Home.swift in Sources */,
 				1AF396A62638F977000C4996 /* ListShowRow.swift in Sources */,
 				1A3232F826756F6E009A9F23 /* DiscoverPage.swift in Sources */,
@@ -517,6 +524,7 @@
 				1AF396942638F6E9000C4996 /* ModelData.swift in Sources */,
 				1A66E10A263A042600B47B88 /* WatchedButton.swift in Sources */,
 				1AF396772638F54E000C4996 /* ContentView.swift in Sources */,
+				1AC953B226896D5C00B293FB /* ShowDetailEdit.swift in Sources */,
 				1A2FE970263F8B0700B11F73 /* Home.swift in Sources */,
 				1AF396A72638F977000C4996 /* ListShowRow.swift in Sources */,
 				1A3232F926756F6E009A9F23 /* DiscoverPage.swift in Sources */,
@@ -535,6 +543,7 @@
 				1A3232F526750BAF009A9F23 /* SquareTileScrollRow.swift in Sources */,
 				1AF396902638F635000C4996 /* Show.swift in Sources */,
 				1AF396AB2638FC7C000C4996 /* ContentView.swift in Sources */,
+				1AC953B326896D5C00B293FB /* ShowDetailEdit.swift in Sources */,
 				1AF396A82638F977000C4996 /* ListShowRow.swift in Sources */,
 				1AF396672638F54E000C4996 /* Tests_iOS.swift in Sources */,
 				1AF396952638F6E9000C4996 /* ModelData.swift in Sources */,
@@ -556,6 +565,7 @@
 				1A3232F626750BAF009A9F23 /* SquareTileScrollRow.swift in Sources */,
 				1AF396912638F635000C4996 /* Show.swift in Sources */,
 				1AF396AA2638FC7C000C4996 /* ContentView.swift in Sources */,
+				1AC953B426896D5C00B293FB /* ShowDetailEdit.swift in Sources */,
 				1AF396A92638F977000C4996 /* ListShowRow.swift in Sources */,
 				1AF396722638F54E000C4996 /* Tests_macOS.swift in Sources */,
 				1AF396962638F6E9000C4996 /* ModelData.swift in Sources */,

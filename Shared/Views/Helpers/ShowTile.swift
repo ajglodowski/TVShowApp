@@ -21,7 +21,7 @@ struct ShowTile: View {
                 .scaledToFit()
 
             Text(show.name)
-                .font(.caption)
+                .font(.subheadline)
         }
         .frame(width: 175, height: 175, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         .padding(.leading, 10)

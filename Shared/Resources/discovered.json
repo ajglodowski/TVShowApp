@@ -124,9 +124,9 @@
    "name": "Hacks",
    "service": "HBO",
    "wanted": true,
-   "status": "Currently Watching",
+   "status": "Up to Date",
    "running": true,
-   "watched": false,
+   "watched": true,
    "id": 1013,
    "length": "30",
    "discovered": true

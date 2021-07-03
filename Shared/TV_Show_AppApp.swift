@@ -16,7 +16,7 @@ import SwiftUI
             ContentView()
                 .environmentObject(modelData)
             
-            .preferredColorScheme(.light)
+            //.preferredColorScheme(.dark)
         }
     }
 }

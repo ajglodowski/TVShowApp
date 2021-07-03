@@ -16,74 +16,107 @@ struct ShowDetail: View {
     var show : Show
     
     @State private var isPresented = false
+    @State private var backgroundColor: Color = .clear
     
     var showIndex: Int {
         modelData.shows.firstIndex(where: { $0.id == show.id })!
     }
     
-    var body: some View {
-        
-        //ContentView.navigationBar.navigationBarHidden(true)
-        
-        VStack {
-            
-            Image(show.name)
-                .resizable()
-                .cornerRadius(20)
-                .frame(width: 300, height: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                .scaledToFit()            
-            VStack (alignment: .leading) {
-                HStack {
-                    Text(show.name)
-                        .font(.title)
-                    
-                    //Button(action: show.watched.toggle, label:)
-                    
-                    WatchedButton(isSet: $modelData.shows[showIndex].watched)
-                }
-                
-                HStack {
-                    Text("Show Length: " + show.length.rawValue + " minutes")
-                        .font(.subheadline)
-                    Spacer()
-                    Text(show.service.rawValue)
-                        .font(.subheadline)
-                }
-                Text("Status: " + show.status)
-                    .font(.subheadline)
-                
-                Divider()
-                Text("About Show")
-                
-            }
-            .padding()
-            .navigationTitle(show.name)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(false)
-            
-            .navigationBarItems(trailing: Button("Edit") {
-                        isPresented = true
-                    })
-            
-            .sheet(isPresented: $isPresented) {
-                        NavigationView {
-                            ShowDetailEdit(show: show)
-                                .navigationTitle(show.name)
-                                .navigationBarItems(trailing: Button("Done") {
-                                    isPresented = false
-                                })
-                        }
-                    }
-            
-            /*
-            .toolbar{
-                NavigationLink("Edit", destination: ShowDetail(show: show))
-            }
-             */
-        }
-        .ignoresSafeArea()
+    init(show: Show) {
+        self.show = show
+        UINavigationBar.appearance().backgroundColor = .clear
     }
+    
+    var body: some View {
+    
+        ZStack (alignment: .bottom) {
+            
+            backgroundColor
+                .ignoresSafeArea()
+        
+        GeometryReader { geometry in
+            
+            VStack (alignment: .center) {
+                Image(show.name)
+                    .resizable()
+                    .scaledToFit()
+                    .clipped()
+                    .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
+                    .cornerRadius(20)
+                    .shadow(radius: 10)
+                    .padding(.top, 25)
+                
+                // Text
+                VStack (alignment: .leading) {
+                    HStack {
+                        Text(show.name)
+                            .font(.title)
+                        WatchedButton(isSet: $modelData.shows[showIndex].watched)
+                    }
+                    HStack {
+                        Text("Show Length: " + show.length.rawValue + " minutes")
+                            .font(.subheadline)
+                        Spacer()
+                        Text(show.service.rawValue)
+                            .font(.subheadline)
+                    }
+                    Text("Status: " + show.status)
+                        .font(.subheadline)
+                    
+                    Divider()
+                    Text("About Show")
+                }
+                .padding()
+                .background(backgroundColor.blendMode(.softLight))
+                .cornerRadius(20)
+                .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                .padding()
+                .foregroundColor(.white)
+                
+            }
+        }
+        
+        .onAppear {
+            self.setAverageColor()
+        }
+        
+        
+        .navigationTitle(show.name)
+        .navigationBarTitleDisplayMode(.inline)
+        //.navigationBarBackButtonHidden(false)
+        
+        .navigationBarItems(trailing: Button("Edit") {
+                    isPresented = true
+                })
+        
+        .sheet(isPresented: $isPresented) {
+            NavigationView {
+                ShowDetailEdit(show: show)
+                    .navigationTitle(show.name)
+                    .navigationBarItems(trailing: Button("Done") {
+                        isPresented = false
+                    })
+            }
+        }
+        
+        /*
+        .toolbar{
+            NavigationLink("Edit", destination: ShowDetail(show: show))
+        }
+         */
+    }
+    }
+    
+    private func setAverageColor() {
+            let uiColor = UIImage(named: show.name)?.averageColor ?? .clear
+            backgroundColor = Color(uiColor)
+        }
+    
+    //.ignoresSafeArea()
 }
+
+
+
 
 struct ShowDetail_Previews: PreviewProvider {
     

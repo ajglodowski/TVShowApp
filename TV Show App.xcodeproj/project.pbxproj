@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A1A51D3268EBD1B00138859 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1A51D2268EBD1B00138859 /* UIImage+Extension.swift */; };
 		1A2FE96F263F8B0700B11F73 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FE96E263F8B0700B11F73 /* Home.swift */; };
 		1A2FE970263F8B0700B11F73 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FE96E263F8B0700B11F73 /* Home.swift */; };
 		1A2FE971263F8B0700B11F73 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FE96E263F8B0700B11F73 /* Home.swift */; };
@@ -115,6 +116,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A1A51D2268EBD1B00138859 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		1A2FE96E263F8B0700B11F73 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		1A2FE973263F8CAB00B11F73 /* ScrollShowRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollShowRow.swift; sourceTree = "<group>"; };
 		1A2FE978263F8EC600B11F73 /* ShowTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTile.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 				1A2FE978263F8EC600B11F73 /* ShowTile.swift */,
 				1A66E108263A042600B47B88 /* WatchedButton.swift */,
 				1AF20DE6267473930021A08F /* ShowSquareTile.swift */,
+				1A1A51D2268EBD1B00138859 /* UIImage+Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				1A2FE974263F8CAB00B11F73 /* ScrollShowRow.swift in Sources */,
 				1AF396742638F54E000C4996 /* TV_Show_AppApp.swift in Sources */,
 				1AF396AD2638FF4C000C4996 /* WatchList.swift in Sources */,
+				1A1A51D3268EBD1B00138859 /* UIImage+Extension.swift in Sources */,
 				1A3232F326750BAF009A9F23 /* SquareTileScrollRow.swift in Sources */,
 				1A66E1052639119300B47B88 /* ShowDetail.swift in Sources */,
 			);

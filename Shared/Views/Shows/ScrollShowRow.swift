@@ -26,6 +26,7 @@ struct ScrollShowRow: View {
                         NavigationLink(destination: ShowDetail(show: show)) {
                             ShowTile(show: show)
                         }
+                        .accentColor(.primary)
                     }
                 }
             }

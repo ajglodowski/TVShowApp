@@ -32,7 +32,7 @@ struct Home: View {
     
     var currentlyWatching: [Show] {
         modelData.shows.filter { show in
-            show.status == "Currently Watching"
+            show.status == "Currently Watching" || show.status == "New Season"
         }
     }
     
@@ -77,7 +77,13 @@ struct Home: View {
                 
                 ScrollShowRow(items: newSeasons, scrollName: "New Seasons")
                 
-                ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
+                //ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
+                
+                VStack(alignment: .leading) {
+                    Text("Currently Watching")
+                        .font(.headline)
+                    SquareTileScrollRow(items: currentlyWatching)
+                }
                 
                 VStack {
                     NavigationLink(destination: DiscoverPage()) {               Text("Discover Other Shows")

@@ -20,6 +20,10 @@ struct ShowSquareTile: View {
                 .resizable()
                 .scaledToFit()
                 .cornerRadius(15)
+                .if(show.status == "New Season") {
+                    $0.overlay(TileBanner(text: "New Season"),alignment: .bottomLeading)
+                }
+                
             
             HStack {
             

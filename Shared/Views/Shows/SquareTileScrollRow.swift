@@ -22,6 +22,7 @@ struct SquareTileScrollRow: View {
                         NavigationLink(destination: ShowDetail(show: show)) {
                             ShowSquareTile(show: show)
                         }
+                        .foregroundColor(.primary)
                     }
                 }
             }

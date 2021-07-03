@@ -67,6 +67,8 @@ struct ShowDetail: View {
                     Text("About Show")
                 }
                 .padding()
+                // Darker, possible use in future
+                //.background(Color.secondary)
                 .background(backgroundColor.blendMode(.softLight))
                 .cornerRadius(20)
                 .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)

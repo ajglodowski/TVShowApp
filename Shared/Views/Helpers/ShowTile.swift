@@ -19,11 +19,13 @@ struct ShowTile: View {
                 .resizable()
                 .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                 .scaledToFit()
+                //.shadow(radius: 5)
 
             Text(show.name)
                 .font(.subheadline)
         }
         .frame(width: 175, height: 175, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        //.shadow(radius: 5)
         .padding(.leading, 10)
         .padding(.trailing, 10)
     }

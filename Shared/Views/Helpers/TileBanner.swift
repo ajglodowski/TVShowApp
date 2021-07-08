@@ -14,6 +14,7 @@ struct TileBanner: View {
     var body: some View {
         Text(text)
             //.padding(.vertical, 5)
+            .multilineTextAlignment(.center)
             .padding(.horizontal, 5)
             .background(Color.secondary)
             .cornerRadius(10)

@@ -102,6 +102,17 @@ struct Home: View {
                 
                 ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
                 
+                Button(action: {
+                    modelData.saveToJsonFile()
+                }, label: {
+                    Text("Save Data")
+                        .font(.title)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                })
+                
             }
             .navigationTitle("Home")
         }

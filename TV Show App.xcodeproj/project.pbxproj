@@ -39,10 +39,6 @@
 		1A66E1062639119300B47B88 /* ShowDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A66E1042639119300B47B88 /* ShowDetail.swift */; };
 		1A66E109263A042600B47B88 /* WatchedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A66E108263A042600B47B88 /* WatchedButton.swift */; };
 		1A66E10A263A042600B47B88 /* WatchedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A66E108263A042600B47B88 /* WatchedButton.swift */; };
-		1A8D85952696AB7C005890D0 /* new.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D85942696AB7C005890D0 /* new.json */; };
-		1A8D85962696AB7C005890D0 /* new.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D85942696AB7C005890D0 /* new.json */; };
-		1A8D85972696AB7C005890D0 /* new.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D85942696AB7C005890D0 /* new.json */; };
-		1A8D85982696AB7C005890D0 /* new.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D85942696AB7C005890D0 /* new.json */; };
 		1AC953B126896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
 		1AC953B226896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
 		1AC953B326896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
@@ -120,7 +116,6 @@
 		1A3B8B3F2671D82C0033C433 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		1A66E1042639119300B47B88 /* ShowDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetail.swift; sourceTree = "<group>"; };
 		1A66E108263A042600B47B88 /* WatchedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedButton.swift; sourceTree = "<group>"; };
-		1A8D85942696AB7C005890D0 /* new.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = new.json; sourceTree = "<group>"; };
 		1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowDetailEdit.swift; sourceTree = "<group>"; };
 		1AF20DE12674731D0021A08F /* discovered.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = discovered.json; sourceTree = "<group>"; };
 		1AF20DE6267473930021A08F /* ShowSquareTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSquareTile.swift; sourceTree = "<group>"; };
@@ -218,7 +213,6 @@
 		1A66E10D263A074100B47B88 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1A8D85942696AB7C005890D0 /* new.json */,
 				1AF20DE12674731D0021A08F /* discovered.json */,
 				1AF396B12639004A000C4996 /* landmarkData.json */,
 			);
@@ -433,7 +427,6 @@
 			files = (
 				1AF20DE22674731D0021A08F /* discovered.json in Resources */,
 				1AF396782638F54E000C4996 /* Assets.xcassets in Resources */,
-				1A8D85952696AB7C005890D0 /* new.json in Resources */,
 				1AF396B22639004A000C4996 /* landmarkData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -444,7 +437,6 @@
 			files = (
 				1AF20DE32674731D0021A08F /* discovered.json in Resources */,
 				1AF396792638F54E000C4996 /* Assets.xcassets in Resources */,
-				1A8D85962696AB7C005890D0 /* new.json in Resources */,
 				1AF396B32639004A000C4996 /* landmarkData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -455,7 +447,6 @@
 			files = (
 				1AF20DE42674731D0021A08F /* discovered.json in Resources */,
 				1AF396B42639004A000C4996 /* landmarkData.json in Resources */,
-				1A8D85972696AB7C005890D0 /* new.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +456,6 @@
 			files = (
 				1AF20DE52674731D0021A08F /* discovered.json in Resources */,
 				1AF396B52639004A000C4996 /* landmarkData.json in Resources */,
-				1A8D85982696AB7C005890D0 /* new.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

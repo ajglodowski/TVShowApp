@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ListShowRow: View {
     
-    //@EnvironmentObject var modelData : ModelData
+    @EnvironmentObject var modelData : ModelData
     
     var show: Show
     
@@ -34,6 +34,19 @@ struct ListShowRow: View {
                 Image(systemName: "x.circle")
             }
         }
+        /*
+         //When IOS updates
+         
+         .swipeActions(edge: .leading) {
+             Button(role: .destructive){
+                 withAnimation {
+                     modelData.shows.removeAll { show.id == $0.id }
+                 }
+             } label: {
+                 Label("Delete", systemImage: "trash")
+             }
+         }
+         */
     }
 }
 

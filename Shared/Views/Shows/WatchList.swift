@@ -125,6 +125,7 @@ struct WatchList: View {
                         ListShowRow(show: show)
                     }
                 }
+                .onDelete(perform: removeRows)
                  
                 
             } else {
@@ -139,7 +140,14 @@ struct WatchList: View {
         }
         .navigationTitle("Watchlist")
     }
+    
+    func removeRows(at offsets: IndexSet) {
+        ModelData().shows.remove(atOffsets: offsets)
+    }
+    
 }
+
+
 
 struct WatchList_Previews: PreviewProvider {
     

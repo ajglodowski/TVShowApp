@@ -13,10 +13,12 @@ struct ShowDetailEdit: View {
     
     @EnvironmentObject var modelData: ModelData
     
+    @Binding var isPresented: Bool
+    
     var show : Show
     
     var showIndex: Int {
-        modelData.shows.firstIndex(where: { $0.id == show.id })!
+        modelData.shows.firstIndex(where: { $0.id == show.id }) ?? -1
     }
     
     var body: some View {
@@ -69,19 +71,39 @@ struct ShowDetailEdit: View {
             Section(header: Text("Show Status:")) {
                 TextField("Show Status", text: $modelData.shows[showIndex].status)
             }
+            
+            
+             
+            //TODO
+            /*
+            Button(action: {
+                //modelData.shows.remove(at: showIndex)
+                self.isPresented = false
+                modelData.shows.remove(at: showIndex)
+            }, label: {
+                Text("Delete Show")
+                    .font(.title)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            })
+ */
+             
         }
         .listStyle(InsetGroupedListStyle())
     }
 }
-
+/*
 struct ShowDetailEdit_Previews: PreviewProvider {
     
     static let modelData = ModelData()
     
     static var previews: some View {
         Group {
-            ShowDetailEdit(show: modelData.shows[30])
+            ShowDetailEdit(isPresented: true, show: modelData.shows[30])
                 .environmentObject(modelData)
         }
     }
 }
+*/

@@ -23,6 +23,8 @@ enum Service: String, CaseIterable, Codable, Identifiable {
     case USA
     case Viceland
     
+    case Other
+    
     var id: String { self.rawValue }
 }
 

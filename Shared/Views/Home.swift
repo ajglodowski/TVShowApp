@@ -24,6 +24,9 @@ struct Home: View {
     
     @EnvironmentObject var modelData : ModelData
     
+    // Used for adding show button
+    @State private var isPresented = false
+    
     var unwatchedShows: [Show] {
         modelData.shows.filter { show in
             !show.watched && show.status != "Currently Watching" && show.wanted && show.discovered
@@ -52,11 +55,12 @@ struct Home: View {
         NavigationView {
             List {
                 ZStack {
+                    // Use for actual use
+                    //let picShow = getRandPic(shows: unwatchedShows)
                     
-                    //var picShow = ModelData().shows[49].name
-                    //print("!")
+                    // Use because picture fits well
+                    let picShow = "Handmaid's Tale"
                     
-                    let picShow = getRandPic(shows: unwatchedShows)
                     Image(picShow)
                         .resizable()
                         .scaledToFill()
@@ -102,16 +106,36 @@ struct Home: View {
                 
                 ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
                 
-                Button(action: {
-                    modelData.saveToJsonFile()
-                }, label: {
-                    Text("Save Data")
-                        .font(.title)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                })
+                HStack {
+                    Button(action: {
+                        modelData.saveToJsonFile()
+                    }, label: {
+                        Text("Save Data")
+                            .font(.title)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    })
+                    .buttonStyle(BorderlessButtonStyle())
+                    
+                    
+                    Button(action: {
+                        // TODO
+                        var new = Show()
+                        modelData.shows.append(new)
+                        ShowDetailEdit(isPresented: $isPresented, show: new)
+                        
+                    }, label: {
+                        Text("New Show")
+                            .font(.title)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    })
+                    .buttonStyle(BorderlessButtonStyle())
+                }
                 
             }
             .navigationTitle("Home")

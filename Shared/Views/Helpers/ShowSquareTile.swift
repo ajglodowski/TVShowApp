@@ -21,7 +21,7 @@ struct ShowSquareTile: View {
                 .scaledToFit()
                 .cornerRadius(15)
                 .if(show.status == "New Season") {
-                    $0.overlay(TileBanner(text: "NEW\nSEASON"),alignment: .bottomLeading)
+                    $0.overlay(TileBanner(text: "New\nSeason"),alignment: .bottomLeading)
                 }
                 
             

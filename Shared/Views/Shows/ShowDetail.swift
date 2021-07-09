@@ -93,7 +93,7 @@ struct ShowDetail: View {
         
         .sheet(isPresented: $isPresented) {
             NavigationView {
-                ShowDetailEdit(show: show)
+                ShowDetailEdit(isPresented: self.$isPresented, show: show)
                     .navigationTitle(show.name)
                     .navigationBarItems(trailing: Button("Done") {
                         isPresented = false

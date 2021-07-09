@@ -26,6 +26,18 @@ struct Show : Hashable, Identifiable, Codable {
     var running: Bool
     var wanted: Bool
     var discovered: Bool
+    
+    init() {
+        id = ModelData().shows.count + 1
+        name = ""
+        service = Service.Other
+        length = ShowLength.min
+        status = ""
+        watched = false
+        running = true
+        wanted = true
+        discovered = true
+    }
 
 }
 

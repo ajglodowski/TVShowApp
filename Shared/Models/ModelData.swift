@@ -17,13 +17,15 @@ final class ModelData : ObservableObject {
     
     func saveToJsonFile() {
         
-        //guard let shows = self?.shows else { fatalError("Self out of scope") }
+        // Use for deploy on device
         
         guard let documentDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         let fileUrl = documentDirectoryUrl.appendingPathComponent("new.json")
-        //guard let fileUrl = Bundle.main.url(forResource: "new.json", withExtension: nil) else { fatalError("file issue") }
-        //fatalError(fileUrl.absoluteString)
-        //let fileUrl = fileURL("new.json")
+         
+         
+        
+        // Saving doesn't work locally but this allows previews
+        //guard let fileUrl = Bundle.main.url(forResource: "discovered.json", withExtension: nil) else { fatalError("Error in path") }
 
         
         guard let data = try? JSONEncoder().encode(shows) else { fatalError("Error encoding data") }
@@ -38,13 +40,17 @@ final class ModelData : ObservableObject {
 }
 
 func load<T: Decodable>() -> T {
-    
-    //fatalError("Hehe")
+
     let data: Data
 
-    //guard let file = Bundle.main.url(forResource: filename, withExtension: nil)
+    // Use for deploy on device
+    
     guard let documentDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { fatalError("Error in path") }
     let file = documentDirectoryUrl.appendingPathComponent("new.json")
+ 
+     
+    // Use for local
+    //guard let file = Bundle.main.url(forResource: "discovered.json", withExtension: nil) else { fatalError("Error in path") }
 
     do {
         data = try Data(contentsOf: file)

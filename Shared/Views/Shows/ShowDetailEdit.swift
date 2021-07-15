@@ -18,7 +18,7 @@ struct ShowDetailEdit: View {
     var show : Show
     
     var showIndex: Int {
-        modelData.shows.firstIndex(where: { $0.id == show.id }) ?? -1
+        modelData.shows.firstIndex(where: { $0.id == show.id }) ?? (modelData.shows.firstIndex(where: { $0.name == show.name }) ?? -1)
     }
     
     var body: some View {
@@ -70,6 +70,11 @@ struct ShowDetailEdit: View {
             
             Section(header: Text("Show Status:")) {
                 TextField("Show Status", text: $modelData.shows[showIndex].status)
+            }
+            
+            Section(header: Text("Internal ID:")) {
+                TextField("ID", value: $modelData.shows[showIndex].id, formatter: NumberFormatter())
+                    .keyboardType(.numberPad)
             }
             
             

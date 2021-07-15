@@ -28,7 +28,7 @@ struct Show : Hashable, Identifiable, Codable {
     var discovered: Bool
     
     init() {
-        id = ModelData().shows.count + 1
+        id = 1000 + ModelData().shows.count + 1
         name = ""
         service = Service.Other
         length = ShowLength.min

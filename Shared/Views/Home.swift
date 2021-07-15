@@ -34,9 +34,9 @@ struct Home: View {
     }
     
     var currentlyWatching: [Show] {
-        modelData.shows.filter { show in
-            show.status == "Currently Watching" || show.status == "New Season"
-        }
+        modelData.shows
+        .filter { $0.status == "Currently Watching" || $0.status == "New Season" }
+        .sorted { $0.name < $1.name }
     }
     
     var newSeasons: [Show] {
@@ -135,6 +135,14 @@ struct Home: View {
                             .cornerRadius(10)
                     })
                     .buttonStyle(BorderlessButtonStyle())
+                    
+                    NavigationLink(
+                        destination: DeletePage(),
+                        label: {
+                            Text("Delete Page")
+                        })
+                        .buttonStyle(BorderlessButtonStyle())
+                    
                 }
                 
             }

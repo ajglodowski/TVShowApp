@@ -28,7 +28,8 @@ struct WatchList: View {
             return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
         }
          */
-        return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength, shows: modelData.shows)
+        applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength, shows: modelData.shows)
+            .sorted { $0.name < $1.name }
     }
     
     @State var appliedServiceFilters = [Service]()

@@ -39,6 +39,10 @@
 		1A66E1062639119300B47B88 /* ShowDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A66E1042639119300B47B88 /* ShowDetail.swift */; };
 		1A66E109263A042600B47B88 /* WatchedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A66E108263A042600B47B88 /* WatchedButton.swift */; };
 		1A66E10A263A042600B47B88 /* WatchedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A66E108263A042600B47B88 /* WatchedButton.swift */; };
+		1AA1AAE326A0CE070029FFD6 /* DeletePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA1AAE226A0CE070029FFD6 /* DeletePage.swift */; };
+		1AA1AAE426A0CE070029FFD6 /* DeletePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA1AAE226A0CE070029FFD6 /* DeletePage.swift */; };
+		1AA1AAE526A0CE070029FFD6 /* DeletePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA1AAE226A0CE070029FFD6 /* DeletePage.swift */; };
+		1AA1AAE626A0CE070029FFD6 /* DeletePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA1AAE226A0CE070029FFD6 /* DeletePage.swift */; };
 		1AC953B126896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
 		1AC953B226896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
 		1AC953B326896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
@@ -116,6 +120,7 @@
 		1A3B8B3F2671D82C0033C433 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		1A66E1042639119300B47B88 /* ShowDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetail.swift; sourceTree = "<group>"; };
 		1A66E108263A042600B47B88 /* WatchedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedButton.swift; sourceTree = "<group>"; };
+		1AA1AAE226A0CE070029FFD6 /* DeletePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePage.swift; sourceTree = "<group>"; };
 		1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowDetailEdit.swift; sourceTree = "<group>"; };
 		1AF20DE12674731D0021A08F /* discovered.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = discovered.json; sourceTree = "<group>"; };
 		1AF20DE6267473930021A08F /* ShowSquareTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSquareTile.swift; sourceTree = "<group>"; };
@@ -194,6 +199,7 @@
 				1A2FE973263F8CAB00B11F73 /* ScrollShowRow.swift */,
 				1A3232F226750BAF009A9F23 /* SquareTileScrollRow.swift */,
 				1A3232F726756F6E009A9F23 /* DiscoverPage.swift */,
+				1AA1AAE226A0CE070029FFD6 /* DeletePage.swift */,
 			);
 			path = Shows;
 			sourceTree = "<group>";
@@ -483,6 +489,7 @@
 				1AF396742638F54E000C4996 /* TV_Show_AppApp.swift in Sources */,
 				1AF396AD2638FF4C000C4996 /* WatchList.swift in Sources */,
 				1A1A51D3268EBD1B00138859 /* UIImage+Extension.swift in Sources */,
+				1AA1AAE326A0CE070029FFD6 /* DeletePage.swift in Sources */,
 				1A3232F326750BAF009A9F23 /* SquareTileScrollRow.swift in Sources */,
 				1A66E1052639119300B47B88 /* ShowDetail.swift in Sources */,
 				1A316A3B268FE91A00C97699 /* TileBanner.swift in Sources */,
@@ -511,6 +518,7 @@
 				1AF396AE2638FF4C000C4996 /* WatchList.swift in Sources */,
 				1A3232F426750BAF009A9F23 /* SquareTileScrollRow.swift in Sources */,
 				1A66E1062639119300B47B88 /* ShowDetail.swift in Sources */,
+				1AA1AAE426A0CE070029FFD6 /* DeletePage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,6 +537,7 @@
 				1A3A33F32672AAD300B2F459 /* ShowLength.swift in Sources */,
 				1AF2C8932670188000463718 /* ShowHelpers.swift in Sources */,
 				1A3232FA26756F6E009A9F23 /* DiscoverPage.swift in Sources */,
+				1AA1AAE526A0CE070029FFD6 /* DeletePage.swift in Sources */,
 				1A2FE976263F8CAB00B11F73 /* ScrollShowRow.swift in Sources */,
 				1A3B8B422671D82C0033C433 /* Service.swift in Sources */,
 				1A2FE971263F8B0700B11F73 /* Home.swift in Sources */,
@@ -551,6 +560,7 @@
 				1A3A33F42672AAD300B2F459 /* ShowLength.swift in Sources */,
 				1AF2C8942670188000463718 /* ShowHelpers.swift in Sources */,
 				1A3232FB26756F6E009A9F23 /* DiscoverPage.swift in Sources */,
+				1AA1AAE626A0CE070029FFD6 /* DeletePage.swift in Sources */,
 				1A2FE977263F8CAB00B11F73 /* ScrollShowRow.swift in Sources */,
 				1A3B8B432671D82C0033C433 /* Service.swift in Sources */,
 				1A2FE972263F8B0700B11F73 /* Home.swift in Sources */,

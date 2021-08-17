@@ -88,7 +88,7 @@ struct DiscoverPage: View {
             ], spacing: 12, content: {
                 ForEach(displayedShows) { show in
                     NavigationLink(destination: ShowDetail(show: show)) {
-                        ShowSquareTile(show: show)
+                        ShowSquareTile(show: show, scrollType: 0)
                     }
                 }
             })

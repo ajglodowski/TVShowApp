@@ -1,10 +1,26 @@
 [
     {
-        "name": "Turtle Rock",
-        "id": 1001
+      "name": "Claws",
+      "service": "HBO",
+      "wanted": true,
+      "status": "Other",
+      "running": true,
+      "watched": true,
+      "id": 1002,
+      "length": "30",
+      "discovered": true,
+      "airdate": "Other"
     },
     {
-        "name": "Silver Salmon Creek",
-        "id": 1002
+      "name": "High School Musical",
+      "service": "Disney+",
+      "wanted": true,
+      "status": "Other",
+      "running": true,
+      "watched": true,
+      "id": 1003,
+      "length": "30",
+      "discovered": true,
+      "airdate": "Other"
     }
 ]

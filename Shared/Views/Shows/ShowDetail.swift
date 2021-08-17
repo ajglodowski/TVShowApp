@@ -60,7 +60,7 @@ struct ShowDetail: View {
                         Text(show.service.rawValue)
                             .font(.subheadline)
                     }
-                    Text("Status: " + show.status)
+                    Text("Status: " + show.status.rawValue)
                         .font(.subheadline)
                     
                     Divider()

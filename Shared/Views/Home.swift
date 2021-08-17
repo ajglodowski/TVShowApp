@@ -29,19 +29,25 @@ struct Home: View {
     
     var unwatchedShows: [Show] {
         modelData.shows.filter { show in
-            !show.watched && show.status != "Currently Watching" && show.wanted && show.discovered
+            !show.watched && show.wanted && show.discovered
         }
     }
     
     var currentlyWatching: [Show] {
         modelData.shows
-        .filter { $0.status == "Currently Watching" || $0.status == "New Season" }
+            .filter { $0.status == Status.CurrentlyAiring || $0.status == Status.NewSeason || $0.status == Status.CurrentlyWatching }
         .sorted { $0.name < $1.name }
+    }
+    
+    var currentlyAiring: [Show] {
+        modelData.shows
+            .filter { $0.status == Status.CurrentlyAiring }
+            .sorted { $0.airdate.rawValue < $1.airdate.rawValue }
     }
     
     var newSeasons: [Show] {
         modelData.shows.filter { show in
-            show.status == "New Season"
+            show.status == Status.NewSeason
         }
     }
     
@@ -79,22 +85,28 @@ struct Home: View {
                     
                 }
                 
+                VStack(alignment: .leading) {
+                    Text("Currently Airing")
+                        .font(.title)
+                    SquareTileScrollRow(items: currentlyAiring, scrollType: 1)
+                }
+                
                 ScrollShowRow(items: newSeasons, scrollName: "New Seasons")
                 
                 //ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
                 
                 VStack(alignment: .leading) {
                     Text("Currently Watching")
-                        .font(.headline)
-                    SquareTileScrollRow(items: currentlyWatching)
+                        .font(.title)
+                    SquareTileScrollRow(items: currentlyWatching, scrollType: 0)
                 }
                 
                 VStack {
                     NavigationLink(destination: DiscoverPage()) {               Text("Discover Other Shows")
-                        .font(.headline)
+                        .font(.title)
                         .padding(.top, 5)
                     }
-                    SquareTileScrollRow(items: undiscoveredShows)
+                    SquareTileScrollRow(items: undiscoveredShows, scrollType: 0)
                 }
                 
                 /*

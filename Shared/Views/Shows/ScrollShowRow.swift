@@ -17,7 +17,7 @@ struct ScrollShowRow: View {
         VStack(alignment: .leading) {
         
             Text(scrollName)
-                .font(.headline)
+                .font(.title)
                 .padding(.top, 5)
             
             ScrollView(.horizontal, showsIndicators: false) {

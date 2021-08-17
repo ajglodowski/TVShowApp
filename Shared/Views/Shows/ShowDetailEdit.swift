@@ -67,10 +67,24 @@ struct ShowDetailEdit: View {
                 .padding()
             }
             
-            
+            /*
             Section(header: Text("Show Status:")) {
-                TextField("Show Status", text: $modelData.shows[showIndex].status)
+                HStack {
+                    Text("Service: " + modelData.shows[showIndex].status.rawValue)
+                    Spacer()
+                    Picker("Change Status", selection: $modelData.shows[showIndex].status) {
+                        ForEach(Status.allCases) { status in
+                            Text(status.rawValue).tag(status)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                    .foregroundColor(.white)
+                    .padding(7.5)
+                    .background(Color.blue.opacity(0.80).cornerRadius(8))
+                }
+                .padding()
             }
+             */
             
             Section(header: Text("Internal ID:")) {
                 TextField("ID", value: $modelData.shows[showIndex].id, formatter: NumberFormatter())

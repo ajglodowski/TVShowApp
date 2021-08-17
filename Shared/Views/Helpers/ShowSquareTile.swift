@@ -12,15 +12,24 @@ struct ShowSquareTile: View {
     
     var show: Show
     
+    var scrollType: Int // 0 for generic, 1 for airdates
+    
     var body: some View {
         
         VStack {
-        
+            
+            if (scrollType == 1) {
+                Text(show.airdate.rawValue)
+                    .font(.headline)
+                    .scaledToFit()
+                    .multilineTextAlignment(.center)
+            }
+            
             Image(show.name)
                 .resizable()
                 .scaledToFit()
                 .cornerRadius(15)
-                .if(show.status == "New Season") {
+                .if(show.status == Status.NewSeason) {
                     $0.overlay(TileBanner(text: "New\nSeason"),alignment: .bottomLeading)
                 }
                 
@@ -55,6 +64,6 @@ struct ShowSquareTile_Previews: PreviewProvider {
     static var shows = ModelData().shows
     
     static var previews: some View {
-        ShowSquareTile(show: shows[30])
+        ShowSquareTile(show: shows[4], scrollType: 1)
     }
 }

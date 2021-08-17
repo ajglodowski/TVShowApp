@@ -12,6 +12,8 @@ struct SquareTileScrollRow: View {
     
     var items: [Show]
     
+    var scrollType: Int
+    
     var body: some View {
         
         VStack(alignment: .leading) {
@@ -20,7 +22,7 @@ struct SquareTileScrollRow: View {
                 HStack(alignment: .top, spacing: 0) {
                     ForEach(items) { show in
                         NavigationLink(destination: ShowDetail(show: show)) {
-                            ShowSquareTile(show: show)
+                            ShowSquareTile(show: show, scrollType: scrollType)
                         }
                         .foregroundColor(.primary)
                     }
@@ -37,6 +39,6 @@ struct SquareTileScrollRow_Previews: PreviewProvider {
     static var shows = ModelData().shows
     
     static var previews: some View {
-        SquareTileScrollRow(items: shows)
+        SquareTileScrollRow(items: shows, scrollType: 0)
     }
 }

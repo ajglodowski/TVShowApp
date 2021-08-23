@@ -28,21 +28,19 @@ struct Home: View {
     @State private var isPresented = false
     
     var unwatchedShows: [Show] {
-        modelData.shows.filter { show in
-            !show.watched && show.wanted && show.discovered
-        }
+        modelData.shows.filter { $0.status == Status.NeedsWatched && $0.discovered }
     }
     
     var currentlyWatching: [Show] {
         modelData.shows
-            .filter { $0.status == Status.CurrentlyAiring || $0.status == Status.NewSeason || $0.status == Status.CurrentlyWatching }
+            .filter { $0.status == Status.CurrentlyAiring || $0.status == Status.NewSeason || $0.status == Status.CatchingUp }
         .sorted { $0.name < $1.name }
     }
     
     var currentlyAiring: [Show] {
         modelData.shows
             .filter { $0.status == Status.CurrentlyAiring }
-            .sorted { $0.airdate.rawValue < $1.airdate.rawValue }
+            .sorted { $0.airdate.id < $1.airdate.id }
     }
     
     var newSeasons: [Show] {

@@ -19,5 +19,27 @@ enum AirDate: String, CaseIterable, Codable, Identifiable {
     
     case Other
     
-    var id: String { self.rawValue }
+    var id: Int {
+        switch self.rawValue {
+        case "Sunday":
+            return 0
+        case "Monday":
+            return 1
+        case "Tuesday":
+            return 2
+        case "Wednesday":
+            return 3
+        case "Thursday":
+            return 4
+        case "Friday":
+            return 5
+        case "Saturday":
+            return 6
+        case "Other":
+            return 7
+        default:
+            return 8
+        }
+        
+    }
 }

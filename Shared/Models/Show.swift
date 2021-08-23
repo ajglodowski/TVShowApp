@@ -25,7 +25,7 @@ struct Show : Hashable, Identifiable, Codable {
     
     init() {
         id = 1000 + ModelData().shows.count + 1
-        name = ""
+        name = "New Show"
         service = Service.Other
         length = ShowLength.min
         status = Status.Other

@@ -1,6 +1,6 @@
 [
   {
-    "name": "Claws",
+    "name": "Hacks",
     "service": "HBO",
     "wanted": true,
     "status": "Up to Date",
@@ -39,19 +39,19 @@
     "name": "Last Week Tonight",
     "service": "HBO",
     "wanted": true,
-    "status": "New Season",
+    "status": "Currently Airing",
     "running": true,
     "watched": false,
     "id": 1005,
     "length": "30",
     "discovered": true,
-    "airdate": "Other"
+    "airdate": "Sunday"
   },
   {
     "name": "Lovecraft Country",
     "service": "HBO",
     "wanted": true,
-    "status": "New Season",
+    "status": "Catching Up",
     "running": true,
     "watched": false,
     "id": 1006,
@@ -63,7 +63,7 @@
     "name": "My Brilliant Friend",
     "service": "HBO",
     "wanted": true,
-    "status": "New Season",
+    "status": "Catching Up",
     "running": true,
     "watched": false,
     "id": 1007,
@@ -75,7 +75,7 @@
     "name": "Sex and the City",
     "service": "HBO",
     "wanted": true,
-    "status": "New Season",
+    "status": "Catching Up",
     "running": true,
     "watched": false,
     "id": 1008,
@@ -84,7 +84,7 @@
     "airdate": "Other"
   },
   {
-    "name": "Underground Railroad",
+    "name": "The Underground Railroad",
     "service": "Amazon",
     "wanted": true,
     "status": "New Season",
@@ -99,7 +99,7 @@
     "name": "We Are Who We Are",
     "service": "HBO",
     "wanted": true,
-    "status": "New Season",
+    "status": "Catching Up",
     "running": true,
     "watched": false,
     "id": 1010,
@@ -144,7 +144,7 @@
     "airdate": "Other"
   },
   {
-    "name": "Catastophe",
+    "name": "Catastrophe",
     "service": "Amazon",
     "wanted": true,
     "status": "Needs Watched",
@@ -192,7 +192,7 @@
     "airdate": "Other"
   },
   {
-    "name": "Handsmaid's Tale",
+    "name": "Handmaid's Tale",
     "service": "Hulu",
     "wanted": true,
     "status": "Needs Watched",
@@ -801,7 +801,7 @@
     "id": 1068,
     "length": "30",
     "discovered": true,
-    "airdate": "Wednesday"
+    "airdate": "Tuesday"
   },
   {
     "name": "How to With John Wilson",
@@ -855,7 +855,7 @@
     "name": "Love Victor",
     "service": "Hulu",
     "wanted": true,
-    "status": "Up to Date",
+    "status": "New Season",
     "running": true,
     "watched": true,
     "id": 1073,
@@ -987,13 +987,13 @@
     "name": "Ted Lasso",
     "service": "Apple TV+",
     "wanted": true,
-    "status": "Up to Date",
+    "status": "Currently Airing",
     "running": true,
     "watched": true,
     "id": 1084,
     "length": "30",
     "discovered": true,
-    "airdate": "Other"
+    "airdate": "Friday"
   },
   {
     "name": "The Circle",
@@ -1039,6 +1039,90 @@
     "running": true,
     "watched": true,
     "id": 1088,
+    "length": "30",
+    "discovered": true,
+    "airdate": "Other"
+  },
+  {
+    "name": "Modern Love",
+    "service": "Amazon",
+    "wanted": true,
+    "status": "New Season",
+    "running": true,
+    "watched": true,
+    "id": 1089,
+    "length": "30",
+    "discovered": true,
+    "airdate": "Other"
+  },
+  {
+    "name": "The Chair",
+    "service": "Netflix",
+    "wanted": true,
+    "status": "Up to Date",
+    "running": true,
+    "watched": true,
+    "id": 1090,
+    "length": "30",
+    "discovered": true,
+    "airdate": "Other"
+  },
+  {
+    "name": "Formula 1: Drive to Survive",
+    "service": "Netflix",
+    "wanted": true,
+    "status": "Up to Date",
+    "running": true,
+    "watched": true,
+    "id": 1091,
+    "length": "30",
+    "discovered": true,
+    "airdate": "Other"
+  },
+  {
+    "name": "I Think You Should Leave with Tim Robinson",
+    "service": "Netflix",
+    "wanted": true,
+    "status": "Catching Up",
+    "running": true,
+    "watched": true,
+    "id": 1092,
+    "length": "30",
+    "discovered": true,
+    "airdate": "Other"
+  },
+  {
+    "name": "Gossip Girl (Reboot)",
+    "service": "Netflix",
+    "wanted": true,
+    "status": "Up to Date",
+    "running": true,
+    "watched": true,
+    "id": 1093,
+    "length": "30",
+    "discovered": true,
+    "airdate": "Other"
+  },
+  {
+    "name": "Gossip Girl (Original)",
+    "service": "HBO",
+    "wanted": true,
+    "status": "Needs Watched",
+    "running": true,
+    "watched": true,
+    "id": 1094,
+    "length": "30",
+    "discovered": true,
+    "airdate": "Other"
+  },
+  {
+    "name": "The White Lotus",
+    "service": "HBO",
+    "wanted": true,
+    "status": "Up to Date",
+    "running": true,
+    "watched": true,
+    "id": 1095,
     "length": "30",
     "discovered": true,
     "airdate": "Other"

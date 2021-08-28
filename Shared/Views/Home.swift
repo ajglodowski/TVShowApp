@@ -34,7 +34,7 @@ struct Home: View {
     var currentlyWatching: [Show] {
         modelData.shows
             .filter { $0.status == Status.CurrentlyAiring || $0.status == Status.NewSeason || $0.status == Status.CatchingUp }
-        .sorted { $0.name < $1.name }
+            .sorted { $0.name < $1.name }
     }
     
     var currentlyAiring: [Show] {
@@ -44,15 +44,14 @@ struct Home: View {
     }
     
     var newSeasons: [Show] {
-        modelData.shows.filter { show in
-            show.status == Status.NewSeason
-        }
+        modelData.shows
+            .filter { $0.status == Status.NewSeason }
+            .sorted { $0.name < $1.name }
     }
     
     var undiscoveredShows: [Show] {
-        modelData.shows.filter { show in
-            !show.discovered
-        }
+        modelData.shows
+            .filter { !$0.discovered }
     }
     
     var body: some View {
@@ -116,7 +115,8 @@ struct Home: View {
                 
                 ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
                 
-                HStack {
+                HStack (alignment: .center) {
+                    // Save Button
                     Button(action: {
                         modelData.saveToJsonFile()
                     }, label: {
@@ -129,13 +129,14 @@ struct Home: View {
                     })
                     .buttonStyle(BorderlessButtonStyle())
                     
-                    
+                    Spacer()
+                    // New Show Button
                     Button(action: {
                         // TODO
-                        var new = Show()
+                        let new = Show()
+                        //newShow = new
+                        isPresented = true
                         modelData.shows.append(new)
-                        ShowDetailEdit(isPresented: $isPresented, show: new)
-                        
                     }, label: {
                         Text("New Show")
                             .font(.title)
@@ -145,20 +146,36 @@ struct Home: View {
                             .cornerRadius(10)
                     })
                     .buttonStyle(BorderlessButtonStyle())
-                    
+                }
+                
+                
+                HStack {
+                    // Delete Page
                     NavigationLink(
                         destination: DeletePage(),
                         label: {
                             Text("Delete Page")
                         })
-                        .buttonStyle(BorderlessButtonStyle())
-                    
+                    .buttonStyle(PlainButtonStyle())
                 }
                 
             }
             .navigationTitle("Home")
+            
+            .sheet(isPresented: $isPresented) {
+                NavigationView {
+                    let newShow = Show()
+                    ShowDetailEdit(isPresented: self.$isPresented, show: newShow)
+                        .navigationTitle(newShow.name)
+                        .navigationBarItems(trailing: Button("Done") {
+                            isPresented = false
+                        })
+                }
+            }
+            .ignoresSafeArea()
         }
-        .listRowInsets(EdgeInsets())
+        //.listRowInsets(EdgeInsets())
+        .listStyle(PlainListStyle())
     }
 }
 

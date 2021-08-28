@@ -34,12 +34,22 @@ struct ShowDetailEdit: View {
             //.padding()
             
             Section(header: Text("Show Details:")) {
+                
+                // Watched
                 Toggle(isOn: $modelData.shows[showIndex].watched, label: {
                     Text("Watched?")
                 })
                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                 .padding()
                 
+                // Discovered
+                Toggle(isOn: $modelData.shows[showIndex].discovered, label: {
+                    Text("Discovered?")
+                })
+                .toggleStyle(SwitchToggleStyle(tint: .blue))
+                .padding()
+                
+                // Show Length
                 VStack(alignment: .leading) {
                     Text("Show Length:")
                     Picker("Length", selection: $modelData.shows[showIndex].length) {
@@ -51,6 +61,7 @@ struct ShowDetailEdit: View {
                 }
                 .padding()
                 
+                // Service
                 HStack {
                     Text("Service: " + modelData.shows[showIndex].service.rawValue)
                     Spacer()
@@ -67,10 +78,10 @@ struct ShowDetailEdit: View {
                 .padding()
             }
             
-            /*
+            // Status
             Section(header: Text("Show Status:")) {
                 HStack {
-                    Text("Service: " + modelData.shows[showIndex].status.rawValue)
+                    Text("Status: " + modelData.shows[showIndex].status.rawValue)
                     Spacer()
                     Picker("Change Status", selection: $modelData.shows[showIndex].status) {
                         ForEach(Status.allCases) { status in
@@ -84,8 +95,8 @@ struct ShowDetailEdit: View {
                 }
                 .padding()
             }
-             */
             
+            // ID
             Section(header: Text("Internal ID:")) {
                 TextField("ID", value: $modelData.shows[showIndex].id, formatter: NumberFormatter())
                     .keyboardType(.numberPad)

@@ -1099,7 +1099,7 @@
     "running": true,
     "watched": true,
     "id": 1093,
-    "length": "30",
+    "length": "60",
     "discovered": true,
     "airdate": "Other"
   },
@@ -1123,6 +1123,42 @@
     "running": true,
     "watched": true,
     "id": 1095,
+    "length": "60",
+    "discovered": true,
+    "airdate": "Other"
+  },
+  {
+    "name": "The Queen's Gambit",
+    "service": "Netflix",
+    "wanted": true,
+    "status": "Show Ended",
+    "running": true,
+    "watched": true,
+    "id": 1096,
+    "length": "60",
+    "discovered": true,
+    "airdate": "Other"
+  },
+  {
+    "name": "Crashing",
+    "service": "Netflix",
+    "wanted": true,
+    "status": "Show Ended",
+    "running": true,
+    "watched": true,
+    "id": 1097,
+    "length": "30",
+    "discovered": true,
+    "airdate": "Other"
+  },
+  {
+    "name": "Derry Girls",
+    "service": "Netflix",
+    "wanted": true,
+    "status": "Up to Date",
+    "running": true,
+    "watched": true,
+    "id": 1098,
     "length": "30",
     "discovered": true,
     "airdate": "Other"

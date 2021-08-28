@@ -24,7 +24,7 @@ struct Show : Hashable, Identifiable, Codable {
     var airdate: AirDate
     
     init() {
-        id = 1000 + ModelData().shows.count + 1
+        id = 1000 + ModelData().shows.count + 2
         name = "New Show"
         service = Service.Other
         length = ShowLength.min

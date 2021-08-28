@@ -15,7 +15,7 @@ struct ShowDetail: View {
     
     var show : Show
     
-    @State private var isPresented = false
+    @State private var isPresented = false // Edit menu var
     @State private var backgroundColor: Color = .clear
     
     var showIndex: Int {
@@ -107,18 +107,16 @@ struct ShowDetail: View {
         }
          */
     }
-    }
-    
-    private func setAverageColor() {
-            let uiColor = UIImage(named: show.name)?.averageColor ?? .clear
-            backgroundColor = Color(uiColor)
-        }
-    
-    //.ignoresSafeArea()
 }
+    
+private func setAverageColor() {
+        let uiColor = UIImage(named: show.name)?.averageColor ?? .clear
+        print(uiColor)
+        backgroundColor = Color(uiColor)
+    }
 
-
-
+//.ignoresSafeArea()
+}
 
 struct ShowDetail_Previews: PreviewProvider {
     
@@ -126,7 +124,7 @@ struct ShowDetail_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            ShowDetail(show: modelData.shows[30])
+            ShowDetail(show: modelData.shows[5])
                 .environmentObject(modelData)
         }
     }

@@ -63,6 +63,11 @@ struct ShowDetail: View {
                     Text("Status: " + show.status.rawValue)
                         .font(.subheadline)
                     
+                    if (show.status == Status.CurrentlyAiring) {
+                        Text("Airdate: " + show.airdate.rawValue)
+                            .font(.subheadline)
+                    }
+                    
                     Divider()
                     Text("About Show")
                 }
@@ -124,7 +129,7 @@ struct ShowDetail_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            ShowDetail(show: modelData.shows[5])
+            ShowDetail(show: modelData.shows[3])
                 .environmentObject(modelData)
         }
     }

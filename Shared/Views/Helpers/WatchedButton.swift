@@ -19,7 +19,7 @@ struct WatchedButton: View {
             //ModelData().write()
         }) {
             Image(systemName: isSet ? "eye.fill" : "eye")
-                .foregroundColor(isSet ? Color.blue : Color.white)
+                .foregroundColor(isSet ? Color.white : Color.white)
             if (isSet) {
                 Text("Watched")
             }

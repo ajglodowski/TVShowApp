@@ -41,7 +41,7 @@
     "wanted": true,
     "status": "Currently Airing",
     "running": true,
-    "watched": false,
+    "watched": true,
     "id": 1005,
     "length": "30",
     "discovered": true,

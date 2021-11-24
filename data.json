@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Test Show",
+    "service": "HBO",
+    "wanted": true,
+    "status": "Up to Date",
+    "running": true,
+    "watched": true,
+    "id": 1,
+    "length": "30",
+    "discovered": true,
+    "airdate": "Other"
+  }
+]

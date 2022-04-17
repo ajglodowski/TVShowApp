@@ -42,30 +42,58 @@ final class ModelData : ObservableObject {
 
 func load<T: Decodable>() -> T {
 
-    let data: Data
-
+    var data: Data
+    
+    
     // Use for deploy on device
     /*
     guard let documentDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { fatalError("Error in path") }
     let file = documentDirectoryUrl.appendingPathComponent("new.json")
      */
- 
-     
+    
+    /**/
     // Use for local
     guard let file = Bundle.main.url(forResource: "csvjson.json", withExtension: nil) else { fatalError("Error in path") }
-
+    /**/
+    
+    // Loading from github
+    var dataString = ""
+    let url = URL(string: "https://raw.githubusercontent.com/ajglodowski/TVShowApp/main/data.json")!
+    let semaphore = DispatchSemaphore(value: 0)
+    let task = URLSession.shared.dataTask(with: url) { d, response, error in
+        guard
+            error == nil,
+            let d = d,
+            let string = String(data: d, encoding: .utf8)
+        else {
+            print(error ?? "Unknown error")
+            return
+        }
+        dataString = string
+        semaphore.signal()
+    }
+    task.resume()
+    _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+    data = dataString.data(using: .utf8)!
+    
+    
+    /*
+     // For loading from a file
     do {
         data = try Data(contentsOf: file)
     } catch {
         fatalError("Couldn't load file")
     }
+     */
+    
 
     do {
         let decoder = JSONDecoder()
-        return try decoder.decode(T.self, from: data)
+        return try decoder.decode(T.self, from: data);
     } catch {
         print(error)
         fatalError("Couldn't parse as data")
     }
+    
 }
 

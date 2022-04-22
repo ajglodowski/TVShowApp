@@ -135,8 +135,9 @@ struct Home: View {
                         // TODO
                         let new = Show()
                         //newShow = new
-                        isPresented = true
                         modelData.shows.append(new)
+                        isPresented = true
+                        //modelData.shows.append(new)
                     }, label: {
                         Text("New Show")
                             .font(.title)
@@ -175,6 +176,7 @@ struct Home: View {
             .ignoresSafeArea()
         }
         //.listRowInsets(EdgeInsets())
+        .navigationViewStyle(.stack)
         .listStyle(PlainListStyle())
     }
 }

@@ -24,7 +24,7 @@ struct Show : Hashable, Identifiable, Codable {
     var airdate: AirDate
     
     init() {
-        id = 1000 + ModelData().shows.count + 2
+        id = generateShowId()
         name = "New Show"
         service = Service.Other
         length = ShowLength.min
@@ -34,8 +34,25 @@ struct Show : Hashable, Identifiable, Codable {
         running = true
         wanted = true
         discovered = true
+        //super.init()
     }
+    
 
+}
+
+func generateShowId() -> Int {
+    var val = 1000 + ModelData().shows.count + 2
+    /*
+    var used = false
+    repeat {
+        for (s in ) {
+            if
+        }
+    } while (used)
+    */
+    while (ModelData().shows.contains(where: {$0.id == val })) { val += 1 }
+    print(val)
+    return val
 }
 
 

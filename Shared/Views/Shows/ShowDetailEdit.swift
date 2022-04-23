@@ -94,6 +94,24 @@ struct ShowDetailEdit: View {
                     .background(Color.blue.opacity(0.80).cornerRadius(8))
                 }
                 .padding()
+                
+                // Airdate
+                if (modelData.shows[showIndex].status == Status.CurrentlyAiring) {
+                    HStack {
+                        Text("Airdate: " + modelData.shows[showIndex].airdate.rawValue)
+                        Spacer()
+                        Picker("Change Airdate", selection: $modelData.shows[showIndex].airdate) {
+                            ForEach(AirDate.allCases) { airdate in
+                                Text(airdate.rawValue).tag(airdate)
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        .foregroundColor(.white)
+                        .padding(7.5)
+                        .background(Color.blue.opacity(0.80).cornerRadius(8))
+                    }
+                    .padding()
+                }
             }
             
             // ID

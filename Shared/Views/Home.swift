@@ -118,9 +118,23 @@ struct Home: View {
                 HStack (alignment: .center) {
                     // Save Button
                     Button(action: {
-                        modelData.saveToJsonFile()
+                        modelData.save()
                     }, label: {
                         Text("Save Data")
+                            .font(.title)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    })
+                    .buttonStyle(BorderlessButtonStyle())
+                   
+                    // Realod Button
+                    Spacer()
+                    Button(action: {
+                        modelData.refreshData()
+                    }, label: {
+                        Text("Reload Data")
                             .font(.title)
                             .padding()
                             .background(Color.blue)

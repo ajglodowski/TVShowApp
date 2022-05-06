@@ -17,6 +17,8 @@ struct Show : Hashable, Identifiable, Codable {
     var running: Bool
     var watched: Bool
     
+    //var actors: [Actor]
+    
     var id: Int
     
     var length: ShowLength
@@ -34,22 +36,21 @@ struct Show : Hashable, Identifiable, Codable {
         running = true
         wanted = true
         discovered = true
+        //actors = []
         //super.init()
     }
+    
+    /*
+    mutating func addActor(toAdd: Actor) {
+        if (!actors.contains(toAdd)) { actors.append(toAdd); }
+    }
+     */
     
 
 }
 
 func generateShowId() -> Int {
-    var val = 1000 + ModelData().shows.count + 2
-    /*
-    var used = false
-    repeat {
-        for (s in ) {
-            if
-        }
-    } while (used)
-    */
+    var val = 1000 + ModelData().shows.count
     while (ModelData().shows.contains(where: {$0.id == val })) { val += 1 }
     print(val)
     return val

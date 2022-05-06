@@ -77,6 +77,22 @@
 		1ACFA78B26DDA58100CB2E16 /* Watchlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA78926DDA58100CB2E16 /* Watchlist.png */; };
 		1ACFA79026DDABBB00CB2E16 /* Show Detail 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA78F26DDABBB00CB2E16 /* Show Detail 1.png */; };
 		1ACFA79126DDABBB00CB2E16 /* Show Detail 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA78F26DDABBB00CB2E16 /* Show Detail 1.png */; };
+		1AE03C812824ABB3005FF4FA /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C802824ABB3005FF4FA /* Actor.swift */; };
+		1AE03C822824ABB3005FF4FA /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C802824ABB3005FF4FA /* Actor.swift */; };
+		1AE03C832824ABB3005FF4FA /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C802824ABB3005FF4FA /* Actor.swift */; };
+		1AE03C842824ABB3005FF4FA /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C802824ABB3005FF4FA /* Actor.swift */; };
+		1AE03C872824B2D4005FF4FA /* ActorDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C862824B2D4005FF4FA /* ActorDetail.swift */; };
+		1AE03C882824B2D4005FF4FA /* ActorDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C862824B2D4005FF4FA /* ActorDetail.swift */; };
+		1AE03C892824B2D4005FF4FA /* ActorDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C862824B2D4005FF4FA /* ActorDetail.swift */; };
+		1AE03C8A2824B2D4005FF4FA /* ActorDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C862824B2D4005FF4FA /* ActorDetail.swift */; };
+		1AE03C8C2824B34B005FF4FA /* ListActorRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */; };
+		1AE03C8D2824B34B005FF4FA /* ListActorRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */; };
+		1AE03C8E2824B34B005FF4FA /* ListActorRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */; };
+		1AE03C8F2824B34B005FF4FA /* ListActorRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */; };
+		1AE03C922824BA4B005FF4FA /* actorTemp.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorTemp.json */; };
+		1AE03C932824BA4B005FF4FA /* actorTemp.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorTemp.json */; };
+		1AE03C942824BA4B005FF4FA /* actorTemp.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorTemp.json */; };
+		1AE03C952824BA4B005FF4FA /* actorTemp.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorTemp.json */; };
 		1AF20DE22674731D0021A08F /* discovered.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AF20DE12674731D0021A08F /* discovered.json */; };
 		1AF20DE32674731D0021A08F /* discovered.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AF20DE12674731D0021A08F /* discovered.json */; };
 		1AF20DE42674731D0021A08F /* discovered.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AF20DE12674731D0021A08F /* discovered.json */; };
@@ -163,6 +179,10 @@
 		1ACFA78426DDA54000CB2E16 /* Watchlist Applied.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Watchlist Applied.png"; sourceTree = "<group>"; };
 		1ACFA78926DDA58100CB2E16 /* Watchlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Watchlist.png; sourceTree = "<group>"; };
 		1ACFA78F26DDABBB00CB2E16 /* Show Detail 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Show Detail 1.png"; sourceTree = "<group>"; };
+		1AE03C802824ABB3005FF4FA /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
+		1AE03C862824B2D4005FF4FA /* ActorDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorDetail.swift; sourceTree = "<group>"; };
+		1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActorRow.swift; sourceTree = "<group>"; };
+		1AE03C912824BA4B005FF4FA /* actorTemp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = actorTemp.json; sourceTree = "<group>"; };
 		1AF20DE12674731D0021A08F /* discovered.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = discovered.json; sourceTree = "<group>"; };
 		1AF20DE6267473930021A08F /* ShowSquareTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSquareTile.swift; sourceTree = "<group>"; };
 		1AF2C8902670188000463718 /* ShowHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowHelpers.swift; sourceTree = "<group>"; };
@@ -222,6 +242,7 @@
 		1A66E107263A03EB00B47B88 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1AE03C852824B2BC005FF4FA /* Actors */,
 				1A66E10E263A076F00B47B88 /* Helpers */,
 				1AF3964C2638F54E000C4996 /* ContentView.swift */,
 				1A66E10B263A060F00B47B88 /* Shows */,
@@ -255,6 +276,7 @@
 				1A99FF0126CC25DE009485ED /* AirDate.swift */,
 				1A99FF0626CC3796009485ED /* Status.swift */,
 				1A3A33F02672AAD300B2F459 /* ShowLength.swift */,
+				1AE03C802824ABB3005FF4FA /* Actor.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -262,6 +284,7 @@
 		1A66E10D263A074100B47B88 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1AE03C912824BA4B005FF4FA /* actorTemp.json */,
 				1A550D5426CC3E3F000F4919 /* csvjson.json */,
 				1AF20DE12674731D0021A08F /* discovered.json */,
 				1AF396B12639004A000C4996 /* landmarkData.json */,
@@ -294,6 +317,15 @@
 				1ACFA78426DDA54000CB2E16 /* Watchlist Applied.png */,
 			);
 			path = Screenshots;
+			sourceTree = "<group>";
+		};
+		1AE03C852824B2BC005FF4FA /* Actors */ = {
+			isa = PBXGroup;
+			children = (
+				1AE03C862824B2D4005FF4FA /* ActorDetail.swift */,
+				1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */,
+			);
+			path = Actors;
 			sourceTree = "<group>";
 		};
 		1AF396452638F54D000C4996 = {
@@ -492,6 +524,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1ACFA78126DDA49F00CB2E16 /* Edit Show.png in Resources */,
+				1AE03C922824BA4B005FF4FA /* actorTemp.json in Resources */,
 				1ACFA78726DDA54000CB2E16 /* Watchlist Applied.png in Resources */,
 				1ACFA77D26DDA49F00CB2E16 /* Home.png in Resources */,
 				1ACFA78A26DDA58100CB2E16 /* Watchlist.png in Resources */,
@@ -510,6 +543,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1ACFA78226DDA49F00CB2E16 /* Edit Show.png in Resources */,
+				1AE03C932824BA4B005FF4FA /* actorTemp.json in Resources */,
 				1ACFA78826DDA54000CB2E16 /* Watchlist Applied.png in Resources */,
 				1ACFA77E26DDA49F00CB2E16 /* Home.png in Resources */,
 				1ACFA78B26DDA58100CB2E16 /* Watchlist.png in Resources */,
@@ -528,6 +562,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF20DE42674731D0021A08F /* discovered.json in Resources */,
+				1AE03C942824BA4B005FF4FA /* actorTemp.json in Resources */,
 				1AF396B42639004A000C4996 /* landmarkData.json in Resources */,
 				1A550D5726CC3E3F000F4919 /* csvjson.json in Resources */,
 			);
@@ -538,6 +573,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF20DE52674731D0021A08F /* discovered.json in Resources */,
+				1AE03C952824BA4B005FF4FA /* actorTemp.json in Resources */,
 				1AF396B52639004A000C4996 /* landmarkData.json in Resources */,
 				1A550D5826CC3E3F000F4919 /* csvjson.json in Resources */,
 			);
@@ -550,6 +586,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AE03C8C2824B34B005FF4FA /* ListActorRow.swift in Sources */,
 				1AF2C8912670188000463718 /* ShowHelpers.swift in Sources */,
 				1A3B8B402671D82C0033C433 /* Service.swift in Sources */,
 				1AF20DE7267473930021A08F /* ShowSquareTile.swift in Sources */,
@@ -558,6 +595,7 @@
 				1AF3968E2638F635000C4996 /* Show.swift in Sources */,
 				1AF396932638F6E9000C4996 /* ModelData.swift in Sources */,
 				1A66E109263A042600B47B88 /* WatchedButton.swift in Sources */,
+				1AE03C872824B2D4005FF4FA /* ActorDetail.swift in Sources */,
 				1AF396762638F54E000C4996 /* ContentView.swift in Sources */,
 				1AC953B126896D5C00B293FB /* ShowDetailEdit.swift in Sources */,
 				1A2FE96F263F8B0700B11F73 /* Home.swift in Sources */,
@@ -574,6 +612,7 @@
 				1A3232F326750BAF009A9F23 /* SquareTileScrollRow.swift in Sources */,
 				1A66E1052639119300B47B88 /* ShowDetail.swift in Sources */,
 				1A316A3B268FE91A00C97699 /* TileBanner.swift in Sources */,
+				1AE03C812824ABB3005FF4FA /* Actor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,6 +620,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AE03C882824B2D4005FF4FA /* ActorDetail.swift in Sources */,
+				1AE03C8D2824B34B005FF4FA /* ListActorRow.swift in Sources */,
 				1AF2C8922670188000463718 /* ShowHelpers.swift in Sources */,
 				1A3B8B412671D82C0033C433 /* Service.swift in Sources */,
 				1A99FF0826CC3796009485ED /* Status.swift in Sources */,
@@ -590,6 +631,7 @@
 				1AF3968F2638F635000C4996 /* Show.swift in Sources */,
 				1A99FF0326CC25DE009485ED /* AirDate.swift in Sources */,
 				1AF396942638F6E9000C4996 /* ModelData.swift in Sources */,
+				1AE03C822824ABB3005FF4FA /* Actor.swift in Sources */,
 				1A66E10A263A042600B47B88 /* WatchedButton.swift in Sources */,
 				1AF396772638F54E000C4996 /* ContentView.swift in Sources */,
 				1AC953B226896D5C00B293FB /* ShowDetailEdit.swift in Sources */,
@@ -613,6 +655,7 @@
 				1A3232F526750BAF009A9F23 /* SquareTileScrollRow.swift in Sources */,
 				1AF396902638F635000C4996 /* Show.swift in Sources */,
 				1AF396AB2638FC7C000C4996 /* ContentView.swift in Sources */,
+				1AE03C892824B2D4005FF4FA /* ActorDetail.swift in Sources */,
 				1AC953B326896D5C00B293FB /* ShowDetailEdit.swift in Sources */,
 				1AF396A82638F977000C4996 /* ListShowRow.swift in Sources */,
 				1A99FF0926CC3796009485ED /* Status.swift in Sources */,
@@ -627,8 +670,10 @@
 				1A5406732812594900A78AC0 /* Hidden.swift in Sources */,
 				1A3B8B422671D82C0033C433 /* Service.swift in Sources */,
 				1A2FE971263F8B0700B11F73 /* Home.swift in Sources */,
+				1AE03C8E2824B34B005FF4FA /* ListActorRow.swift in Sources */,
 				1A99FF0426CC25DE009485ED /* AirDate.swift in Sources */,
 				1AF20DE9267473930021A08F /* ShowSquareTile.swift in Sources */,
+				1AE03C832824ABB3005FF4FA /* Actor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,6 +684,7 @@
 				1A3232F626750BAF009A9F23 /* SquareTileScrollRow.swift in Sources */,
 				1AF396912638F635000C4996 /* Show.swift in Sources */,
 				1AF396AA2638FC7C000C4996 /* ContentView.swift in Sources */,
+				1AE03C8A2824B2D4005FF4FA /* ActorDetail.swift in Sources */,
 				1AC953B426896D5C00B293FB /* ShowDetailEdit.swift in Sources */,
 				1AF396A92638F977000C4996 /* ListShowRow.swift in Sources */,
 				1A99FF0A26CC3796009485ED /* Status.swift in Sources */,
@@ -653,8 +699,10 @@
 				1A5406742812594900A78AC0 /* Hidden.swift in Sources */,
 				1A3B8B432671D82C0033C433 /* Service.swift in Sources */,
 				1A2FE972263F8B0700B11F73 /* Home.swift in Sources */,
+				1AE03C8F2824B34B005FF4FA /* ListActorRow.swift in Sources */,
 				1A99FF0526CC25DE009485ED /* AirDate.swift in Sources */,
 				1AF20DEA267473930021A08F /* ShowSquareTile.swift in Sources */,
+				1AE03C842824ABB3005FF4FA /* Actor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -794,7 +842,7 @@
 				DEVELOPMENT_TEAM = 55DY7Z3JY7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -816,7 +864,7 @@
 				DEVELOPMENT_TEAM = 55DY7Z3JY7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

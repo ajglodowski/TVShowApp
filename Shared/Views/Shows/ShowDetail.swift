@@ -22,6 +22,10 @@ struct ShowDetail: View {
         modelData.shows.firstIndex(where: { $0.id == show.id })!
     }
     
+    var actorList: [Actor] {
+        getActors(showIn: show)
+    }
+    
     init(show: Show) {
         self.show = show
         UINavigationBar.appearance().backgroundColor = .clear
@@ -70,6 +74,27 @@ struct ShowDetail: View {
                     
                     Divider()
                     Text("About Show")
+                }
+                .padding()
+                // Darker, possible use in future
+                //.background(Color.secondary)
+                .background(backgroundColor.blendMode(.softLight))
+                .cornerRadius(20)
+                .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                .padding([.leading,.trailing])
+                .foregroundColor(.white)
+                
+                // Actors Section
+                VStack(alignment: .leading){
+                    Text("Actors")
+                        .font(.title)
+                    ForEach(actorList) { indActor in
+                        NavigationLink(destination: ActorDetail(actor: indActor)) {
+                            ListActorRow(actor: indActor)
+                        }
+                    }
+                    //.onDelete(perform: removeRows)
+                    //.background(backgroundColor.blendMode(.softLight))
                 }
                 .padding()
                 // Darker, possible use in future

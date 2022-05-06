@@ -51,16 +51,6 @@ func applyLengthFilter(shows: [Show], selection: ShowLength) -> [Show] {
     
     let filtered: [Show] = ModelData().shows.filter { $0.length == selection }
     return filtered
-    
-    /*
-    if (shows.isEmpty) {
-        let out: [Show] = ModelData().shows.filter { $0.length == selection }
-        return out
-    } else {
-        let filtered: [Show] = shows.filter { $0.length == selection }
-        return filtered
-    }
-     */
 }
 
 
@@ -85,9 +75,7 @@ func applyAllFilters(serviceFilters: [Service], showLengthFilter: ShowLength) ->
 }
 
 func applyAllFilters(serviceFilters: [Service], showLengthFilter: ShowLength, shows: [Show]) -> [Show] {
-    
     var filtered = [Show]()
-    
     if (!serviceFilters.isEmpty) {
         for service in serviceFilters {
             let add = shows.filter { $0.service == service}
@@ -100,6 +88,18 @@ func applyAllFilters(serviceFilters: [Service], showLengthFilter: ShowLength, sh
     filtered = filtered.filter { $0.length == showLengthFilter}
     
     return filtered
+}
+
+func getActors(showIn: Show) -> [Actor] {
     
+    var output : [Actor] = []
+    for specificActor in ModelData().actors {
+        for specificShow in specificActor.shows {
+            if (specificShow.id == showIn.id) {
+                output.append(specificActor)
+            }
+        }
+    }
+    return output
 }
 

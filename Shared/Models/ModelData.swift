@@ -11,6 +11,7 @@ import Combine
 final class ModelData : ObservableObject {
     //@Published var shows: [Show] = load("showData.json")
     @Published var shows: [Show] = load()
+    @Published var actors: [Actor] = loadFromFile("actorTemp.json")
     
     @Published var needsUpdated: Bool = false
     
@@ -169,8 +170,6 @@ func load<T: Decodable>() -> T {
     let timeOut : Double = 0.5
     sema.wait(timeout: DispatchTime.now()+timeOut)
     data = Data(base64Encoded: showsString, options: .ignoreUnknownCharacters)!
-    
-    
      // For loading from a file
     /*
     do {
@@ -179,8 +178,6 @@ func load<T: Decodable>() -> T {
         fatalError("Couldn't load file")
     }
      */
-     
-    
 
     do {
         let decoder = JSONDecoder()
@@ -191,5 +188,75 @@ func load<T: Decodable>() -> T {
         fatalError("Couldn't parse as data")
     }
     
+}
+
+// Not updated yet
+/*
+func loadActors() -> [Actor] {
+
+    /*
+    var data: Data
+
+    var showsString = ""
+    let getUrl = URL(string: "https://api.github.com/repos/ajglodowski/TVShowApp/contents/data.json")!
+    let sema = DispatchSemaphore(value: 0)
+    let task = URLSession.shared.dataTask(with: getUrl) { (data, response, error) in
+        guard let dataResponse = data,
+              error == nil else {
+              print(error?.localizedDescription ?? "Response Error")
+              return }
+        do {
+            //here dataResponse received from a network request
+            let jsonResponse = try JSONSerialization.jsonObject(with:
+                                   dataResponse, options: [])
+            guard let jNew = jsonResponse as? [String:Any] else { print("error in get response"); return}
+            let tempShows = jNew["content"] as! String
+            showsString = tempShows
+            //print("setting sha"+sha)
+         } catch {
+            print("Parsing Error")
+       }
+    }
+    task.resume()
+    let timeOut : Double = 0.5
+    sema.wait(timeout: DispatchTime.now()+timeOut)
+    data = Data(base64Encoded: showsString, options: .ignoreUnknownCharacters)!
+    
+    do {
+        let decoder = JSONDecoder()
+        return try decoder.decode(T.self, from: data);
+    } catch {
+        print("error in loading")
+        print(error)
+        fatalError("Couldn't parse as data")
+    }
+     */
+    
+    var sampleActor = Actor()
+    sampleActor.shows.append(ModelData().shows[0])
+    var output: [Actor] = []
+    output.append(sampleActor)
+    print(output)
+    return output
+}
+*/
+
+func loadFromFile<T: Decodable>(_ filename: String) -> T {
+    let data: Data
+
+    guard let file = Bundle.main.url(forResource: filename, withExtension: nil) else { fatalError("Error in path") }
+
+    do {
+        data = try Data(contentsOf: file)
+    } catch {
+        fatalError("Couldn't load \(filename) from main bundle:\n\(error)")
+    }
+
+    do {
+        let decoder = JSONDecoder()
+        return try decoder.decode(T.self, from: data)
+    } catch {
+        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
+    }
 }
 

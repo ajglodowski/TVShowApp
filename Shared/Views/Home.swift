@@ -121,27 +121,19 @@ struct Home: View {
                         modelData.save()
                     }, label: {
                         Text("Save Data")
-                            .font(.title)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                            //.font(.title)
                     })
-                    .buttonStyle(BorderlessButtonStyle())
+                    .buttonStyle(.bordered)
                    
-                    // Realod Button
+                    // Reload Button
                     Spacer()
                     Button(action: {
                         modelData.refreshData()
                     }, label: {
                         Text("Reload Data")
-                            .font(.title)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                            //.font(.title)
                     })
-                    .buttonStyle(BorderlessButtonStyle())
+                    .buttonStyle(.bordered)
                     
                     Spacer()
                     // New Show Button
@@ -154,13 +146,9 @@ struct Home: View {
                         //modelData.shows.append(new)
                     }, label: {
                         Text("New Show")
-                            .font(.title)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                            //.font(.title)
                     })
-                    .buttonStyle(BorderlessButtonStyle())
+                    .buttonStyle(.bordered)
                 }
                 
                 

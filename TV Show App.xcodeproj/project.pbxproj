@@ -89,10 +89,10 @@
 		1AE03C8D2824B34B005FF4FA /* ListActorRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */; };
 		1AE03C8E2824B34B005FF4FA /* ListActorRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */; };
 		1AE03C8F2824B34B005FF4FA /* ListActorRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */; };
-		1AE03C922824BA4B005FF4FA /* actorTemp.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorTemp.json */; };
-		1AE03C932824BA4B005FF4FA /* actorTemp.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorTemp.json */; };
-		1AE03C942824BA4B005FF4FA /* actorTemp.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorTemp.json */; };
-		1AE03C952824BA4B005FF4FA /* actorTemp.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorTemp.json */; };
+		1AE03C922824BA4B005FF4FA /* actorData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorData.json */; };
+		1AE03C932824BA4B005FF4FA /* actorData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorData.json */; };
+		1AE03C942824BA4B005FF4FA /* actorData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorData.json */; };
+		1AE03C952824BA4B005FF4FA /* actorData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE03C912824BA4B005FF4FA /* actorData.json */; };
 		1AF20DE22674731D0021A08F /* discovered.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AF20DE12674731D0021A08F /* discovered.json */; };
 		1AF20DE32674731D0021A08F /* discovered.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AF20DE12674731D0021A08F /* discovered.json */; };
 		1AF20DE42674731D0021A08F /* discovered.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AF20DE12674731D0021A08F /* discovered.json */; };
@@ -182,7 +182,7 @@
 		1AE03C802824ABB3005FF4FA /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		1AE03C862824B2D4005FF4FA /* ActorDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorDetail.swift; sourceTree = "<group>"; };
 		1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActorRow.swift; sourceTree = "<group>"; };
-		1AE03C912824BA4B005FF4FA /* actorTemp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = actorTemp.json; sourceTree = "<group>"; };
+		1AE03C912824BA4B005FF4FA /* actorData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = actorData.json; sourceTree = "<group>"; };
 		1AF20DE12674731D0021A08F /* discovered.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = discovered.json; sourceTree = "<group>"; };
 		1AF20DE6267473930021A08F /* ShowSquareTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSquareTile.swift; sourceTree = "<group>"; };
 		1AF2C8902670188000463718 /* ShowHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowHelpers.swift; sourceTree = "<group>"; };
@@ -284,7 +284,7 @@
 		1A66E10D263A074100B47B88 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1AE03C912824BA4B005FF4FA /* actorTemp.json */,
+				1AE03C912824BA4B005FF4FA /* actorData.json */,
 				1A550D5426CC3E3F000F4919 /* csvjson.json */,
 				1AF20DE12674731D0021A08F /* discovered.json */,
 				1AF396B12639004A000C4996 /* landmarkData.json */,
@@ -524,7 +524,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1ACFA78126DDA49F00CB2E16 /* Edit Show.png in Resources */,
-				1AE03C922824BA4B005FF4FA /* actorTemp.json in Resources */,
+				1AE03C922824BA4B005FF4FA /* actorData.json in Resources */,
 				1ACFA78726DDA54000CB2E16 /* Watchlist Applied.png in Resources */,
 				1ACFA77D26DDA49F00CB2E16 /* Home.png in Resources */,
 				1ACFA78A26DDA58100CB2E16 /* Watchlist.png in Resources */,
@@ -543,7 +543,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1ACFA78226DDA49F00CB2E16 /* Edit Show.png in Resources */,
-				1AE03C932824BA4B005FF4FA /* actorTemp.json in Resources */,
+				1AE03C932824BA4B005FF4FA /* actorData.json in Resources */,
 				1ACFA78826DDA54000CB2E16 /* Watchlist Applied.png in Resources */,
 				1ACFA77E26DDA49F00CB2E16 /* Home.png in Resources */,
 				1ACFA78B26DDA58100CB2E16 /* Watchlist.png in Resources */,
@@ -562,7 +562,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF20DE42674731D0021A08F /* discovered.json in Resources */,
-				1AE03C942824BA4B005FF4FA /* actorTemp.json in Resources */,
+				1AE03C942824BA4B005FF4FA /* actorData.json in Resources */,
 				1AF396B42639004A000C4996 /* landmarkData.json in Resources */,
 				1A550D5726CC3E3F000F4919 /* csvjson.json in Resources */,
 			);
@@ -573,7 +573,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF20DE52674731D0021A08F /* discovered.json in Resources */,
-				1AE03C952824BA4B005FF4FA /* actorTemp.json in Resources */,
+				1AE03C952824BA4B005FF4FA /* actorData.json in Resources */,
 				1AF396B52639004A000C4996 /* landmarkData.json in Resources */,
 				1A550D5826CC3E3F000F4919 /* csvjson.json in Resources */,
 			);

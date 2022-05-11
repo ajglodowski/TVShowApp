@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1000,
+    "name": "John Oliver",
+    "shows": [
+        {
+          "name": "Last Week Tonight",
+          "service": "HBO",
+          "wanted": true,
+          "status": "Currently Airing",
+          "running": true,
+          "watched": true,
+          "id": 1005,
+          "length": "30",
+          "discovered": true,
+          "airdate": "Sunday"
+        }
+    ]
+  }
+]

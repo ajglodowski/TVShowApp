@@ -118,7 +118,7 @@ struct Home: View {
                 HStack (alignment: .center) {
                     // Save Button
                     Button(action: {
-                        modelData.save()
+                        modelData.save("data.json",true)
                     }, label: {
                         Text("Save Data")
                             //.font(.title)

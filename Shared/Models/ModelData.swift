@@ -10,17 +10,17 @@ import Combine
 
 final class ModelData : ObservableObject {
     //@Published var shows: [Show] = load("showData.json")
-    @Published var shows: [Show] = load()
-    @Published var actors: [Actor] = loadFromFile("actorTemp.json")
+    @Published var shows: [Show] = load("data.json")
+    @Published var actors: [Actor] = load("actorData.json")
     
     @Published var needsUpdated: Bool = false
     
     func refreshData() {
-        self.shows = load()
+        self.shows = load("data.json")
     }
     
     
-    func save() {
+    func save(_ filename: String, _ savingsShows: Bool) {
         
         // Use for deploy on device
         /*
@@ -42,7 +42,7 @@ final class ModelData : ObservableObject {
         
         // Need a request to get SHA but otherwise this works
         var sha = ""
-        let getUrl = URL(string: "https://api.github.com/repos/ajglodowski/TVShowApp/contents/data.json")!
+        let getUrl = URL(string: "https://api.github.com/repos/ajglodowski/TVShowApp/contents/"+filename)!
         let sema = DispatchSemaphore(value: 0)
         let task = URLSession.shared.dataTask(with: getUrl) { (data, response, error) in
             guard let dataResponse = data,
@@ -67,7 +67,7 @@ final class ModelData : ObservableObject {
         //print("test"+sha)
         //let sha = getData["sha"]
         let token = "token " + Hidden.token
-        let repo = "https://api.github.com/repos/ajglodowski/TVShowApp/contents/data.json"
+        let repo = "https://api.github.com/repos/ajglodowski/TVShowApp/contents/"+filename
         let url = URL(string: repo)!
         var request = URLRequest(url:url)
         request.httpMethod = "PUT"
@@ -77,7 +77,14 @@ final class ModelData : ObservableObject {
             "Accept": "application/json"
         ]
         //guard var data = try! JSONSerialization.data(withJSONObject: shows, options: .prettyPrinted)
-        guard var data = try? JSONEncoder().encode(shows) else { fatalError("Error encoding data") }
+        var data : Data
+        if (savingsShows) {
+            guard var d = try? JSONEncoder().encode(shows) else { fatalError("Error encoding data") }
+            data = d
+        } else {
+            guard var d = try? JSONEncoder().encode(actors) else { fatalError("Error encoding data") }
+            data = d
+        }
         data = data.base64EncodedData()
         let sData = String(decoding: data, as: UTF8.self)
         let jsonMessage : [String:String] = ["sha": sha,
@@ -106,7 +113,7 @@ final class ModelData : ObservableObject {
     
 }
 
-func load<T: Decodable>() -> T {
+func load<T: Decodable>(_ filename: String) -> T {
 
     var data: Data
     
@@ -125,29 +132,9 @@ func load<T: Decodable>() -> T {
     
     // Loading from github
     //print("Loading Data")
-    /*
-    var dataString = ""
-    let url = URL(string: "https://raw.githubusercontent.com/ajglodowski/TVShowApp/main/data.json")!
-    let semaphore = DispatchSemaphore(value: 0)
-    let task = URLSession.shared.dataTask(with: url) { d, response, error in
-        guard
-            error == nil,
-            let d = d,
-            let string = String(data: d, encoding: .utf8)
-        else {
-            print(error ?? "Unknown error")
-            return
-        }
-        dataString = string
-        semaphore.signal()
-    }
-    task.resume()
-    _ = semaphore.wait(timeout: DispatchTime.distantFuture)
-    //print(dataString)
-    data = dataString.data(using: .utf8)!
-    */
     var showsString = ""
-    let getUrl = URL(string: "https://api.github.com/repos/ajglodowski/TVShowApp/contents/data.json")!
+    let urlString = "https://api.github.com/repos/ajglodowski/TVShowApp/contents/" + filename
+    let getUrl = URL(string: urlString)!
     let sema = DispatchSemaphore(value: 0)
     let task = URLSession.shared.dataTask(with: getUrl) { (data, response, error) in
         guard let dataResponse = data,
@@ -189,57 +176,6 @@ func load<T: Decodable>() -> T {
     }
     
 }
-
-// Not updated yet
-/*
-func loadActors() -> [Actor] {
-
-    /*
-    var data: Data
-
-    var showsString = ""
-    let getUrl = URL(string: "https://api.github.com/repos/ajglodowski/TVShowApp/contents/data.json")!
-    let sema = DispatchSemaphore(value: 0)
-    let task = URLSession.shared.dataTask(with: getUrl) { (data, response, error) in
-        guard let dataResponse = data,
-              error == nil else {
-              print(error?.localizedDescription ?? "Response Error")
-              return }
-        do {
-            //here dataResponse received from a network request
-            let jsonResponse = try JSONSerialization.jsonObject(with:
-                                   dataResponse, options: [])
-            guard let jNew = jsonResponse as? [String:Any] else { print("error in get response"); return}
-            let tempShows = jNew["content"] as! String
-            showsString = tempShows
-            //print("setting sha"+sha)
-         } catch {
-            print("Parsing Error")
-       }
-    }
-    task.resume()
-    let timeOut : Double = 0.5
-    sema.wait(timeout: DispatchTime.now()+timeOut)
-    data = Data(base64Encoded: showsString, options: .ignoreUnknownCharacters)!
-    
-    do {
-        let decoder = JSONDecoder()
-        return try decoder.decode(T.self, from: data);
-    } catch {
-        print("error in loading")
-        print(error)
-        fatalError("Couldn't parse as data")
-    }
-     */
-    
-    var sampleActor = Actor()
-    sampleActor.shows.append(ModelData().shows[0])
-    var output: [Actor] = []
-    output.append(sampleActor)
-    print(output)
-    return output
-}
-*/
 
 func loadFromFile<T: Decodable>(_ filename: String) -> T {
     let data: Data

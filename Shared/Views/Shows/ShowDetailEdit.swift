@@ -18,8 +18,25 @@ struct ShowDetailEdit: View {
     var show : Show
     
     var showIndex: Int {
-        modelData.shows.firstIndex(where: { $0.id == show.id }) ?? (modelData.shows.firstIndex(where: { $0.name == show.name }) ?? -1)
+        modelData.shows.firstIndex(where: { $0.equals(input: show) }) ?? -1
     }
+    
+    func actorIndex(actor: Actor) -> Int {
+        modelData.actors.firstIndex(where: { $0.id == actor.id }) ?? (modelData.actors.firstIndex(where: { $0.name == actor.name }) ?? -1)
+    }
+    
+    var actorArr : [Actor] {
+        getActors(showIn: show, actors: modelData.actors)
+    }
+    
+    @State private var searchText = ""
+    var searchActors: [Actor] {
+        modelData.actors.filter { act in
+            act.name.contains(searchText)
+        }
+    }
+    
+
     
     var body: some View {
         
@@ -71,9 +88,7 @@ struct ShowDetailEdit: View {
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .foregroundColor(.white)
-                    .padding(7.5)
-                    .background(Color.blue.opacity(0.80).cornerRadius(8))
+                    .buttonStyle(.bordered)
                 }
                 .padding()
             }
@@ -89,11 +104,9 @@ struct ShowDetailEdit: View {
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .foregroundColor(.white)
-                    .padding(7.5)
-                    .background(Color.blue.opacity(0.80).cornerRadius(8))
+                    .buttonStyle(.bordered)
                 }
-                .padding()
+                //.padding()
                 
                 // Airdate
                 if (modelData.shows[showIndex].status == Status.CurrentlyAiring) {
@@ -106,19 +119,85 @@ struct ShowDetailEdit: View {
                             }
                         }
                         .pickerStyle(MenuPickerStyle())
-                        .foregroundColor(.white)
-                        .padding(7.5)
-                        .background(Color.blue.opacity(0.80).cornerRadius(8))
+                        .buttonStyle(.bordered)
+                    }
+                    //.padding()
+                }
+            }
+            
+            // Current Actors
+            Section(header: Text("Actors:")) {
+                ForEach(actorArr) { act in
+                    HStack {
+                        Text(act.name)
+                        Spacer()
+                        Spacer()
+                        Button(action: {
+                            modelData.actors[actorIndex(actor: act)].shows = modelData.actors[actorIndex(actor: act)].shows.filter { $0 != show}
+                        }, label: {
+                            Text("Remove from Show")
+                                //.font(.title)
+                        })
+                        .buttonStyle(.bordered)
                     }
                     .padding()
                 }
             }
             
+            // Add an existing actor
+            Section(header: Text("Add an existing actor")) {
+                HStack { // Search Bar
+                    Image(systemName: "magnifyingglass")
+                    TextField("Search for an actor here", text: $searchText)
+                    if (!searchText.isEmpty) {
+                        Button(action: {searchText = ""}, label: {
+                            Image(systemName: "xmark")
+                        })
+                    }
+                }
+                //.padding()
+                .background(Color(.systemGray5))
+                .cornerRadius(20)
+                
+                ForEach(searchActors) { act in
+                    Button(action: {
+                        modelData.actors[actorIndex(actor: act)].addShow(toAdd: show)
+                    }, label: {
+                        Text(act.name)
+                    })
+                }
+            }
+            
+            
+            // Add a new actor
+            Section(header: Text("Add a new actor")) {
+                Button(action: {
+                    print("1")
+                    var new = Actor()
+                    print("2")
+                    new.shows.append(show)
+                    print("3")
+                    //newShow = new
+                    modelData.actors.append(new)
+                    print("4")
+                    //ActorDetail(actor: new)
+                }, label: {
+                    Text("Add a new Actor")
+                        //.font(.title)
+                })
+                .buttonStyle(.bordered)
+                //ActorEditList(show: modelData.shows[showIndex])
+            }
+            
+            
+            
             // ID
             Section(header: Text("Internal ID:")) {
-                TextField("ID", value: $modelData.shows[showIndex].id, formatter: NumberFormatter())
-                    .keyboardType(.numberPad)
+                //TextField("ID", value: $modelData.shows[showIndex].id, formatter: NumberFormatter())
+                    //.keyboardType(.numberPad)
+                Text("ID: "+modelData.shows[showIndex].id)
             }
+            
             
             
              

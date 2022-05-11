@@ -11,24 +11,49 @@ struct ActorDetail: View {
     
     var actor : Actor
     
+    @State private var isPresented = false // Edit menu var
+    
     var showList : [Show] {
         actor.shows
     }
     
     var body: some View {
-        VStack {
-            Text(actor.name)
-                .font(.title)
         
+        ScrollView {
+            VStack {
+                Text(actor.name)
+                    .font(.title)
+                    .padding()
+                Spacer()
             
-            ForEach(showList) { show in
-                //Text(show.name)
-                
-                NavigationLink(destination: ShowDetail(show: show)) {
-                    ListShowRow(show: show)
+                VStack (alignment: .leading) {
+                    Text("Shows "+actor.name+" has appeared in:")
+                        .padding()
+                    ForEach(showList) { show in
+                        NavigationLink(destination: ShowDetail(show: show)) {
+                            ListShowRow(show: show)
+                        }
+                        .padding()
+                    }
                 }
-                
-                
+            }
+        }
+        
+        .navigationTitle(actor.name)
+        .navigationBarTitleDisplayMode(.inline)
+        //.navigationBarBackButtonHidden(false)
+        
+        .navigationBarItems(trailing: Button("Edit") {
+                    isPresented = true
+                })
+        
+        .sheet(isPresented: $isPresented) {
+            NavigationView {
+                ActorDetailEdit(isPresented: self.$isPresented, actor: actor)
+                    .navigationTitle(actor.name)
+                    .navigationBarItems(trailing: Button("Done") {
+                        isPresented = false
+                    })
             }
         }
     }

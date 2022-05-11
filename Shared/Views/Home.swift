@@ -118,7 +118,7 @@ struct Home: View {
                 HStack (alignment: .center) {
                     // Save Button
                     Button(action: {
-                        modelData.save("data.json",true)
+                        modelData.saveData()
                     }, label: {
                         Text("Save Data")
                             //.font(.title)
@@ -129,6 +129,8 @@ struct Home: View {
                     Spacer()
                     Button(action: {
                         modelData.refreshData()
+                        print(modelData.actors)
+                        print(modelData.shows)
                     }, label: {
                         Text("Reload Data")
                             //.font(.title)

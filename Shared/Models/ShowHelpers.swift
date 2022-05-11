@@ -90,12 +90,11 @@ func applyAllFilters(serviceFilters: [Service], showLengthFilter: ShowLength, sh
     return filtered
 }
 
-func getActors(showIn: Show) -> [Actor] {
-    
+func getActors(showIn: Show, actors: [Actor]) -> [Actor] {
     var output : [Actor] = []
-    for specificActor in ModelData().actors {
+    for specificActor in actors {
         for specificShow in specificActor.shows {
-            if (specificShow.id == showIn.id) {
+            if (specificShow.equals(input: showIn)) {
                 output.append(specificActor)
             }
         }

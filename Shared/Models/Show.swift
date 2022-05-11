@@ -19,25 +19,32 @@ struct Show : Hashable, Identifiable, Codable {
     
     //var actors: [Actor]
     
-    var id: Int
-    
+    let id : String = UUID().uuidString
     var length: ShowLength
     var discovered: Bool
     var airdate: AirDate
     
     init() {
-        id = generateShowId()
-        name = "New Show"
-        service = Service.Other
-        length = ShowLength.min
-        status = Status.Other
-        airdate = AirDate.Other
-        watched = false
-        running = true
-        wanted = true
-        discovered = true
+        //id = generateShowId()
+        //self.id = UUID().uuidString
+        self.name = "New Show"
+        self.service = Service.Other
+        self.length = ShowLength.min
+        self.status = Status.Other
+        self.airdate = AirDate.Other
+        self.watched = false
+        self.running = true
+        self.wanted = true
+        self.discovered = true
         //actors = []
         //super.init()
+    }
+    
+    private enum CodingKeys : String, CodingKey { case name, service, wanted, status, running, watched, length, discovered, airdate }
+    
+    func equals(input: Show) -> Bool {
+        if (input.name == self.name && input.service == self.service) { return true }
+        else { return false }
     }
     
     /*
@@ -49,13 +56,14 @@ struct Show : Hashable, Identifiable, Codable {
 
 }
 
+/*
 func generateShowId() -> Int {
     var val = 1000 + ModelData().shows.count
     while (ModelData().shows.contains(where: {$0.id == val })) { val += 1 }
     print(val)
     return val
 }
-
+*/
 
 /*
 class ShowStore: ObservableObject {

@@ -23,7 +23,7 @@ struct ShowDetail: View {
     }
     
     var actorList: [Actor] {
-        getActors(showIn: show)
+        getActors(showIn: show, actors: modelData.actors)
     }
     
     init(show: Show) {
@@ -40,71 +40,74 @@ struct ShowDetail: View {
         
         GeometryReader { geometry in
             
-            VStack (alignment: .center) {
-                Image(show.name)
-                    .resizable()
-                    .scaledToFit()
-                    .clipped()
-                    .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
-                    .cornerRadius(20)
-                    .shadow(radius: 10)
-                    .padding(.top, 25)
+            ScrollView {
                 
-                // Text
-                VStack (alignment: .leading) {
-                    HStack {
-                        Text(show.name)
-                            .font(.title)
-                        WatchedButton(isSet: $modelData.shows[showIndex].watched)
-                    }
-                    HStack {
-                        Text("Show Length: " + show.length.rawValue + " minutes")
-                            .font(.subheadline)
-                        Spacer()
-                        Text(show.service.rawValue)
-                            .font(.subheadline)
-                    }
-                    Text("Status: " + show.status.rawValue)
-                        .font(.subheadline)
+                VStack (alignment: .center) {
+                    Image(show.name)
+                        .resizable()
+                        .scaledToFit()
+                        .clipped()
+                        .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
+                        .cornerRadius(20)
+                        .shadow(radius: 10)
+                        .padding(.top, 25)
                     
-                    if (show.status == Status.CurrentlyAiring) {
-                        Text("Airdate: " + show.airdate.rawValue)
-                            .font(.subheadline)
-                    }
-                    
-                    Divider()
-                    Text("About Show")
-                }
-                .padding()
-                // Darker, possible use in future
-                //.background(Color.secondary)
-                .background(backgroundColor.blendMode(.softLight))
-                .cornerRadius(20)
-                .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-                .padding([.leading,.trailing])
-                .foregroundColor(.white)
-                
-                // Actors Section
-                VStack(alignment: .leading){
-                    Text("Actors")
-                        .font(.title)
-                    ForEach(actorList) { indActor in
-                        NavigationLink(destination: ActorDetail(actor: indActor)) {
-                            ListActorRow(actor: indActor)
+                    // Text
+                    VStack (alignment: .leading) {
+                        HStack {
+                            Text(show.name)
+                                .font(.title)
+                            WatchedButton(isSet: $modelData.shows[showIndex].watched)
                         }
+                        HStack {
+                            Text("Show Length: " + show.length.rawValue + " minutes")
+                                .font(.subheadline)
+                            Spacer()
+                            Text(show.service.rawValue)
+                                .font(.subheadline)
+                        }
+                        Text("Status: " + show.status.rawValue)
+                            .font(.subheadline)
+                        
+                        if (show.status == Status.CurrentlyAiring) {
+                            Text("Airdate: " + show.airdate.rawValue)
+                                .font(.subheadline)
+                        }
+                        
+                        Divider()
+                        Text("About Show")
                     }
-                    //.onDelete(perform: removeRows)
-                    //.background(backgroundColor.blendMode(.softLight))
+                    .padding()
+                    // Darker, possible use in future
+                    //.background(Color.secondary)
+                    .background(backgroundColor.blendMode(.softLight))
+                    .cornerRadius(20)
+                    .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                    .padding([.leading,.trailing])
+                    .foregroundColor(.white)
+                    
+                    // Actors Section
+                    VStack(alignment: .leading){
+                        Text("Actors")
+                            .font(.title)
+                        ForEach(actorList) { indActor in
+                            NavigationLink(destination: ActorDetail(actor: indActor)) {
+                                ListActorRow(actor: indActor)
+                            }
+                        }
+                        //.onDelete(perform: removeRows)
+                        //.background(backgroundColor.blendMode(.softLight))
+                    }
+                    .padding()
+                    // Darker, possible use in future
+                    //.background(Color.secondary)
+                    .background(backgroundColor.blendMode(.softLight))
+                    .cornerRadius(20)
+                    .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                    .padding()
+                    .foregroundColor(.white)
+                    
                 }
-                .padding()
-                // Darker, possible use in future
-                //.background(Color.secondary)
-                .background(backgroundColor.blendMode(.softLight))
-                .cornerRadius(20)
-                .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-                .padding()
-                .foregroundColor(.white)
-                
             }
         }
         

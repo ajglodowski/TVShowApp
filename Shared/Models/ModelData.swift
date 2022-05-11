@@ -11,12 +11,19 @@ import Combine
 final class ModelData : ObservableObject {
     //@Published var shows: [Show] = load("showData.json")
     @Published var shows: [Show] = load("data.json")
+    //@Published var shows: [Show] = loadFromFile("noID.json")
     @Published var actors: [Actor] = load("actorData.json")
     
     @Published var needsUpdated: Bool = false
     
     func refreshData() {
         self.shows = load("data.json")
+        self.actors = load("actorData.json")
+    }
+    
+    func saveData() {
+        save("data.json",true)
+        save("actorData.json",false)
     }
     
     
@@ -62,7 +69,7 @@ final class ModelData : ObservableObject {
            }
         }
         task.resume()
-        let timeOut : Double = 0.5
+        let timeOut : Double = 1.0
         sema.wait(timeout: DispatchTime.now()+timeOut)
         //print("test"+sha)
         //let sha = getData["sha"]
@@ -154,7 +161,7 @@ func load<T: Decodable>(_ filename: String) -> T {
        }
     }
     task.resume()
-    let timeOut : Double = 0.5
+    let timeOut : Double = 1.0
     sema.wait(timeout: DispatchTime.now()+timeOut)
     data = Data(base64Encoded: showsString, options: .ignoreUnknownCharacters)!
      // For loading from a file

@@ -10,25 +10,29 @@ import SwiftUI
 import Combine
 
 struct Actor : Hashable, Identifiable, Codable {
-    var id: Int
+    //var id: Int
     var name: String
     var shows: [Show]
     
+    let id : String = UUID().uuidString
+    
     init() {
-        id = generateShowId()
+        print("Start init")
+        //id = generateActorId()
         name = "New Actor"
         shows = []
+        print("end init")
     }
     
     mutating func addShow(toAdd: Show) {
-        if (!shows.contains(toAdd)) { shows.append(toAdd); }
+        if (!shows.contains(where: { $0.equals(input: toAdd)})) { shows.append(toAdd); }
     }
     
+    func equals(input: Actor) -> Bool {
+        if (input.name == self.name) { return true }
+        else { return false }
+    }
+    
+    private enum CodingKeys : String, CodingKey { case name, shows }
 
-}
-
-func generateActorId() -> Int {
-    var val = 1000 + ModelData().actors.count
-    while (ModelData().shows.contains(where: {$0.id == val })) { val += 1 }
-    return val
 }

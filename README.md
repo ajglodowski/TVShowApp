@@ -1,6 +1,6 @@
 # TVShowApp
 
-This is a side project of mine to experiment with iOS development. It is intended for personal use and replaces my old form of keeping track of TV shows I am watching. It allows for different filters, interesting visuals, and data manipulation. Because it was intended for personal use it uses local file reading/writing for data storage.
+This is a side project of mine to experiment with iOS development. It is intended for personal use and replaces my old form of keeping track of TV shows I am watching. It allows for different filters, interesting visuals, and data manipulation. All the data is held in json files in this repo and is loaded and saved through REST apis.
 
 # Views
 

@@ -33,12 +33,24 @@ struct ActorList: View {
             }
             .padding()
             
-            ForEach(modelData.actors.sorted { $0.name < $1.name }) { specActor in
-                NavigationLink(destination: ActorDetail(actor: specActor)) {
-                    HStack {
-                        Text(specActor.name)
-                        Spacer()
-                        Spacer()
+            if (searchText.isEmpty) {
+                ForEach(modelData.actors.sorted { $0.name < $1.name }) { specActor in
+                    NavigationLink(destination: ActorDetail(actor: specActor)) {
+                        HStack {
+                            Text(specActor.name)
+                            Spacer()
+                            Spacer()
+                        }
+                    }
+                }
+            } else {
+                ForEach(modelData.actors.filter { $0.name.contains(searchText) }.sorted { $0.name < $1.name }) { specActor in
+                    NavigationLink(destination: ActorDetail(actor: specActor)) {
+                        HStack {
+                            Text(specActor.name)
+                            Spacer()
+                            Spacer()
+                        }
                     }
                 }
             }

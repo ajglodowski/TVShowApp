@@ -14,6 +14,7 @@ struct DiscoverPage: View {
     @State private var searchText = ""
     @State var selectedLength: ShowLength = ShowLength.min
     @State var appliedServiceFilters = [Service]()
+    @State var appliedStatusFilters = [Status]()
 
     
     var undiscoveredShows: [Show] {
@@ -32,7 +33,7 @@ struct DiscoverPage: View {
         if (searchText != "") {
             return searchShows
         } else {
-            return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength, shows: undiscoveredShows)
+            return applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, showLengthFilter: selectedLength, shows: undiscoveredShows)
         }
     }
     

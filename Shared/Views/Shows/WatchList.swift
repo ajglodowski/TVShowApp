@@ -28,11 +28,12 @@ struct WatchList: View {
             return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
         }
          */
-        applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength, shows: modelData.shows)
+        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, showLengthFilter: selectedLength, shows: modelData.shows)
             .sorted { $0.name < $1.name }
     }
     
     @State var appliedServiceFilters = [Service]()
+    @State var appliedStatusFilters = [Status]()
     @State var selectedLength: ShowLength = ShowLength.min
     
     var body: some View {
@@ -67,27 +68,47 @@ struct WatchList: View {
                         .pickerStyle(SegmentedPickerStyle())
                     }
                     
-                    Menu {
-                        ForEach(Service.allCases) { service in
-                            Button(action: {
-                                
-                                if (appliedServiceFilters.contains(service)) {
-                                    appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
-                                } else {
-                                    appliedServiceFilters.append(service)
+                    VStack {
+                        Menu {
+                            ForEach(Service.allCases) { service in
+                                Button(action: {
+                                    if (appliedServiceFilters.contains(service)) {
+                                        appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
+                                    } else {
+                                        appliedServiceFilters.append(service)
+                                    }
+                                }) {
+                                    Label(service.rawValue, systemImage: appliedServiceFilters.contains(service) ?
+                                            "checkmark" : "")
                                 }
-                            }) {
-                                Label(service.rawValue, systemImage: appliedServiceFilters.contains(service) ?
-                                        "checkmark" : "")
                             }
+                        } label: {
+                            Text("Filter by Service")
+                            //Image(systemName: "slider.horizontal.3")
                         }
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
+                        //.scaledToFill()
+                        //.frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        
+                        
+                        Menu {
+                            ForEach(Status.allCases) { status in
+                                Button(action: {
+                                    if (appliedStatusFilters.contains(status)) {
+                                        appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
+                                    } else {
+                                        appliedStatusFilters.append(status)
+                                    }
+                                }) {
+                                    Label(status.rawValue, systemImage: appliedStatusFilters.contains(status) ?
+                                            "checkmark" : "")
+                                }
+                            }
+                        } label: {
+                            Text("Filter by Status")
+                        }
+                        //.scaledToFill()
+                        //.frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     }
-                    .scaledToFill()
-                    .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    
-                    
                 }
                 
                 if (!appliedServiceFilters.isEmpty) {
@@ -109,14 +130,11 @@ struct WatchList: View {
                 HStack {
                     Text("Show Title")
                     Spacer()
-                    
                     Text("Watched?")
                         .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
                     Divider()
                     Text("Running?")
-                    
                 }
-                
                 
                 ForEach(displayedShows) { show in
                     NavigationLink(destination: ShowDetail(show: show)) {
@@ -125,7 +143,6 @@ struct WatchList: View {
                 }
                 .onDelete(perform: removeRows)
                  
-                
             } else {
                 ForEach(searchShows) { show in
                     NavigationLink(destination: ShowDetail(show: show)) {

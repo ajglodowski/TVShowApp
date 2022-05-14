@@ -187,6 +187,16 @@ struct Home: View {
                     .buttonStyle(PlainButtonStyle())
                 }
                 
+                HStack {
+                    // Delete Page
+                    NavigationLink(
+                        destination: StatsPage(),
+                        label: {
+                            Text("Stats Page")
+                        })
+                    .buttonStyle(PlainButtonStyle())
+                }
+                
             }
             
             

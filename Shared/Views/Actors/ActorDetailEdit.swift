@@ -15,9 +15,12 @@ struct ActorDetailEdit: View {
     
     var actor : Actor
     
+    let actorIndex: Int
+    /*
     var actorIndex: Int {
         modelData.actors.firstIndex(where: { $0.id == actor.id }) ?? (modelData.actors.firstIndex(where: { $0.name == actor.name }) ?? -1)
     }
+     */
     
     @State private var searchText = ""
     var searchShows: [Show] {
@@ -34,8 +37,15 @@ struct ActorDetailEdit: View {
         List {
             
             Section(header: Text("Actor Name:")) {
-                TextField("Actor Name", text: $modelData.actors[actorIndex].name)
-                    .font(.title)
+                HStack {
+                    TextField("Actor Name", text: $modelData.actors[actorIndex].name)
+                        .font(.title)
+                    if (!modelData.actors[actorIndex].name.isEmpty) {
+                        Button(action: {modelData.actors[actorIndex].name = ""}, label: {
+                            Image(systemName: "xmark")
+                        })
+                    }
+                }
             }
             //.padding()
             
@@ -45,7 +55,7 @@ struct ActorDetailEdit: View {
                     HStack {
                         Text(show.name)
                         Spacer()
-                        Text(show.id)
+                        //Text(show.id)
                         Spacer()
                         Button(action: {
                             modelData.actors[actorIndex].shows = modelData.actors[actorIndex].shows.filter { !$0.equals(input: show)}

@@ -51,6 +51,10 @@
 		1A3B8B412671D82C0033C433 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3B8B3F2671D82C0033C433 /* Service.swift */; };
 		1A3B8B422671D82C0033C433 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3B8B3F2671D82C0033C433 /* Service.swift */; };
 		1A3B8B432671D82C0033C433 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3B8B3F2671D82C0033C433 /* Service.swift */; };
+		1A4B4CEB282D9CDB0095324A /* ActorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B4CEA282D9CDB0095324A /* ActorList.swift */; };
+		1A4B4CEC282D9CDB0095324A /* ActorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B4CEA282D9CDB0095324A /* ActorList.swift */; };
+		1A4B4CED282D9CDB0095324A /* ActorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B4CEA282D9CDB0095324A /* ActorList.swift */; };
+		1A4B4CEE282D9CDB0095324A /* ActorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B4CEA282D9CDB0095324A /* ActorList.swift */; };
 		1A5406712812594900A78AC0 /* Hidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5406702812594900A78AC0 /* Hidden.swift */; };
 		1A5406722812594900A78AC0 /* Hidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5406702812594900A78AC0 /* Hidden.swift */; };
 		1A5406732812594900A78AC0 /* Hidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5406702812594900A78AC0 /* Hidden.swift */; };
@@ -184,6 +188,7 @@
 		1A3232F726756F6E009A9F23 /* DiscoverPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverPage.swift; sourceTree = "<group>"; };
 		1A3A33F02672AAD300B2F459 /* ShowLength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowLength.swift; sourceTree = "<group>"; };
 		1A3B8B3F2671D82C0033C433 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		1A4B4CEA282D9CDB0095324A /* ActorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorList.swift; sourceTree = "<group>"; };
 		1A5406702812594900A78AC0 /* Hidden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hidden.swift; sourceTree = "<group>"; };
 		1A550D5426CC3E3F000F4919 /* csvjson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = csvjson.json; sourceTree = "<group>"; };
 		1A66E1042639119300B47B88 /* ShowDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetail.swift; sourceTree = "<group>"; };
@@ -348,6 +353,7 @@
 				1AE03C862824B2D4005FF4FA /* ActorDetail.swift */,
 				1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */,
 				1A1515CC282B69CF00DB8948 /* ActorDetailEdit.swift */,
+				1A4B4CEA282D9CDB0095324A /* ActorList.swift */,
 			);
 			path = Actors;
 			sourceTree = "<group>";
@@ -621,6 +627,7 @@
 				1AE03C8C2824B34B005FF4FA /* ListActorRow.swift in Sources */,
 				1AF2C8912670188000463718 /* ShowHelpers.swift in Sources */,
 				1A3B8B402671D82C0033C433 /* Service.swift in Sources */,
+				1A4B4CEB282D9CDB0095324A /* ActorList.swift in Sources */,
 				1AF20DE7267473930021A08F /* ShowSquareTile.swift in Sources */,
 				1A3A33F12672AAD300B2F459 /* ShowLength.swift in Sources */,
 				1A2FE979263F8EC600B11F73 /* ShowTile.swift in Sources */,
@@ -665,6 +672,7 @@
 				1A1515CE282B69CF00DB8948 /* ActorDetailEdit.swift in Sources */,
 				1AF3968F2638F635000C4996 /* Show.swift in Sources */,
 				1A99FF0326CC25DE009485ED /* AirDate.swift in Sources */,
+				1A4B4CEC282D9CDB0095324A /* ActorList.swift in Sources */,
 				1AF396942638F6E9000C4996 /* ModelData.swift in Sources */,
 				1AE03C822824ABB3005FF4FA /* Actor.swift in Sources */,
 				1A66E10A263A042600B47B88 /* WatchedButton.swift in Sources */,
@@ -701,6 +709,7 @@
 				1AF396952638F6E9000C4996 /* ModelData.swift in Sources */,
 				1AF396AF2638FF4C000C4996 /* WatchList.swift in Sources */,
 				1A3A33F32672AAD300B2F459 /* ShowLength.swift in Sources */,
+				1A4B4CED282D9CDB0095324A /* ActorList.swift in Sources */,
 				1AF2C8932670188000463718 /* ShowHelpers.swift in Sources */,
 				1A3232FA26756F6E009A9F23 /* DiscoverPage.swift in Sources */,
 				1AA1AAE526A0CE070029FFD6 /* DeletePage.swift in Sources */,
@@ -732,6 +741,7 @@
 				1AF396962638F6E9000C4996 /* ModelData.swift in Sources */,
 				1AF396B02638FF4C000C4996 /* WatchList.swift in Sources */,
 				1A3A33F42672AAD300B2F459 /* ShowLength.swift in Sources */,
+				1A4B4CEE282D9CDB0095324A /* ActorList.swift in Sources */,
 				1AF2C8942670188000463718 /* ShowHelpers.swift in Sources */,
 				1A3232FB26756F6E009A9F23 /* DiscoverPage.swift in Sources */,
 				1AA1AAE626A0CE070029FFD6 /* DeletePage.swift in Sources */,

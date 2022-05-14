@@ -49,15 +49,13 @@ struct WatchList: View {
                 }
             }
             .padding()
-            .background(Color(.systemGray5))
-            .cornerRadius(20)
+            //.background(Color(.systemGray5))
+            //.cornerRadius(20)
                 //.padding(.horizontal)
             
             if (searchText.isEmpty) {
                 
                 HStack {
-                    
-                    
                     
                     VStack {
                         Text("Length").bold()
@@ -68,7 +66,6 @@ struct WatchList: View {
                         }
                         .pickerStyle(SegmentedPickerStyle())
                     }
-                    
                     
                     Menu {
                         ForEach(Service.allCases) { service in
@@ -85,11 +82,11 @@ struct WatchList: View {
                             }
                         }
                     } label: {
-                        Image(systemName: "line.horizontal.3.decrease.circle")
-                            
+                        Image(systemName: "slider.horizontal.3")
                     }
-                    .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .scaledToFill()
+                    .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    
                     
                 }
                 

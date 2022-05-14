@@ -13,13 +13,19 @@ struct ShowDetailEdit: View {
     
     @EnvironmentObject var modelData: ModelData
     
+    @State private var showName: String = ""
+    
     @Binding var isPresented: Bool
     
     var show : Show
     
+    let showIndex: Int
+    
+    /*
     var showIndex: Int {
-        modelData.shows.firstIndex(where: { $0.equals(input: show) }) ?? -1
+        modelData.shows.firstIndex(where: { $0.equals(input: show) })!
     }
+     */
     
     func actorIndex(actor: Actor) -> Int {
         modelData.actors.firstIndex(where: { $0.id == actor.id }) ?? (modelData.actors.firstIndex(where: { $0.name == actor.name }) ?? -1)
@@ -45,8 +51,18 @@ struct ShowDetailEdit: View {
         List {
             
             Section(header: Text("Show Title:")) {
-                TextField("Show Title", text: $modelData.shows[showIndex].name)
-                    .font(.title)
+                HStack {
+                    //print(showIndex)
+                    if (showIndex != -1) {
+                        TextField("Show Title", text: $modelData.shows[showIndex].name)
+                            .font(.title)
+                        if (!modelData.shows[showIndex].name.isEmpty) {
+                            Button(action: {modelData.shows[showIndex].name = ""}, label: {
+                                Image(systemName: "xmark")
+                            })
+                        }
+                    }
+                }
             }
             //.padding()
             
@@ -172,14 +188,10 @@ struct ShowDetailEdit: View {
             // Add a new actor
             Section(header: Text("Add a new actor")) {
                 Button(action: {
-                    print("1")
                     var new = Actor()
-                    print("2")
                     new.shows.append(show)
-                    print("3")
                     //newShow = new
                     modelData.actors.append(new)
-                    print("4")
                     //ActorDetail(actor: new)
                 }, label: {
                     Text("Add a new Actor")

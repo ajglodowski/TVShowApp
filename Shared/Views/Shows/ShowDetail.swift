@@ -19,7 +19,7 @@ struct ShowDetail: View {
     @State private var backgroundColor: Color = .clear
     
     var showIndex: Int {
-        modelData.shows.firstIndex(where: { $0.id == show.id })!
+        modelData.shows.firstIndex(where: { $0.id == show.id})!
     }
     
     var actorList: [Actor] {
@@ -95,8 +95,23 @@ struct ShowDetail: View {
                                 ListActorRow(actor: indActor)
                             }
                         }
+                        Divider()
+                        // Add a new actor
+                        Button(action: {
+                            var new = Actor()
+                            new.shows.append(show)
+                            //newShow = new
+                            modelData.actors.append(new)
+                            //ActorDetail(actor: new)
+                        }, label: {
+                            Text("Add a new Actor")
+                                //.font(.title)
+                        })
+                        .buttonStyle(.bordered)
+                        
                         //.onDelete(perform: removeRows)
                         //.background(backgroundColor.blendMode(.softLight))
+                        
                     }
                     .padding()
                     // Darker, possible use in future
@@ -126,7 +141,7 @@ struct ShowDetail: View {
         
         .sheet(isPresented: $isPresented) {
             NavigationView {
-                ShowDetailEdit(isPresented: self.$isPresented, show: show)
+                ShowDetailEdit(isPresented: self.$isPresented, show: show, showIndex: showIndex)
                     .navigationTitle(show.name)
                     .navigationBarItems(trailing: Button("Done") {
                         isPresented = false

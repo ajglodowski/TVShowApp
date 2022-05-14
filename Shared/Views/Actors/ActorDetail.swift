@@ -9,12 +9,18 @@ import SwiftUI
 
 struct ActorDetail: View {
     
+    @EnvironmentObject var modelData: ModelData
+    
     var actor : Actor
     
     @State private var isPresented = false // Edit menu var
     
     var showList : [Show] {
         actor.shows
+    }
+    
+    var actorIndex: Int {
+        modelData.actors.firstIndex(where: { $0.id == actor.id})!
     }
     
     var body: some View {
@@ -49,7 +55,7 @@ struct ActorDetail: View {
         
         .sheet(isPresented: $isPresented) {
             NavigationView {
-                ActorDetailEdit(isPresented: self.$isPresented, actor: actor)
+                ActorDetailEdit(isPresented: self.$isPresented, actor: actor, actorIndex: actorIndex)
                     .navigationTitle(actor.name)
                     .navigationBarItems(trailing: Button("Done") {
                         isPresented = false

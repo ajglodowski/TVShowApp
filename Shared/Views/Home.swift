@@ -57,6 +57,7 @@ struct Home: View {
     var body: some View {
         NavigationView {
             List {
+                
                 ZStack {
                     // Use for actual use
                     //let picShow = getRandPic(shows: unwatchedShows)
@@ -67,36 +68,56 @@ struct Home: View {
                     Image(picShow)
                         .resizable()
                         .scaledToFill()
-                        .frame(height: 200)
+                        .frame(height: 250)
                         .clipped()
                         .cornerRadius(50)
                         .overlay(TextOverlay(text: "Watchlist"),alignment: .bottomLeading)
-                    VStack(alignment: .leading) {
-                        
-                    }
                     NavigationLink(
                         destination: WatchList()) {
                             EmptyView()
                     }
                 //.listRowInsets(EdgeInsets())
-                    
                 }
+                .ignoresSafeArea()
                 
                 VStack(alignment: .leading) {
                     Text("Currently Airing")
                         .font(.title)
                     SquareTileScrollRow(items: currentlyAiring, scrollType: 1)
                 }
+                .ignoresSafeArea()
                 
                 ScrollShowRow(items: newSeasons, scrollName: "New Seasons")
+                    .ignoresSafeArea()
                 
                 //ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
+                
+                ZStack {
+                    // Use because picture fits well
+                    let picShow = "Scenes from a Marriage"
+                    
+                    Image(picShow)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 250)
+                        .clipped()
+                        .cornerRadius(50)
+                        .overlay(TextOverlay(text: "Actor List"),alignment: .bottomLeading)
+                    NavigationLink(
+                        destination: ActorList()) {
+                            EmptyView()
+                    }
+                //.listRowInsets(EdgeInsets())
+                    
+                }
+                .ignoresSafeArea()
                 
                 VStack(alignment: .leading) {
                     Text("Currently Watching")
                         .font(.title)
                     SquareTileScrollRow(items: currentlyWatching, scrollType: 0)
                 }
+                .ignoresSafeArea()
                 
                 VStack {
                     NavigationLink(destination: DiscoverPage()) {               Text("Discover Other Shows")
@@ -105,6 +126,7 @@ struct Home: View {
                     }
                     SquareTileScrollRow(items: undiscoveredShows, scrollType: 0)
                 }
+                .ignoresSafeArea()
                 
                 /*
                 VStack {
@@ -114,6 +136,7 @@ struct Home: View {
                 
                 
                 ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
+                    .ignoresSafeArea()
                 
                 HStack (alignment: .center) {
                     // Save Button
@@ -165,20 +188,22 @@ struct Home: View {
                 }
                 
             }
-            .navigationTitle("Home")
+            
             
             .sheet(isPresented: $isPresented) {
                 NavigationView {
                     let newShow = Show()
-                    ShowDetailEdit(isPresented: self.$isPresented, show: newShow)
+                    ShowDetailEdit(isPresented: self.$isPresented, show: newShow, showIndex: modelData.shows.count-1)
                         .navigationTitle(newShow.name)
                         .navigationBarItems(trailing: Button("Done") {
                             isPresented = false
                         })
                 }
             }
-            .ignoresSafeArea()
+            .navigationTitle("Home")
+            //.ignoresSafeArea()
         }
+        
         //.listRowInsets(EdgeInsets())
         .navigationViewStyle(.stack)
         .listStyle(PlainListStyle())

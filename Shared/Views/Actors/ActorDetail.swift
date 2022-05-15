@@ -36,7 +36,7 @@ struct ActorDetail: View {
                     Text("Shows "+actor.name+" has appeared in:")
                         .padding()
                     ForEach(showList) { show in
-                        NavigationLink(destination: ShowDetail(show: show)) {
+                        NavigationLink(destination: ShowDetail(show: modelData.shows.first(where: {$0.equals(input: show)})!)) {
                             ListShowRow(show: show)
                         }
                         .padding()

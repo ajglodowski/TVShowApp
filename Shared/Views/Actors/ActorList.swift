@@ -21,18 +21,6 @@ struct ActorList: View {
     
     var body: some View {
         List {
-            
-            HStack { // Search Bar
-                Image(systemName: "magnifyingglass")
-                TextField("Search for show here", text: $searchText)
-                if (!searchText.isEmpty) {
-                    Button(action: {searchText = ""}, label: {
-                        Image(systemName: "xmark")
-                    })
-                }
-            }
-            .padding()
-            
             if (searchText.isEmpty) {
                 ForEach(modelData.actors.sorted { $0.name < $1.name }) { specActor in
                     NavigationLink(destination: ActorDetail(actor: specActor)) {
@@ -54,9 +42,9 @@ struct ActorList: View {
                     }
                 }
             }
-            
         }
         .navigationTitle("Actor List")
+        .searchable(text: $searchText)
     }
 
 }

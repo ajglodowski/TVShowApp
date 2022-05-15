@@ -57,7 +57,6 @@ struct Home: View {
     var body: some View {
         NavigationView {
             List {
-                
                 ZStack {
                     // Use for actual use
                     //let picShow = getRandPic(shows: unwatchedShows)
@@ -160,6 +159,17 @@ struct Home: View {
                     })
                     .buttonStyle(.bordered)
                     
+                    // Notification Button
+                    Spacer()
+                    Button(action: {
+                        requestAuth()
+                        pushNotfication(shows: modelData.shows)
+                    }, label: {
+                        Text("Enable Notifications")
+                            //.font(.title)
+                    })
+                    .buttonStyle(.bordered)
+                    
                     Spacer()
                     // New Show Button
                     Button(action: {
@@ -188,7 +198,7 @@ struct Home: View {
                 }
                 
                 HStack {
-                    // Delete Page
+                    // Stats Page
                     NavigationLink(
                         destination: StatsPage(),
                         label: {
@@ -197,6 +207,9 @@ struct Home: View {
                     .buttonStyle(PlainButtonStyle())
                 }
                 
+            }
+            .refreshable {
+                modelData.refreshData()
             }
             
             

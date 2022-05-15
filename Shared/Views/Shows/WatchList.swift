@@ -39,7 +39,7 @@ struct WatchList: View {
     var body: some View {
         
         List {
-            
+            /*
             HStack { // Search Bar
                 Image(systemName: "magnifyingglass")
                 TextField("Search for show here", text: $searchText)
@@ -53,6 +53,7 @@ struct WatchList: View {
             //.background(Color(.systemGray5))
             //.cornerRadius(20)
                 //.padding(.horizontal)
+             */
             
             if (searchText.isEmpty) {
                 
@@ -154,6 +155,7 @@ struct WatchList: View {
             
         }
         .navigationTitle("Watchlist")
+        .searchable(text: $searchText)
     }
     
     func removeRows(at offsets: IndexSet) {

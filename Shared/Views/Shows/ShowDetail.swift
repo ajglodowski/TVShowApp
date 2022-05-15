@@ -159,7 +159,7 @@ struct ShowDetail: View {
     
 private func setAverageColor() {
         let uiColor = UIImage(named: show.name)?.averageColor ?? .clear
-        print(uiColor)
+        //print(uiColor)
         backgroundColor = Color(uiColor)
     }
 

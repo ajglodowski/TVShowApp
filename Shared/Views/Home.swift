@@ -8,16 +8,13 @@
 import SwiftUI
 
 struct TextOverlay: View {
-    
     var text: String
-    
     var body: some View {
         Text(text)
             .font(.title)
             .foregroundColor(.white)
             .padding(20)
     }
-    
 }
 
 struct Home: View {
@@ -37,12 +34,6 @@ struct Home: View {
             .sorted { $0.name < $1.name }
     }
     
-    var currentlyAiring: [Show] {
-        modelData.shows
-            .filter { $0.status == Status.CurrentlyAiring }
-            .sorted { $0.airdate.id < $1.airdate.id }
-    }
-    
     var newSeasons: [Show] {
         modelData.shows
             .filter { $0.status == Status.NewSeason }
@@ -52,6 +43,23 @@ struct Home: View {
     var undiscoveredShows: [Show] {
         modelData.shows
             .filter { !$0.discovered }
+    }
+    
+    var comingSoon: [Show] {
+        modelData.shows
+            .filter { $0.status == Status.ComingSoon }
+            .sorted { $0.name < $1.name }
+    }
+    
+    var newReleases: [Show] {
+        modelData.shows
+            .filter { $0.status == Status.NewRelease }
+            .sorted { $0.name < $1.name }
+    }
+    
+    var today: AirDate {
+        let weekday = Calendar.current.component(.weekday, from: Date())
+        return AirDate.allCases.first(where: { $0.id+1 == weekday}) ?? AirDate.Other
     }
     
     var body: some View {
@@ -79,15 +87,22 @@ struct Home: View {
                 }
                 .ignoresSafeArea()
                 
-                VStack(alignment: .leading) {
-                    Text("Currently Airing")
-                        .font(.title)
-                    SquareTileScrollRow(items: currentlyAiring, scrollType: 1)
-                }
-                .ignoresSafeArea()
+                CurrentlyAiringRow()
+                    .ignoresSafeArea()
+                
                 
                 ScrollShowRow(items: newSeasons, scrollName: "New Seasons")
                     .ignoresSafeArea()
+                
+                VStack(alignment: .leading) {
+                    Text("New Release")
+                        .font(.title)
+                    Text("New shows that you have started")
+                        .font(.subheadline)
+                    SquareTileScrollRow(items: newReleases, scrollType: 0)
+                }
+                .ignoresSafeArea()
+                
                 
                 //ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
                 
@@ -114,10 +129,22 @@ struct Home: View {
                 VStack(alignment: .leading) {
                     Text("Currently Watching")
                         .font(.title)
+                    Text("Either currently airing, new season, or catching up")
+                        .font(.subheadline)
                     SquareTileScrollRow(items: currentlyWatching, scrollType: 0)
                 }
                 .ignoresSafeArea()
                 
+                VStack(alignment: .leading) {
+                    Text("Coming Soon")
+                        .font(.title)
+                    Text("Watch for these to come out soon!")
+                        .font(.subheadline)
+                    SquareTileScrollRow(items: comingSoon, scrollType: 0)
+                }
+                .ignoresSafeArea()
+                
+                /*
                 VStack {
                     NavigationLink(destination: DiscoverPage()) {               Text("Discover Other Shows")
                         .font(.title)
@@ -126,12 +153,8 @@ struct Home: View {
                     SquareTileScrollRow(items: undiscoveredShows, scrollType: 0)
                 }
                 .ignoresSafeArea()
-                
-                /*
-                VStack {
-                    Text("Discover")
-                    SquareTileScrollRow(items: undiscoveredShows, scrollName: "Discover Something New")
                  */
+                 
                 
                 
                 ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
@@ -186,26 +209,7 @@ struct Home: View {
                     .buttonStyle(.bordered)
                 }
                 
-                
-                HStack {
-                    // Delete Page
-                    NavigationLink(
-                        destination: DeletePage(),
-                        label: {
-                            Text("Delete Page")
-                        })
-                    .buttonStyle(PlainButtonStyle())
-                }
-                
-                HStack {
-                    // Stats Page
-                    NavigationLink(
-                        destination: StatsPage(),
-                        label: {
-                            Text("Stats Page")
-                        })
-                    .buttonStyle(PlainButtonStyle())
-                }
+                outsidePages()
                 
             }
             .refreshable {
@@ -232,6 +236,30 @@ struct Home: View {
         .listStyle(PlainListStyle())
     }
 }
+
+struct outsidePages: View {
+    var body: some View {
+        HStack {
+            // Delete Page
+            NavigationLink(
+                destination: DeletePage(),
+                label: {
+                    Text("Delete Page")
+                })
+            .buttonStyle(PlainButtonStyle())
+        }
+        HStack {
+            // Stats Page
+            NavigationLink(
+                destination: StatsPage(),
+                label: {
+                    Text("Stats Page")
+                })
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+}
+
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {

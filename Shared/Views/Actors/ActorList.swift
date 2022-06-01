@@ -44,7 +44,8 @@ struct ActorList: View {
             }
         }
         .navigationTitle("Actor List")
-        .searchable(text: $searchText)
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+        .disableAutocorrection(true)
     }
 
 }

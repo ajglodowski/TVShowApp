@@ -13,9 +13,10 @@ enum Status: String, CaseIterable, Codable, Identifiable {
     case SeenEnough = "Seen Enough"
     case ShowEnded = "Show Ended"
     case CurrentlyAiring = "Currently Airing"
-    case CurrentlyWatching = "Currently Watching" // Outdated, need to update data with these values
+    case NewRelease = "New Release"
     case NewSeason = "New Season"
     case CatchingUp = "Catching Up"
+    case ComingSoon = "Coming Soon"
     
     case Other
     

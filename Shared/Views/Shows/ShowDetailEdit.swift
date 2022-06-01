@@ -55,6 +55,7 @@ struct ShowDetailEdit: View {
                     //print(showIndex)
                     if (showIndex != -1) {
                         TextField("Show Title", text: $modelData.shows[showIndex].name)
+                            .disableAutocorrection(true)
                             .font(.title)
                         if (!modelData.shows[showIndex].name.isEmpty) {
                             Button(action: {modelData.shows[showIndex].name = ""}, label: {
@@ -165,6 +166,7 @@ struct ShowDetailEdit: View {
                 HStack { // Search Bar
                     Image(systemName: "magnifyingglass")
                     TextField("Search for an actor here", text: $searchText)
+                        .disableAutocorrection(true)
                     if (!searchText.isEmpty) {
                         Button(action: {searchText = ""}, label: {
                             Image(systemName: "xmark")

@@ -91,7 +91,7 @@ func applyAllFilters(serviceFilters: [Service], statusFilters: [Status], showLen
         }
     }
     
-    filtered = filtered.filter { $0.length == showLengthFilter}
+    if (showLengthFilter != ShowLength.none) { filtered = filtered.filter { $0.length == showLengthFilter} }
     
     return filtered
 }

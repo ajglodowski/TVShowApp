@@ -34,7 +34,7 @@ struct WatchList: View {
     
     @State var appliedServiceFilters = [Service]()
     @State var appliedStatusFilters = [Status]()
-    @State var selectedLength: ShowLength = ShowLength.min
+    @State var selectedLength: ShowLength = ShowLength.none
     
     var body: some View {
         
@@ -68,48 +68,56 @@ struct WatchList: View {
                         }
                         .pickerStyle(SegmentedPickerStyle())
                     }
-                    
-                    VStack {
-                        Menu {
-                            ForEach(Service.allCases) { service in
-                                Button(action: {
-                                    if (appliedServiceFilters.contains(service)) {
-                                        appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
-                                    } else {
-                                        appliedServiceFilters.append(service)
-                                    }
-                                }) {
-                                    Label(service.rawValue, systemImage: appliedServiceFilters.contains(service) ?
-                                            "checkmark" : "")
+                }
+                
+                HStack {
+                    Menu {
+                        ForEach(Service.allCases) { service in
+                            Button(action: {
+                                if (appliedServiceFilters.contains(service)) {
+                                    appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
+                                } else {
+                                    appliedServiceFilters.append(service)
                                 }
+                            }) {
+                                Label(service.rawValue, systemImage: appliedServiceFilters.contains(service) ?
+                                        "checkmark" : "")
                             }
-                        } label: {
-                            Text("Filter by Service")
-                            //Image(systemName: "slider.horizontal.3")
                         }
-                        //.scaledToFill()
-                        //.frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        
-                        
-                        Menu {
-                            ForEach(Status.allCases) { status in
-                                Button(action: {
-                                    if (appliedStatusFilters.contains(status)) {
-                                        appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
-                                    } else {
-                                        appliedStatusFilters.append(status)
-                                    }
-                                }) {
-                                    Label(status.rawValue, systemImage: appliedStatusFilters.contains(status) ?
-                                            "checkmark" : "")
-                                }
-                            }
-                        } label: {
-                            Text("Filter by Status")
-                        }
-                        //.scaledToFill()
-                        //.frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                        Text("Filter by Service")
                     }
+                    .padding(5)
+                    .background(Color.blue)
+                    .foregroundColor(Color.white)
+                    .cornerRadius(5)
+                
+                    //.scaledToFill()
+                    //.frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    
+                    
+                    Menu {
+                        ForEach(Status.allCases) { status in
+                            Button(action: {
+                                if (appliedStatusFilters.contains(status)) {
+                                    appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
+                                } else {
+                                    appliedStatusFilters.append(status)
+                                }
+                            }) {
+                                Label(status.rawValue, systemImage: appliedStatusFilters.contains(status) ?
+                                        "checkmark" : "")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                        Text("Filter by Status")
+                    }
+                    .padding(5)
+                    .background(Color.blue)
+                    .foregroundColor(Color.white)
+                    .cornerRadius(5)
                 }
                 
                 if (!appliedServiceFilters.isEmpty) {
@@ -117,13 +125,37 @@ struct WatchList: View {
                         ForEach(appliedServiceFilters) { service in
                         
                             // Bug in removing service functionality
-                            Button(service.rawValue, action: {
+                            Button(action: {
                                 appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
+                            }, label: {
+                                HStack {
+                                    Text(service.rawValue)
+                                    Image(systemName: "xmark")
+                                }
+                    
                             })
-                            .foregroundColor(.white)
-                            .padding(5)
-                            .background(Color.blue.opacity(0.80).cornerRadius(8))
-                            .buttonStyle(BorderlessButtonStyle())
+                            .buttonStyle(.bordered)
+                            .buttonBorderShape(.capsule)
+                        }
+                    }
+                }
+                
+                if (!appliedStatusFilters.isEmpty) {
+                    HStack {
+                        ForEach(appliedStatusFilters) { status in
+                        
+                            // Bug in removing service functionality
+                            Button(action: {
+                                appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
+                            }, label: {
+                                HStack {
+                                    Text(status.rawValue)
+                                    Image(systemName: "xmark")
+                                }
+                    
+                            })
+                            .buttonStyle(.bordered)
+                            .buttonBorderShape(.capsule)
                         }
                     }
                 }
@@ -155,7 +187,8 @@ struct WatchList: View {
             
         }
         .navigationTitle("Watchlist")
-        .searchable(text: $searchText)
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+        .disableAutocorrection(true)
     }
     
     func removeRows(at offsets: IndexSet) {

@@ -8,6 +8,7 @@
 import Foundation
 
 enum ShowLength: String, CaseIterable, Codable, Identifiable {
+    case none = "None"
     case min = "<30"
     case thirty = "30"
     case between = "30-60"

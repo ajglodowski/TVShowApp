@@ -59,6 +59,49 @@ struct ShowDetail: View {
                                 .font(.title)
                             WatchedButton(isSet: $modelData.shows[showIndex].watched)
                         }
+                        
+                        
+                        VStack (alignment: .leading) {
+                            Text("Seasons:")
+                                .font(.title)
+                                .padding(.top, 10)
+                            HStack (alignment: .top) {
+                                ForEach(1..<show.totalSeasons+1) { num in
+                                    if (num != show.currentSeason) {
+                                        VStack (alignment: .center) {
+                                            Button(action: {
+                                                modelData.shows[showIndex].currentSeason = num
+                                            }, label: {
+                                                Text((String(num)))
+                                                    .font(.title)
+                                            })
+                                                .foregroundColor(Color.black)
+                                                .frame(width: 50, height: 50, alignment: .center)
+                                                .background(.white)
+                                                .cornerRadius(10)
+                                        }
+                                        .frame(width: 50, height: 50, alignment: .top)
+                                    } else {
+                                        VStack {
+                                            Text(String(num))
+                                                .font(.title)
+                                                .foregroundColor(Color.white)
+                                                .frame(width: 50, height: 50, alignment: .center)
+                                                .background(.black)
+                                                .cornerRadius(10)
+                                            Text("Current Season")
+                                                .font(.headline)
+                                                .fixedSize()
+                                        }
+                                        .frame(width: 50, height: 50, alignment: .top)
+                                        
+                                    }
+                                }
+                            }
+                            .padding(.bottom, 40)
+                            .padding(.leading, 40)
+                        }
+                        
                         HStack {
                             Text("Show Length: " + show.length.rawValue + " minutes")
                                 .font(.subheadline)
@@ -172,7 +215,7 @@ struct ShowDetail_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            ShowDetail(show: modelData.shows[3])
+            ShowDetail(show: modelData.shows[0])
                 .environmentObject(modelData)
         }
     }

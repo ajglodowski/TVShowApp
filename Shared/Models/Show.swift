@@ -24,6 +24,9 @@ struct Show : Hashable, Identifiable, Codable {
     var discovered: Bool
     var airdate: AirDate
     
+    var totalSeasons: Int
+    var currentSeason: Int
+    
     init() {
         //id = generateShowId()
         //self.id = UUID().uuidString
@@ -36,11 +39,13 @@ struct Show : Hashable, Identifiable, Codable {
         self.running = true
         self.wanted = true
         self.discovered = true
+        self.totalSeasons = 1
+        self.currentSeason = 1
         //actors = []
         //super.init()
     }
     
-    private enum CodingKeys : String, CodingKey { case name, service, wanted, status, running, watched, length, discovered, airdate }
+    private enum CodingKeys : String, CodingKey { case name, service, wanted, status, running, watched, length, discovered, airdate, totalSeasons, currentSeason }
     
     func equals(input: Show) -> Bool {
         if (input.name == self.name && input.service == self.service) { return true }

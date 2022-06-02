@@ -19,7 +19,7 @@ func getRandPic(shows: [Show]) -> String {
     var counter = 0
     var exists = false
     repeat {
-        print(x)
+        //print(x)
         x = Int.random(in: 0..<shows.count)
         showName = shows[x].name
         counter += 1

@@ -8,6 +8,8 @@
     "service": "HBO",
     "status": "Up to Date",
     "wanted": true,
-    "watched": true
+    "watched": true,
+    "totalSeasons": 5,
+    "currentSeason": 1
   }
 ]

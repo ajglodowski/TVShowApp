@@ -27,7 +27,7 @@ struct CurrentlyAiringRow: View {
                 output[c.airdate]!.append(c)
             }
         }
-        print(output)
+        //print(output)
         return output
     }
     

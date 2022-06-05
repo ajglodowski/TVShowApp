@@ -142,6 +142,22 @@ struct ShowDetailEdit: View {
                 }
             }
             
+            // Seasons
+            Section(header: Text("Show Seasons:")) {
+                HStack {
+                    Text("Total Seasons: ")
+                    Spacer()
+                    TextField("Total Seasons", value: $modelData.shows[showIndex].totalSeasons, formatter: NumberFormatter())
+                        .keyboardType(UIKeyboardType.decimalPad)
+                }
+                HStack {
+                    Text("Current Season: ")
+                    Spacer()
+                    TextField("Current Season", value: $modelData.shows[showIndex].currentSeason, formatter: NumberFormatter())
+                        .keyboardType(UIKeyboardType.decimalPad)
+                }
+            }
+            
             // Current Actors
             Section(header: Text("Actors:")) {
                 ForEach(actorArr) { act in

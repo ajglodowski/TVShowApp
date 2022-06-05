@@ -65,41 +65,47 @@ struct ShowDetail: View {
                             Text("Seasons:")
                                 .font(.title)
                                 .padding(.top, 10)
-                            HStack (alignment: .top) {
-                                ForEach(1..<show.totalSeasons+1) { num in
-                                    if (num != show.currentSeason) {
-                                        VStack (alignment: .center) {
-                                            Button(action: {
-                                                modelData.shows[showIndex].currentSeason = num
-                                            }, label: {
-                                                Text((String(num)))
+                            ScrollView(.horizontal) {
+                                HStack (alignment: .top) {
+                                    ForEach(1..<show.totalSeasons+1) { num in
+                                        if (num != show.currentSeason) {
+                                            VStack (alignment: .center) {
+                                                Button(action: {
+                                                    modelData.shows[showIndex].currentSeason = num
+                                                }, label: {
+                                                    Text((String(num)))
+                                                        .font(.title)
+                                                })
+                                                    .foregroundColor(Color.white)
+                                                    .frame(width: 50, height: 50, alignment: .center)
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: 10)
+                                                            .stroke(Color.white, lineWidth: 2)
+                                                    )
+                                                    .padding(2)
+                                            }
+                                            .frame(width: 50, height: 50, alignment: .top)
+                                        } else {
+                                            VStack {
+                                                Text(String(num))
                                                     .font(.title)
-                                            })
-                                                .foregroundColor(Color.black)
-                                                .frame(width: 50, height: 50, alignment: .center)
-                                                .background(.white)
-                                                .cornerRadius(10)
+                                                    .foregroundColor(backgroundColor)
+                                                    .frame(width: 50, height: 50, alignment: .center)
+                                                    .background(.white)
+                                                    .cornerRadius(10)
+                                                Text("Current Season")
+                                                    .font(.headline)
+                                                    .fixedSize()
+                                            }
+                                            .frame(width: 50, height: 50, alignment: .top)
+                                            
                                         }
-                                        .frame(width: 50, height: 50, alignment: .top)
-                                    } else {
-                                        VStack {
-                                            Text(String(num))
-                                                .font(.title)
-                                                .foregroundColor(Color.white)
-                                                .frame(width: 50, height: 50, alignment: .center)
-                                                .background(.black)
-                                                .cornerRadius(10)
-                                            Text("Current Season")
-                                                .font(.headline)
-                                                .fixedSize()
-                                        }
-                                        .frame(width: 50, height: 50, alignment: .top)
-                                        
                                     }
                                 }
-                            }
-                            .padding(.bottom, 40)
+                                .padding(.bottom, 40)
                             .padding(.leading, 40)
+                            .padding(.trailing, 40)
+                            }
                         }
                         
                         HStack {
@@ -116,6 +122,23 @@ struct ShowDetail: View {
                             Text("Airdate: " + show.airdate.rawValue)
                                 .font(.subheadline)
                         }
+                        
+                        
+                        Text("Real test")
+                        print(show.releaseDate)
+                        /*
+                        if (show.releaseDate != nil) {
+                            
+                            let dF = DateFormatter()
+                            dF.dateFormat = "'MM'/'dd'/'yyyy'"
+                            dF.dateStyle = .long
+                            Text("Release Date: " + DateFormatter().string(from: show.releaseDate))
+                            
+                            Text("Test")
+                        }
+                         */
+                         
+                         
                         
                         Divider()
                         Text("About Show")
@@ -167,6 +190,10 @@ struct ShowDetail: View {
                     
                 }
             }
+            .refreshable(action: {
+                //show = modelData.shows[showIndex]
+                
+            })
         }
         
         .onAppear {

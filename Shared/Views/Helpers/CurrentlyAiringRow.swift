@@ -41,7 +41,7 @@ struct CurrentlyAiringRow: View {
             Text("Currently Airing")
                 .font(.title)
             ScrollView(.horizontal) {
-                HStack { // Put days next to each other
+                HStack (alignment: .top) { // Put days next to each other
                     ForEach(AirDate.allCases) { day in
                         //Text(day.rawValue)
                         if (currentlyAiringGroups[day] != nil) {
@@ -53,6 +53,7 @@ struct CurrentlyAiringRow: View {
                                             NavigationLink(destination: ShowDetail(show: s)) {
                                                 ShowSquareTile(show: s, scrollType: 0)
                                             }
+                                            .foregroundColor(Color.primary)
                                         }
                                     }
                                     
@@ -65,33 +66,30 @@ struct CurrentlyAiringRow: View {
                                 .padding(.leading, 10)
                                 .padding(.top, 5)
                                 .padding(.bottom, 5)
-                                .ignoresSafeArea()
                             } else {
-                                VStack { // Day Group
-                                    Text(day.rawValue)
-                                    HStack {
-                                        ForEach(currentlyAiringGroups[day]!) { s in
-                                            NavigationLink(destination: ShowDetail(show: s)) {
-                                                ShowSquareTile(show: s, scrollType: 0)
+                                VStack {
+                                    VStack { // Day Group
+                                        Text(day.rawValue)
+                                        HStack {
+                                            ForEach(currentlyAiringGroups[day]!) { s in
+                                                NavigationLink(destination: ShowDetail(show: s)) {
+                                                    ShowSquareTile(show: s, scrollType: 0)
+                                                }
+                                                .foregroundColor(Color.primary)
                                             }
                                         }
+                                        
                                     }
-                                    
+                                    .padding(2)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.green, lineWidth: 2)
+                                    )
+                                    .padding(.leading, 10)
+                                    .padding(.top, 5)
+                                    .padding(.bottom, 5)
+                                    Text("Today")
                                 }
-                                .padding(2)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color.green, lineWidth: 2)
-                                )
-                                .padding(5)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color.green, lineWidth: 2)
-                                )
-                                .padding(.leading, 10)
-                                .padding(.top, 5)
-                                .padding(.bottom, 5)
-                                .ignoresSafeArea()
                             }
                         }
                     }

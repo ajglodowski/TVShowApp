@@ -10,11 +10,11 @@ import Combine
 
 final class ModelData : ObservableObject {
     //@Published var shows: [Show] = load("showData.json")
-    @Published var shows: [Show] = load("data.json")
-    //@Published var shows: [Show] = loadFromFile("data copy.json")
+    //@Published var shows: [Show] = load("data.json")
+    @Published var shows: [Show] = loadFromFile("noID.json")
     //@Published var actors: [Actor] = loadFromFile("actorData copy.json")
-    @Published var actors: [Actor] = load("actorData.json")
-    //@Published var actors: [Actor] = []
+    //@Published var actors: [Actor] = load("actorData.json")
+    @Published var actors: [Actor] = []
     
     @Published var needsUpdated: Bool = false
     

@@ -12,5 +12,19 @@
     "totalSeasons": 5,
     "currentSeason": 1,
     "releaseDate": "2017-06-19T18:43:19Z"
+  },
+  {
+    "airdate": "Other",
+    "discovered": true,
+    "length": "60",
+    "name": "Silicon Valleu",
+    "running": true,
+    "service": "HBO",
+    "status": "Up to Date",
+    "wanted": true,
+    "watched": true,
+    "totalSeasons": 5,
+    "currentSeason": 1
   }
+  
 ]

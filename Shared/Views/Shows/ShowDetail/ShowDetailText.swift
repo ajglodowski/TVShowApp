@@ -9,6 +9,13 @@ import SwiftUI
 
 struct ShowDetailText: View {
     
+    private static var formatter: DateFormatter = {
+        let dF = DateFormatter()
+        dF.dateFormat = "'MM'/'dd'/'yyyy'"
+        dF.dateStyle = .long
+        return dF
+    }()
+    
     var show: Show
     
     var body: some View {
@@ -26,22 +33,11 @@ struct ShowDetailText: View {
             Text("Airdate: " + show.airdate.rawValue)
                 .font(.subheadline)
         }
-        
-        
-        Text("Real test")
-        //print(show.releaseDate)
-        
-         /*
-         if (show.releaseDate != nil) {
-             
-             let dF = DateFormatter()
-             dF.dateFormat = "'MM'/'dd'/'yyyy'"
-             dF.dateStyle = .long
-             Text("Release Date: " + DateFormatter().string(from: show.releaseDate))
-             
-             Text("Test")
-         }
-          */
+         
+        if (show.releaseDate != nil) {
+            Text("Release Date: " + ShowDetailText.formatter.string(from: show.releaseDate!))
+        }
+          
         
         Divider()
         Text("About Show")

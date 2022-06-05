@@ -27,7 +27,7 @@ struct Show : Hashable, Identifiable, Codable {
     var totalSeasons: Int
     var currentSeason: Int
     
-    var releaseDate: Date
+    var releaseDate: Date?
     
     init() {
         //id = generateShowId()

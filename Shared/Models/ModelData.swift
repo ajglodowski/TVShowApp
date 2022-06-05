@@ -7,14 +7,15 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 final class ModelData : ObservableObject {
     //@Published var shows: [Show] = load("showData.json")
-    //@Published var shows: [Show] = load("data.json")
-    @Published var shows: [Show] = loadFromFile("noID.json")
+    @Published var shows: [Show] = load("data.json")
+    //@Published var shows: [Show] = loadFromFile("noID.json")
     //@Published var actors: [Actor] = loadFromFile("actorData copy.json")
-    //@Published var actors: [Actor] = load("actorData.json")
-    @Published var actors: [Actor] = []
+    @Published var actors: [Actor] = load("actorData.json")
+    //@Published var actors: [Actor] = []
     
     @Published var needsUpdated: Bool = false
     
@@ -49,7 +50,7 @@ final class ModelData : ObservableObject {
          */
         //print("Here")
         
-        // Need a request to get SHA but otherwise this works
+        
         var sha = ""
         let getUrl = URL(string: "https://api.github.com/repos/ajglodowski/TVShowApp/contents/"+filename)!
         let sema = DispatchSemaphore(value: 0)
@@ -73,8 +74,7 @@ final class ModelData : ObservableObject {
         task.resume()
         let timeOut : Double = 1.0
         sema.wait(timeout: DispatchTime.now()+timeOut)
-        //print("test"+sha)
-        //let sha = getData["sha"]
+        
         let token = "token " + Hidden.token
         let repo = "https://api.github.com/repos/ajglodowski/TVShowApp/contents/"+filename
         let url = URL(string: repo)!
@@ -87,11 +87,13 @@ final class ModelData : ObservableObject {
         ]
         //guard var data = try! JSONSerialization.data(withJSONObject: shows, options: .prettyPrinted)
         var data : Data
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
         if (savingsShows) {
-            guard var d = try? JSONEncoder().encode(shows) else { fatalError("Error encoding data") }
+            guard var d = try? encoder.encode(shows) else { fatalError("Error encoding data") }
             data = d
         } else {
-            guard var d = try? JSONEncoder().encode(actors) else { fatalError("Error encoding data") }
+            guard var d = try? encoder.encode(actors) else { fatalError("Error encoding data") }
             data = d
         }
         data = data.base64EncodedData()
@@ -101,11 +103,8 @@ final class ModelData : ObservableObject {
             "content": sData
         ]
         let dBody = jsonMessage.description
-        //print(dBody)
         guard let dBodyD = try? JSONEncoder().encode(jsonMessage) else { fatalError("Error encoding data") }
-        //dBody = dBody.replacingCharacters(in: ...dBody.startIndex, with: "{")
-        //dBody = dBody.replacingCharacters(in: ...dBody.index(before: dBody.endIndex), with: "}")
-        //print(dBody)
+        
         request.httpBody = dBodyD
         URLSession.shared.dataTask(with: request) { responseData, response, error in
             guard let responseData = responseData, error == nil else {
@@ -177,6 +176,7 @@ func load<T: Decodable>(_ filename: String) -> T {
 
     do {
         let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
         return try decoder.decode(T.self, from: data);
     } catch {
         print("error in loading")
@@ -215,4 +215,10 @@ extension Formatter {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
         return formatter
     }()
+}
+
+public extension Binding {
+     func toUnwrapped<T>(defaultValue: T) -> Binding<T> where Value == Optional<T>  {
+        Binding<T>(get: { self.wrappedValue ?? defaultValue }, set: { self.wrappedValue = $0 })
+    }
 }

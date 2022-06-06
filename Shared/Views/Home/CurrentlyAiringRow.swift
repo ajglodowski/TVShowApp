@@ -61,7 +61,7 @@ struct CurrentlyAiringRow: View {
                                 .padding(2)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color.black, lineWidth: 2)
+                                        .stroke(Color.primary, lineWidth: 2)
                                 )
                                 .padding(.leading, 10)
                                 .padding(.top, 5)

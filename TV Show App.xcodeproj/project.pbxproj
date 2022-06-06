@@ -311,7 +311,6 @@
 				1A66E10E263A076F00B47B88 /* Helpers */,
 				1AF3964C2638F54E000C4996 /* ContentView.swift */,
 				1A66E10B263A060F00B47B88 /* Shows */,
-				1A2FE96E263F8B0700B11F73 /* Home.swift */,
 				1A4B4CEF282F2DA70095324A /* StatsPage.swift */,
 			);
 			path = Views;
@@ -370,7 +369,6 @@
 				1AF20DE6267473930021A08F /* ShowSquareTile.swift */,
 				1A1A51D2268EBD1B00138859 /* UIImage+Extension.swift */,
 				1A316A3A268FE91A00C97699 /* TileBanner.swift */,
-				1A90DFDA284813A500AD48BA /* CurrentlyAiringRow.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -415,6 +413,8 @@
 		1AE79A85284C4493008BB19A /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				1A90DFDA284813A500AD48BA /* CurrentlyAiringRow.swift */,
+				1A2FE96E263F8B0700B11F73 /* Home.swift */,
 				1AE79A86284C44A6008BB19A /* HomeNewRows.swift */,
 			);
 			path = Home;

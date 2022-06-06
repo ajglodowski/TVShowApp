@@ -45,7 +45,7 @@ struct ShowSeasonsRow: View {
                             VStack {
                                 Text(String(num))
                                     .font(.title)
-                                    .foregroundColor(backgroundColor)
+                                    .foregroundColor(Color.black)
                                     .frame(width: 50, height: 50, alignment: .center)
                                     .background(.white)
                                     .cornerRadius(10)

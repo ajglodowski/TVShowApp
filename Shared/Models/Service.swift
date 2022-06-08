@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum Service: String, CaseIterable, Codable, Identifiable {
     case AMC = "AMC"
@@ -26,5 +27,11 @@ enum Service: String, CaseIterable, Codable, Identifiable {
     case Other
     
     var id: String { self.rawValue }
+}
+
+func getServiceColor(service: Service) -> Color {
+    var colors = [Service.HBO: Color(red: 102/255, green: 51/255, blue: 153/255), Service.Hulu: Color(.green), Service.Netflix: Color(red: 229/255, green: 9/255, blue: 20/255), Service.Disney: Color(red: 17/255, green: 70/255, blue: 207/255), Service.Amazon: Color(red: 0/255, green: 168/255, blue: 225/255), Service.Apple: Color(red: 255/255, green: 255/255, blue: 255/255)
+    ]
+    return colors[service] ?? Color(.darkGray)
 }
 

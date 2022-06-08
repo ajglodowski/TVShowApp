@@ -32,6 +32,7 @@ struct HomeNewRows: View {
         
         VStack(alignment: .leading) {
             Text("New Release")
+                .background()
                 .font(.title)
             Text("New shows that you have started")
                 .font(.subheadline)
@@ -44,5 +45,6 @@ struct HomeNewRows: View {
 struct HomeNewRows_Previews: PreviewProvider {
     static var previews: some View {
         HomeNewRows()
+            .environmentObject(ModelData())
     }
 }

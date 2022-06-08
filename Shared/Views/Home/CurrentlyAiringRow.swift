@@ -46,50 +46,9 @@ struct CurrentlyAiringRow: View {
                         //Text(day.rawValue)
                         if (currentlyAiringGroups[day] != nil) {
                             if (day != today) {
-                                VStack { // Day Group
-                                    Text(day.rawValue)
-                                    HStack {
-                                        ForEach(currentlyAiringGroups[day]!) { s in
-                                            NavigationLink(destination: ShowDetail(show: s)) {
-                                                ShowSquareTile(show: s, scrollType: 0)
-                                            }
-                                            .foregroundColor(Color.primary)
-                                        }
-                                    }
-                                    
-                                }
-                                .padding(2)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color.primary, lineWidth: 2)
-                                )
-                                .padding(.leading, 10)
-                                .padding(.top, 5)
-                                .padding(.bottom, 5)
+                                OtherTiles(currentlyAiringGroups: currentlyAiringGroups, day: day)
                             } else {
-                                VStack {
-                                    VStack { // Day Group
-                                        Text(day.rawValue)
-                                        HStack {
-                                            ForEach(currentlyAiringGroups[day]!) { s in
-                                                NavigationLink(destination: ShowDetail(show: s)) {
-                                                    ShowSquareTile(show: s, scrollType: 0)
-                                                }
-                                                .foregroundColor(Color.primary)
-                                            }
-                                        }
-                                        
-                                    }
-                                    .padding(2)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .stroke(Color.green, lineWidth: 2)
-                                    )
-                                    .padding(.leading, 10)
-                                    .padding(.top, 5)
-                                    .padding(.bottom, 5)
-                                    Text("Today")
-                                }
+                                TodayTile(currentlyAiringGroups: currentlyAiringGroups, day: day)
                             }
                         }
                     }
@@ -97,6 +56,63 @@ struct CurrentlyAiringRow: View {
                 }
             }
         }
+    }
+}
+
+struct TodayTile: View {
+    var currentlyAiringGroups: [AirDate:[Show]]
+    var day: AirDate
+    var body: some View {
+        VStack {
+            VStack { // Day Group
+                Text(day.rawValue)
+                HStack {
+                    ForEach(currentlyAiringGroups[day]!) { s in
+                        NavigationLink(destination: ShowDetail(show: s)) {
+                            ShowSquareTile(show: s, scrollType: 0)
+                        }
+                        .foregroundColor(Color.primary)
+                    }
+                }
+                
+            }
+            .padding(2)
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.green, lineWidth: 2)
+            )
+            .padding(.leading, 10)
+            .padding(.top, 5)
+            .padding(.bottom, 5)
+            Text("Today")
+        }
+    }
+}
+
+struct OtherTiles: View {
+    var currentlyAiringGroups: [AirDate:[Show]]
+    var day: AirDate
+    var body: some View {
+        VStack { // Day Group
+            Text(day.rawValue)
+            HStack {
+                ForEach(currentlyAiringGroups[day]!) { s in
+                    NavigationLink(destination: ShowDetail(show: s)) {
+                        ShowSquareTile(show: s, scrollType: 0)
+                    }
+                    .foregroundColor(Color.primary)
+                }
+            }
+            
+        }
+        .padding(2)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.primary, lineWidth: 2)
+        )
+        .padding(.leading, 10)
+        .padding(.top, 5)
+        .padding(.bottom, 5)
     }
 }
 

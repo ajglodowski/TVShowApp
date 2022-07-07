@@ -1,6 +1,6 @@
 # TVShowApp
 
-This is a side project of mine to experiment with iOS development. It is intended for personal use and replaces my old form of keeping track of TV shows I am watching. It allows for different filters, interesting visuals, and data manipulation. 
+This is a side project of mine to experiment with iOS development. It is intended for personal use and replaces my old form of keeping track of TV shows I am watching. It allows for different filters, interesting visuals, and data manipulation. All the data is manually entered and can be manipulated by the app.
 
 # Views
 

@@ -42,7 +42,7 @@ struct Home: View {
     var comingSoon: [Show] {
         modelData.shows
             .filter { $0.status == Status.ComingSoon }
-            .sorted { $0.name < $1.name }
+            .sorted { $0.releaseDate! < $1.releaseDate! }
     }
     
     var today: AirDate {
@@ -113,7 +113,7 @@ struct Home: View {
                         .font(.title)
                     Text("Watch for these to come out soon!")
                         .font(.subheadline)
-                    SquareTileScrollRow(items: comingSoon, scrollType: 0)
+                    SquareTileScrollRow(items: comingSoon, scrollType: 2)
                 }
                 .ignoresSafeArea()
                 

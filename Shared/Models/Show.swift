@@ -43,7 +43,7 @@ struct Show : Hashable, Identifiable, Codable {
         self.discovered = true
         self.totalSeasons = 1
         self.currentSeason = 1
-        self.releaseDate = Date()
+        //self.releaseDate = Date()
         //actors = []
         //super.init()
     }

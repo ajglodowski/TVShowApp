@@ -84,8 +84,8 @@ struct ShowDetailEdit: View {
                 
                 // Service
                 HStack {
-                    Text("Service: " + modelData.shows[showIndex].service.rawValue)
-                    Spacer()
+                    //Text("Service: " + modelData.shows[showIndex].service.rawValue)
+                    //Spacer()
                     Picker("Change Service", selection: $modelData.shows[showIndex].service) {
                         ForEach(Service.allCases) { service in
                             Text(service.rawValue).tag(service)
@@ -100,8 +100,8 @@ struct ShowDetailEdit: View {
             // Status
             Section(header: Text("Show Status:")) {
                 HStack {
-                    Text("Status: " + modelData.shows[showIndex].status.rawValue)
-                    Spacer()
+                    //Text("Status: " + modelData.shows[showIndex].status.rawValue)
+                    //Spacer()
                     Picker("Change Status", selection: $modelData.shows[showIndex].status) {
                         ForEach(Status.allCases) { status in
                             Text(status.rawValue).tag(status)
@@ -146,21 +146,32 @@ struct ShowDetailEdit: View {
             }
             
             // Seasons
-            Section(header: Text("Release Date:")) {
-                if (modelData.shows[showIndex].releaseDate != nil) {
-                    DatePicker(
-                       "Start Date",
-                       selection: $modelData.shows[showIndex].releaseDate.toUnwrapped(defaultValue: Date()),
-                       displayedComponents: [.date]
-                   )
-                } else {
-                    Button(action: {
-                        modelData.shows[showIndex].releaseDate = Date()
-                    }, label: {
-                        Text("Add a Release Date")
+            if (modelData.shows[showIndex].releaseDate != nil || modelData.shows[showIndex].status == Status.ComingSoon) {
+                Section(header: Text("Release Date:")) {
+                    if (modelData.shows[showIndex].releaseDate != nil) {
+                        DatePicker(
+                            "Start Date",
+                            selection: $modelData.shows[showIndex].releaseDate.toUnwrapped(defaultValue: Date()),
+                            displayedComponents: [.date]
+                        )
+                        if (modelData.shows[showIndex].status != Status.ComingSoon) {
+                            Button(action: {
+                                //modelData.shows[showIndex].releaseDate = nil
+                            }, label: {
+                                Text("Remove Release Date")
+                                    .bold()
+                            })
+                            .buttonStyle(.bordered)
+                        }
+                    } else {
+                        Button(action: {
+                            modelData.shows[showIndex].releaseDate = Date()
+                        }, label: {
+                            Text("Add a Release Date")
                             //.font(.title)
-                    })
-                    .buttonStyle(.bordered)
+                        })
+                        .buttonStyle(.bordered)
+                    }
                 }
             }
             

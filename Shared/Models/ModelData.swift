@@ -162,7 +162,7 @@ func load<T: Decodable>(_ filename: String) -> T {
        }
     }
     task.resume()
-    let timeOut : Double = 1.0
+    let timeOut : Double = 2.0
     sema.wait(timeout: DispatchTime.now()+timeOut)
     data = Data(base64Encoded: showsString, options: .ignoreUnknownCharacters)!
      // For loading from a file

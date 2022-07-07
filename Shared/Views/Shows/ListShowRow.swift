@@ -20,7 +20,7 @@ struct ListShowRow: View {
             Text(show.service.rawValue)
                 .padding(5)
                 .foregroundColor(.white)
-                .background(getColor(service: show.service))
+                .background(getServiceColor(service: show.service))
                 .cornerRadius(5.0)
             Spacer()
             

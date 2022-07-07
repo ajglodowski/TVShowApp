@@ -44,11 +44,11 @@ struct StatsPage: View {
                 }
             }
             
-            ServiceChart()
+            //ServiceChart()
             
             
             
-            StatusChart()
+            NewCharts()
             /*
             VStack {
                 Text("Status counts:")
@@ -138,49 +138,120 @@ struct ServiceChart: View {
     }
 }
 
-struct StatusChart: View {
+struct NewCharts: View {
     @EnvironmentObject var modelData: ModelData
     
     struct StatusCount: Identifiable {
         var status: Status
         var count: Int
+        //var service: Service
+        var id: UUID = UUID()
+    }
+    
+    struct ServiceCount: Identifiable {
+        //var status: Status
         var service: Service
+        var count: Int
         var id: UUID = UUID()
     }
     
     var statusCounts: [StatusCount] {
         var statusAr: [StatusCount] = []
         for status in Status.allCases {
-            for service in Service.allCases {
-                let count = modelData.shows.filter{ $0.status == status && $0.service == service}.count
-                let adding = StatusCount(status: status, count: count, service: service)
-                statusAr.append(adding)
-            }
+            let count = modelData.shows.filter{ $0.status == status}.count
+            let adding = StatusCount(status: status, count: count)
+            statusAr.append(adding)
         }
         return statusAr
+    }
+    
+    var serviceCounts: [ServiceCount] {
+        var serviceAr: [ServiceCount] = []
+        for service in Service.allCases {
+            let count = modelData.shows.filter{ $0.service == service}.count
+            let adding = ServiceCount(service: service, count: count)
+            serviceAr.append(adding)
+        }
+        return serviceAr
+    }
+    
+    var serviceColors: [String:Color] {
+        var output = [String:Color]()
+        for service in Service.allCases {
+            output[service.rawValue] = getServiceColor(service: service)
+        }
+        return output
     }
     
     @State var selectedStatus: Status = Status.NeedsWatched
     
     var body: some View {
         //Text("Hello")
+        /*
+        VStack {
+            ForEach(Service.allCases) { service in
+                Text(service.rawValue)
+                    //.foregroundColor(serviceColors[service.rawValue])
+                    .foregroundColor(.green)
+            }
+        }
+         */
+        
+        VStack {
+            Text("Shows by Service")
+                .font(.title)
+            ScrollView(.horizontal) {
+                Chart {
+                    ForEach(serviceCounts.sorted(by: {$0.count > $1.count})) { serv in
+                        BarMark(
+                            x: .value("Service", serv.service.rawValue),
+                            y: .value("Shows", serv.count)
+                            
+                        )
+                        .annotation(position: .top) {
+                            Text(String(serv.count))
+                        }
+                        .foregroundStyle(by: .value("Service", serv.service.rawValue))
+                    }
+                }
+                //.chartForegroundStyleScale(serviceColors)
+                .chartPlotStyle { plotArea in
+                    plotArea.frame(height:300)
+                }
+                //
+                //.frame(height: 400)
+            .padding()
+            }
+        }
+         
+         
+        
         VStack {
             VStack {
                 Text("Shows by Status")
                     .font(.title)
-                Chart {
-                    ForEach(statusCounts.sorted(by: {$0.count > $1.count})) { stat in
-                        BarMark(
-                            x: .value("Stats", stat.status.rawValue),
-                            y: .value("Shows", stat.count)
-                        )
-                        .foregroundStyle(by: .value("Service", stat.service.rawValue))
+                ScrollView(.horizontal) {
+                    Chart {
+                        ForEach(statusCounts.sorted(by: {$0.count > $1.count})) { stat in
+                            BarMark(
+                                x: .value("Status", stat.status.rawValue),
+                                y: .value("Shows", stat.count)
+                            )
+                            .annotation(position: .top) {
+                                Text(String(stat.count))
+                            }
+                            .foregroundStyle(by: .value("Status", stat.status.rawValue))
+                        }
                     }
-                }
-                .frame(height: 400)
+                    .chartPlotStyle { plotArea in
+                        plotArea.frame(height:300)
+                    }
+                    //.chartForegroundStyleScale(serviceColors)
+                    .frame(width: 600)
                 .padding()
+                }
             }
-            
+            /*
             VStack {
                 Text("Selected Status: "+selectedStatus.rawValue)
                 
@@ -189,8 +260,9 @@ struct StatusChart: View {
                         Text(s.rawValue).tag(s)
                     }
                 }
-                .pickerStyle(SegmentedPickerStyle())
+                //.pickerStyle(SegmentedPickerStyle())
                 
+                /*
                 Chart {
                     ForEach(statusCounts.filter({
                         $0.status == selectedStatus
@@ -202,9 +274,11 @@ struct StatusChart: View {
                     }
                 }
                 .frame(height: 100)
+                 */
             }
             .padding()
             //.chartLegend(position: .top)
+            */
         }
         
     }

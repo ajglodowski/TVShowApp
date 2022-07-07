@@ -5,8 +5,7 @@ This is a side project of mine to experiment with iOS development. It is intende
 # Views
 
 ## Home
-<img src="Shared/Screenshots/Home.png" width="230" height="500">
-<img src="Shared/Screenshots/Home_recording.gif" width="230" height="500">
+<img src="Shared/Screenshots/Home.png" width="230" height="500"> <img src="Shared/Screenshots/Home_recording.gif" width="230" height="500">
 
 The home view is the view presented upon opening the app. It displays buttons to navigate to other pages while also showing rows of shows you might want to quickly access.
 

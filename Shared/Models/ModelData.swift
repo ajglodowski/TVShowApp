@@ -12,8 +12,8 @@ import SwiftUI
 final class ModelData : ObservableObject {
     //@Published var shows: [Show] = load("showData.json")
     @Published var shows: [Show] = load("data.json")
-    //@Published var shows: [Show] = loadFromFile("noID.json")
-    //@Published var actors: [Actor] = loadFromFile("actorData copy.json")
+    //@Published var shows: [Show] = loadFromFile("data.json")
+    //@Published var actors: [Actor] = loadFromFile("actorData.json")
     @Published var actors: [Actor] = load("actorData.json")
     //@Published var actors: [Actor] = []
     
@@ -22,6 +22,8 @@ final class ModelData : ObservableObject {
     func refreshData() {
         self.shows = load("data.json")
         self.actors = load("actorData.json")
+        //self.shows = loadFromFile("data.json")
+        //self.actors = loadFromFile("actorData.json")
     }
     
     func saveData() {

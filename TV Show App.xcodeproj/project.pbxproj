@@ -73,6 +73,10 @@
 		1A66E10A263A042600B47B88 /* WatchedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A66E108263A042600B47B88 /* WatchedButton.swift */; };
 		1A7DA8A028768AE000A26E7B /* Home_recording.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1A7DA89F28768AE000A26E7B /* Home_recording.gif */; };
 		1A7DA8A128768AE000A26E7B /* Home_recording.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1A7DA89F28768AE000A26E7B /* Home_recording.gif */; };
+		1A81CBE62882417F003F6EC3 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A81CBE52882417F003F6EC3 /* data.json */; };
+		1A81CBE72882417F003F6EC3 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A81CBE52882417F003F6EC3 /* data.json */; };
+		1A81CBE82882417F003F6EC3 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A81CBE52882417F003F6EC3 /* data.json */; };
+		1A81CBE92882417F003F6EC3 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A81CBE52882417F003F6EC3 /* data.json */; };
 		1A8B3C4D283075E600BF79EB /* NotficationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8B3C4C283075E600BF79EB /* NotficationHandler.swift */; };
 		1A8B3C4E283075E600BF79EB /* NotficationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8B3C4C283075E600BF79EB /* NotficationHandler.swift */; };
 		1A8B3C4F283075E600BF79EB /* NotficationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8B3C4C283075E600BF79EB /* NotficationHandler.swift */; };
@@ -218,6 +222,7 @@
 		1A66E1042639119300B47B88 /* ShowDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetail.swift; sourceTree = "<group>"; };
 		1A66E108263A042600B47B88 /* WatchedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedButton.swift; sourceTree = "<group>"; };
 		1A7DA89F28768AE000A26E7B /* Home_recording.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Home_recording.gif; sourceTree = "<group>"; };
+		1A81CBE52882417F003F6EC3 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		1A8B3C4C283075E600BF79EB /* NotficationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotficationHandler.swift; sourceTree = "<group>"; };
 		1A90DFDA284813A500AD48BA /* CurrentlyAiringRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentlyAiringRow.swift; sourceTree = "<group>"; };
 		1A99FF0126CC25DE009485ED /* AirDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirDate.swift; sourceTree = "<group>"; };
@@ -338,6 +343,7 @@
 		1A66E10D263A074100B47B88 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1A81CBE52882417F003F6EC3 /* data.json */,
 				1A1515D6282C48ED00DB8948 /* dataEdit.json */,
 				1A1515D1282C3C7700DB8948 /* noID.json */,
 				1AE03C912824BA4B005FF4FA /* actorData.json */,
@@ -608,6 +614,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A81CBE62882417F003F6EC3 /* data.json in Resources */,
 				1A7DA8A028768AE000A26E7B /* Home_recording.gif in Resources */,
 				1A1515D7282C48ED00DB8948 /* dataEdit.json in Resources */,
 				1AE03C922824BA4B005FF4FA /* actorData.json in Resources */,
@@ -625,6 +632,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A81CBE72882417F003F6EC3 /* data.json in Resources */,
 				1A7DA8A128768AE000A26E7B /* Home_recording.gif in Resources */,
 				1A1515D8282C48ED00DB8948 /* dataEdit.json in Resources */,
 				1AE03C932824BA4B005FF4FA /* actorData.json in Resources */,
@@ -643,6 +651,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF20DE42674731D0021A08F /* discovered.json in Resources */,
+				1A81CBE82882417F003F6EC3 /* data.json in Resources */,
 				1A1515D4282C3C7700DB8948 /* noID.json in Resources */,
 				1AE03C942824BA4B005FF4FA /* actorData.json in Resources */,
 				1A1515D9282C48ED00DB8948 /* dataEdit.json in Resources */,
@@ -656,6 +665,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF20DE52674731D0021A08F /* discovered.json in Resources */,
+				1A81CBE92882417F003F6EC3 /* data.json in Resources */,
 				1A1515D5282C3C7700DB8948 /* noID.json in Resources */,
 				1AE03C952824BA4B005FF4FA /* actorData.json in Resources */,
 				1A1515DA282C48ED00DB8948 /* dataEdit.json in Resources */,

@@ -28,6 +28,7 @@ struct Show : Hashable, Identifiable, Codable {
     var currentSeason: Int
     
     var releaseDate: Date?
+    var limitedSeries: Bool?
     
     init() {
         //id = generateShowId()

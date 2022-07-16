@@ -96,8 +96,6 @@
 		1AC953B426896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
 		1ACFA77D26DDA49F00CB2E16 /* Home.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA77426DDA49E00CB2E16 /* Home.png */; };
 		1ACFA77E26DDA49F00CB2E16 /* Home.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA77426DDA49E00CB2E16 /* Home.png */; };
-		1ACFA78126DDA49F00CB2E16 /* Edit Show.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA77626DDA49F00CB2E16 /* Edit Show.png */; };
-		1ACFA78226DDA49F00CB2E16 /* Edit Show.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA77626DDA49F00CB2E16 /* Edit Show.png */; };
 		1ACFA78A26DDA58100CB2E16 /* Watchlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA78926DDA58100CB2E16 /* Watchlist.png */; };
 		1ACFA78B26DDA58100CB2E16 /* Watchlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA78926DDA58100CB2E16 /* Watchlist.png */; };
 		1AE03C812824ABB3005FF4FA /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE03C802824ABB3005FF4FA /* Actor.swift */; };
@@ -227,7 +225,6 @@
 		1AA1AAE226A0CE070029FFD6 /* DeletePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePage.swift; sourceTree = "<group>"; };
 		1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowDetailEdit.swift; sourceTree = "<group>"; };
 		1ACFA77426DDA49E00CB2E16 /* Home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home.png; sourceTree = "<group>"; };
-		1ACFA77626DDA49F00CB2E16 /* Edit Show.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Edit Show.png"; sourceTree = "<group>"; };
 		1ACFA78926DDA58100CB2E16 /* Watchlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Watchlist.png; sourceTree = "<group>"; };
 		1AE03C802824ABB3005FF4FA /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		1AE03C862824B2D4005FF4FA /* ActorDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorDetail.swift; sourceTree = "<group>"; };
@@ -369,7 +366,6 @@
 			children = (
 				1A7DA89F28768AE000A26E7B /* Home_recording.gif */,
 				1ACFA77426DDA49E00CB2E16 /* Home.png */,
-				1ACFA77626DDA49F00CB2E16 /* Edit Show.png */,
 				1ACFA78926DDA58100CB2E16 /* Watchlist.png */,
 			);
 			path = Screenshots;
@@ -613,7 +609,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A7DA8A028768AE000A26E7B /* Home_recording.gif in Resources */,
-				1ACFA78126DDA49F00CB2E16 /* Edit Show.png in Resources */,
 				1A1515D7282C48ED00DB8948 /* dataEdit.json in Resources */,
 				1AE03C922824BA4B005FF4FA /* actorData.json in Resources */,
 				1ACFA77D26DDA49F00CB2E16 /* Home.png in Resources */,
@@ -631,7 +626,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A7DA8A128768AE000A26E7B /* Home_recording.gif in Resources */,
-				1ACFA78226DDA49F00CB2E16 /* Edit Show.png in Resources */,
 				1A1515D8282C48ED00DB8948 /* dataEdit.json in Resources */,
 				1AE03C932824BA4B005FF4FA /* actorData.json in Resources */,
 				1ACFA77E26DDA49F00CB2E16 /* Home.png in Resources */,

@@ -129,6 +129,19 @@ struct ShowDetailEdit: View {
                 }
             }
             
+            // Limited Series
+            Section(header: Text("Limited Series")) {
+                HStack {
+                    // Watched
+                    Toggle(isOn: $modelData.shows[showIndex].limitedSeries, label: {
+                        Text("Limited Series?")
+                    })
+                    .toggleStyle(SwitchToggleStyle(tint: .blue))
+                    .padding()
+                }
+                //.padding()
+            }
+            
             // Seasons
             Section(header: Text("Show Seasons:")) {
                 HStack {

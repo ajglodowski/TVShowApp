@@ -74,7 +74,7 @@ func applyAllFilters(serviceFilters: [Service], showLengthFilter: ShowLength) ->
     
 }
 
-func applyAllFilters(serviceFilters: [Service], statusFilters: [Status], showLengthFilter: ShowLength, shows: [Show]) -> [Show] {
+func applyAllFilters(serviceFilters: [Service], statusFilters: [Status], showLengthFilter: ShowLength, shows: [Show], selectedLimited: Int) -> [Show] {
     var filtered = [Show]()
     if (!serviceFilters.isEmpty) {
         for service in serviceFilters {
@@ -92,6 +92,14 @@ func applyAllFilters(serviceFilters: [Service], statusFilters: [Status], showLen
     }
     
     if (showLengthFilter != ShowLength.none) { filtered = filtered.filter { $0.length == showLengthFilter} }
+    switch selectedLimited {
+        case 1:
+            filtered = filtered.filter { $0.limitedSeries == false}
+        case 2:
+            filtered = filtered.filter { $0.limitedSeries == true}
+        default:
+            break
+    }
     
     return filtered
 }

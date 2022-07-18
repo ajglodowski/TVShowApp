@@ -26,8 +26,16 @@ struct ShowDetailText: View {
             Text(show.service.rawValue)
                 .font(.subheadline)
         }
-        Text("Status: " + show.status.rawValue)
-            .font(.subheadline)
+        HStack {
+            Text("Status: " + show.status.rawValue)
+                .font(.subheadline)
+            Spacer()
+            if (show.limitedSeries) {
+                Text("Limited Series")
+                    .font(.subheadline)
+                    .bold()
+            }
+        }
         
         if (show.status == Status.CurrentlyAiring) {
             Text("Airdate: " + show.airdate.rawValue)

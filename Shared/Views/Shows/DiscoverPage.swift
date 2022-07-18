@@ -33,7 +33,7 @@ struct DiscoverPage: View {
         if (searchText != "") {
             return searchShows
         } else {
-            return applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, showLengthFilter: selectedLength, shows: undiscoveredShows)
+            return applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, showLengthFilter: selectedLength, shows: undiscoveredShows, selectedLimited: 0)
         }
     }
     

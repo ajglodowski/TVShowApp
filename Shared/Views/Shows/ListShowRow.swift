@@ -22,6 +22,13 @@ struct ListShowRow: View {
                 .foregroundColor(.white)
                 .background(getServiceColor(service: show.service))
                 .cornerRadius(5.0)
+            if (show.limitedSeries) {
+                Text("Limited")
+                    .padding(5)
+                    .foregroundColor(.white)
+                    .background(.black)
+                    .cornerRadius(5.0)
+            }
             Spacer()
             
             //let index = showIndex(show: show)

@@ -28,13 +28,14 @@ struct WatchList: View {
             return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
         }
          */
-        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, showLengthFilter: selectedLength, shows: modelData.shows)
+        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, showLengthFilter: selectedLength, shows: modelData.shows, selectedLimited: selectedLimited)
             .sorted { $0.name < $1.name }
     }
     
     @State var appliedServiceFilters = [Service]()
     @State var appliedStatusFilters = [Status]()
     @State var selectedLength: ShowLength = ShowLength.none
+    @State var selectedLimited: Int = 0
     
     var body: some View {
         
@@ -56,9 +57,7 @@ struct WatchList: View {
              */
             
             if (searchText.isEmpty) {
-                
-                HStack {
-                    
+                HStack { // Length Row
                     VStack {
                         Text("Length").bold()
                         Picker("Length", selection: $selectedLength) {
@@ -69,9 +68,8 @@ struct WatchList: View {
                         .pickerStyle(SegmentedPickerStyle())
                     }
                 }
-                
-                HStack {
-                    Menu {
+                HStack { // Filter Row
+                    Menu { // Service Filter
                         ForEach(Service.allCases) { service in
                             Button(action: {
                                 if (appliedServiceFilters.contains(service)) {
@@ -93,11 +91,7 @@ struct WatchList: View {
                     .foregroundColor(Color.white)
                     .cornerRadius(5)
                 
-                    //.scaledToFill()
-                    //.frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    
-                    
-                    Menu {
+                    Menu { // Status Filter
                         ForEach(Status.allCases) { status in
                             Button(action: {
                                 if (appliedStatusFilters.contains(status)) {
@@ -118,6 +112,14 @@ struct WatchList: View {
                     .background(Color.blue)
                     .foregroundColor(Color.white)
                     .cornerRadius(5)
+                    
+                    Picker("Limited Series?", selection: $selectedLimited) {
+                        Text("All").tag(0)
+                        Text("Non-Limited").tag(1)
+                        Text("Limited").tag(2)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    
                 }
                 
                 if (!appliedServiceFilters.isEmpty) {

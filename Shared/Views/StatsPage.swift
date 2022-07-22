@@ -201,7 +201,7 @@ struct NewCharts: View {
             Text("Shows by Service")
                 .font(.title)
             ScrollView(.horizontal) {
-                /*
+                
                 Chart {
                     ForEach(serviceCounts.sorted(by: {$0.count > $1.count})) { serv in
                         BarMark(
@@ -219,7 +219,7 @@ struct NewCharts: View {
                 .chartPlotStyle { plotArea in
                     plotArea.frame(height:300)
                 }
-                 */
+                 
                 //
                 //.frame(height: 400)
             //.padding()
@@ -233,7 +233,7 @@ struct NewCharts: View {
                 Text("Shows by Status")
                     .font(.title)
                 ScrollView(.horizontal) {
-                    /*
+                    
                     Chart {
                         ForEach(statusCounts.sorted(by: {$0.count > $1.count})) { stat in
                             BarMark(
@@ -251,7 +251,7 @@ struct NewCharts: View {
                     }
                     //.chartForegroundStyleScale(serviceColors)
                     .frame(width: 600)
-                     */
+                     
                 //.padding()
                 }
             }

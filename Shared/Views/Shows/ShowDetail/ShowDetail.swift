@@ -57,11 +57,33 @@ struct ShowDetail: View {
                             Text(show.name)
                                 .font(.title)
                             WatchedButton(isSet: $modelData.shows[showIndex].watched)
+                           
                         }
+                        HStack {
+                            if (show.status != Status.UpToDate && show.status != Status.ShowEnded && show.status != Status.SeenEnough) {
+                                Button(action: {
+                                    modelData.shows[showIndex].status = Status.UpToDate
+                                }) {
+                                    Text("Up to Date")
+                                }
+                                .buttonStyle(.bordered)
+                                .tint(.green)
+                                Button(action: {
+                                    modelData.shows[showIndex].status = Status.ShowEnded
+                                }) {
+                                    Text("Show Ended")
+                                }
+                                .buttonStyle(.bordered)
+                                .tint(.blue)
+                            }
+                        }
+                        //.padding(5)
+                        //.background(.quaternary)
+                        //.cornerRadius(5)
                         
                         ShowSeasonsRow(totalSeasons: show.totalSeasons, currentSeason: $modelData.shows[showIndex].currentSeason, backgroundColor: backgroundColor, showIndex: showIndex)
                         
-                        ShowDetailText(show: show)
+                        ShowDetailText(show: show, showIndex: showIndex)
                     }
                     .padding()
                     // Darker, possible use in future

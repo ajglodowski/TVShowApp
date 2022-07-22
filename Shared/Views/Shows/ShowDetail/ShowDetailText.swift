@@ -17,6 +17,7 @@ struct ShowDetailText: View {
     }()
     
     var show: Show
+    var showIndex: Int
     
     var body: some View {
         HStack {
@@ -55,7 +56,7 @@ struct ShowDetailText: View {
 struct ShowDetailText_Previews: PreviewProvider {
     static let modelData = ModelData()
     static var previews: some View {
-        ShowDetailText(show: modelData.shows[0])
+        ShowDetailText(show: modelData.shows[0], showIndex: 0)
             .environmentObject(modelData)
     }
 }

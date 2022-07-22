@@ -61,14 +61,14 @@ struct ShowDetailEdit: View {
                     Text("Watched?")
                 })
                 .toggleStyle(SwitchToggleStyle(tint: .blue))
-                .padding()
+                //.padding()
                 
                 // Discovered
                 Toggle(isOn: $modelData.shows[showIndex].discovered, label: {
                     Text("Discovered?")
                 })
                 .toggleStyle(SwitchToggleStyle(tint: .blue))
-                .padding()
+                //.padding()
                 
                 // Show Length
                 VStack(alignment: .leading) {
@@ -80,7 +80,7 @@ struct ShowDetailEdit: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }
-                .padding()
+                //.padding()
                 
                 // Service
                 HStack {
@@ -94,7 +94,7 @@ struct ShowDetailEdit: View {
                     .pickerStyle(MenuPickerStyle())
                     .buttonStyle(.bordered)
                 }
-                .padding()
+                //.padding()
             }
             
             // Status
@@ -115,8 +115,8 @@ struct ShowDetailEdit: View {
                 // Airdate
                 if (modelData.shows[showIndex].status == Status.CurrentlyAiring) {
                     HStack {
-                        Text("Airdate: " + modelData.shows[showIndex].airdate.rawValue)
-                        Spacer()
+                        //Text("Airdate: " + modelData.shows[showIndex].airdate.rawValue)
+                        //Spacer()
                         Picker("Change Airdate", selection: $modelData.shows[showIndex].airdate) {
                             ForEach(AirDate.allCases) { airdate in
                                 Text(airdate.rawValue).tag(airdate)
@@ -137,7 +137,7 @@ struct ShowDetailEdit: View {
                         Text("Limited Series?")
                     })
                     .toggleStyle(SwitchToggleStyle(tint: .blue))
-                    .padding()
+                    //.padding()
                 }
                 //.padding()
             }
@@ -169,7 +169,7 @@ struct ShowDetailEdit: View {
                         )
                         if (modelData.shows[showIndex].status != Status.ComingSoon) {
                             Button(action: {
-                                //modelData.shows[showIndex].releaseDate = nil
+                                modelData.shows[showIndex].releaseDate = nil
                             }, label: {
                                 Text("Remove Release Date")
                                     .bold()

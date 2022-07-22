@@ -57,8 +57,8 @@ struct ShowDetailEditActors: View {
                 }
             }
             //.padding()
-            .background(Color(.systemGray5))
-            .cornerRadius(20)
+            //.background(Color(.systemGray5))
+            //.cornerRadius(20)
             
             ForEach(searchActors) { act in
                 Button(action: {

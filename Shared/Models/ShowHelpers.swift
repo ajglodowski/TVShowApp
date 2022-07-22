@@ -8,10 +8,12 @@
 import Foundation
 import UIKit
 
+/*
 func showIndex(show: Show) -> Int {
-    let ind = ModelData().shows.firstIndex(where: { _ in show.id == show.id })!
+    let ind = ModelData().shows.firstIndex(where: { $0.id == show.id})!
     return ind
 }
+ */
 
 func getRandPic(shows: [Show]) -> String {
     var x = 0
@@ -116,3 +118,23 @@ func getActors(showIn: Show, actors: [Actor]) -> [Actor] {
     return output
 }
 
+func getAirDateFromString(day: String) -> AirDate {
+    switch day {
+    case "Sunday":
+        return AirDate.Sunday
+    case "Monday":
+        return AirDate.Monday
+    case "Tuesday":
+        return AirDate.Tuesday
+    case "Wednesday":
+        return AirDate.Wednesday
+    case "Thursday":
+        return AirDate.Thursday
+    case "Friday":
+        return AirDate.Friday
+    case "Saturday":
+        return AirDate.Saturday
+    default:
+        return AirDate.Other
+    }
+}

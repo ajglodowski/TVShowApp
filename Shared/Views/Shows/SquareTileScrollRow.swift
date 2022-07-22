@@ -10,16 +10,35 @@ import SwiftUI
 
 struct SquareTileScrollRow: View {
     
+    @EnvironmentObject var modelData : ModelData
+    
     var items: [Show]
     
     var scrollType: Int
+    
+    func isOutNow(s: Show) -> Bool {
+        if (s.status == Status.ComingSoon) {
+            if ((s.releaseDate != nil) && (s.releaseDate! < Date.now)) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func showIndex(show: Show) -> Int {
+        modelData.shows.firstIndex(where: { $0.id == show.id})!
+    }
     
     func getAboveExtraText(s: Show) -> [String]? {
         switch scrollType {
         case 1:
             return [s.airdate.rawValue]
         case 2:
-            return ["In \(String(Calendar.current.dateComponents([.day], from: Date.now, to: s.releaseDate!).day! + 1)) days"]
+            if (!isOutNow(s: s)) {
+                return ["In \(String(Calendar.current.dateComponents([.day], from: Date.now, to: s.releaseDate!).day!)) days"]
+            } else {
+                return ["Out Now"]
+            }
         default:
             return nil
         }
@@ -45,10 +64,26 @@ struct SquareTileScrollRow: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 0) {
                     ForEach(items) { show in
-                        NavigationLink(destination: ShowDetail(show: show)) {
-                            ShowSquareTile(show: show, aboveExtraText: getAboveExtraText(s: show), belowExtraText: getBelowExtraText(s: show))
+                        VStack {
+                            NavigationLink(destination: ShowDetail(show: show)) {
+                                ShowSquareTile(show: show, aboveExtraText: getAboveExtraText(s: show), belowExtraText: getBelowExtraText(s: show))
+                            }
+                            .foregroundColor(.primary)
+                            if (scrollType == 2 && isOutNow(s: show) ) {
+                                Button(action: {
+                                    let day = DateFormatter()
+                                    day.dateFormat = "EEEE"
+                                    print(showIndex(show: show))
+                                    modelData.shows[showIndex(show: show)].status = Status.CurrentlyAiring
+                                    modelData.shows[showIndex(show: show)].airdate = getAirDateFromString(day: day.string(from: show.releaseDate!))
+                                    modelData.shows[showIndex(show: show)].releaseDate = nil
+                                }) {
+                                    Text("Add to \n Currently Airing")
+                                }
+                                .buttonStyle(.bordered)
+                            }
                         }
-                        .foregroundColor(.primary)
+                        
                     }
                 }
             }
@@ -63,9 +98,12 @@ struct SquareTileScrollRow_Previews: PreviewProvider {
     static var shows = ModelData().shows
     
     static var previews: some View {
-        VStack {
-            SquareTileScrollRow(items: shows, scrollType: 0)
-            SquareTileScrollRow(items: shows, scrollType: 1)
+        ScrollView {
+            VStack {
+                SquareTileScrollRow(items: shows, scrollType: 0)
+                SquareTileScrollRow(items: shows, scrollType: 1)
+                SquareTileScrollRow(items: shows.filter {$0.status == Status.ComingSoon}, scrollType: 2)
+            }
         }
     }
 }

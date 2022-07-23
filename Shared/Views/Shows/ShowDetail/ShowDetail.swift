@@ -57,8 +57,21 @@ struct ShowDetail: View {
                             Text(show.name)
                                 .font(.title)
                             WatchedButton(isSet: $modelData.shows[showIndex].watched)
-                           
                         }
+                        
+                        HStack {
+                            if(modelData.shows[showIndex].rating != nil) { RatingRow(curRating: $modelData.shows[showIndex].rating)
+                            } else {
+                                Button(action: {
+                                    modelData.shows[showIndex].rating = Rating.Meh
+                                }) {
+                                    Text("Add a rating")
+                                }
+                                //.background(.white)
+                                .buttonStyle(.bordered)
+                            }
+                        }
+                        
                         HStack {
                             if (show.status != Status.UpToDate && show.status != Status.ShowEnded && show.status != Status.SeenEnough) {
                                 Button(action: {

@@ -230,6 +230,16 @@ struct outsidePages: View {
                 })
             .buttonStyle(PlainButtonStyle())
         }
+        
+        HStack {
+            // Actor Game
+            NavigationLink(
+                destination: ActorReferenceGame(),
+                label: {
+                    Text("Actor Game")
+                })
+            .buttonStyle(PlainButtonStyle())
+        }
     }
 }
 

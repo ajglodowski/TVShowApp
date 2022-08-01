@@ -73,7 +73,7 @@ struct ShowDetail: View {
                         }
                         
                         HStack {
-                            if (show.status != Status.UpToDate && show.status != Status.ShowEnded && show.status != Status.SeenEnough) {
+                            if (show.status != Status.UpToDate && show.status != Status.ShowEnded && show.status != Status.SeenEnough && show.status != Status.NeedsWatched) {
                                 Button(action: {
                                     modelData.shows[showIndex].status = Status.UpToDate
                                 }) {
@@ -88,6 +88,19 @@ struct ShowDetail: View {
                                 }
                                 .buttonStyle(.bordered)
                                 .tint(.blue)
+                            } else if (show.status == Status.NeedsWatched) {
+                                Button(action: {
+                                    modelData.shows[showIndex].status = Status.UpToDate
+                                }) {
+                                    Text("Currently Airing")
+                                }
+                                .buttonStyle(.bordered)
+                                Button(action: {
+                                    modelData.shows[showIndex].status = Status.ShowEnded
+                                }) {
+                                    Text("New Release")
+                                }
+                                .buttonStyle(.bordered)
                             }
                         }
                         //.padding(5)
@@ -95,8 +108,9 @@ struct ShowDetail: View {
                         //.cornerRadius(5)
                         
                         ShowSeasonsRow(totalSeasons: show.totalSeasons, currentSeason: $modelData.shows[showIndex].currentSeason, backgroundColor: backgroundColor, showIndex: showIndex)
-                        
                         ShowDetailText(show: show, showIndex: showIndex)
+                        Divider()
+                        TagsSection(activeTags: $modelData.shows[showIndex].tags)
                     }
                     .padding()
                     // Darker, possible use in future

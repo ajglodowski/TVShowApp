@@ -49,7 +49,7 @@ struct ShowDetailText: View {
           
         
         Divider()
-        Text("About Show")
+        
     }
 }
 

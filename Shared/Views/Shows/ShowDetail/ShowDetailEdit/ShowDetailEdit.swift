@@ -56,6 +56,28 @@ struct ShowDetailEdit: View {
             
             Section(header: Text("Show Details:")) {
                 
+                // Rating
+                HStack {
+                   // Text("Show Length:")
+                    if (modelData.shows[showIndex].rating != nil) {
+                        Picker("Change Rating:", selection: $modelData.shows[showIndex].rating) {
+                            ForEach(Rating.allCases) { rating in
+                                Text(rating.rawValue).tag(rating)
+                            }
+                        }
+                        //.pickerStyle(SegmentedPickerStyle())
+                        .pickerStyle(MenuPickerStyle())
+                        .buttonStyle(.bordered)
+                    } else {
+                        Button(action: {
+                            modelData.shows[showIndex].rating = Rating.Meh
+                        }) {
+                            Text("Add a rating")
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                }
+                
                 // Watched
                 Toggle(isOn: $modelData.shows[showIndex].watched, label: {
                     Text("Watched?")

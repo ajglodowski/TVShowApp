@@ -49,6 +49,9 @@ struct StatsPage: View {
             
             
             NewCharts()
+            
+            TagsGraphs()
+            
             /*
             VStack {
                 Text("Status counts:")

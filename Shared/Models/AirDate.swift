@@ -40,6 +40,5 @@ enum AirDate: String, CaseIterable, Codable, Identifiable {
         default:
             return 8
         }
-        
     }
 }

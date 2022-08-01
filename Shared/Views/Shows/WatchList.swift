@@ -28,14 +28,29 @@ struct WatchList: View {
             return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
         }
          */
-        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, showLengthFilter: selectedLength, shows: modelData.shows, selectedLimited: selectedLimited)
+        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: modelData.shows, selectedLimited: selectedLimited)
             .sorted { $0.name < $1.name }
     }
     
     @State var appliedServiceFilters = [Service]()
     @State var appliedStatusFilters = [Status]()
+    @State var appliedTagFilters = [Tag]()
     @State var selectedLength: ShowLength = ShowLength.none
     @State var selectedLimited: Int = 0
+    
+    @State var selectedCategories = [TagCategory]()
+    var filteredTags: [Tag] {
+        if (!selectedCategories.isEmpty) {
+            var tags = [Tag]()
+            for cat in selectedCategories {
+                tags.append(contentsOf: Tag.allCases.filter { $0.category == cat})
+            }
+            return tags
+        } else {
+            return Tag.allCases
+        }
+    }
+    
     
     var body: some View {
         
@@ -84,7 +99,7 @@ struct WatchList: View {
                         }
                     } label: {
                         Image(systemName: "slider.horizontal.3")
-                        Text("Filter by Service")
+                        Text("Service")
                     }
                     .padding(5)
                     .background(Color.blue)
@@ -106,7 +121,46 @@ struct WatchList: View {
                         }
                     } label: {
                         Image(systemName: "slider.horizontal.3")
-                        Text("Filter by Status")
+                        Text("Status")
+                    }
+                    .padding(5)
+                    .background(Color.blue)
+                    .foregroundColor(Color.white)
+                    .cornerRadius(5)
+                    
+                    Menu { // Status Filter
+                        HStack {
+                            Section {
+                                ForEach(TagCategory.allCases) { category in
+                                    Button (action: {
+                                        if (selectedCategories.contains(category)) {
+                                            selectedCategories = selectedCategories.filter { $0 != category}
+                                        } else {
+                                            selectedCategories.append(category)
+                                        }
+                                    }) {
+                                        Label(category.rawValue, systemImage: selectedCategories.contains(category) ?
+                                              "checkmark" : "")
+                                    }
+                                }
+                            }
+                            Section {
+                                ForEach(filteredTags) { tag in
+                                    Button(action: {
+                                        if (appliedTagFilters.contains(tag)) {
+                                            appliedTagFilters = appliedTagFilters.filter { $0 != tag}
+                                        } else {
+                                            appliedTagFilters.append(tag)
+                                        }
+                                    }) {
+                                        Label(tag.rawValue, systemImage: appliedTagFilters.contains(tag) ?
+                                              "checkmark" : "")
+                                    }
+                                }
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "tag")
                     }
                     .padding(5)
                     .background(Color.blue)
@@ -152,6 +206,24 @@ struct WatchList: View {
                             }, label: {
                                 HStack {
                                     Text(status.rawValue)
+                                    Image(systemName: "xmark")
+                                }
+                    
+                            })
+                            .buttonStyle(.bordered)
+                            .buttonBorderShape(.capsule)
+                        }
+                    }
+                }
+                
+                if (!appliedTagFilters.isEmpty) {
+                    HStack {
+                        ForEach(appliedTagFilters) { tag in
+                            Button(action: {
+                                appliedTagFilters = appliedTagFilters.filter { $0 != tag}
+                            }, label: {
+                                HStack {
+                                    Text(tag.rawValue)
                                     Image(systemName: "xmark")
                                 }
                     

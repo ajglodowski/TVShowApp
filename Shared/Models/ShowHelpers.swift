@@ -76,7 +76,19 @@ func applyAllFilters(serviceFilters: [Service], showLengthFilter: ShowLength) ->
     
 }
 
-func applyAllFilters(serviceFilters: [Service], statusFilters: [Status], showLengthFilter: ShowLength, shows: [Show], selectedLimited: Int) -> [Show] {
+func applyTagFilters(tagFilters: [Tag], shows: [Show]) -> [Show] {
+    if (!tagFilters.isEmpty) {
+        var output: [Show] = []
+        for tag in tagFilters {
+            output.append(contentsOf: shows.filter { ($0.tags ?? []).contains(tag)})
+        }
+        return Array(Set(output))
+    } else {
+        return shows
+    }
+}
+
+func applyAllFilters(serviceFilters: [Service], statusFilters: [Status], tagFilters: [Tag], showLengthFilter: ShowLength, shows: [Show], selectedLimited: Int) -> [Show] {
     var filtered = [Show]()
     if (!serviceFilters.isEmpty) {
         for service in serviceFilters {
@@ -92,6 +104,8 @@ func applyAllFilters(serviceFilters: [Service], statusFilters: [Status], showLen
             statusFilters.contains($0.status)
         }
     }
+    
+    filtered = applyTagFilters(tagFilters: tagFilters, shows: filtered)
     
     if (showLengthFilter != ShowLength.none) { filtered = filtered.filter { $0.length == showLengthFilter} }
     switch selectedLimited {

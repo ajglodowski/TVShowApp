@@ -26,9 +26,9 @@ The stats page shows some basic statistics about the show data. The page has a l
 
 # Skills used
 
-## Data Fetching
+## Databases
 
-All the data is held in JSON files in this repo which the app accesses using a REST API. Upon starting the app or when asked to reload, the app fetches the JSON files and parses them into Swift objects. When it comes time to save the data, it converts it to a JSON object and commits it to the repo. Because of this, the number of commits on the repo is inflated.
+The data is stored on a Firebase NoSQL Realtime Database and accessed primarily through REST apis. This was chosen due the fact that the existing data was stored in json files and this allowed easiest conversion. Firestore or a SQL database with better object mapping is more ideal and a future todo. It was previously stored in json files on this repo and because of that, the number of commits on the repo is inflated.
 
 ## Swift Language
 
@@ -39,7 +39,7 @@ The app is written entirely in Swift and SwiftUI as the purpose was for this to 
 - Fix Navigation Bugs
 - Update the stats page so graphs use colors of the streaming services
 - Improve the object relationship between actors and shows as it presents many bugs
-- Update the data source to a database or separate repo
+- Update the database to use Firestore instead of Realtime Database
 - Loading show and/or actor data, such as photos from online (ex: IMDB)
 
 # Acknowledgements

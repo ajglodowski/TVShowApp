@@ -80,7 +80,11 @@ func applyTagFilters(tagFilters: [Tag], shows: [Show]) -> [Show] {
     if (!tagFilters.isEmpty) {
         var output: [Show] = []
         for tag in tagFilters {
-            output.append(contentsOf: shows.filter { ($0.tags ?? []).contains(tag)})
+            if (tag == Tag.None) {
+                output.append(contentsOf: shows.filter { ($0.tags ?? []).isEmpty })
+            } else {
+                output.append(contentsOf: shows.filter { ($0.tags ?? []).contains(tag)})
+            }
         }
         return Array(Set(output))
     } else {
@@ -150,5 +154,17 @@ func getAirDateFromString(day: String) -> AirDate {
         return AirDate.Saturday
     default:
         return AirDate.Other
+    }
+}
+
+func printActorList(input: [Actor]) {
+    for act in input {
+        print("\(act.name) ->")
+    }
+}
+
+func printShowList(input: [Show]) {
+    for show in input {
+        print("\(show.name) ->")
     }
 }

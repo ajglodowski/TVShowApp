@@ -16,7 +16,7 @@ struct WatchList: View {
     
     var searchShows: [Show] {
         modelData.shows.filter { show in
-            show.name.contains(searchText)
+            show.name.lowercased().contains(searchText.lowercased())
         }
     }
     

@@ -130,8 +130,10 @@ struct Home: View {
                  
                 
                 
-                ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
-                    .ignoresSafeArea()
+                VStack {
+                    ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
+                        .ignoresSafeArea()
+                }
                 
                 HStack (alignment: .center) {
                     // Save Button

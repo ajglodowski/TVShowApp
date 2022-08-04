@@ -24,10 +24,14 @@ struct ShowTile: View {
             Text(show.name)
                 .font(.subheadline)
         }
+        //.padding(5)
         .frame(width: 175, height: 175, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        //.shadow(radius: 5)
+        //.background(.quaternary.opacity(0.5))
+        //.cornerRadius(10)
+
         .padding(.leading, 10)
         .padding(.trailing, 10)
+        //.shadow(radius: 5)
     }
 }
 

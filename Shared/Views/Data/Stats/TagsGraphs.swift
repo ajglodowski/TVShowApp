@@ -58,7 +58,8 @@ struct TagsGraphs: View {
     
     var body: some View {
         VStack {
-            //Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            Text("Shows by Tags")
+                .font(.title)
             ScrollView(.horizontal) {
                 Chart {
                     ForEach(tagsCounts.sorted(by: {$0.count > $1.count})) { tag in
@@ -67,17 +68,22 @@ struct TagsGraphs: View {
                             y: .value("Show Count", tag.count)
                             
                         )
-                        .annotation(position: .top) {
+                        .annotation(position: .overlay) {
                             Text(String(tag.count))
+                                .padding(2)
+                                .background(.quaternary)
+                                .cornerRadius(5)
                         }
                         .foregroundStyle(by: .value("Tag", tag.tag.rawValue))
                     }
                 }
                 .chartPlotStyle { plotArea in
-                    plotArea.frame(height:300)
+                    plotArea.frame(height:250)
                 }
             }
             
+            Text("Tags per show")
+                .font(.title)
             ScrollView(.horizontal) {
                 Chart {
                     ForEach(showTagsCounts) { showTag in
@@ -93,7 +99,7 @@ struct TagsGraphs: View {
                     }
                 }
                 .chartPlotStyle { plotArea in
-                    plotArea.frame(width: 300, height:300)
+                    plotArea.frame(width: 300, height:350)
                 }
             }
             

@@ -21,6 +21,8 @@ final class ModelData : ObservableObject {
     
     @Published var needsUpdated: Bool = false
     
+    private var ref: DatabaseReference = Database.database().reference()
+    
     init() {
         firebaseShowFetch()
         firebaseActorFetch()
@@ -136,10 +138,7 @@ final class ModelData : ObservableObject {
     func loadActorsFromFirebase(input: [Actor]) { self.actors = input }
 
     func firebaseShowFetch() {
-        var ref: DatabaseReference!
-        ref = Database.database().reference()
-        
-        ref.child("shows").getData(completion:  { error, snapshot in
+        self.ref.child("shows").getData(completion:  { error, snapshot in
               guard error == nil else {
                 print(error!.localizedDescription)
                 return;
@@ -155,10 +154,7 @@ final class ModelData : ObservableObject {
     }
     
     func firebaseActorFetch() {
-        var ref: DatabaseReference!
-        ref = Database.database().reference()
-        
-        ref.child("actors").getData(completion:  { error, snapshot in
+        self.ref.child("actors").getData(completion:  { error, snapshot in
               guard error == nil else {
                 print(error!.localizedDescription)
                 return;
@@ -222,6 +218,32 @@ final class ModelData : ObservableObject {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         guard var data = try? encoder.encode(self.actors) else { fatalError("Error encoding data") }
+        //let jsonString = String(data: data, encoding: .utf8)!
+        request.httpBody = data
+        URLSession.shared.dataTask(with: request) { responseData, response, error in
+            guard let responseData = responseData, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                return
+            }
+            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let responseJSON = responseJSON as? [String: Any] {
+                print("Error in json response")
+            }
+        }.resume()
+    }
+    
+    func addShow(show: Show) {
+        let link = "https://tv-show-app-602d7-default-rtdb.firebaseio.com/shows.json"
+        let url = URL(string: link)!
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = [
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        ]
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        guard var data = try? encoder.encode(show) else { fatalError("Error encoding data") }
         //let jsonString = String(data: data, encoding: .utf8)!
         request.httpBody = data
         URLSession.shared.dataTask(with: request) { responseData, response, error in

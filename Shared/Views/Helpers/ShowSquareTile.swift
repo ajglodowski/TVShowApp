@@ -53,7 +53,8 @@ struct ShowSquareTile: View {
                 .if(show.status == Status.NewSeason) {
                     $0.overlay(TileBanner(text: "New\nSeason"),alignment: .bottomLeading)
                 }
-                //.frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .shadow(radius: 5)
+                .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 
             
             HStack {

@@ -8,17 +8,19 @@
 import Foundation
 
 enum TagCategory: String, CaseIterable, Codable, Identifiable {
+    case None
     case Genre
     case Theme
     case Producer
     case Collection
-    case Invalid
-    
     
     var id: String { self.rawValue }
 }
 
 enum Tag: String, CaseIterable, Codable, Identifiable {
+    
+    case None
+    
     case Drama
     case Comedy
     case Sitcom
@@ -50,7 +52,7 @@ enum Tag: String, CaseIterable, Codable, Identifiable {
     
     var category: TagCategory {
         if (self.id == 0) {
-            return TagCategory.Invalid
+            return TagCategory.None
         } else if (self.id < 101) {
             return TagCategory.Genre
         } else if (self.id > 100 && self.id < 201) {
@@ -64,6 +66,8 @@ enum Tag: String, CaseIterable, Codable, Identifiable {
     
     var id: Int {
         switch self.rawValue {
+        case "None":
+            return 0
         case "Drama":
             return 1
         case "Comedy":

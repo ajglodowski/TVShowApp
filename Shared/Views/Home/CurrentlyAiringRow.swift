@@ -83,7 +83,7 @@ struct TodayTile: View {
             )
             .padding(.leading, 10)
             .padding(.top, 5)
-            .padding(.bottom, 5)
+            //.padding(.bottom, 5)
             Text("Today")
         }
     }
@@ -112,7 +112,7 @@ struct OtherTiles: View {
         )
         .padding(.leading, 10)
         .padding(.top, 5)
-        .padding(.bottom, 5)
+        //.padding(.bottom, 5)
     }
 }
 

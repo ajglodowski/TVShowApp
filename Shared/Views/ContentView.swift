@@ -9,9 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State var loggedIn = false
+    
     var body: some View {
-        //WatchList()
-        Home()
+        if (loggedIn) {
+            Home()
+        } else {
+            Login(loggedIn: $loggedIn)
+        }
     }
 }
 

@@ -14,11 +14,31 @@ struct ShowDetailActors: View {
     var show: Show
     var backgroundColor: Color
     
-    var actorList: [Actor] {
-        getActors(showIn: show, actors: modelData.actors)
+    var actorNames: [String] {
+        var output = [String]()
+        if (show.actors != nil) {
+            for (_, actorName) in show.actors! {
+                output.append(actorName)
+            }
+        }
+        return output
     }
     
+    var actorIds: [String] {
+        var output = [String]()
+        if (show.actors != nil) {
+            for (actorId, _) in show.actors! {
+                output.append(actorId)
+            }
+        }
+        return output
+    }
+    
+    
     var body: some View {
+        
+        // Old Actor Section
+        /*
         VStack(alignment: .leading){
             Text("Actors")
                 .font(.title)
@@ -53,6 +73,48 @@ struct ShowDetailActors: View {
         .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
         .padding()
         .foregroundColor(.white)
+         */
+        
+        VStack {
+            if (show.actors != nil) {
+                VStack(alignment: .leading){
+                    Text("Actors")
+                        .font(.title)
+                    ForEach(actorNames, id:\.self) { actorName in
+                        NavigationLink(destination: Home()) {
+                            ListActorRow(actorName: actorName)
+                        }
+                    }
+                    Divider()
+                    // Add a new actor
+                    Button(action: {
+                        var new = Actor()
+                        new.shows.append(show)
+                        //newShow = new
+                        modelData.actors.append(new)
+                        //ActorDetail(actor: new)
+                    }, label: {
+                        Text("Add a new Actor")
+                        //.font(.title)
+                    })
+                    .buttonStyle(.bordered)
+                    
+                    //.onDelete(perform: removeRows)
+                    //.background(backgroundColor.blendMode(.softLight))
+                    
+                }
+                .padding()
+                // Darker, possible use in future
+                //.background(Color.secondary)
+                .background(backgroundColor.blendMode(.softLight))
+                .cornerRadius(20)
+                .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                .padding()
+                .foregroundColor(.white)
+            }
+        }
+         
+        
     }
 }
 

@@ -172,7 +172,7 @@ struct Home: View {
                     // New Show Button
                     Button(action: {
                         // TODO
-                        let new = Show()
+                        let new = Show(id: "1")
                         //newShow = new
                         modelData.shows.append(new)
                         isPresented = true
@@ -194,7 +194,7 @@ struct Home: View {
             
             .sheet(isPresented: $isPresented) {
                 NavigationView {
-                    let newShow = Show()
+                    let newShow = Show(id: "1")
                     ShowDetailEdit(isPresented: self.$isPresented, show: newShow, showIndex: modelData.shows.count-1)
                         .navigationTitle(newShow.name)
                         .navigationBarItems(trailing: Button("Done") {

@@ -14,6 +14,7 @@ final class ModelData : ObservableObject {
     //@Published var shows: [Show] = load("showData.json")
     //@Published var shows: [Show] = load("data.json")
     @Published var shows = [Show]()
+    @Published var otherShows = [Show]()
     //@Published var shows: [Show] = loadFromFile("data.json")
     //@Published var actors: [Actor] = loadFromFile("actorData.json")
     //@Published var actors: [Actor] = load("actorData.json")
@@ -22,25 +23,28 @@ final class ModelData : ObservableObject {
     @Published var needsUpdated: Bool = false
     
     private var ref: DatabaseReference = Database.database().reference()
+    private let fireStore = Firebase.Firestore.firestore()
     
     init() {
-        firebaseShowFetch()
-        firebaseActorFetch()
+        //firebaseShowFetch()
+        //firebaseActorFetch()
+        loadFromFireStore()
     }
     
     func refreshData() {
         //self.shows = load("data.json")
-        firebaseShowFetch()
-        firebaseActorFetch()
+        //firebaseShowFetch()
+        //firebaseActorFetch()
         //self.actors = load("actorData.json")
         //self.shows = loadFromFile("data.json")
         //self.actors = loadFromFile("actorData.json")
+        loadFromFireStore()
     }
     
     func saveData() {
         //save("data.json",true)
-        firebaseShowSave()
-        firebaseActorSave()
+        //firebaseShowSave()
+        //firebaseActorSave()
         //save("actorData.json",false)
     }
     
@@ -258,6 +262,177 @@ final class ModelData : ObservableObject {
         }.resume()
     }
     
+    func loadAllFromFireStore() {
+        let shows = fireStore.collection("shows")
+        shows.getDocuments { snapshot, error in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    let data = document.data()
+                    
+                    var add = Show(id: document.documentID)
+                    
+                    let name = data["name"] as? String ?? ""
+                    let running = data["running"] as? Bool ?? false
+                    let totalSeasons = data["totalSeasons"] as? Int ?? 1
+                    
+                    add.tags = []
+                    add.name = name
+                    add.running = running
+                    add.totalSeasons = totalSeasons
+                    print(add)
+                    self.shows.append(add)
+                    
+                    let showIndex = self.shows.firstIndex(of: add)!
+                    
+                    // Tag fetching
+                    let tags = self.fireStore.collection("shows/\(document.documentID)/tags")
+                    tags.getDocuments { s1, e1 in
+                        if let s1 = s1 {
+                            for d1 in s1.documents {
+                                let tagData = d1.data()
+                                let tagString = tagData["tagName"] as? String ?? ""
+                                let tag = Tag(rawValue: tagString)!
+                                self.shows[showIndex].tags!.append(tag)
+                            }
+                        }
+                    }
+                    
+                    // Show Length fetching
+                    let lengthCollection = self.fireStore.collection("shows/\(document.documentID)/showLength")
+                    lengthCollection.getDocuments { s2, e2 in
+                        if let s2 = s2 {
+                            for d2 in s2.documents {
+                                let lengthData = d2.data()
+                                let lengthString = lengthData["showLength"] as? String ?? ""
+                                let length = ShowLength(rawValue: lengthString)!
+                                self.shows[showIndex].length = length
+                            }
+                        }
+                    }
+                    
+                    // Service fetching
+                    let serviceCollection = self.fireStore.collection("shows/\(document.documentID)/service")
+                    serviceCollection.getDocuments { s3, e3 in
+                        if let s3 = s3 {
+                            for d3 in s3.documents {
+                                let serviceData = d3.data()
+                                let serviceString = serviceData["serviceName"] as? String ?? ""
+                                let service = Service(rawValue: serviceString)!
+                                self.shows[showIndex].service = service
+                            }
+                        }
+                    }
+                    
+                    // Actor Fetching
+                    let actorCollection = self.fireStore.collection("shows/\(document.documentID)/actors")
+                    actorCollection.getDocuments { s4, e4 in
+                        if let s4 = s4 {
+                            for d4 in s4.documents {
+                                let actorData = d4.data()
+                                let actorName = actorData["actorName"] as? String ?? ""
+                                let actorId = actorData["actorId"] as? String ?? ""
+                                self.shows[showIndex].actors = [String:String]()
+                                self.shows[showIndex].actors![actorId] = actorName
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    
+    func loadFromFireStore() {
+        let shows = fireStore.collection("shows")
+        shows.getDocuments { snapshot, error in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    let data = document.data()
+                    
+                    var add = Show(id: document.documentID)
+                    
+                    let name = data["name"] as? String ?? ""
+                    let running = data["running"] as? Bool ?? false
+                    let totalSeasons = data["totalSeasons"] as? Int ?? 1
+                    
+                    add.tags = []
+                    add.name = name
+                    add.running = running
+                    add.totalSeasons = totalSeasons
+                    print(add)
+                    self.shows.append(add)
+                    
+                    let showIndex = self.shows.firstIndex(of: add)!
+                    
+                    // Tag fetching
+                    let tags = self.fireStore.collection("shows/\(document.documentID)/tags")
+                    tags.getDocuments { s1, e1 in
+                        if let s1 = s1 {
+                            for d1 in s1.documents {
+                                let tagData = d1.data()
+                                let tagString = tagData["tagName"] as? String ?? ""
+                                let tag = Tag(rawValue: tagString)!
+                                self.shows[showIndex].tags!.append(tag)
+                            }
+                        }
+                    }
+                    
+                    // Show Length fetching
+                    let lengthCollection = self.fireStore.collection("shows/\(document.documentID)/showLength")
+                    lengthCollection.getDocuments { s2, e2 in
+                        if let s2 = s2 {
+                            for d2 in s2.documents {
+                                let lengthData = d2.data()
+                                let lengthString = lengthData["showLength"] as? String ?? ""
+                                let length = ShowLength(rawValue: lengthString)!
+                                self.shows[showIndex].length = length
+                            }
+                        }
+                    }
+                    
+                    // Service fetching
+                    let serviceCollection = self.fireStore.collection("shows/\(document.documentID)/service")
+                    serviceCollection.getDocuments { s3, e3 in
+                        if let s3 = s3 {
+                            for d3 in s3.documents {
+                                let serviceData = d3.data()
+                                let serviceString = serviceData["serviceName"] as? String ?? ""
+                                let service = Service(rawValue: serviceString)!
+                                self.shows[showIndex].service = service
+                            }
+                        }
+                    }
+                    
+                    // Actor Fetching
+                    let actorCollection = self.fireStore.collection("shows/\(document.documentID)/actors")
+                    actorCollection.getDocuments { s4, e4 in
+                        if let s4 = s4 {
+                            for d4 in s4.documents {
+                                let actorData = d4.data()
+                                let actorName = actorData["actorName"] as? String ?? ""
+                                let actorId = actorData["actorId"] as? String ?? ""
+                                self.shows[showIndex].actors = [String:String]()
+                                self.shows[showIndex].actors![actorId] = actorName
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+    
     
     
     
@@ -303,7 +478,6 @@ func load<T: Decodable>(_ filename: String) -> T {
     }
     
 }
-
 
 
 func loadFromFile<T: Decodable>(_ filename: String) -> T {

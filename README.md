@@ -34,6 +34,13 @@ The data is stored on a Firebase NoSQL Realtime Database and accessed primarily 
 
 The app is written entirely in Swift and SwiftUI as the purpose was for this to be a learning experience for me. The app deals with HTTP requests, parsing the data returned into Swift objects, and manipulating it throughout the app. It gives some great exposure to the languages varying data structures, like dates, class hierarchy, and enums. The app also explores some of the functionality unique to iOS such as notifications and Swift Charts.
 
+# In Progress:
+
+I am currently working on switching the app over from the RealTime Database to FireStore. This involves remapping all the objects and their relationships and will significanlty help with upkeep of the app. This switch also involves adding Authentication and users so that the app could be used by others.
+
+TODO:
+- Investigate searching FireStore (Algolia?)
+
 # Future Development:
 
 - Fix Navigation Bugs

@@ -9,6 +9,11 @@ import SwiftUI
 
 struct ActorDetailEdit: View {
     
+    var body: some View {
+        Text("Todo")
+    }
+    
+    /*
     @EnvironmentObject var modelData: ModelData
     
     @Binding var isPresented: Bool
@@ -106,4 +111,5 @@ struct ActorDetailEdit: View {
             }
         }
     }
+     */
 }

@@ -14,8 +14,12 @@ struct WatchList: View {
     
     @State private var searchText = ""
     
+    var shows: [Show] {
+        modelData.shows.filter { $0.addedToUserShows }
+    }
+    
     var searchShows: [Show] {
-        modelData.shows.filter { show in
+        shows.filter { show in
             show.name.lowercased().contains(searchText.lowercased())
         }
     }
@@ -28,7 +32,7 @@ struct WatchList: View {
             return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
         }
          */
-        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: modelData.shows, selectedLimited: selectedLimited)
+        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
             .sorted { $0.name < $1.name }
     }
     
@@ -248,7 +252,7 @@ struct WatchList: View {
                         ListShowRow(show: show)
                     }
                 }
-                .onDelete(perform: removeRows)
+                //.onDelete(perform: removeRows)
                  
             } else {
                 ForEach(searchShows) { show in
@@ -264,10 +268,11 @@ struct WatchList: View {
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         .disableAutocorrection(true)
     }
-    
+    /*
     func removeRows(at offsets: IndexSet) {
         ModelData().shows.remove(atOffsets: offsets)
     }
+     */
     
 }
 

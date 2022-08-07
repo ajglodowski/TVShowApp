@@ -17,19 +17,23 @@ struct ShowDetailEdit: View {
     
     @Binding var isPresented: Bool
     
+    /*
+    
     var show : Show
     
-    let showIndex: Int
+     */
     
+    @Binding var show: Show
+        
     /*
     var showIndex: Int {
-        modelData.shows.firstIndex(where: { $0.equals(input: show) })!
+        modelData.shows.firstIndex(where: { $0.id == show.id })!
     }
-     */
     
     func actorIndex(actor: Actor) -> Int {
         modelData.actors.firstIndex(where: { $0.id == actor.id }) ?? (modelData.actors.firstIndex(where: { $0.name == actor.name }) ?? -1)
     }
+    */
     
     var body: some View {
         
@@ -40,62 +44,95 @@ struct ShowDetailEdit: View {
             Section(header: Text("Show Title:")) {
                 HStack {
                     //print(showIndex)
-                    if (showIndex != -1) {
-                        TextField("Show Title", text: $modelData.shows[showIndex].name)
-                            .disableAutocorrection(true)
-                            .font(.title)
-                        if (!modelData.shows[showIndex].name.isEmpty) {
-                            Button(action: {modelData.shows[showIndex].name = ""}, label: {
-                                Image(systemName: "xmark")
-                            })
-                        }
+                    TextField("Show Title", text: $show.name)
+                        .disableAutocorrection(true)
+                        .font(.title)
+                    if (!show.name.isEmpty) {
+                        Button(action: {show.name = ""}, label: {
+                            Image(systemName: "xmark")
+                        })
                     }
                 }
             }
             //.padding()
             
-            Section(header: Text("Show Details:")) {
-                
-                // Rating
-                HStack {
-                   // Text("Show Length:")
-                    if (modelData.shows[showIndex].rating != nil) {
-                        Picker("Change Rating:", selection: $modelData.shows[showIndex].rating) {
-                            ForEach(Rating.allCases) { rating in
-                                Text(rating.rawValue).tag(rating)
+            
+            Section(header: Text("Your Details:")) {
+                if (show.addedToUserShows) {
+                    // Rating
+                    HStack {
+                        if (show.rating != nil) {
+                            Picker("Change Rating:", selection: $show.rating) {
+                                ForEach(Rating.allCases) { rating in
+                                    Text(rating.rawValue).tag(rating as Rating?)
+                                }
+                            }
+                            //.pickerStyle(SegmentedPickerStyle())
+                            .pickerStyle(MenuPickerStyle())
+                            .buttonStyle(.bordered)
+                        } else {
+                            Button(action: {
+                                show.rating = Rating.Meh
+                            }) {
+                                Text("Add a rating")
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
+                    
+                    HStack {
+                        Text("Current Season: ")
+                        Spacer()
+                        TextField("Current Season", value: $show.currentSeason, formatter: NumberFormatter())
+                            .keyboardType(UIKeyboardType.decimalPad)
+                    }
+                    
+                    // Status
+                    HStack {
+                        Picker("Change Status", selection: $show.status) {
+                            ForEach(Status.allCases) { status in
+                                Text(status.rawValue).tag(status as Status?)
                             }
                         }
-                        //.pickerStyle(SegmentedPickerStyle())
                         .pickerStyle(MenuPickerStyle())
                         .buttonStyle(.bordered)
-                    } else {
-                        Button(action: {
-                            modelData.shows[showIndex].rating = Rating.Meh
-                        }) {
-                            Text("Add a rating")
-                        }
-                        .buttonStyle(.bordered)
                     }
+                    
+                } else {
+                    Button(action: {
+                        show.status = Status.NeedsWatched
+                        show.currentSeason = 1
+                    }) {
+                        Text("Add to Watchlist")
+                    }
+                    .buttonStyle(.bordered)
                 }
+            }
+            
+            Section(header: Text("Show Details:")) {
                 
-                // Watched
-                Toggle(isOn: $modelData.shows[showIndex].watched, label: {
-                    Text("Watched?")
-                })
-                .toggleStyle(SwitchToggleStyle(tint: .blue))
-                //.padding()
                 
-                // Discovered
-                Toggle(isOn: $modelData.shows[showIndex].discovered, label: {
-                    Text("Discovered?")
-                })
-                .toggleStyle(SwitchToggleStyle(tint: .blue))
-                //.padding()
+                
+                /*
+                 // Watched
+                 Toggle(isOn: $show.watched, label: {
+                 Text("Watched?")
+                 })
+                 .toggleStyle(SwitchToggleStyle(tint: .blue))
+                 //.padding()
+                 
+                 // Discovered
+                 Toggle(isOn: $show.discovered, label: {
+                 Text("Discovered?")
+                 })
+                 .toggleStyle(SwitchToggleStyle(tint: .blue))
+                 //.padding()
+                 */
                 
                 // Show Length
                 VStack(alignment: .leading) {
                     Text("Show Length:")
-                    Picker("Length", selection: $modelData.shows[showIndex].length) {
+                    Picker("Length", selection: $show.length) {
                         ForEach(ShowLength.allCases) { length in
                             Text(length.rawValue).tag(length)
                         }
@@ -106,9 +143,9 @@ struct ShowDetailEdit: View {
                 
                 // Service
                 HStack {
-                    //Text("Service: " + modelData.shows[showIndex].service.rawValue)
+                    //Text("Service: " + show.service.rawValue)
                     //Spacer()
-                    Picker("Change Service", selection: $modelData.shows[showIndex].service) {
+                    Picker("Change Service", selection: $show.service) {
                         ForEach(Service.allCases) { service in
                             Text(service.rawValue).tag(service)
                         }
@@ -119,49 +156,47 @@ struct ShowDetailEdit: View {
                 //.padding()
             }
             
-            // Status
-            Section(header: Text("Show Status:")) {
+            Section(header: Text("Currently Airng")) {
                 HStack {
-                    //Text("Status: " + modelData.shows[showIndex].status.rawValue)
-                    //Spacer()
-                    Picker("Change Status", selection: $modelData.shows[showIndex].status) {
-                        ForEach(Status.allCases) { status in
-                            Text(status.rawValue).tag(status)
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())
-                    .buttonStyle(.bordered)
+                    Toggle(isOn: $show.currentlyAiring, label: {
+                        Text("Currently Airing?")
+                    })
+                    .toggleStyle(SwitchToggleStyle(tint: .blue))
                 }
-                //.padding()
-                
-                // Airdate
-                if (modelData.shows[showIndex].status == Status.CurrentlyAiring) {
-                    HStack {
-                        //Text("Airdate: " + modelData.shows[showIndex].airdate.rawValue)
-                        //Spacer()
-                        Picker("Change Airdate", selection: $modelData.shows[showIndex].airdate) {
-                            ForEach(AirDate.allCases) { airdate in
-                                Text(airdate.rawValue).tag(airdate)
+                if (show.currentlyAiring) {
+                    // Airdate
+                    if (show.airdate != nil) {
+                        HStack {
+                            //Text("Airdate: " + show.airdate.rawValue)
+                            //Spacer()
+                            Picker("Change Airdate", selection: $show.airdate) {
+                                ForEach(AirDate.allCases) { airdate in
+                                    Text(airdate.rawValue).tag(airdate as AirDate?)
+                                }
                             }
+                            .pickerStyle(MenuPickerStyle())
+                            .buttonStyle(.bordered)
                         }
-                        .pickerStyle(MenuPickerStyle())
+                        //.padding()
+                    } else {
+                        Button(action: {
+                            show.airdate = AirDate.Other
+                        }) {
+                           Text("Add airdate")
+                        }
                         .buttonStyle(.bordered)
                     }
-                    //.padding()
                 }
             }
             
             // Limited Series
             Section(header: Text("Limited Series")) {
                 HStack {
-                    // Watched
-                    Toggle(isOn: $modelData.shows[showIndex].limitedSeries, label: {
+                    Toggle(isOn: $show.limitedSeries, label: {
                         Text("Limited Series?")
                     })
                     .toggleStyle(SwitchToggleStyle(tint: .blue))
-                    //.padding()
                 }
-                //.padding()
             }
             
             // Seasons
@@ -169,29 +204,23 @@ struct ShowDetailEdit: View {
                 HStack {
                     Text("Total Seasons: ")
                     Spacer()
-                    TextField("Total Seasons", value: $modelData.shows[showIndex].totalSeasons, formatter: NumberFormatter())
-                        .keyboardType(UIKeyboardType.decimalPad)
-                }
-                HStack {
-                    Text("Current Season: ")
-                    Spacer()
-                    TextField("Current Season", value: $modelData.shows[showIndex].currentSeason, formatter: NumberFormatter())
+                    TextField("Total Seasons", value: $show.totalSeasons, formatter: NumberFormatter())
                         .keyboardType(UIKeyboardType.decimalPad)
                 }
             }
             
             // Seasons
-            if (modelData.shows[showIndex].releaseDate != nil || modelData.shows[showIndex].status == Status.ComingSoon) {
+            if (show.releaseDate != nil || show.status == Status.ComingSoon) {
                 Section(header: Text("Release Date:")) {
-                    if (modelData.shows[showIndex].releaseDate != nil) {
+                    if (show.releaseDate != nil) {
                         DatePicker(
                             "Start Date",
-                            selection: $modelData.shows[showIndex].releaseDate.toUnwrapped(defaultValue: Date()),
+                            selection: $show.releaseDate.toUnwrapped(defaultValue: Date()),
                             displayedComponents: [.date]
                         )
-                        if (modelData.shows[showIndex].status != Status.ComingSoon) {
+                        if (show.status != Status.ComingSoon) {
                             Button(action: {
-                                modelData.shows[showIndex].releaseDate = nil
+                                show.releaseDate = nil
                             }, label: {
                                 Text("Remove Release Date")
                                     .bold()
@@ -200,7 +229,7 @@ struct ShowDetailEdit: View {
                         }
                     } else {
                         Button(action: {
-                            modelData.shows[showIndex].releaseDate = Date()
+                            show.releaseDate = Date()
                         }, label: {
                             Text("Add a Release Date")
                             //.font(.title)
@@ -210,14 +239,14 @@ struct ShowDetailEdit: View {
                 }
             }
             
-            ShowDetailEditActors(show: show, showIndex: showIndex)
+            //ShowDetailEditActors(show: show, showIndex: showIndex)
             
             
             // ID
             Section(header: Text("Internal ID:")) {
-                //TextField("ID", value: $modelData.shows[showIndex].id, formatter: NumberFormatter())
+                //TextField("ID", value: $show.id, formatter: NumberFormatter())
                     //.keyboardType(.numberPad)
-                Text("ID: "+modelData.shows[showIndex].id)
+                Text("ID: "+show.id)
             }
             
             
@@ -241,6 +270,7 @@ struct ShowDetailEdit: View {
              
         }
         .listStyle(InsetGroupedListStyle())
+         
     }
 }
 /*

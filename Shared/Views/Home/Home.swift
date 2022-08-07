@@ -23,24 +23,24 @@ struct Home: View {
     
     // Used for adding show button
     @State private var isPresented = false
+    @State private var newShow = Show(id:"1")
+    
+    var shows: [Show] {
+        modelData.shows.filter { $0.status != nil }
+    }
     
     var unwatchedShows: [Show] {
-        modelData.shows.filter { $0.status == Status.NeedsWatched && $0.discovered }
+        shows.filter { $0.status! == Status.NeedsWatched }
     }
     
     var currentlyWatching: [Show] {
-        modelData.shows
-            .filter { $0.status == Status.CurrentlyAiring || $0.status == Status.NewSeason || $0.status == Status.CatchingUp }
+        shows
+            .filter { $0.status! == Status.CurrentlyAiring || $0.status! == Status.NewSeason || $0.status! == Status.CatchingUp }
             .sorted { $0.name < $1.name }
     }
     
-    var undiscoveredShows: [Show] {
-        modelData.shows
-            .filter { !$0.discovered }
-    }
-    
     var comingSoon: [Show] {
-        modelData.shows
+        shows
             .filter { $0.status == Status.ComingSoon }
             .sorted { $0.releaseDate! < $1.releaseDate! }
     }
@@ -67,8 +67,32 @@ struct Home: View {
                         .clipped()
                         .cornerRadius(50)
                         .overlay(TextOverlay(text: "Watchlist"),alignment: .bottomLeading)
+                        .shadow(color: .black, radius: 10)
                     NavigationLink(
                         destination: WatchList()) {
+                            EmptyView()
+                    }
+                //.listRowInsets(EdgeInsets())
+                }
+                .ignoresSafeArea()
+                
+                ZStack {
+                    // Use for actual use
+                    //let picShow = getRandPic(shows: unwatchedShows)
+                    
+                    // Use because picture fits well
+                    let picShow = "Industry"
+                    
+                    Image(picShow)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 250)
+                        .clipped()
+                        .cornerRadius(50)
+                        .overlay(TextOverlay(text: "Discover New Shows"),alignment: .bottomLeading)
+                        .shadow(color: .black, radius: 10)
+                    NavigationLink(
+                        destination: DiscoverList()) {
                             EmptyView()
                     }
                 //.listRowInsets(EdgeInsets())
@@ -117,19 +141,6 @@ struct Home: View {
                 }
                 .ignoresSafeArea()
                 
-                /*
-                VStack {
-                    NavigationLink(destination: DiscoverPage()) {               Text("Discover Other Shows")
-                        .font(.title)
-                        .padding(.top, 5)
-                    }
-                    SquareTileScrollRow(items: undiscoveredShows, scrollType: 0)
-                }
-                .ignoresSafeArea()
-                 */
-                 
-                
-                
                 VStack {
                     ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
                         .ignoresSafeArea()
@@ -149,21 +160,10 @@ struct Home: View {
                     Spacer()
                     Button(action: {
                         modelData.refreshData()
-                        print(modelData.actors)
-                        print(modelData.shows)
+                        //print(modelData.actors)
+                        //print(shows)
                     }, label: {
                         Text("Reload Data")
-                            //.font(.title)
-                    })
-                    .buttonStyle(.bordered)
-                    
-                    // Notification Button
-                    Spacer()
-                    Button(action: {
-                        requestAuth()
-                        pushNotfication(shows: modelData.shows)
-                    }, label: {
-                        Text("Enable Notifications")
                             //.font(.title)
                     })
                     .buttonStyle(.bordered)
@@ -172,11 +172,11 @@ struct Home: View {
                     // New Show Button
                     Button(action: {
                         // TODO
-                        let new = Show(id: "1")
+                        newShow = Show(id: "1")
                         //newShow = new
-                        modelData.shows.append(new)
-                        isPresented = true
                         //modelData.shows.append(new)
+                        isPresented = true
+                        //shows.append(new)
                     }, label: {
                         Text("New Show")
                             //.font(.title)
@@ -194,10 +194,13 @@ struct Home: View {
             
             .sheet(isPresented: $isPresented) {
                 NavigationView {
-                    let newShow = Show(id: "1")
-                    ShowDetailEdit(isPresented: self.$isPresented, show: newShow, showIndex: modelData.shows.count-1)
+                    //ShowDetailEdit(isPresented: self.$isPresented, show: newShow, showIndex: shows.count-1)
+                    ShowDetailEdit(isPresented: self.$isPresented, show: $newShow)
                         .navigationTitle(newShow.name)
-                        .navigationBarItems(trailing: Button("Done") {
+                        .navigationBarItems(leading: Button("Cancel") {
+                            isPresented = false
+                        }, trailing: Button("Done") {
+                            addToShows(show: newShow)
                             isPresented = false
                         })
                 }
@@ -242,6 +245,9 @@ struct outsidePages: View {
                 })
             .buttonStyle(PlainButtonStyle())
         }
+        
+        
+        
     }
 }
 

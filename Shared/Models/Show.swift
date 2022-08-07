@@ -10,29 +10,38 @@ import SwiftUI
 import Combine
 
 struct Show : Hashable, Identifiable, Codable {
-    var name: String
-    var service: Service
-    var wanted: Bool
-    var status: Status
+    
+    // Both
+    let id : String // Needed for Actors
+    //var id : String = UUID().uuidString // For Previous builds
+    var name: String // Needed for Actors
+    var service: Service // Needed for Actors
     var running: Bool
-    var watched: Bool
-    
-    //var actors: [Actor]
-    
-    let id : String //= UUID().uuidString
-    var length: ShowLength
-    var discovered: Bool
-    var airdate: AirDate
-    
-    var totalSeasons: Int
-    var currentSeason: Int
-    
-    var releaseDate: Date?
-    var limitedSeries: Bool
-    var rating: Rating?
     var tags: [Tag]?
+    var totalSeasons: Int
+    var limitedSeries: Bool
+    var length: ShowLength
+    var releaseDate: Date?
+    var airdate: AirDate?
     
-    var actors: [String: String]?
+    // User Specific
+    var addedToUserShows: Bool {
+        if self.status != nil { return true }
+        else { return false }
+    }
+    var status: Status?
+    var currentSeason: Int?
+    var rating: Rating?
+    
+    // Show Detail
+    var actors: [String: String]? // Added var, key is id and value is name
+    var currentlyAiring: Bool
+    
+    
+    // Removing
+    var wanted: Bool?
+    var discovered: Bool?
+    var watched: Bool?
     
     init(id: String) {
         //id = generateShowId()
@@ -40,23 +49,24 @@ struct Show : Hashable, Identifiable, Codable {
         self.name = "New Show"
         self.service = Service.Other
         self.length = ShowLength.min
-        self.status = Status.Other
-        self.airdate = AirDate.Other
-        self.watched = false
+        //self.status = Status.Other
+        //self.airdate = AirDate.Other
+        //self.watched = false
         self.running = true
-        self.wanted = true
-        self.discovered = true
         self.totalSeasons = 1
-        self.currentSeason = 1
+        //self.currentSeason = 1
         self.limitedSeries = false
-        self.rating = Rating.Meh
-        //self.releaseDate = Date()
+        self.tags = [Tag]()
+        self.currentlyAiring = false
+        //self.rating = Rating.Meh
         //actors = []
         //super.init()
     }
     
-    private enum CodingKeys : String, CodingKey { case id, name, service, wanted, status, running, watched, length, discovered, airdate, totalSeasons, currentSeason, releaseDate, limitedSeries, rating, tags, actors }
     
+   //private enum CodingKeys : String, CodingKey { case name, service, wanted, status, running, watched, length, discovered, airdate, totalSeasons, currentSeason, releaseDate, limitedSeries, rating, tags, actors }
+    
+
     func equals(input: Show) -> Bool {
         if (input.name == self.name && input.service == self.service) { return true }
         else { return false }

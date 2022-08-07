@@ -8,14 +8,22 @@
 import SwiftUI
 
 struct ShowDetailEditActors: View {
+    
+    var body: some View {
+        Text("TODO")
+    }
+    
+    /*
     @EnvironmentObject var modelData : ModelData
     
     var show : Show
     let showIndex: Int
     
+    
     var actorArr : [Actor] {
         getActors(showIn: show, actors: modelData.actors)
     }
+     
     
     @State private var searchText = ""
     var searchActors: [Actor] {
@@ -86,12 +94,14 @@ struct ShowDetailEditActors: View {
             //ActorEditList(show: modelData.shows[showIndex])
         }
     }
+     */
 }
 
 struct ShowDetailEditActors_Previews: PreviewProvider {
     static let modelData = ModelData()
     static var previews: some View {
-        ShowDetailEditActors(show:modelData.shows[0], showIndex: 0)
+        //ShowDetailEditActors(show:modelData.shows[0], showIndex: 0)
+        ShowDetailEditActors()
             .environmentObject(modelData)
     }
 }

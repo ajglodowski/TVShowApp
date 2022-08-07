@@ -20,7 +20,11 @@ struct Login: View {
                     errorText = error!.localizedDescription
                     print(error!.localizedDescription)
                 } else {
-                    Firestore.firestore().collection("users").document(result!.user.uid).setData(["username": username])
+                    Firestore.firestore().collection("users").document(result!.user.uid).setData([
+                        //"uid": result!.user.uid,
+                        "username": username
+                        
+                    ])
                 }
             }
         } else {

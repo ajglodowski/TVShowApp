@@ -9,15 +9,40 @@ import SwiftUI
 
 struct ActorDetail: View {
     
+    var body: some View {
+        Text("Temp")
+    }
+    /*
     @EnvironmentObject var modelData: ModelData
     
-    var actor : Actor
+    let actorId: String
+    
+    var actor: Actor {
+        //print(modelData.actors)
+        return modelData.actors.first(where: { $0.id == actorId })!
+    }
     
     @State private var isPresented = false // Edit menu var
+    //var showNames = [String]()
     
-    var showList : [Show] {
-        actor.shows
+    var showNames: [String] {
+        var output = [String]()
+        for (_, showName) in actor.shows {
+            output.append(showName)
+        }
+        return output
     }
+     
+    //var showIds = [String]()
+    
+    var showIds: [String] {
+        var output = [String]()
+        for (showId, _) in actor.shows {
+            output.append(showId)
+        }
+        return output
+    }
+     
     
     var actorIndex: Int {
         modelData.actors.firstIndex(where: { $0.id == actor.id})!
@@ -35,12 +60,17 @@ struct ActorDetail: View {
                 VStack (alignment: .leading) {
                     Text("Shows "+actor.name+" has appeared in:")
                         .padding()
-                    ForEach(showList) { show in
-                        NavigationLink(destination: ShowDetail(show: modelData.shows.first(where: {$0.equals(input: show)})!)) {
-                            ListShowRow(show: show)
+                    
+                    ForEach(0..<showIds.count) { showInd in
+                        NavigationLink(destination: ShowDetail(show: modelData.shows.first(where: { $0.id == showIds[showInd]
+                        })!)) {
+                            HStack {
+                                Text(showNames[showInd])
+                            }
                         }
                         .padding()
                     }
+                    
                 }
             }
         }
@@ -55,7 +85,8 @@ struct ActorDetail: View {
         
         .sheet(isPresented: $isPresented) {
             NavigationView {
-                ActorDetailEdit(isPresented: self.$isPresented, actor: actor, actorIndex: actorIndex)
+                //ActorDetailEdit(isPresented: self.$isPresented, actor: actor, actorIndex: actorIndex)
+                ActorDetailEdit()
                     .navigationTitle(actor.name)
                     .navigationBarItems(trailing: Button("Done") {
                         isPresented = false
@@ -63,6 +94,7 @@ struct ActorDetail: View {
             }
         }
     }
+     */
 }
 
 struct ActorDetail_Previews: PreviewProvider {
@@ -71,8 +103,8 @@ struct ActorDetail_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            ActorDetail(actor: modelData.actors[0])
-                .environmentObject(modelData)
+            //ActorDetail(actorId: "zdvmjx5mhIZnjzTP6KlZ")
+                //.environmentObject(modelData)
         }
     }
 }

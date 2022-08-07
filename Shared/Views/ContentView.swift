@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var loggedIn = false
+    @EnvironmentObject var modelData : ModelData
     
     var body: some View {
-        if (loggedIn) {
+        if (modelData.loggedIn) {
             Home()
         } else {
-            Login(loggedIn: $loggedIn)
+            Login(loggedIn: $modelData.loggedIn)
         }
     }
 }

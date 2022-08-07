@@ -9,15 +9,17 @@ import SwiftUI
 
 struct RatingRow: View {
     
-    @Binding var curRating: Rating?
+    var curRating: Rating
     @EnvironmentObject var modelData: ModelData
+    var show: Show
     
     var body: some View {
-        //ScrollView (.horizontal) {
+        VStack {
             HStack (alignment:.top) {
                 ForEach(Rating.allCases) { rating in
                     Button(action: {
-                        curRating = rating
+                        //curRating = rating
+                        updateRating(rating: rating, showId: show.id)
                     }) {
                         VStack() {
                             Image(systemName: (curRating == rating) ? (getRatingSymbol(rating: rating)+".fill") : getRatingSymbol(rating: rating))
@@ -33,13 +35,18 @@ struct RatingRow: View {
                 }
             }
             .foregroundColor(Color.white)
-            //.padding(5)
-            //.background(.quaternary)
-            //.cornerRadius(5)
+            Button(action: {
+                deleteRatingFromUserShows(showId: show.id)
+            }) {
+                Text("Remove Rating")
+            }
+            .buttonStyle(.bordered)
+            .tint(.red)
         }
-    //}
+    }
 }
 
+/*
 struct RatingRow_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
@@ -52,3 +59,4 @@ struct RatingRow_Previews: PreviewProvider {
         
     }
 }
+*/

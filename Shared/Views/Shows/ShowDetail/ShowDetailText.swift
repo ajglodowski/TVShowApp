@@ -28,8 +28,12 @@ struct ShowDetailText: View {
                 .font(.subheadline)
         }
         HStack {
-            Text("Status: " + show.status.rawValue)
-                .font(.subheadline)
+            if (show.status != nil) {
+                Text("Status: " + show.status!.rawValue)
+                    .font(.subheadline)
+            } else {
+                
+            }
             Spacer()
             if (show.limitedSeries) {
                 Text("Limited Series")
@@ -38,8 +42,8 @@ struct ShowDetailText: View {
             }
         }
         
-        if (show.status == Status.CurrentlyAiring) {
-            Text("Airdate: " + show.airdate.rawValue)
+        if (show.status != nil && show.status == Status.CurrentlyAiring) {
+            Text("Airdate: " + show.airdate!.rawValue)
                 .font(.subheadline)
         }
          

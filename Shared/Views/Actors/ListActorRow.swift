@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ListActorRow: View {
     
-    @EnvironmentObject var modelData : ModelData
+    //@EnvironmentObject var modelData : ModelData
     
     var actorName: String
     
@@ -44,7 +44,7 @@ struct ListActorRow: View {
 
 struct ListActorRow_Previews: PreviewProvider {
     
-    static var actors = ModelData().actors
+    //static var actors = ModelData().actors
     
     //@ObservedObject var showStore = ShowStore()
     static var previews: some View {

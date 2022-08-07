@@ -62,8 +62,6 @@
 		1A81CC00288E111C003F6EC3 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A81CBFD288E111C003F6EC3 /* Tag.swift */; };
 		1A81CC03288E159D003F6EC3 /* TagsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A81CC02288E159D003F6EC3 /* TagsSection.swift */; };
 		1A81CC05288E159D003F6EC3 /* TagsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A81CC02288E159D003F6EC3 /* TagsSection.swift */; };
-		1A8B3C4D283075E600BF79EB /* NotficationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8B3C4C283075E600BF79EB /* NotficationHandler.swift */; };
-		1A8B3C4F283075E600BF79EB /* NotficationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8B3C4C283075E600BF79EB /* NotficationHandler.swift */; };
 		1A90DFDB284813A500AD48BA /* CurrentlyAiringRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A90DFDA284813A500AD48BA /* CurrentlyAiringRow.swift */; };
 		1A99FF0226CC25DE009485ED /* AirDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A99FF0126CC25DE009485ED /* AirDate.swift */; };
 		1A99FF0426CC25DE009485ED /* AirDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A99FF0126CC25DE009485ED /* AirDate.swift */; };
@@ -77,6 +75,10 @@
 		1AC11B992890426A00A8FA10 /* TagsGraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC11B962890426A00A8FA10 /* TagsGraphs.swift */; };
 		1AC953B126896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
 		1AC953B326896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
+		1ACA81F8289DBB3F0021336B /* DiscoverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA81F7289DBB3F0021336B /* DiscoverList.swift */; };
+		1ACA81F9289DBB3F0021336B /* DiscoverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA81F7289DBB3F0021336B /* DiscoverList.swift */; };
+		1ACA81FE289F25D10021336B /* UpdateStatusButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA81FD289F25D10021336B /* UpdateStatusButtons.swift */; };
+		1ACA81FF289F25D10021336B /* UpdateStatusButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA81FD289F25D10021336B /* UpdateStatusButtons.swift */; };
 		1ACFA77D26DDA49F00CB2E16 /* Home.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA77426DDA49E00CB2E16 /* Home.png */; };
 		1ACFA78A26DDA58100CB2E16 /* Watchlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA78926DDA58100CB2E16 /* Watchlist.png */; };
 		1AD246B1289C57A400E42452 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD246B0289C57A400E42452 /* Login.swift */; };
@@ -168,7 +170,6 @@
 		1A81CBF8288CA48C003F6EC3 /* RatingRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingRow.swift; sourceTree = "<group>"; };
 		1A81CBFD288E111C003F6EC3 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		1A81CC02288E159D003F6EC3 /* TagsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsSection.swift; sourceTree = "<group>"; };
-		1A8B3C4C283075E600BF79EB /* NotficationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotficationHandler.swift; sourceTree = "<group>"; };
 		1A90DFDA284813A500AD48BA /* CurrentlyAiringRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentlyAiringRow.swift; sourceTree = "<group>"; };
 		1A99FF0126CC25DE009485ED /* AirDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirDate.swift; sourceTree = "<group>"; };
 		1A99FF0626CC3796009485ED /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
@@ -176,6 +177,8 @@
 		1AC11B90288F920800A8FA10 /* ActorReferenceGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorReferenceGame.swift; sourceTree = "<group>"; };
 		1AC11B962890426A00A8FA10 /* TagsGraphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsGraphs.swift; sourceTree = "<group>"; };
 		1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowDetailEdit.swift; sourceTree = "<group>"; };
+		1ACA81F7289DBB3F0021336B /* DiscoverList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverList.swift; sourceTree = "<group>"; };
+		1ACA81FD289F25D10021336B /* UpdateStatusButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateStatusButtons.swift; sourceTree = "<group>"; };
 		1ACFA77426DDA49E00CB2E16 /* Home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home.png; sourceTree = "<group>"; };
 		1ACFA78926DDA58100CB2E16 /* Watchlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Watchlist.png; sourceTree = "<group>"; };
 		1AD246B0289C57A400E42452 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
@@ -266,6 +269,7 @@
 		1A66E10B263A060F00B47B88 /* Shows */ = {
 			isa = PBXGroup;
 			children = (
+				1ACA81F7289DBB3F0021336B /* DiscoverList.swift */,
 				1AE79A7D284C4181008BB19A /* ShowDetail */,
 				1AF396AC2638FF4C000C4996 /* WatchList.swift */,
 				1AF396A52638F977000C4996 /* ListShowRow.swift */,
@@ -289,7 +293,6 @@
 				1A3A33F02672AAD300B2F459 /* ShowLength.swift */,
 				1AE03C802824ABB3005FF4FA /* Actor.swift */,
 				1A1515C7282B5DDA00DB8948 /* ActorHelpers.swift */,
-				1A8B3C4C283075E600BF79EB /* NotficationHandler.swift */,
 				1A81CBF3288CA369003F6EC3 /* Rating.swift */,
 				1A81CBFD288E111C003F6EC3 /* Tag.swift */,
 				1AD246BF289C94EA00E42452 /* FireStoreFunctions.swift */,
@@ -374,6 +377,7 @@
 				1AE79A80284C42F9008BB19A /* ShowDetailActors.swift */,
 				1A81CBF8288CA48C003F6EC3 /* RatingRow.swift */,
 				1A81CC02288E159D003F6EC3 /* TagsSection.swift */,
+				1ACA81FD289F25D10021336B /* UpdateStatusButtons.swift */,
 			);
 			path = ShowDetail;
 			sourceTree = "<group>";
@@ -622,14 +626,15 @@
 				1A81CBFE288E111C003F6EC3 /* Tag.swift in Sources */,
 				1AE03C872824B2D4005FF4FA /* ActorDetail.swift in Sources */,
 				1AD246B1289C57A400E42452 /* Login.swift in Sources */,
+				1ACA81F8289DBB3F0021336B /* DiscoverList.swift in Sources */,
 				1A81CBF9288CA48C003F6EC3 /* RatingRow.swift in Sources */,
 				1A1515CD282B69CF00DB8948 /* ActorDetailEdit.swift in Sources */,
 				1AF396762638F54E000C4996 /* ContentView.swift in Sources */,
 				1AC953B126896D5C00B293FB /* ShowDetailEdit.swift in Sources */,
-				1A8B3C4D283075E600BF79EB /* NotficationHandler.swift in Sources */,
 				1A4B4CF0282F2DA70095324A /* StatsPage.swift in Sources */,
 				1AD246C0289C94EA00E42452 /* FireStoreFunctions.swift in Sources */,
 				1AE79A79284C4064008BB19A /* ShowDetailText.swift in Sources */,
+				1ACA81FE289F25D10021336B /* UpdateStatusButtons.swift in Sources */,
 				1AC11B91288F920800A8FA10 /* ActorReferenceGame.swift in Sources */,
 				1A2FE96F263F8B0700B11F73 /* Home.swift in Sources */,
 				1A5406712812594900A78AC0 /* Hidden.swift in Sources */,
@@ -674,6 +679,7 @@
 				1AC11B93288F920800A8FA10 /* ActorReferenceGame.swift in Sources */,
 				1A99FF0926CC3796009485ED /* Status.swift in Sources */,
 				1AE79A89284C44A6008BB19A /* HomeNewRows.swift in Sources */,
+				1ACA81F9289DBB3F0021336B /* DiscoverList.swift in Sources */,
 				1AD246B3289C57A400E42452 /* Login.swift in Sources */,
 				1AF396672638F54E000C4996 /* Tests_iOS.swift in Sources */,
 				1AF396952638F6E9000C4996 /* ModelData.swift in Sources */,
@@ -684,8 +690,8 @@
 				1AC11B992890426A00A8FA10 /* TagsGraphs.swift in Sources */,
 				1AE79A8F284C543A008BB19A /* ShowDetailEditActors.swift in Sources */,
 				1A3232FA26756F6E009A9F23 /* DiscoverPage.swift in Sources */,
-				1A8B3C4F283075E600BF79EB /* NotficationHandler.swift in Sources */,
 				1AA1AAE526A0CE070029FFD6 /* DeletePage.swift in Sources */,
+				1ACA81FF289F25D10021336B /* UpdateStatusButtons.swift in Sources */,
 				1A2FE976263F8CAB00B11F73 /* ScrollShowRow.swift in Sources */,
 				1A81CC00288E111C003F6EC3 /* Tag.swift in Sources */,
 				1AE79A7E284C418F008BB19A /* ShowDetail.swift in Sources */,
@@ -760,6 +766,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -821,6 +828,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

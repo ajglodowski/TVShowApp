@@ -80,16 +80,18 @@ struct ShowDetailActors: View {
                 VStack(alignment: .leading){
                     Text("Actors")
                         .font(.title)
-                    ForEach(actorNames, id:\.self) { actorName in
-                        NavigationLink(destination: Home()) {
-                            ListActorRow(actorName: actorName)
+                    ForEach(0..<actorIds.count) { actorInd in
+                        /*
+                        NavigationLink(destination: ActorDetail(actorId: actorIds[actorInd])) {
+                            ListActorRow(actorName: actorNames[actorInd])
                         }
+                         */
                     }
                     Divider()
                     // Add a new actor
                     Button(action: {
-                        var new = Actor()
-                        new.shows.append(show)
+                        var new = Actor(id: "1")
+                        //new.shows.append(show)
                         //newShow = new
                         modelData.actors.append(new)
                         //ActorDetail(actor: new)

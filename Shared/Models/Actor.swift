@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 struct Actor : Hashable, Identifiable, Codable {
-    let id: String
+    var id: String
     var name: String
     //var shows: [Show]
     var shows: [String: String]

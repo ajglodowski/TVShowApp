@@ -81,42 +81,34 @@ struct ShowDetailActors: View {
                     Text("Actors")
                         .font(.title)
                     ForEach(0..<actorIds.count) { actorInd in
-                        /*
-                        NavigationLink(destination: ActorDetail(actorId: actorIds[actorInd])) {
+                        NavigationLink(destination: ActorDetail(actor: modelData.actors.first(where: {$0.id == actorIds[actorInd]})!)) {
                             ListActorRow(actorName: actorNames[actorInd])
+                                .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
                         }
-                         */
                     }
-                    Divider()
-                    // Add a new actor
-                    Button(action: {
-                        var new = Actor(id: "1")
-                        //new.shows.append(show)
-                        //newShow = new
-                        modelData.actors.append(new)
-                        //ActorDetail(actor: new)
-                    }, label: {
-                        Text("Add a new Actor")
-                        //.font(.title)
-                    })
-                    .buttonStyle(.bordered)
-                    
-                    //.onDelete(perform: removeRows)
-                    //.background(backgroundColor.blendMode(.softLight))
-                    
                 }
-                .padding()
-                // Darker, possible use in future
-                //.background(Color.secondary)
-                .background(backgroundColor.blendMode(.softLight))
-                .cornerRadius(20)
-                .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-                .padding()
-                .foregroundColor(.white)
             }
+            Divider()
+            // Add a new actor
+            Button(action: {
+                var new = Actor(id: "1")
+                let newActId = addActorToActors(act: new)
+                new.id = newActId
+                addActorToShow(act: new, showId: show.id)
+            }, label: {
+                Text("Add a new Actor")
+                //.font(.title)
+            })
+            .buttonStyle(.bordered)
         }
-         
-        
+        .padding()
+        // Darker, possible use in future
+        //.background(Color.secondary)
+        .background(backgroundColor.blendMode(.softLight))
+        .cornerRadius(20)
+        .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+        .padding()
+        .foregroundColor(.white)
     }
 }
 

@@ -28,7 +28,7 @@ func convertShowToDictionary(show: Show) -> [String:Any] {
     } // Use for running
     
     if (show.actors != nil && !show.actors!.isEmpty) {
-        print("Actor dict: \(show.actors!)\n")
+        //print("Actor dict: \(show.actors!)\n")
         output["actors"] = show.actors
     }
     /*
@@ -63,11 +63,24 @@ func convertUserShowToDictionary(show: Show) -> [String: Any] {
 func addOrUpdateToUserShows(show: Show) {
     let uid = Auth.auth().currentUser!.uid
     let showData = convertUserShowToDictionary(show: show)
-    Firestore.firestore().collection("users/\(uid)/shows").document("\(show.id)").setData(showData)
+    Firestore.firestore().collection("users/\(uid)/shows").document("\(show.id)").setData(showData) { err in
+        if let err = err {
+            print("Error writing document: \(err)")
+        } else {
+            print("Document successfully written!")
+        }
+    }
 }
 
 // Updating show properties in the current user's show collection
-func updateToShows(show: Show) {
+func updateToShows(show: Show, showNameEdited: Bool) {
+    if (showNameEdited && show.actors != nil) {
+        for (actorID, _) in show.actors! {
+            Firestore.firestore().collection("actors").document(actorID).updateData([
+                "shows.\(show.id)": show.name
+            ])
+        }
+    }
     let showData = convertShowToDictionary(show: show)
     Firestore.firestore().collection("shows").document("\(show.id)").setData(showData)
 }
@@ -87,7 +100,14 @@ func addActorToActors(act: Actor) -> String {
     return docRef.documentID
 }
 
-func updateActor(act: Actor) {
+func updateActor(act: Actor, actorNameEdited: Bool) {
+    if (actorNameEdited) {
+        for (showId, _) in act.shows {
+            Firestore.firestore().collection("shows").document(showId).updateData([
+                "actors.\(act.id)": act.name
+            ])
+        }
+    }
     let showData = convertActorToDictionary(actor: act)
     Firestore.firestore().collection("actors").document("\(act.id)").setData(showData)
 }
@@ -141,4 +161,20 @@ func deleteRatingFromUserShows(showId: String) {
     Firestore.firestore().collection("users/\(uid)/shows").document("\(showId)").updateData([
         "rating": FieldValue.delete()
     ])
+}
+
+func addActorToShow(act: Actor, showId: String) {
+    Firestore.firestore().collection("shows").document(showId).updateData([
+        "actors.\(act.id)": act.name
+    ])
+}
+
+func removeActorFromShow(act: Actor, showId: String) {
+    Firestore.firestore().collection("shows").document(showId).updateData([
+        "actors.\(act.id)": FieldValue.delete()
+    ])
+    Firestore.firestore().collection("actors").document(act.id).updateData([
+        "shows.\(showId)": FieldValue.delete()
+    ])
+    
 }

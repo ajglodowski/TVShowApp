@@ -35,7 +35,7 @@ struct SquareTileScrollRow: View {
             return [s.airdate!.rawValue]
         case 2:
             if (!isOutNow(s: s)) {
-                print(s)
+                //print(s)
                 return ["In \(String(Calendar.current.dateComponents([.day], from: Date.now, to: s.releaseDate!).day!)) days"]
             } else {
                 return ["Out Now"]

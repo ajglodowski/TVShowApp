@@ -9,18 +9,11 @@ import SwiftUI
 
 struct ActorDetail: View {
     
-    var body: some View {
-        Text("Temp")
-    }
-    /*
     @EnvironmentObject var modelData: ModelData
+        
+    var actor: Actor
     
-    let actorId: String
-    
-    var actor: Actor {
-        //print(modelData.actors)
-        return modelData.actors.first(where: { $0.id == actorId })!
-    }
+    @State var actorEdited: Actor
     
     @State private var isPresented = false // Edit menu var
     //var showNames = [String]()
@@ -46,6 +39,12 @@ struct ActorDetail: View {
     
     var actorIndex: Int {
         modelData.actors.firstIndex(where: { $0.id == actor.id})!
+    }
+    
+    init(actor: Actor) {
+        self.actor = actor
+        _actorEdited = State(initialValue: actor)
+        //print(showEdited)
     }
     
     var body: some View {
@@ -85,16 +84,27 @@ struct ActorDetail: View {
         
         .sheet(isPresented: $isPresented) {
             NavigationView {
-                //ActorDetailEdit(isPresented: self.$isPresented, actor: actor, actorIndex: actorIndex)
-                ActorDetailEdit()
+                ActorDetailEdit(isPresented: self.$isPresented, actor: $actorEdited)
+                //ShowDetailEdit(isPresented: self.$isPresented)
                     .navigationTitle(actor.name)
-                    .navigationBarItems(trailing: Button("Done") {
+                    .navigationBarItems(leading: Button("Cancel") {
+                        actorEdited = actor
+                        isPresented = false
+                    }, trailing: Button("Done") {
+                        //print(showEdited)
+                        if (actorEdited != actor) {
+                            if (actorEdited.name != actor.name) {
+                                updateActor(act: actorEdited, actorNameEdited: true)
+                            } else {
+                                updateActor(act: actorEdited, actorNameEdited: false)
+                            }
+                        }
                         isPresented = false
                     })
             }
         }
     }
-     */
+    
 }
 
 struct ActorDetail_Previews: PreviewProvider {

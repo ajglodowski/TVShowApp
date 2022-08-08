@@ -48,10 +48,12 @@ final class ModelData : ObservableObject {
         
         
         fetchAllFromFireStore()
+        /*
         if (loggedIn) {
-            //loadFromFireStore()
+            loadFromFireStore()
         }
-        fetchActorsFromFirestore()
+         */
+        //fetchActorsFromFirestore()
          
         
     }
@@ -373,9 +375,6 @@ final class ModelData : ObservableObject {
                     let length = data["length"] as! String
                     
                     let releaseDate = data["releaseDate"] as? Timestamp
-                    if (name == "House of the Dragon") {
-                        print(releaseDate)
-                    }
                     let airdate = data["airdate"] as? String
                     
                     let actors = data["actors"] as? [String: String]
@@ -396,16 +395,15 @@ final class ModelData : ObservableObject {
                     if (airdate != nil) { add.airdate = AirDate(rawValue: airdate!) }
                     add.releaseDate = releaseDate?.dateValue()
                     if (actors != nil) { add.actors = actors }
-                    if (name == "House of the Dragon") {
-                        print(add)
-                    }
                     output.append(add)
                     
                 }
-                self.loadAllShowsFromFireStore(load: output)
+                //self.loadAllShowsFromFireStore(load: output)
+                self.shows = output
                 if (Auth.auth().currentUser != nil) {
-                    //self.loadFromFireStore()
+                    self.loadFromFireStore()
                 }
+                self.fetchActorsFromFirestore()
             }
         }
     }
@@ -448,6 +446,30 @@ final class ModelData : ObservableObject {
     
     
     func fetchActorsFromFirestore() {
+        var output = [Actor]()
+        for show in self.shows {
+            if (show.actors != nil) {
+                for (actorId, actorName) in show.actors! {
+                    let found = output.firstIndex(where: {$0.id == actorId})
+                    if (found != nil) { output[found!].shows[show.id] = show.name }
+                    else {
+                        var a = Actor(id: actorId)
+                        a.name = actorName
+                        a.shows[show.id] = show.name
+                        output.append(a)
+                    }
+                }
+            }
+        }
+        //print("Output: \(output)")
+        loadActorsFromFireStore(actors: output)
+        //print("Actors: \(self.actors)")
+    }
+     
+    
+    /*
+    // If more data from actors is added use this instead but otherwise this is too many reads
+    func fetchActorsFromFirestore() {
         let shows = fireStore.collection("actors")
         shows.addSnapshotListener { snapshot, error in
             guard error == nil else {
@@ -470,10 +492,13 @@ final class ModelData : ObservableObject {
                     add.shows = shows
                     output.append(add)
                 }
+                print("Actor Count: \(output.count)")
                 self.loadActorsFromFireStore(actors: output)
             }
         }
     }
+     */
+    
      
     
     /*

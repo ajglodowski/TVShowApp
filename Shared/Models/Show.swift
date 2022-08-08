@@ -12,7 +12,7 @@ import Combine
 struct Show : Hashable, Identifiable, Codable {
     
     // Both
-    let id : String // Needed for Actors
+    var id : String // Needed for Actors
     //var id : String = UUID().uuidString // For Previous builds
     var name: String // Needed for Actors
     var service: Service // Needed for Actors

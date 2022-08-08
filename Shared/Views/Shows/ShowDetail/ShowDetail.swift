@@ -92,9 +92,6 @@ struct ShowDetail: View {
                         ShowDetailText(show: show, showIndex: showIndex)
                         if (addedToMyShows) {
                             Button(action: {
-                                modelData.shows[showIndex].status = nil
-                                modelData.shows[showIndex].rating = nil
-                                modelData.shows[showIndex].currentSeason = nil
                                 deleteShowFromUserShows(showId: show.id)
                             }) {
                                 Text("Remove from My Shows")
@@ -139,17 +136,21 @@ struct ShowDetail: View {
         
         .sheet(isPresented: $isPresented) {
             NavigationView {
-                //ShowDetailEdit(isPresented: self.$isPresented, show: show, showIndex: showIndex)
-                
                 ShowDetailEdit(isPresented: self.$isPresented, show: $showEdited)
-                //ShowDetailEdit(isPresented: self.$isPresented)
                     .navigationTitle(show.name)
                     .navigationBarItems(leading: Button("Cancel") {
                         showEdited = show
                         isPresented = false
                     }, trailing: Button("Done") {
                         //print(showEdited)
-                        updateToShows(show: showEdited)
+                        if (showEdited != show) {
+                            addOrUpdateToUserShows(show: showEdited)
+                            if (showEdited.name != show.name) {
+                                updateToShows(show: showEdited, showNameEdited: true)
+                            } else {
+                                updateToShows(show: showEdited, showNameEdited: false)
+                            }
+                        }
                         isPresented = false
                     })
             }

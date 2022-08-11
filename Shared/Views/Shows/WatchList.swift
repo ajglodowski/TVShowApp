@@ -32,12 +32,13 @@ struct WatchList: View {
             return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
         }
          */
-        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
+        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, ratingFilters: appliedRatingFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
             .sorted { $0.name < $1.name }
     }
     
     @State var appliedServiceFilters = [Service]()
     @State var appliedStatusFilters = [Status]()
+    @State var appliedRatingFilters = [Rating?]()
     @State var appliedTagFilters = [Tag]()
     @State var selectedLength: ShowLength = ShowLength.none
     @State var selectedLimited: Int = 0
@@ -87,6 +88,7 @@ struct WatchList: View {
                         .pickerStyle(SegmentedPickerStyle())
                     }
                 }
+                
                 HStack { // Filter Row
                     Menu { // Service Filter
                         ForEach(Service.allCases) { service in
@@ -165,6 +167,38 @@ struct WatchList: View {
                         }
                     } label: {
                         Image(systemName: "tag")
+                    }
+                    .padding(5)
+                    .background(Color.blue)
+                    .foregroundColor(Color.white)
+                    .cornerRadius(5)
+                    
+                    Menu { // Rating Filter
+                        Button(action: {
+                            if (appliedRatingFilters.contains(nil)) {
+                                appliedRatingFilters = appliedRatingFilters.filter { $0 != nil}
+                            } else {
+                                appliedRatingFilters.append(nil)
+                            }
+                        }) {
+                            Label("No Rating", systemImage: appliedRatingFilters.contains(nil) ?
+                                    "checkmark" : "")
+                        }
+                        ForEach(Rating.allCases) { rating in
+                            Button(action: {
+                                if (appliedRatingFilters.contains(rating)) {
+                                    appliedRatingFilters = appliedRatingFilters.filter { $0 != rating}
+                                } else {
+                                    appliedRatingFilters.append(rating)
+                                }
+                            }) {
+                                Label(rating.rawValue, systemImage: appliedRatingFilters.contains(rating) ?
+                                        "checkmark" : "")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                        Text("Rating")
                     }
                     .padding(5)
                     .background(Color.blue)

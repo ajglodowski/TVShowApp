@@ -19,20 +19,13 @@ struct DiscoverList: View {
     }
     
     var searchShows: [Show] {
-        modelData.shows.filter { show in
+        shows.filter { show in
             show.name.lowercased().contains(searchText.lowercased())
         }
     }
     
     var displayedShows : [Show] {
-        /*
-        if (searchText != "") {
-            return searchShows
-        } else {
-            return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
-        }
-         */
-        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: nil, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: modelData.shows, selectedLimited: selectedLimited)
+        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: nil, ratingFilters: [], tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
             .sorted { $0.name < $1.name }
     }
     

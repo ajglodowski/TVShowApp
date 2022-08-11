@@ -83,6 +83,7 @@ struct ShowDetailActors: View {
                     ForEach(0..<actorIds.count) { actorInd in
                         NavigationLink(destination: ActorDetail(actor: modelData.actors.first(where: {$0.id == actorIds[actorInd]})!)) {
                             ListActorRow(actorName: actorNames[actorInd])
+                                .background(backgroundColor.blendMode(.softLight))
                                 .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
                         }
                     }

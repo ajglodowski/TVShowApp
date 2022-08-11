@@ -92,6 +92,9 @@ struct ShowDetail: View {
                         ShowDetailText(show: show, showIndex: showIndex)
                         if (addedToMyShows) {
                             Button(action: {
+                                modelData.shows[showIndex].status = nil
+                                modelData.shows[showIndex].rating = nil
+                                modelData.shows[showIndex].currentSeason = nil
                                 deleteShowFromUserShows(showId: show.id)
                             }) {
                                 Text("Remove from My Shows")

@@ -59,10 +59,25 @@ struct ShowSeasonsRow: View {
                             
                         }
                     }
+                    // Plus button
+                    VStack {
+                        Button(action: {
+                            incrementTotalSeasons(showId: showId)
+                        }) {
+                            Image(systemName: "plus")
+                        }
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .frame(width: 50, height: 50, alignment: .center)
+                        .background(.green)
+                        .cornerRadius(10)
+                    }
+                    .frame(width: 50, height: 50, alignment: .top)
+                    
                 }
-                .padding(.bottom, 40)
+            .padding(.bottom, 40)
             .padding(.leading, 40)
-            .padding(.trailing, 40)
+            //.padding(.trailing, 40)
             }
         }
     }

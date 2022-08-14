@@ -178,3 +178,9 @@ func removeActorFromShow(act: Actor, showId: String) {
     ])
     
 }
+
+func incrementTotalSeasons(showId: String) {
+    Firestore.firestore().collection("shows").document(showId).updateData([
+        "totalSeasons": FieldValue.increment(Int64(1))
+    ])
+}

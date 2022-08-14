@@ -187,9 +187,11 @@ struct Home: View {
                 outsidePages()
                 
             }
+            /*
             .refreshable {
                 modelData.refreshData()
             }
+             */
             
             
             .sheet(isPresented: $isPresented) {

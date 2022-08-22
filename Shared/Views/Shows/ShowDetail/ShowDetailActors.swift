@@ -14,27 +14,6 @@ struct ShowDetailActors: View {
     var show: Show
     var backgroundColor: Color
     
-    var actorNames: [String] {
-        var output = [String]()
-        if (show.actors != nil) {
-            for (_, actorName) in show.actors! {
-                output.append(actorName)
-            }
-        }
-        return output
-    }
-    
-    var actorIds: [String] {
-        var output = [String]()
-        if (show.actors != nil) {
-            for (actorId, _) in show.actors! {
-                output.append(actorId)
-            }
-        }
-        return output
-    }
-    
-    
     var body: some View {
         
         // Old Actor Section
@@ -80,9 +59,9 @@ struct ShowDetailActors: View {
                 VStack(alignment: .leading){
                     Text("Actors")
                         .font(.title)
-                    ForEach(0..<actorIds.count) { actorInd in
-                        NavigationLink(destination: ActorDetail(actor: modelData.actors.first(where: {$0.id == actorIds[actorInd]})!)) {
-                            ListActorRow(actorName: actorNames[actorInd])
+                    ForEach(show.actors!.sorted(by: >), id:\.key) { actorId, actorName in
+                        NavigationLink(destination: ActorDetail(actor: modelData.actors.first(where: {$0.id == actorId})!)) {
+                            ListActorRow(actorName: actorName)
                                 .background(backgroundColor.blendMode(.softLight))
                                 .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
                         }

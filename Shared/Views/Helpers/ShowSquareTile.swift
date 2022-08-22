@@ -35,11 +35,11 @@ struct ShowSquareTile: View {
             
             if (aboveExtraText != nil) {
                 VStack {
-                    ForEach(0..<aboveExtraText!.count) { ind in
+                    ForEach(aboveExtraText!, id: \.self) { line in
                         if (aboveFontType == nil) {
-                            Text(aboveExtraText![ind])
+                            Text(line)
                         } else {
-                            Text(aboveExtraText![ind])
+                            Text(line)
                                 .font(aboveFontType)
                         }
                     }
@@ -77,11 +77,11 @@ struct ShowSquareTile: View {
             
             if (belowExtraText != nil) {
                 VStack {
-                    ForEach(0..<belowExtraText!.count) { ind in
+                    ForEach(belowExtraText!, id:  \.self) { belowLine in
                         if (belowFontType == nil) {
-                            Text(belowExtraText![ind])
+                            Text(belowLine)
                         } else {
-                            Text(belowExtraText![ind])
+                            Text(belowLine)
                                 .font(belowFontType)
                         }
                     }

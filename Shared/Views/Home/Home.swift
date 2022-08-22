@@ -147,6 +147,7 @@ struct Home: View {
                 }
                 
                 HStack (alignment: .center) {
+                    /*
                     // Save Button
                     Button(action: {
                         modelData.saveData()
@@ -155,6 +156,7 @@ struct Home: View {
                             //.font(.title)
                     })
                     .buttonStyle(.bordered)
+                     */
                    
                     // Reload Button
                     Spacer()

@@ -9,21 +9,10 @@ import SwiftUI
 
 struct ShowDetailEditActors: View {
     
-    var body: some View {
-        Text("TODO")
-    }
-    
-    /*
     @EnvironmentObject var modelData : ModelData
     
     var show : Show
-    let showIndex: Int
-    
-    
-    var actorArr : [Actor] {
-        getActors(showIn: show, actors: modelData.actors)
-    }
-     
+    //let showIndex: Int
     
     @State private var searchText = ""
     var searchActors: [Actor] {
@@ -35,13 +24,14 @@ struct ShowDetailEditActors: View {
     var body: some View {
         // Current Actors
         Section(header: Text("Actors:")) {
-            ForEach(actorArr) { act in
+            ForEach(show.actors!.sorted(by: >), id:\.key) { actorId, actorName in
                 HStack {
-                    Text(act.name)
+                    Text(actorName)
                     Spacer()
                     Spacer()
                     Button(action: {
-                        modelData.actors[actorIndex(actor: act)].shows = modelData.actors[actorIndex(actor: act)].shows.filter { $0 != show}
+                        // Remove actor from show
+                        removeActorFromShow(actorId: actorId, showId: show.id)
                     }, label: {
                         Text("Remove from Show")
                             //.font(.title)
@@ -70,7 +60,7 @@ struct ShowDetailEditActors: View {
             
             ForEach(searchActors) { act in
                 Button(action: {
-                    modelData.actors[actorIndex(actor: act)].addShow(toAdd: show)
+                    addActorToShow(act: act, showId: show.id)
                 }, label: {
                     Text(act.name)
                 })
@@ -81,11 +71,10 @@ struct ShowDetailEditActors: View {
         // Add a new actor
         Section(header: Text("Add a new actor")) {
             Button(action: {
-                var new = Actor()
-                new.shows.append(show)
-                //newShow = new
-                modelData.actors.append(new)
-                //ActorDetail(actor: new)
+                var new = Actor(id: "1")
+                let newActId = addActorToActors(act: new)
+                new.id = newActId
+                addActorToShow(act: new, showId: show.id)
             }, label: {
                 Text("Add a new Actor")
                     //.font(.title)
@@ -94,14 +83,15 @@ struct ShowDetailEditActors: View {
             //ActorEditList(show: modelData.shows[showIndex])
         }
     }
-     */
-}
 
-struct ShowDetailEditActors_Previews: PreviewProvider {
-    static let modelData = ModelData()
-    static var previews: some View {
-        //ShowDetailEditActors(show:modelData.shows[0], showIndex: 0)
-        ShowDetailEditActors()
-            .environmentObject(modelData)
-    }
 }
+/*
+ struct ShowDetailEditActors_Previews: PreviewProvider {
+ static let modelData = ModelData()
+ static var previews: some View {
+ //ShowDetailEditActors(show:modelData.shows[0], showIndex: 0)
+ ShowDetailEditActors()
+ .environmentObject(modelData)
+ }
+ }
+ */

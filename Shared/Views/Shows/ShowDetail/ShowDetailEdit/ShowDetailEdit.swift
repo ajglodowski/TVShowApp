@@ -239,7 +239,7 @@ struct ShowDetailEdit: View {
                 }
             }
             
-            //ShowDetailEditActors(show: show, showIndex: showIndex)
+            ShowDetailEditActors(show: show)
             
             
             // ID

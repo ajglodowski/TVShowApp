@@ -64,14 +64,14 @@ struct ActorDetailEdit: View {
             
             // Current Shows
             Section(header: Text("Current Shows:")) {
-                ForEach(0..<showIds.count) { showInd in
+                ForEach(actor.shows.sorted(by: >), id:\.key) { showId, showName in
                     HStack {
-                        Text(showNames[showInd])
+                        Text(showName)
                         Spacer()
                         //Text(show.id)
                         Spacer()
                         Button(action: {
-                            removeActorFromShow(act: actor, showId: showIds[showInd])
+                            removeActorFromShow(actorId: actor.id, showId: showId)
                         }, label: {
                             Text("Remove show")
                                 //.font(.title)

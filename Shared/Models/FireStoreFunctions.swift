@@ -169,11 +169,11 @@ func addActorToShow(act: Actor, showId: String) {
     ])
 }
 
-func removeActorFromShow(act: Actor, showId: String) {
+func removeActorFromShow(actorId: String, showId: String) {
     Firestore.firestore().collection("shows").document(showId).updateData([
-        "actors.\(act.id)": FieldValue.delete()
+        "actors.\(actorId)": FieldValue.delete()
     ])
-    Firestore.firestore().collection("actors").document(act.id).updateData([
+    Firestore.firestore().collection("actors").document(actorId).updateData([
         "shows.\(showId)": FieldValue.delete()
     ])
     

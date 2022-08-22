@@ -16,26 +16,6 @@ struct ActorDetail: View {
     @State var actorEdited: Actor
     
     @State private var isPresented = false // Edit menu var
-    //var showNames = [String]()
-    
-    var showNames: [String] {
-        var output = [String]()
-        for (_, showName) in actor.shows {
-            output.append(showName)
-        }
-        return output
-    }
-     
-    //var showIds = [String]()
-    
-    var showIds: [String] {
-        var output = [String]()
-        for (showId, _) in actor.shows {
-            output.append(showId)
-        }
-        return output
-    }
-     
     
     var actorIndex: Int {
         modelData.actors.firstIndex(where: { $0.id == actor.id})!
@@ -60,11 +40,11 @@ struct ActorDetail: View {
                     Text("Shows "+actor.name+" has appeared in:")
                         .padding()
                     
-                    ForEach(0..<showIds.count) { showInd in
-                        NavigationLink(destination: ShowDetail(show: modelData.shows.first(where: { $0.id == showIds[showInd]
+                    ForEach(actor.shows.sorted(by: >), id:\.key) { showId, showName in
+                        NavigationLink(destination: ShowDetail(show: modelData.shows.first(where: { $0.id == showId
                         })!)) {
                             HStack {
-                                Text(showNames[showInd])
+                                Text(showName)
                             }
                         }
                         .padding()

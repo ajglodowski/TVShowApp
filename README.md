@@ -28,7 +28,9 @@ The stats page shows some basic statistics about the show data. The page has a l
 
 ## Databases
 
-The data is stored on a Firebase NoSQL Realtime Database and accessed primarily through REST apis. This was chosen due the fact that the existing data was stored in json files and this allowed easiest conversion. Firestore or a SQL database with better object mapping is more ideal and a future todo. It was previously stored in json files on this repo and because of that, the number of commits on the repo is inflated.
+The data is currently stored on Firebase NoSQL Firestore Database. This was chosen due to the fact that it allows for authentication, specialized queries, and better data mapping. The current limitations are that the object mapping does not seem precise (GraphQL?) and there are enormous amounts of reads per user that needs to be cleaned up.
+
+The data used to be stored on a Firebase NoSQL Realtime Database and accessed primarily through REST APIs. This was due to the fact that it was easy to transfer over from the existing JSON files that stored the data. Those previous JSON files were stored in this repo and because of that, the number of commits on the repo is inflated.
 
 ## Swift Language
 
@@ -36,18 +38,29 @@ The app is written entirely in Swift and SwiftUI as the purpose was for this to 
 
 # In Progress:
 
-I am currently working on switching the app over from the RealTime Database to FireStore. This involves remapping all the objects and their relationships and will significanlty help with upkeep of the app. This switch also involves adding Authentication and users so that the app could be used by others.
+I am currently working on switching the app over from the RealTime Database to FireStore. This involves remapping all the objects and their relationships and will significantly help with the upkeep of the app. This switch also involves adding Authentication and users so that the app could be used by others. Most of this switch has been completed but there are still significant lingering issues regarding this.
 
 TODO:
 - Investigate searching FireStore (Algolia?)
 
 # Future Development:
 
+Firestore/Data Improvements Improvements:
+- Significantly restructure swift data loading so that data is loaded using more precise queries to reduce document reads. Possibly look at using Google Cloud functions to reduce even further?
+- Switch arrays to dictionaries. Since dictionaries have constant or close to constant complexity when searching, it would be best to switch more of the existing array data structures to use them instead.
+- Adding rating counts to shows so that sorting and data processing by rating can be used.
+
+Social Media:
+- Given that users are implemented with Firebase it is now possible to make the app a social media platform. 
+- On the frontend, account pages that displays user's shows and allows them to follow each other would be needed.
+- On the backend, Firestore would need to add followers to user objects.
+- This would coincide with the rating counts changes.
+
+Quality of Life Updates:
 - Fix Navigation Bugs
 - Update the stats page so graphs use colors of the streaming services
-- Improve the object relationship between actors and shows as it presents many bugs
-- Update the database to use Firestore instead of Realtime Database
 - Loading show and/or actor data, such as photos from online (ex: IMDB)
+- Improve the object relationship between actors and shows as it presents many bugs
 
 # Acknowledgements
 This follows many of the concepts taught in Apple's SwiftUI and IOS tutorials, however significantly expands on them with more views, more complex filters, etc. The process of obtaining dynamic backgrounds on show pages comes from here: https://medium.com/swlh/swiftui-read-the-average-color-of-an-image-c736adb43000, but is adapted to fit my project. I do not own any of the rights to the photos used.

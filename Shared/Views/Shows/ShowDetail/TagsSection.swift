@@ -9,29 +9,23 @@ import SwiftUI
 
 struct TagsSection: View {
     
-    @Binding var activeTags: [Tag]?
+    var showId: String
+    var activeTags: [Tag]
     
     var otherTags: [Tag] {
-        if (activeTags != nil) {
-            return Tag.allCases.filter { !activeTags!.contains($0) }
-        } else {
-            return Tag.allCases
-        }
+        return Tag.allCases.filter { !activeTags.contains($0) }
     }
     
     
     var body: some View {
         VStack(alignment: .leading) {
             Text("Tags:")
-            if (activeTags != nil && !activeTags!.isEmpty) {
+            if (!activeTags.isEmpty) {
                 ScrollView(.horizontal) {
                     HStack {
-                        ForEach(activeTags!) { tag in
+                        ForEach(activeTags) { tag in
                             Button(action: {
-                                if (activeTags == nil) {
-                                    activeTags = []
-                                }
-                                activeTags!.removeAll(where: { $0 == tag})
+                                removeTagFromShow(showId: showId, tag: tag)
                             }) {
                                 Text(tag.rawValue)
                                 Image(systemName:"xmark")
@@ -50,10 +44,7 @@ struct TagsSection: View {
                     HStack {
                         ForEach(otherTags.filter { $0.category == category} ) { tag in
                             Button(action: {
-                                if (activeTags == nil) {
-                                    activeTags = []
-                                }
-                                activeTags!.append(tag)
+                                addTagToShow(showId: showId, tag: tag)
                             }) {
                                 Text(tag.rawValue)
                                 Image(systemName:"plus")

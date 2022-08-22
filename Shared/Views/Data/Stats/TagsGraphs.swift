@@ -27,10 +27,9 @@ struct TagsGraphs: View {
     }
 
     var tagsCounts: [TagsCount] {
-        let validShows = modelData.shows.filter { ($0.tags != nil) }
         var tagAr: [TagsCount] = []
         for tag in Tag.allCases {
-            let count = validShows.filter{ $0.tags!.contains(tag) }.count
+            let count = modelData.shows.filter { $0.tags!.contains(tag) }.count
             let adding = TagsCount(tag: tag, count: count)
             tagAr.append(adding)
         }
@@ -38,7 +37,7 @@ struct TagsGraphs: View {
     }
     
     var showTagsCounts: [ShowTagCount] {
-        let validShows = modelData.shows.filter { ($0.tags != nil) }
+        let validShows = modelData.shows
         var tagCounts = [Int:Int]()
         for show in validShows {
             let tagCount = show.tags!.count

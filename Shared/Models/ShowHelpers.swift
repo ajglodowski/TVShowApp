@@ -92,7 +92,19 @@ func applyTagFilters(tagFilters: [Tag], shows: [Show]) -> [Show] {
     }
 }
 
-func applyAllFilters(serviceFilters: [Service], statusFilters: [Status], tagFilters: [Tag], showLengthFilter: ShowLength, shows: [Show], selectedLimited: Int) -> [Show] {
+func applyRatingFilters(ratingFilters: [Rating?], shows:[Show]) -> [Show] {
+    if (!ratingFilters.isEmpty) {
+        var output = [Show]()
+        for rating in ratingFilters {
+            output.append(contentsOf: shows.filter{ $0.rating == rating})
+        }
+        return output
+    } else {
+        return shows
+    }
+}
+
+func applyAllFilters(serviceFilters: [Service], statusFilters: [Status]?, ratingFilters: [Rating?], tagFilters: [Tag], showLengthFilter: ShowLength, shows: [Show], selectedLimited: Int) -> [Show] {
     var filtered = [Show]()
     if (!serviceFilters.isEmpty) {
         for service in serviceFilters {
@@ -103,11 +115,13 @@ func applyAllFilters(serviceFilters: [Service], statusFilters: [Status], tagFilt
         filtered = shows
     }
     
-    if (!statusFilters.isEmpty) {
+    if (statusFilters != nil && !statusFilters!.isEmpty) {
         filtered = filtered.filter {
-            statusFilters.contains($0.status)
+            statusFilters!.contains($0.status!)
         }
     }
+    
+    filtered = applyRatingFilters(ratingFilters: ratingFilters, shows: filtered)
     
     filtered = applyTagFilters(tagFilters: tagFilters, shows: filtered)
     
@@ -124,6 +138,8 @@ func applyAllFilters(serviceFilters: [Service], statusFilters: [Status], tagFilt
     return filtered
 }
 
+/*
+ // Deprecated with Firestore
 func getActors(showIn: Show, actors: [Actor]) -> [Actor] {
     var output : [Actor] = []
     for specificActor in actors {
@@ -135,6 +151,8 @@ func getActors(showIn: Show, actors: [Actor]) -> [Actor] {
     }
     return output
 }
+ */
+ 
 
 func getAirDateFromString(day: String) -> AirDate {
     switch day {

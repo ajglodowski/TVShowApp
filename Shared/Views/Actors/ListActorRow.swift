@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ListActorRow: View {
     
-    @EnvironmentObject var modelData : ModelData
+    //@EnvironmentObject var modelData : ModelData
     
-    var actor: Actor
+    var actorName: String
     
     var body: some View {
         HStack {
-            Text(actor.name)
+            Text(actorName)
             Spacer()
         }
         .padding()
@@ -44,10 +44,10 @@ struct ListActorRow: View {
 
 struct ListActorRow_Previews: PreviewProvider {
     
-    static var actors = ModelData().actors
+    //static var actors = ModelData().actors
     
     //@ObservedObject var showStore = ShowStore()
     static var previews: some View {
-        ListActorRow(actor: actors[0])
+        ListActorRow(actorName: "Test Actor")
     }
 }

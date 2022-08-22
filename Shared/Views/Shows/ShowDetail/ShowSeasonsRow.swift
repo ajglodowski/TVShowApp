@@ -12,9 +12,10 @@ struct ShowSeasonsRow: View {
     @EnvironmentObject var modelData: ModelData
     
     var totalSeasons: Int
-    @Binding var currentSeason: Int
+    @Binding var currentSeason: Int?
     var backgroundColor: Color
     var showIndex: Int
+    var showId: String
     
     var body: some View {
         VStack (alignment: .leading) {
@@ -28,6 +29,7 @@ struct ShowSeasonsRow: View {
                             VStack (alignment: .center) {
                                 Button(action: {
                                     currentSeason = num
+                                    updateCurrentSeason(newSeason: num, showId: showId)
                                 }, label: {
                                     Text((String(num)))
                                         .font(.title)
@@ -57,15 +59,31 @@ struct ShowSeasonsRow: View {
                             
                         }
                     }
+                    // Plus button
+                    VStack {
+                        Button(action: {
+                            incrementTotalSeasons(showId: showId)
+                        }) {
+                            Image(systemName: "plus")
+                        }
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .frame(width: 50, height: 50, alignment: .center)
+                        .background(.green)
+                        .cornerRadius(10)
+                    }
+                    .frame(width: 50, height: 50, alignment: .top)
+                    
                 }
-                .padding(.bottom, 40)
+            .padding(.bottom, 40)
             .padding(.leading, 40)
-            .padding(.trailing, 40)
+            //.padding(.trailing, 40)
             }
         }
     }
 }
 
+/*
 struct ShowSeasonsRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -73,3 +91,4 @@ struct ShowSeasonsRow_Previews: PreviewProvider {
         }
     }
 }
+*/

@@ -10,17 +10,21 @@ import SwiftUI
 struct ActorDetail: View {
     
     @EnvironmentObject var modelData: ModelData
+        
+    var actor: Actor
     
-    var actor : Actor
+    @State var actorEdited: Actor
     
     @State private var isPresented = false // Edit menu var
     
-    var showList : [Show] {
-        actor.shows
-    }
-    
     var actorIndex: Int {
         modelData.actors.firstIndex(where: { $0.id == actor.id})!
+    }
+    
+    init(actor: Actor) {
+        self.actor = actor
+        _actorEdited = State(initialValue: actor)
+        //print(showEdited)
     }
     
     var body: some View {
@@ -35,12 +39,17 @@ struct ActorDetail: View {
                 VStack (alignment: .leading) {
                     Text("Shows "+actor.name+" has appeared in:")
                         .padding()
-                    ForEach(showList) { show in
-                        NavigationLink(destination: ShowDetail(show: modelData.shows.first(where: {$0.equals(input: show)})!)) {
-                            ListShowRow(show: show)
+                    
+                    ForEach(actor.shows.sorted(by: >), id:\.key) { showId, showName in
+                        NavigationLink(destination: ShowDetail(show: modelData.shows.first(where: { $0.id == showId
+                        })!)) {
+                            HStack {
+                                Text(showName)
+                            }
                         }
                         .padding()
                     }
+                    
                 }
             }
         }
@@ -55,14 +64,27 @@ struct ActorDetail: View {
         
         .sheet(isPresented: $isPresented) {
             NavigationView {
-                ActorDetailEdit(isPresented: self.$isPresented, actor: actor, actorIndex: actorIndex)
+                ActorDetailEdit(isPresented: self.$isPresented, actor: $actorEdited)
+                //ShowDetailEdit(isPresented: self.$isPresented)
                     .navigationTitle(actor.name)
-                    .navigationBarItems(trailing: Button("Done") {
+                    .navigationBarItems(leading: Button("Cancel") {
+                        actorEdited = actor
+                        isPresented = false
+                    }, trailing: Button("Done") {
+                        //print(showEdited)
+                        if (actorEdited != actor) {
+                            if (actorEdited.name != actor.name) {
+                                updateActor(act: actorEdited, actorNameEdited: true)
+                            } else {
+                                updateActor(act: actorEdited, actorNameEdited: false)
+                            }
+                        }
                         isPresented = false
                     })
             }
         }
     }
+    
 }
 
 struct ActorDetail_Previews: PreviewProvider {
@@ -71,8 +93,8 @@ struct ActorDetail_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            ActorDetail(actor: modelData.actors[0])
-                .environmentObject(modelData)
+            //ActorDetail(actorId: "zdvmjx5mhIZnjzTP6KlZ")
+                //.environmentObject(modelData)
         }
     }
 }

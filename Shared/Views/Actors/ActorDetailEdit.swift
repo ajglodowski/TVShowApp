@@ -13,9 +13,9 @@ struct ActorDetailEdit: View {
     
     @Binding var isPresented: Bool
     
-    var actor : Actor
+    @Binding var actor : Actor
     
-    let actorIndex: Int
+    //let actorIndex: Int
     /*
     var actorIndex: Int {
         modelData.actors.firstIndex(where: { $0.id == actor.id }) ?? (modelData.actors.firstIndex(where: { $0.name == actor.name }) ?? -1)
@@ -25,12 +25,24 @@ struct ActorDetailEdit: View {
     @State private var searchText = ""
     var searchShows: [Show] {
         modelData.shows.filter { show in
-            show.name.contains(searchText)
+            show.name.lowercased().contains(searchText.lowercased())
         }
     }
     
-    var showArr : [Show] {
-        modelData.actors[actorIndex].shows
+    var showNames: [String] {
+        var output = [String]()
+        for (_, showName) in actor.shows {
+            output.append(showName)
+        }
+        return output
+    }
+    
+    var showIds: [String] {
+        var output = [String]()
+        for (showId, _) in actor.shows {
+            output.append(showId)
+        }
+        return output
     }
     
     var body: some View {
@@ -38,11 +50,11 @@ struct ActorDetailEdit: View {
             
             Section(header: Text("Actor Name:")) {
                 HStack {
-                    TextField("Actor Name", text: $modelData.actors[actorIndex].name)
+                    TextField("Actor Name", text: $actor.name)
                         .disableAutocorrection(true)
                         .font(.title)
-                    if (!modelData.actors[actorIndex].name.isEmpty) {
-                        Button(action: {modelData.actors[actorIndex].name = ""}, label: {
+                    if (!actor.name.isEmpty) {
+                        Button(action: { actor.name = "" }, label: {
                             Image(systemName: "xmark")
                         })
                     }
@@ -52,14 +64,14 @@ struct ActorDetailEdit: View {
             
             // Current Shows
             Section(header: Text("Current Shows:")) {
-                ForEach(showArr) { show in
+                ForEach(actor.shows.sorted(by: >), id:\.key) { showId, showName in
                     HStack {
-                        Text(show.name)
+                        Text(showName)
                         Spacer()
                         //Text(show.id)
                         Spacer()
                         Button(action: {
-                            modelData.actors[actorIndex].shows = modelData.actors[actorIndex].shows.filter { !$0.equals(input: show)}
+                            removeActorFromShow(actorId: actor.id, showId: showId)
                         }, label: {
                             Text("Remove show")
                                 //.font(.title)
@@ -88,7 +100,7 @@ struct ActorDetailEdit: View {
                 
                 ForEach(searchShows) { show in
                     Button(action: {
-                        modelData.actors[actorIndex].shows.append(show)
+                        addActorToShow(act: actor, showId: show.id)
                     }, label: {
                         Text(show.name)
                     })
@@ -102,7 +114,7 @@ struct ActorDetailEdit: View {
             Section(header: Text("Internal ID:")) {
                 //TextField("ID", value: $modelData.actors[actorIndex].id, formatter: NumberFormatter())
                     //.keyboardType(.numberPad)
-                Text("ID: "+modelData.actors[actorIndex].id)
+                Text("ID: "+actor.id)
             }
         }
     }

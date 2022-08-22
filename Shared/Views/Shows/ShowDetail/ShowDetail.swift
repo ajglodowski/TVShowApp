@@ -15,6 +15,8 @@ struct ShowDetail: View {
     
     var show : Show
     
+    @State var showEdited: Show
+    
     @State private var isPresented = false // Edit menu var
     @State private var backgroundColor: Color = .clear
     
@@ -22,13 +24,22 @@ struct ShowDetail: View {
         modelData.shows.firstIndex(where: { $0.id == show.id})!
     }
     
+    var addedToMyShows: Bool {
+        if show.status == nil { return false }
+        else { return true }
+    }
+    
+    /*
     var actorList: [Actor] {
         getActors(showIn: show, actors: modelData.actors)
     }
+     */
     
     init(show: Show) {
         self.show = show
         UINavigationBar.appearance().backgroundColor = .clear
+        _showEdited = State(initialValue: show)
+        //print(showEdited)
     }
     
     var body: some View {
@@ -53,17 +64,20 @@ struct ShowDetail: View {
                     
                     // Main Portion
                     VStack (alignment: .leading) {
+                        /*
                         HStack {
                             Text(show.name)
                                 .font(.title)
                             WatchedButton(isSet: $modelData.shows[showIndex].watched)
                         }
+                         */
                         
                         HStack {
-                            if(modelData.shows[showIndex].rating != nil) { RatingRow(curRating: $modelData.shows[showIndex].rating)
-                            } else {
+                            if (addedToMyShows && show.rating != nil) { RatingRow(curRating: show.rating!, show: show)
+                            } else if (addedToMyShows) {
                                 Button(action: {
-                                    modelData.shows[showIndex].rating = Rating.Meh
+                                    updateRating(rating: Rating.Meh, showId: show.id)
+                                    //modelData.shows[showIndex].rating = Rating.Meh
                                 }) {
                                     Text("Add a rating")
                                 }
@@ -72,45 +86,24 @@ struct ShowDetail: View {
                             }
                         }
                         
-                        HStack {
-                            if (show.status != Status.UpToDate && show.status != Status.ShowEnded && show.status != Status.SeenEnough && show.status != Status.NeedsWatched) {
-                                Button(action: {
-                                    modelData.shows[showIndex].status = Status.UpToDate
-                                }) {
-                                    Text("Up to Date")
-                                }
-                                .buttonStyle(.bordered)
-                                .tint(.green)
-                                Button(action: {
-                                    modelData.shows[showIndex].status = Status.ShowEnded
-                                }) {
-                                    Text("Show Ended")
-                                }
-                                .buttonStyle(.bordered)
-                                .tint(.blue)
-                            } else if (show.status == Status.NeedsWatched) {
-                                Button(action: {
-                                    modelData.shows[showIndex].status = Status.UpToDate
-                                }) {
-                                    Text("Currently Airing")
-                                }
-                                .buttonStyle(.bordered)
-                                Button(action: {
-                                    modelData.shows[showIndex].status = Status.ShowEnded
-                                }) {
-                                    Text("New Release")
-                                }
-                                .buttonStyle(.bordered)
-                            }
-                        }
-                        //.padding(5)
-                        //.background(.quaternary)
-                        //.cornerRadius(5)
+                        UpdateStatusButtons(show: show)
                         
-                        ShowSeasonsRow(totalSeasons: show.totalSeasons, currentSeason: $modelData.shows[showIndex].currentSeason, backgroundColor: backgroundColor, showIndex: showIndex)
+                        ShowSeasonsRow(totalSeasons: show.totalSeasons, currentSeason: $modelData.shows[showIndex].currentSeason, backgroundColor: backgroundColor, showIndex: showIndex, showId: show.id)
                         ShowDetailText(show: show, showIndex: showIndex)
+                        if (addedToMyShows) {
+                            Button(action: {
+                                modelData.shows[showIndex].status = nil
+                                modelData.shows[showIndex].rating = nil
+                                modelData.shows[showIndex].currentSeason = nil
+                                deleteShowFromUserShows(showId: show.id)
+                            }) {
+                                Text("Remove from My Shows")
+                            }
+                            .buttonStyle(.bordered)
+                            .tint(.red)
+                        }
                         Divider()
-                        TagsSection(activeTags: $modelData.shows[showIndex].tags)
+                        TagsSection(showId: show.id, activeTags: show.tags!)
                     }
                     .padding()
                     // Darker, possible use in future
@@ -146,9 +139,21 @@ struct ShowDetail: View {
         
         .sheet(isPresented: $isPresented) {
             NavigationView {
-                ShowDetailEdit(isPresented: self.$isPresented, show: show, showIndex: showIndex)
+                ShowDetailEdit(isPresented: self.$isPresented, show: $showEdited)
                     .navigationTitle(show.name)
-                    .navigationBarItems(trailing: Button("Done") {
+                    .navigationBarItems(leading: Button("Cancel") {
+                        showEdited = show
+                        isPresented = false
+                    }, trailing: Button("Done") {
+                        //print(showEdited)
+                        if (showEdited != show) {
+                            addOrUpdateToUserShows(show: showEdited)
+                            if (showEdited.name != show.name) {
+                                updateToShows(show: showEdited, showNameEdited: true)
+                            } else {
+                                updateToShows(show: showEdited, showNameEdited: false)
+                            }
+                        }
                         isPresented = false
                     })
             }
@@ -163,7 +168,7 @@ struct ShowDetail: View {
 }
     
 private func setAverageColor() {
-        let uiColor = UIImage(named: show.name)?.averageColor ?? .clear
+    let uiColor = UIImage(named: show.name)?.averageColor ?? .black
         //print(uiColor)
         backgroundColor = Color(uiColor)
     }

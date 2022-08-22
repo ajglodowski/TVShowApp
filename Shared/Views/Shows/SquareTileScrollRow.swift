@@ -32,9 +32,10 @@ struct SquareTileScrollRow: View {
     func getAboveExtraText(s: Show) -> [String]? {
         switch scrollType {
         case 1:
-            return [s.airdate.rawValue]
+            return [s.airdate!.rawValue]
         case 2:
             if (!isOutNow(s: s)) {
+                //print(s)
                 return ["In \(String(Calendar.current.dateComponents([.day], from: Date.now, to: s.releaseDate!).day!)) days"]
             } else {
                 return ["Out Now"]
@@ -73,7 +74,7 @@ struct SquareTileScrollRow: View {
                                 Button(action: {
                                     let day = DateFormatter()
                                     day.dateFormat = "EEEE"
-                                    print(showIndex(show: show))
+                                    //print(showIndex(show: show))
                                     modelData.shows[showIndex(show: show)].status = Status.CurrentlyAiring
                                     modelData.shows[showIndex(show: show)].airdate = getAirDateFromString(day: day.string(from: show.releaseDate!))
                                     modelData.shows[showIndex(show: show)].releaseDate = nil

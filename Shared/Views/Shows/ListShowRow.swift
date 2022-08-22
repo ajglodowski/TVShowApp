@@ -33,16 +33,6 @@ struct ListShowRow: View {
                 }
                 Spacer()
                 
-                //let index = showIndex(show: show)
-                
-                if (show.watched) {
-                    Image(systemName: "eye.fill")
-                } else {
-                    Image(systemName: "calendar.circle")
-                }
-                
-                //Divider()
-                
                 if show.running {
                     Image(systemName: "checkmark.circle")
                 } else {

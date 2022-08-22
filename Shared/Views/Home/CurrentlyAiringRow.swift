@@ -11,20 +11,29 @@ struct CurrentlyAiringRow: View {
     
     @EnvironmentObject var modelData : ModelData
     
+    var shows: [Show] {
+        let out = modelData.shows.filter( {
+            $0.status != nil
+        })
+        //print(out)
+        return out
+    }
+    
     var currentlyAiring: [Show] {
-        modelData.shows
-            .filter { $0.status == Status.CurrentlyAiring }
-            .sorted { $0.airdate.id < $1.airdate.id }
+        shows
+            .filter { $0.status! == Status.CurrentlyAiring }
+            .sorted { $0.airdate!.id < $1.airdate!.id }
     }
     
     var currentlyAiringGroups: [AirDate:[Show]] {
         var output : [AirDate:[Show]] = [:]
         for c in currentlyAiring {
-            if (output[c.airdate] == nil) {
+            //print(c)
+            if (output[c.airdate!] == nil) {
                 var newAr: [Show] = [c]
-                output[c.airdate] = newAr
+                output[c.airdate!] = newAr
             } else {
-                output[c.airdate]!.append(c)
+                output[c.airdate!]!.append(c)
             }
         }
         //print(output)
@@ -83,7 +92,7 @@ struct TodayTile: View {
             )
             .padding(.leading, 10)
             .padding(.top, 5)
-            //.padding(.bottom, 5)
+            .padding(.bottom, 5)
             Text("Today")
         }
     }
@@ -112,7 +121,7 @@ struct OtherTiles: View {
         )
         .padding(.leading, 10)
         .padding(.top, 5)
-        //.padding(.bottom, 5)
+        .padding(.bottom, 5)
     }
 }
 

@@ -14,9 +14,8 @@ struct ActorList: View {
     @State private var searchText = ""
     
     var searchActors: [Actor] {
-        modelData.actors.filter { specActor in
-            specActor.name.contains(searchText)
-        }
+        modelData.actors.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+            .sorted { $0.name < $1.name }
     }
     
     var body: some View {
@@ -27,16 +26,14 @@ struct ActorList: View {
                         HStack {
                             Text(specActor.name)
                             Spacer()
-                            Spacer()
                         }
                     }
                 }
             } else {
-                ForEach(modelData.actors.filter { $0.name.contains(searchText) }.sorted { $0.name < $1.name }) { specActor in
+                ForEach(searchActors) { specActor in
                     NavigationLink(destination: ActorDetail(actor: specActor)) {
                         HStack {
                             Text(specActor.name)
-                            Spacer()
                             Spacer()
                         }
                     }

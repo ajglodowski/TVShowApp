@@ -8,14 +8,14 @@
 import SwiftUI
 import Combine
 
-struct WatchList: View {
+struct DiscoverList: View {
     
     @EnvironmentObject var modelData : ModelData
     
     @State private var searchText = ""
     
     var shows: [Show] {
-        modelData.shows.filter { $0.addedToUserShows }
+        modelData.shows.filter { !$0.addedToUserShows }
     }
     
     var searchShows: [Show] {
@@ -25,20 +25,11 @@ struct WatchList: View {
     }
     
     var displayedShows : [Show] {
-        /*
-        if (searchText != "") {
-            return searchShows
-        } else {
-            return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
-        }
-         */
-        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, ratingFilters: appliedRatingFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
+        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: nil, ratingFilters: [], tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
             .sorted { $0.name < $1.name }
     }
     
     @State var appliedServiceFilters = [Service]()
-    @State var appliedStatusFilters = [Status]()
-    @State var appliedRatingFilters = [Rating?]()
     @State var appliedTagFilters = [Tag]()
     @State var selectedLength: ShowLength = ShowLength.none
     @State var selectedLimited: Int = 0
@@ -88,7 +79,6 @@ struct WatchList: View {
                         .pickerStyle(SegmentedPickerStyle())
                     }
                 }
-                
                 HStack { // Filter Row
                     Menu { // Service Filter
                         ForEach(Service.allCases) { service in
@@ -111,30 +101,9 @@ struct WatchList: View {
                     .background(Color.blue)
                     .foregroundColor(Color.white)
                     .cornerRadius(5)
-                
-                    Menu { // Status Filter
-                        ForEach(Status.allCases) { status in
-                            Button(action: {
-                                if (appliedStatusFilters.contains(status)) {
-                                    appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
-                                } else {
-                                    appliedStatusFilters.append(status)
-                                }
-                            }) {
-                                Label(status.rawValue, systemImage: appliedStatusFilters.contains(status) ?
-                                        "checkmark" : "")
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                        Text("Status")
-                    }
-                    .padding(5)
-                    .background(Color.blue)
-                    .foregroundColor(Color.white)
-                    .cornerRadius(5)
+
                     
-                    Menu { // Status Filter
+                    Menu { // Tag Filter
                         HStack {
                             Section {
                                 ForEach(TagCategory.allCases) { category in
@@ -173,38 +142,6 @@ struct WatchList: View {
                     .foregroundColor(Color.white)
                     .cornerRadius(5)
                     
-                    Menu { // Rating Filter
-                        Button(action: {
-                            if (appliedRatingFilters.contains(nil)) {
-                                appliedRatingFilters = appliedRatingFilters.filter { $0 != nil}
-                            } else {
-                                appliedRatingFilters.append(nil)
-                            }
-                        }) {
-                            Label("No Rating", systemImage: appliedRatingFilters.contains(nil) ?
-                                    "checkmark" : "")
-                        }
-                        ForEach(Rating.allCases) { rating in
-                            Button(action: {
-                                if (appliedRatingFilters.contains(rating)) {
-                                    appliedRatingFilters = appliedRatingFilters.filter { $0 != rating}
-                                } else {
-                                    appliedRatingFilters.append(rating)
-                                }
-                            }) {
-                                Label(rating.rawValue, systemImage: appliedRatingFilters.contains(rating) ?
-                                        "checkmark" : "")
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                        Text("Rating")
-                    }
-                    .padding(5)
-                    .background(Color.blue)
-                    .foregroundColor(Color.white)
-                    .cornerRadius(5)
-                    
                     Picker("Limited Series?", selection: $selectedLimited) {
                         Text("All").tag(0)
                         Text("Non-Limited").tag(1)
@@ -224,26 +161,6 @@ struct WatchList: View {
                             }, label: {
                                 HStack {
                                     Text(service.rawValue)
-                                    Image(systemName: "xmark")
-                                }
-                    
-                            })
-                            .buttonStyle(.bordered)
-                            .buttonBorderShape(.capsule)
-                        }
-                    }
-                }
-                
-                if (!appliedStatusFilters.isEmpty) {
-                    HStack {
-                        ForEach(appliedStatusFilters) { status in
-                        
-                            // Bug in removing service functionality
-                            Button(action: {
-                                appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
-                            }, label: {
-                                HStack {
-                                    Text(status.rawValue)
                                     Image(systemName: "xmark")
                                 }
                     
@@ -275,9 +192,6 @@ struct WatchList: View {
                 HStack {
                     Text("Show Title")
                     Spacer()
-                    Text("Watched?")
-                        .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
-                    Divider()
                     Text("Running?")
                 }
                 
@@ -298,10 +212,11 @@ struct WatchList: View {
             
             
         }
-        .navigationTitle("Watchlist")
+        .navigationTitle("Discover other shows")
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         .disableAutocorrection(true)
     }
+    
     /*
     func removeRows(at offsets: IndexSet) {
         ModelData().shows.remove(atOffsets: offsets)
@@ -312,12 +227,12 @@ struct WatchList: View {
 
 
 
-struct WatchList_Previews: PreviewProvider {
+struct DiscoverList_Previews: PreviewProvider {
     
     //.environmentObject(UserData())
     
     static var previews: some View {
-        WatchList()
+        DiscoverList()
             .environmentObject(ModelData())
     }
 }

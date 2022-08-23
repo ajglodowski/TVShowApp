@@ -24,21 +24,25 @@ struct ShowDetailEditActors: View {
     var body: some View {
         // Current Actors
         Section(header: Text("Actors:")) {
-            ForEach(show.actors!.sorted(by: >), id:\.key) { actorId, actorName in
-                HStack {
-                    Text(actorName)
-                    Spacer()
-                    Spacer()
-                    Button(action: {
-                        // Remove actor from show
-                        removeActorFromShow(actorId: actorId, showId: show.id)
-                    }, label: {
-                        Text("Remove from Show")
+            if (show.actors != nil) {
+                ForEach(show.actors!.sorted(by: >), id:\.key) { actorId, actorName in
+                    HStack {
+                        Text(actorName)
+                        Spacer()
+                        Spacer()
+                        Button(action: {
+                            // Remove actor from show
+                            removeActorFromShow(actorId: actorId, showId: show.id)
+                        }, label: {
+                            Text("Remove from Show")
                             //.font(.title)
-                    })
-                    .buttonStyle(.bordered)
+                        })
+                        .buttonStyle(.bordered)
+                    }
+                    .padding()
                 }
-                .padding()
+            } else {
+                Text("No Actors")
             }
         }
         

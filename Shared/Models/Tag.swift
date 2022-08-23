@@ -44,6 +44,8 @@ enum Tag: String, CaseIterable, Codable, Identifiable {
     case PheobeWallerBridge = "Phoebe Waller-Bridge"
     case RyanMurphy = "Ryan Murphy"
     case SallyRooney = "Sally Rooney"
+    case SamLevinson = "Sam Levinson"
+    case AdamMckay = "Adam McKay"
     
     case GameOfThrones = "Game of Thrones"
     case OldMarvel = "Old Marvel"
@@ -110,6 +112,10 @@ enum Tag: String, CaseIterable, Codable, Identifiable {
             return 205
         case "Sally Rooney":
             return 206
+        case "Sam Levinson":
+            return 207
+        case "Adam McKay":
+            return 208
         case "Game of Thrones":
             return 301
         case "Old Marvel":

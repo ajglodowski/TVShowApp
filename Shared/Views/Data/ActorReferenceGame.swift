@@ -9,12 +9,6 @@ import SwiftUI
 
 struct ActorReferenceGame: View {
     
-    var body: some View {
-        Text("TODO")
-    }
-    
-    /*
-    
     @EnvironmentObject var modelData : ModelData
     
     @State var actorList = [Actor]()
@@ -46,6 +40,25 @@ struct ActorReferenceGame: View {
         if (act == destinationActor) {
             self.won = true
         }
+    }
+    
+    func getActorListFromShow(show: Show) -> [Actor] {
+        var output = [Actor]()
+        if (show.actors == nil) { return output }
+        for (actorKey, actorName) in show.actors! {
+            let actorObj = modelData.actors.first(where: { $0.id == actorKey})!
+            output.append(actorObj)
+        }
+        return output
+    }
+    
+    func getShowListFromActor(actor: Actor) -> [Show] {
+        var output = [Show]()
+        for (showKey, showName) in actor.shows {
+            let showObj = modelData.shows.first(where: { $0.id == showKey})!
+            output.append(showObj)
+        }
+        return output
     }
     
     var body: some View {
@@ -115,7 +128,7 @@ struct ActorReferenceGame: View {
                     VStack (alignment: .center) {
                         Button(action: {
                             if (!actorList.isEmpty && destinationActor != nil) {
-                                let returned = findShortestPath(actorList: modelData.actors, startActor: actorList[0], destinationActor: destinationActor!)
+                                let returned = findShortestPath(showList: modelData.shows, actorList: modelData.actors, startActor: actorList[0], destinationActor: destinationActor!)
                                 if (returned.isEmpty) {
                                     invalidParing = true
                                     destinationActor = nil
@@ -203,7 +216,7 @@ struct ActorReferenceGame: View {
                         VStack (alignment: .center) {
                             if (actorList.count > showList.count) {
                                 //ScrollView(.horizontal) {
-                                ForEach(actorList.last!.shows) { show in
+                                ForEach(getShowListFromActor(actor: actorList.last!)) { show in
                                     Button(action: {
                                         showList.append(show)
                                     }) {
@@ -213,7 +226,7 @@ struct ActorReferenceGame: View {
                                 }
                             } else {
                                 //ScrollView(.horizontal) {
-                                ForEach(getActors(showIn: showList.last!, actors: modelData.actors)) { act in
+                                ForEach(getActorListFromShow(show: showList.last!)) { act in
                                     Button(action: {
                                         //actorList.append(act)
                                         addActor(act: act)
@@ -258,7 +271,6 @@ struct ActorReferenceGame: View {
         }
         .navigationTitle("Actor Reference Game")
     }
-     */
 }
 
 struct ActorReferenceGame_Previews: PreviewProvider {

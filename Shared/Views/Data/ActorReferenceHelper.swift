@@ -6,10 +6,10 @@
 //
 
 import Foundation
-/*
-func findShortestPath(actorList: [Actor], startActor: Actor, destinationActor: Actor) -> [Actor] {
+
+func findShortestPath(showList: [Show],actorList: [Actor], startActor: Actor, destinationActor: Actor) -> [Actor] {
     //let returned = actorBfs(actorList: actorList, src: startActor, dest: destinationActor, actorHistory: [startActor], showHistory: [Show](), shortestLength: 100000)
-    let returned = actorBfs(actorList: actorList, src: startActor, dest: destinationActor)
+    let returned = actorBfs(showList: showList, actorList: actorList, src: startActor, dest: destinationActor)
     //printShowList(input: returned)
     //printActorList(input: returned)
     //print(returned)
@@ -31,7 +31,7 @@ func findShortestPath(actorList: [Actor], startActor: Actor, destinationActor: A
         return [Actor]()
     }
 }
-
+/*
 func actorDfs(actorList: [Actor], src: Actor, dest: Actor, actorHistory: [Actor], showHistory: [Show], shortestLength: Int) -> [Actor] {
     
     if (src == dest && actorHistory.count < shortestLength) {
@@ -59,12 +59,12 @@ func actorDfs(actorList: [Actor], src: Actor, dest: Actor, actorHistory: [Actor]
     
     
 }
-
-func actorBfs(actorList: [Actor], src: Actor, dest: Actor) -> [Actor:Actor] {
+*/
+func actorBfs(showList: [Show],actorList: [Actor], src: Actor, dest: Actor) -> [Actor:Actor] {
     
     var queue = [Actor]()
     var actorHistory = [Actor]()
-    var showHistory = [Show]()
+    var showHistory = [String:String]()
     
     var pred = [Actor:Actor]()
     var dist = [Actor:Int]()
@@ -76,20 +76,24 @@ func actorBfs(actorList: [Actor], src: Actor, dest: Actor) -> [Actor:Actor] {
     while (!queue.isEmpty) {
         let curActor = queue.remove(at: 0)
         //print(curActor.name)
-        for show in curActor.shows {
-            if (!showHistory.contains(show)) {
-                showHistory.append(show)
-                for act in getActors(showIn: show, actors: actorList) {
-                    if (!actorHistory.contains(act)) {
-                        pred[act] = curActor
-                        dist[act] = dist[curActor]! + 1
-                        //print("Visiting actor: \(act.name)\n")
-                        actorHistory.append(act)
-                        queue.append(act)
-                        //printActorList(input: queue)
-                        if (act == dest) {
-                            //print("Found")
-                            return pred
+        for (actorKey, showName) in curActor.shows {
+            if (showHistory[actorKey] == nil) {
+                showHistory[actorKey] = showName
+                let showActorList = showList.first(where: { $0.id == actorKey})!.actors // Actor list of a specific show
+                if (showActorList != nil) {
+                    for (actorKey, actorName) in showActorList! {
+                        let act = actorList.first(where: {$0.id == actorKey})!
+                        if (!actorHistory.contains(act)) {
+                            pred[act] = curActor
+                            dist[act] = dist[curActor]! + 1
+                            //print("Visiting actor: \(act.name)\n")
+                            actorHistory.append(act)
+                            queue.append(act)
+                            //printActorList(input: queue)
+                            if (act == dest) {
+                                //print("Found")
+                                return pred
+                            }
                         }
                     }
                 }
@@ -101,4 +105,3 @@ func actorBfs(actorList: [Actor], src: Actor, dest: Actor) -> [Actor:Actor] {
     
     
 }
-*/

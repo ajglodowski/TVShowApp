@@ -22,23 +22,46 @@ struct HomeNewRows: View {
             .sorted { $0.name < $1.name }
     }
     
+    var catchingUp: [Show] {
+        modelData.shows
+            .filter { $0.status == Status.CatchingUp }
+            .sorted { $0.name < $1.name }
+    }
+    
     var body: some View {
         
         CurrentlyAiringRow()
             .ignoresSafeArea()
         
-        ScrollShowRow(items: newSeasons, scrollName: "New Seasons")
-            .ignoresSafeArea()
-        
-        VStack(alignment: .leading) {
-            Text("New Release")
-                .background()
-                .font(.title)
-            Text("New shows that you have started")
-                .font(.subheadline)
-            SquareTileScrollRow(items: newReleases, scrollType: 0)
+        if (!newSeasons.isEmpty) {
+            ScrollShowRow(items: newSeasons, scrollName: "New Seasons")
+                .ignoresSafeArea()
         }
-        .ignoresSafeArea()
+        
+        if (!newReleases.isEmpty) {
+            VStack(alignment: .leading) {
+                Text("New Releases")
+                    .background()
+                    .font(.title)
+                Text("New shows that you have started")
+                    .font(.subheadline)
+                SquareTileScrollRow(items: newReleases, scrollType: 0)
+            }
+            .ignoresSafeArea()
+        }
+        
+        if (!catchingUp.isEmpty) {
+            VStack(alignment: .leading) {
+                Text("Catching Up")
+                    .background()
+                    .font(.title)
+                Text("Shows you are catching up on to get up to date")
+                    .font(.subheadline)
+                SquareTileScrollRow(items: catchingUp, scrollType: 0)
+            }
+            .ignoresSafeArea()
+        }
+        
     }
 }
 

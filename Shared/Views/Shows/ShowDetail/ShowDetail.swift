@@ -154,7 +154,9 @@ struct ShowDetail: View {
                                 updateToShows(show: showEdited, showNameEdited: false)
                             }
                         }
+                        //print(isPresented)
                         isPresented = false
+                        //print(isPresented)
                     })
             }
         }

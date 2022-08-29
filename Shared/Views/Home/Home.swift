@@ -123,27 +123,35 @@ struct Home: View {
                 }
                 .ignoresSafeArea()
                 
-                VStack(alignment: .leading) {
-                    Text("Currently Watching")
-                        .font(.title)
-                    Text("Either currently airing, new season, or catching up")
-                        .font(.subheadline)
-                    SquareTileScrollRow(items: currentlyWatching, scrollType: 0)
+                if (!currentlyWatching.isEmpty) {
+                    VStack(alignment: .leading) {
+                        Text("Currently Watching")
+                            .font(.title)
+                        Text("Either currently airing, new season, or catching up")
+                            .font(.subheadline)
+                        SquareTileScrollRow(items: currentlyWatching, scrollType: 0)
+                    }
+                    .ignoresSafeArea()
                 }
-                .ignoresSafeArea()
                 
-                VStack(alignment: .leading) {
-                    Text("Coming Soon")
-                        .font(.title)
-                    Text("Watch for these to come out soon!")
-                        .font(.subheadline)
-                    SquareTileScrollRow(items: comingSoon, scrollType: 2)
+                if (!comingSoon.isEmpty) {
+                    VStack(alignment: .leading) {
+                        Text("Coming Soon")
+                            .font(.title)
+                        Text("Watch for these to come out soon!")
+                            .font(.subheadline)
+                        SquareTileScrollRow(items: comingSoon, scrollType: 2)
+                    }
+                    .ignoresSafeArea()
                 }
-                .ignoresSafeArea()
                 
-                VStack {
-                    ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
-                        .ignoresSafeArea()
+                AddToComingSoon()
+                
+                if (!unwatchedShows.isEmpty) {
+                    VStack {
+                        ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
+                            .ignoresSafeArea()
+                    }
                 }
                 
                 HStack (alignment: .center) {

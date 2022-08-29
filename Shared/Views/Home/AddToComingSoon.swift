@@ -1,0 +1,66 @@
+//
+//  AddToComingSoon.swift
+//  TV Show App
+//
+//  Created by AJ Glodowski on 8/28/22.
+//
+
+import SwiftUI
+
+struct AddToComingSoon: View {
+    
+    @EnvironmentObject var modelData : ModelData
+    
+    var shows: [Show] {
+        modelData.shows.filter({ $0.addedToUserShows })
+    }
+    
+    var outOfSync: [Show] {
+        shows.filter({ $0.status != Status.ComingSoon && $0.status != Status.SeenEnough && $0.releaseDate != nil})
+    }
+    
+    var body: some View {
+        if (!outOfSync.isEmpty) {
+            VStack(alignment: .leading) {
+                Text("Add to Coming Soon")
+                    .background()
+                    .font(.title)
+                Text("These shows have a release date but aren't in your coming soon")
+                    .font(.subheadline)
+                ScrollView (.horizontal) {
+                    HStack {
+                        ForEach(outOfSync) { s in
+                            VStack {
+                                NavigationLink(destination: ShowDetail(show: s)) {
+                                    ShowSquareTile(show: s)
+                                }
+                                .foregroundColor(.primary)
+                                Button(action:{
+                                    updateShowStatus(showId: s.id, status: Status.ComingSoon)
+                                }) {
+                                    Text("Add to Coming Soon")
+                                }
+                                .buttonStyle(.bordered)
+                                .tint(.green)
+                                Button(action:{
+                                    updateShowStatus(showId: s.id, status: Status.SeenEnough)
+                                }) {
+                                    Text("Seen Enough")
+                                }
+                                .buttonStyle(.bordered)
+                                .tint(.red)
+                            }
+                        }
+                    }
+                }
+            }
+            .ignoresSafeArea()
+        }
+    }
+}
+
+struct AddToComingSoon_Previews: PreviewProvider {
+    static var previews: some View {
+        AddToComingSoon()
+    }
+}

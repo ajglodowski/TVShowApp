@@ -88,14 +88,41 @@ struct ShowDetailEdit: View {
                     }
                     
                     // Status
-                    HStack {
-                        Picker("Change Status", selection: $show.status) {
-                            ForEach(Status.allCases) { status in
-                                Text(status.rawValue).tag(status as Status?)
+                    VStack (alignment: .leading) {
+                        Text("Choose a Status:")
+                        ScrollView(.horizontal) {
+                            HStack (alignment: .top) {
+                                ForEach(Status.allCases) { status in
+                                    VStack {
+                                        Button(action: {
+                                            switch status {
+                                            case Status.ShowEnded:
+                                                show.running = false
+                                            case Status.CurrentlyAiring:
+                                                if (show.airdate == nil) {
+                                                    show.airdate = AirDate.Other
+                                                }
+                                            case Status.ComingSoon:
+                                                if (show.releaseDate == nil) {
+                                                    show.releaseDate = Date()
+                                                }
+                                            default:
+                                                return
+                                            }
+                                            show.status = status
+                                        }) {
+                                            Text(status.rawValue)
+                                                .foregroundColor(.blue)
+                                        }
+                                        .buttonStyle(.bordered)
+                                        .tint(status == show.status ? .blue : .gray)
+                                        if (status == show.status) {
+                                            Text("Current Status")
+                                        }
+                                    }
+                                }
                             }
                         }
-                        .pickerStyle(MenuPickerStyle())
-                        .buttonStyle(.bordered)
                     }
                     
                 } else {
@@ -113,21 +140,13 @@ struct ShowDetailEdit: View {
                 
                 
                 
-                /*
-                 // Watched
-                 Toggle(isOn: $show.watched, label: {
-                 Text("Watched?")
+                 // Running
+                 Toggle(isOn: $show.running, label: {
+                     Text("Running?")
                  })
                  .toggleStyle(SwitchToggleStyle(tint: .blue))
                  //.padding()
                  
-                 // Discovered
-                 Toggle(isOn: $show.discovered, label: {
-                 Text("Discovered?")
-                 })
-                 .toggleStyle(SwitchToggleStyle(tint: .blue))
-                 //.padding()
-                 */
                 
                 // Show Length
                 VStack(alignment: .leading) {
@@ -229,6 +248,7 @@ struct ShowDetailEdit: View {
                         }
                     } else {
                         Button(action: {
+                            show.status = Status.ComingSoon
                             show.releaseDate = Date()
                         }, label: {
                             Text("Add a Release Date")
@@ -239,7 +259,7 @@ struct ShowDetailEdit: View {
                 }
             }
             
-            ShowDetailEditActors(show: show)
+            ShowDetailEditActors(show: $show)
             
             
             // ID

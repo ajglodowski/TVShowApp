@@ -46,22 +46,24 @@ struct CurrentlyAiringRow: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Currently Airing")
-                .font(.title)
-            ScrollView(.horizontal) {
-                HStack (alignment: .top) { // Put days next to each other
-                    ForEach(AirDate.allCases) { day in
-                        //Text(day.rawValue)
-                        if (currentlyAiringGroups[day] != nil) {
-                            if (day != today) {
-                                OtherTiles(currentlyAiringGroups: currentlyAiringGroups, day: day)
-                            } else {
-                                TodayTile(currentlyAiringGroups: currentlyAiringGroups, day: day)
+        if (!currentlyAiring.isEmpty) {
+            VStack(alignment: .leading) {
+                Text("Currently Airing")
+                    .font(.title)
+                ScrollView(.horizontal) {
+                    HStack (alignment: .top) { // Put days next to each other
+                        ForEach(AirDate.allCases) { day in
+                            //Text(day.rawValue)
+                            if (currentlyAiringGroups[day] != nil) {
+                                if (day != today) {
+                                    OtherTiles(currentlyAiringGroups: currentlyAiringGroups, day: day)
+                                } else {
+                                    TodayTile(currentlyAiringGroups: currentlyAiringGroups, day: day)
+                                }
                             }
                         }
+                        
                     }
-                    
                 }
             }
         }

@@ -11,7 +11,7 @@ struct ShowDetailEditActors: View {
     
     @EnvironmentObject var modelData : ModelData
     
-    var show : Show
+    @Binding var show : Show
     //let showIndex: Int
     
     @State private var searchText = ""
@@ -23,7 +23,7 @@ struct ShowDetailEditActors: View {
     
     var body: some View {
         // Current Actors
-        Section(header: Text("Actors:")) {
+        Section(header: Text("Actors (Changes are live):")) {
             if (show.actors != nil) {
                 ForEach(show.actors!.sorted(by: >), id:\.key) { actorId, actorName in
                     HStack {
@@ -32,6 +32,7 @@ struct ShowDetailEditActors: View {
                         Spacer()
                         Button(action: {
                             // Remove actor from show
+                            show.actors![actorId] = nil
                             removeActorFromShow(actorId: actorId, showId: show.id)
                         }, label: {
                             Text("Remove from Show")
@@ -64,6 +65,7 @@ struct ShowDetailEditActors: View {
             
             ForEach(searchActors) { act in
                 Button(action: {
+                    show.actors![act.id] = act.name
                     addActorToShow(act: act, showId: show.id)
                 }, label: {
                     Text(act.name)

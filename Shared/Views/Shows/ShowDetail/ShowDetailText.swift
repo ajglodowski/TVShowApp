@@ -50,7 +50,6 @@ struct ShowDetailText: View {
         if (show.releaseDate != nil) {
             Text("Release Date: " + ShowDetailText.formatter.string(from: show.releaseDate!))
         }
-          
         
         Divider()
         

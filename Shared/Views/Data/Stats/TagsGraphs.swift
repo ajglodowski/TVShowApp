@@ -83,24 +83,23 @@ struct TagsGraphs: View {
             
             Text("Tags per show")
                 .font(.title)
-            ScrollView(.horizontal) {
-                Chart {
-                    ForEach(showTagsCounts) { showTag in
-                        BarMark(
-                            x: .value("Tag Count", showTag.tagCount),
-                            y: .value("Show Count", showTag.showCount)
-                            
-                        )
-                        .annotation(position: .top) {
-                            Text(String(showTag.showCount))
-                        }
-                        .foregroundStyle(by: .value("Tag Count", showTag.tagCount))
+            Chart {
+                ForEach(showTagsCounts) { showTag in
+                    BarMark(
+                        x: .value("Tag Count", showTag.tagCount),
+                        y: .value("Show Count", showTag.showCount)
+                        
+                    )
+                    .annotation(position: .top) {
+                        Text(String(showTag.showCount))
                     }
-                }
-                .chartPlotStyle { plotArea in
-                    plotArea.frame(width: 300, height:350)
+                    .foregroundStyle(by: .value("Tag Count", showTag.tagCount))
                 }
             }
+            .chartPlotStyle { plotArea in
+                plotArea.frame(width: 300, height:350)
+            }
+            .padding(.top, 25)
             
         }
     }

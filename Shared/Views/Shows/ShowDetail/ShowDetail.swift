@@ -77,6 +77,7 @@ struct ShowDetail: View {
                             } else if (addedToMyShows) {
                                 Button(action: {
                                     updateRating(rating: Rating.Meh, showId: show.id)
+                                    incrementRatingCount(showId: show.id, rating: Rating.Meh)
                                     //modelData.shows[showIndex].rating = Rating.Meh
                                 }) {
                                     Text("Add a rating")
@@ -113,6 +114,8 @@ struct ShowDetail: View {
                     .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
                     .padding([.leading,.trailing])
                     .foregroundColor(.white)
+                    
+                    RatingsGraph(show: show, backgroundColor: backgroundColor)
                     
                     // Actors Section
                     ShowDetailActors(show: show, backgroundColor: backgroundColor)

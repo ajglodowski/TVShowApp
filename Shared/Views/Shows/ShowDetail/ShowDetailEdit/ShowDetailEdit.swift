@@ -107,7 +107,7 @@ struct ShowDetailEdit: View {
                                                     show.releaseDate = Date()
                                                 }
                                             default:
-                                                return
+                                                break
                                             }
                                             show.status = status
                                         }) {

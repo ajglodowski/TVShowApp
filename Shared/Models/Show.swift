@@ -23,6 +23,16 @@ struct Show : Hashable, Identifiable, Codable {
     var length: ShowLength
     var releaseDate: Date?
     var airdate: AirDate?
+    var ratingCounts: [Rating:Int]
+    var avgRating: Double {
+        var sum = 0
+        var totalRatings = 0
+        for (key, value) in ratingCounts {
+            totalRatings += value
+            sum += (key.pointValue * value)
+        }
+        return Double(sum) / Double(totalRatings)
+    }
     
     // User Specific
     var addedToUserShows: Bool {
@@ -58,6 +68,7 @@ struct Show : Hashable, Identifiable, Codable {
         self.limitedSeries = false
         self.tags = [Tag]()
         self.currentlyAiring = false
+        self.ratingCounts = [Rating.Disliked: 0, Rating.Meh: 0, Rating.Liked: 0, Rating.Loved: 0]
         //self.rating = Rating.Meh
         //actors = []
         //super.init()

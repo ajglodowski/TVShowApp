@@ -18,8 +18,9 @@ struct RatingRow: View {
             HStack (alignment:.top) {
                 ForEach(Rating.allCases) { rating in
                     Button(action: {
-                        //curRating = rating
+                        decrementRatingCount(showId: show.id, rating: show.rating!)
                         updateRating(rating: rating, showId: show.id)
+                        incrementRatingCount(showId: show.id, rating: rating)
                     }) {
                         VStack() {
                             Image(systemName: (curRating == rating) ? (getRatingSymbol(rating: rating)+".fill") : getRatingSymbol(rating: rating))
@@ -36,6 +37,7 @@ struct RatingRow: View {
             }
             .foregroundColor(Color.white)
             Button(action: {
+                decrementRatingCount(showId: show.id, rating: show.rating!)
                 deleteRatingFromUserShows(showId: show.id)
             }) {
                 Text("Remove Rating")

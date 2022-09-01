@@ -24,7 +24,7 @@ struct ShowSeasonsRow: View {
                 .padding(.top, 10)
             ScrollView(.horizontal) {
                 HStack (alignment: .top) {
-                    ForEach(1..<totalSeasons+1) { num in
+                    ForEach(1..<totalSeasons+1, id:\.self) { num in
                         if (num != currentSeason) {
                             VStack (alignment: .center) {
                                 Button(action: {

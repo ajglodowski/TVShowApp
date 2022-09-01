@@ -215,13 +215,15 @@ struct NewCharts: View {
                         .annotation(position: .top) {
                             Text(String(serv.count))
                         }
+                        //.foregroundStyle(getServiceColor(service: serv.service))
                         .foregroundStyle(by: .value("Service", serv.service.rawValue))
                     }
                 }
-                //.chartForegroundStyleScale(serviceColors)
+                //.chartForegroundStyleScale(KeyValuePairs(dictionaryLiteral:serviceColors))
                 .chartPlotStyle { plotArea in
                     plotArea.frame(height:300)
                 }
+                
                  
                 //
                 //.frame(height: 400)
@@ -249,9 +251,11 @@ struct NewCharts: View {
                             .foregroundStyle(by: .value("Status", stat.status.rawValue))
                         }
                     }
+                    
                     .chartPlotStyle { plotArea in
                         plotArea.frame(height:300)
                     }
+                     
                     //.chartForegroundStyleScale(serviceColors)
                     .frame(width: 600)
                      

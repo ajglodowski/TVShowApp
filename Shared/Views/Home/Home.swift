@@ -155,16 +155,19 @@ struct Home: View {
                 }
                 
                 HStack (alignment: .center) {
+                    
                     /*
-                    // Save Button
+                    // Sync Button
                     Button(action: {
-                        modelData.saveData()
+                        //modelData.saveData()
+                        syncRatingCounts(showList: modelData.shows)
                     }, label: {
-                        Text("Save Data")
+                        Text("Sync Data")
                             //.font(.title)
                     })
                     .buttonStyle(.bordered)
                      */
+                     
                    
                     // Reload Button
                     Spacer()

@@ -1,0 +1,60 @@
+//
+//  RatingsGraph.swift
+//  TV Show App
+//
+//  Created by AJ Glodowski on 9/1/22.
+//
+
+import SwiftUI
+import Charts
+
+struct RatingsGraph: View {
+    
+    @EnvironmentObject var modelData: ModelData
+    
+    var show : Show
+    var backgroundColor: Color
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Show Rating Counts:")
+                .font(.headline)
+            Text("Average Rating Value: \(show.avgRating)")
+            Chart {
+                ForEach(Rating.allCases.sorted {
+                    show.ratingCounts[$0] ?? 0 > show.ratingCounts[$1] ?? 0
+                }) { rating in
+                    BarMark(
+                        x: .value("Rating", rating.rawValue),
+                        y: .value("Count", show.ratingCounts[rating]!)
+                    )
+                    .annotation(position: .top) {
+                        Text(String(show.ratingCounts[rating]!))
+                    }
+                    .foregroundStyle(by: .value("Rating", rating.rawValue))
+                    //.foregroundStyle(rating.color)
+                }
+            }
+            .chartPlotStyle { plotArea in
+                plotArea.frame(height:250)
+            }
+            .chartForegroundStyleScale([
+                "Disliked": .red, "Meh": .yellow, "Liked": .blue, "Loved": .green
+            ])
+            .padding(.top, 25)
+        }
+        .padding()
+        .background(backgroundColor.blendMode(.softLight))
+        .cornerRadius(20)
+        .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+        .padding()
+        .foregroundColor(.white)
+    }
+}
+
+struct RatingsGraph_Previews: PreviewProvider {
+    static var previews: some View {
+        //RatingsGraph(show: Show(id:"1234"))
+        Text("oh")
+    }
+}

@@ -24,13 +24,19 @@ func convertShowToDictionary(show: Show) -> [String:Any] {
     
     if (show.tags != nil) {
         output["tags"] = show.tags!.map { $0.rawValue }
-        
-    } // Use for running
+    }
     
     if (show.actors != nil && !show.actors!.isEmpty) {
         //print("Actor dict: \(show.actors!)\n")
         output["actors"] = show.actors
     }
+    
+    var stringRatingCounts = [String:Int]()
+    for (key, value) in show.ratingCounts {
+        stringRatingCounts[key.rawValue] = value
+    }
+    output["ratingCounts"] = stringRatingCounts
+    
     /*
     // User Specific
     var status: Status?
@@ -186,4 +192,32 @@ func incrementTotalSeasons(showId: String) {
     Firestore.firestore().collection("shows").document(showId).updateData([
         "totalSeasons": FieldValue.increment(Int64(1))
     ])
+}
+
+func decrementRatingCount(showId: String, rating: Rating) {
+    Firestore.firestore().collection("shows").document(showId).updateData([
+        "ratingCounts.\(rating.rawValue)": FieldValue.increment(Int64(-1))
+    ])
+}
+
+func incrementRatingCount(showId: String, rating: Rating) {
+    Firestore.firestore().collection("shows").document(showId).updateData([
+        "ratingCounts.\(rating.rawValue)": FieldValue.increment(Int64(1))
+    ])
+}
+
+func syncRatingCounts(showList: [Show]) {
+    for show in showList {
+        for rating in Rating.allCases {
+            if (show.rating != nil && show.rating == rating) {
+                Firestore.firestore().collection("shows").document(show.id).updateData([
+                    "ratingCounts.\(rating.rawValue)": 1
+                ])
+            } else {
+                Firestore.firestore().collection("shows").document(show.id).updateData([
+                    "ratingCounts.\(rating.rawValue)": 0
+                ])
+            }
+        }
+    }
 }

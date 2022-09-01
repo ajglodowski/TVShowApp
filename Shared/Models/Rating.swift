@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum Rating: String, CaseIterable, Codable, Identifiable {
     case Disliked
@@ -14,6 +15,36 @@ enum Rating: String, CaseIterable, Codable, Identifiable {
     case Loved
     
     var id: String { self.rawValue }
+    
+    var color: Color {
+        switch(self) {
+        case Rating.Disliked:
+            return .red
+        case Rating.Meh:
+            return .yellow
+        case Rating.Liked:
+            return .blue
+        case Rating.Loved:
+            return .green
+        default:
+            return .purple
+        }
+    }
+    
+    var pointValue: Int {
+        switch(self) {
+        case Rating.Disliked:
+            return -2
+        case Rating.Meh:
+            return 0
+        case Rating.Liked:
+            return 1
+        case Rating.Loved:
+            return 3
+        default:
+            return 0
+        }
+    }
 }
 
 func getRatingSymbol(rating: Rating) -> String {

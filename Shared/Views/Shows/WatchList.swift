@@ -32,8 +32,28 @@ struct WatchList: View {
             return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
         }
          */
-        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, ratingFilters: appliedRatingFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
+        var out = applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, ratingFilters: appliedRatingFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
             .sorted { $0.name < $1.name }
+        
+        if (selectedRatingOrder != 0) {
+            out = out.filter { !$0.avgRating.isNaN }
+            if (selectedRatingCategory == 1) {
+                if (selectedRatingOrder == 1) {
+                    out = out.sorted { $0.avgRating > $1.avgRating }
+                } else if (selectedRatingOrder == 2) {
+                    out = out.sorted { $0.avgRating < $1.avgRating }
+                }
+            } else {
+                if (selectedRatingOrder == 1) {
+                    out = out.sorted { $0.rating?.pointValue ?? 0 > $1.rating?.pointValue ?? 0 }
+                } else if (selectedRatingOrder == 2) {
+                    out = out.sorted { $0.rating?.pointValue ?? 0 < $1.rating?.pointValue ?? 0 }
+                }
+            }
+        }
+
+        return out
+        
     }
     
     @State var appliedServiceFilters = [Service]()
@@ -42,6 +62,8 @@ struct WatchList: View {
     @State var appliedTagFilters = [Tag]()
     @State var selectedLength: ShowLength = ShowLength.none
     @State var selectedLimited: Int = 0
+    @State var selectedRatingCategory: Int = 0
+    @State var selectedRatingOrder: Int = 0
     
     @State var selectedCategories = [TagCategory]()
     var filteredTags: [Tag] {
@@ -55,7 +77,6 @@ struct WatchList: View {
             return Tag.allCases
         }
     }
-    
     
     var body: some View {
         
@@ -77,62 +98,149 @@ struct WatchList: View {
              */
             
             if (searchText.isEmpty) {
-                HStack { // Length Row
-                    VStack {
-                        Text("Length").bold()
-                        Picker("Length", selection: $selectedLength) {
-                            ForEach(ShowLength.allCases) { length in
-                                Text(length.rawValue).tag(length)
-                            }
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                    }
+                
+                toolBar
+                
+                appliedFilterButtons
+                
+                HStack {
+                    Text("Show Title")
+                    Spacer()
+                    Text("Watched?")
+                        .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                    Divider()
+                    Text("Running?")
                 }
                 
-                HStack { // Filter Row
-                    Menu { // Service Filter
-                        ForEach(Service.allCases) { service in
-                            Button(action: {
-                                if (appliedServiceFilters.contains(service)) {
-                                    appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
-                                } else {
-                                    appliedServiceFilters.append(service)
-                                }
-                            }) {
-                                Label(service.rawValue, systemImage: appliedServiceFilters.contains(service) ?
-                                        "checkmark" : "")
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                        Text("Service")
+                ForEach(displayedShows) { show in
+                    NavigationLink(destination: ShowDetail(show: show)) {
+                        ListShowRow(show: show)
                     }
-                    .padding(5)
-                    .background(Color.blue)
-                    .foregroundColor(Color.white)
-                    .cornerRadius(5)
+                }
+                //.onDelete(perform: removeRows)
+                 
+            } else {
+                ForEach(searchShows) { show in
+                    NavigationLink(destination: ShowDetail(show: show)) {
+                        ListShowRow(show: show)
+                    }
+                }
+            }
+            
+            
+        }
+        .navigationTitle("Watchlist")
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+        .disableAutocorrection(true)
+    }
+    
+    var toolBar: some View {
+        VStack {
+            HStack { // Length Row
+                VStack {
+                    Text("Length")
+                    Picker("Length", selection: $selectedLength) {
+                        ForEach(ShowLength.allCases) { length in
+                            Text(length.rawValue).tag(length)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+            }
+            
+            HStack { // Filter Row
+                Menu { // Service Filter
+                    ForEach(Service.allCases) { service in
+                        Button(action: {
+                            if (appliedServiceFilters.contains(service)) {
+                                appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
+                            } else {
+                                appliedServiceFilters.append(service)
+                            }
+                        }) {
+                            Label(service.rawValue, systemImage: appliedServiceFilters.contains(service) ?
+                                  "checkmark" : "")
+                        }
+                    }
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
+                    Text("Service")
+                }
+                .padding(5)
+                .background(Color.blue)
+                .foregroundColor(Color.white)
+                .cornerRadius(5)
                 
-                    Menu { // Status Filter
-                        ForEach(Status.allCases) { status in
+                Menu { // Status Filter
+                    ForEach(Status.allCases) { status in
+                        Button(action: {
+                            if (appliedStatusFilters.contains(status)) {
+                                appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
+                            } else {
+                                appliedStatusFilters.append(status)
+                            }
+                        }) {
+                            Label(status.rawValue, systemImage: appliedStatusFilters.contains(status) ?
+                                  "checkmark" : "")
+                        }
+                    }
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
+                    Text("Status")
+                }
+                .padding(5)
+                .background(Color.blue)
+                .foregroundColor(Color.white)
+                .cornerRadius(5)
+                
+                Divider()
+                
+                Picker("Limited Series?", selection: $selectedLimited) {
+                    Text("All").tag(0)
+                    Text("Non-Limited").tag(1)
+                    Text("Limited").tag(2)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                
+            }
+            
+            // Sorting by rating
+            HStack {
+                
+                HStack {
+                    Menu { // Rating Filter
+                        Button(action: {
+                            if (appliedRatingFilters.contains(nil)) {
+                                appliedRatingFilters = appliedRatingFilters.filter { $0 != nil}
+                            } else {
+                                appliedRatingFilters.append(nil)
+                            }
+                        }) {
+                            Label("No Rating", systemImage: appliedRatingFilters.contains(nil) ?
+                                  "checkmark" : "")
+                        }
+                        ForEach(Rating.allCases) { rating in
                             Button(action: {
-                                if (appliedStatusFilters.contains(status)) {
-                                    appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
+                                if (appliedRatingFilters.contains(rating)) {
+                                    appliedRatingFilters = appliedRatingFilters.filter { $0 != rating}
                                 } else {
-                                    appliedStatusFilters.append(status)
+                                    appliedRatingFilters.append(rating)
                                 }
                             }) {
-                                Label(status.rawValue, systemImage: appliedStatusFilters.contains(status) ?
-                                        "checkmark" : "")
+                                Label(rating.rawValue, systemImage: appliedRatingFilters.contains(rating) ?
+                                      "checkmark" : "")
                             }
                         }
                     } label: {
                         Image(systemName: "slider.horizontal.3")
-                        Text("Status")
+                        Text("Rating")
                     }
                     .padding(5)
                     .background(Color.blue)
                     .foregroundColor(Color.white)
                     .cornerRadius(5)
+                    
+                    Divider()
                     
                     Menu { // Status Filter
                         HStack {
@@ -173,140 +281,110 @@ struct WatchList: View {
                     .foregroundColor(Color.white)
                     .cornerRadius(5)
                     
-                    Menu { // Rating Filter
-                        Button(action: {
-                            if (appliedRatingFilters.contains(nil)) {
-                                appliedRatingFilters = appliedRatingFilters.filter { $0 != nil}
-                            } else {
-                                appliedRatingFilters.append(nil)
-                            }
-                        }) {
-                            Label("No Rating", systemImage: appliedRatingFilters.contains(nil) ?
-                                    "checkmark" : "")
-                        }
-                        ForEach(Rating.allCases) { rating in
-                            Button(action: {
-                                if (appliedRatingFilters.contains(rating)) {
-                                    appliedRatingFilters = appliedRatingFilters.filter { $0 != rating}
-                                } else {
-                                    appliedRatingFilters.append(rating)
-                                }
-                            }) {
-                                Label(rating.rawValue, systemImage: appliedRatingFilters.contains(rating) ?
-                                        "checkmark" : "")
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                        Text("Rating")
-                    }
-                    .padding(5)
-                    .background(Color.blue)
-                    .foregroundColor(Color.white)
-                    .cornerRadius(5)
-                    
-                    Picker("Limited Series?", selection: $selectedLimited) {
-                        Text("All").tag(0)
-                        Text("Non-Limited").tag(1)
-                        Text("Limited").tag(2)
+                }
+                
+                Divider()
+                
+                VStack {
+                    Text("Sort By Rating")
+                    Picker("Rating Sort Category", selection: $selectedRatingCategory) {
+                        Text("My Rating").tag(0)
+                        Text("Average Rating").tag(1)
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    
-                }
-                
-                if (!appliedServiceFilters.isEmpty) {
-                    HStack {
-                        ForEach(appliedServiceFilters) { service in
-                        
-                            // Bug in removing service functionality
-                            Button(action: {
-                                appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
-                            }, label: {
-                                HStack {
-                                    Text(service.rawValue)
-                                    Image(systemName: "xmark")
-                                }
-                    
-                            })
-                            .buttonStyle(.bordered)
-                            .buttonBorderShape(.capsule)
-                        }
+                    Picker("Sort by your rating", selection: $selectedRatingOrder) {
+                        Text("None").tag(0)
+                        Text("Highest").tag(1)
+                        Text("Lowest").tag(2)
                     }
+                    .pickerStyle(SegmentedPickerStyle())
                 }
-                
-                if (!appliedStatusFilters.isEmpty) {
-                    HStack {
-                        ForEach(appliedStatusFilters) { status in
-                        
-                            // Bug in removing service functionality
-                            Button(action: {
-                                appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
-                            }, label: {
-                                HStack {
-                                    Text(status.rawValue)
-                                    Image(systemName: "xmark")
-                                }
-                    
-                            })
-                            .buttonStyle(.bordered)
-                            .buttonBorderShape(.capsule)
-                        }
-                    }
-                }
-                
-                if (!appliedTagFilters.isEmpty) {
-                    HStack {
-                        ForEach(appliedTagFilters) { tag in
-                            Button(action: {
-                                appliedTagFilters = appliedTagFilters.filter { $0 != tag}
-                            }, label: {
-                                HStack {
-                                    Text(tag.rawValue)
-                                    Image(systemName: "xmark")
-                                }
-                    
-                            })
-                            .buttonStyle(.bordered)
-                            .buttonBorderShape(.capsule)
-                        }
-                    }
-                }
-                
+            }
+        }
+    }
+    
+    var appliedFilterButtons: some View {
+        
+        VStack {
+            if (!appliedServiceFilters.isEmpty) {
                 HStack {
-                    Text("Show Title")
-                    Spacer()
-                    Text("Watched?")
-                        .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
-                    Divider()
-                    Text("Running?")
-                }
-                
-                ForEach(displayedShows) { show in
-                    NavigationLink(destination: ShowDetail(show: show)) {
-                        ListShowRow(show: show)
-                    }
-                }
-                //.onDelete(perform: removeRows)
-                 
-            } else {
-                ForEach(searchShows) { show in
-                    NavigationLink(destination: ShowDetail(show: show)) {
-                        ListShowRow(show: show)
+                    ForEach(appliedServiceFilters) { service in
+                        
+                        // Bug in removing service functionality
+                        Button(action: {
+                            appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
+                        }, label: {
+                            HStack {
+                                Text(service.rawValue)
+                                Image(systemName: "xmark")
+                            }
+                            
+                        })
+                        .buttonStyle(.bordered)
+                        .buttonBorderShape(.capsule)
                     }
                 }
             }
             
+            if (!appliedStatusFilters.isEmpty) {
+                HStack {
+                    ForEach(appliedStatusFilters) { status in
+                        
+                        // Bug in removing service functionality
+                        Button(action: {
+                            appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
+                        }, label: {
+                            HStack {
+                                Text(status.rawValue)
+                                Image(systemName: "xmark")
+                            }
+                            
+                        })
+                        .buttonStyle(.bordered)
+                        .buttonBorderShape(.capsule)
+                    }
+                }
+            }
             
+            if (!appliedRatingFilters.isEmpty) {
+                HStack {
+                    ForEach(appliedRatingFilters, id:\.self) { rating in
+                        Button(action: {
+                            appliedRatingFilters = appliedRatingFilters.filter { $0 != rating}
+                        }, label: {
+                            HStack {
+                                Text(rating?.rawValue ?? "No Rating")
+                                Image(systemName: "xmark")
+                            }
+                            
+                        })
+                        .buttonStyle(.bordered)
+                        .buttonBorderShape(.capsule)
+                    }
+                }
+            }
+            
+            if (!appliedTagFilters.isEmpty) {
+                HStack {
+                    ForEach(appliedTagFilters) { tag in
+                        Button(action: {
+                            appliedTagFilters = appliedTagFilters.filter { $0 != tag}
+                        }, label: {
+                            HStack {
+                                Text(tag.rawValue)
+                                Image(systemName: "xmark")
+                            }
+                            
+                        })
+                        .buttonStyle(.bordered)
+                        .buttonBorderShape(.capsule)
+                    }
+                }
+            }
         }
-        .navigationTitle("Watchlist")
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-        .disableAutocorrection(true)
+        
+        
     }
-    /*
-    func removeRows(at offsets: IndexSet) {
-        ModelData().shows.remove(atOffsets: offsets)
-    }
-     */
     
 }
 

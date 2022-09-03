@@ -1,5 +1,5 @@
 //
-//  RatingsGraph.swift
+//  ShowRatingsGraph.swift
 //  TV Show App
 //
 //  Created by AJ Glodowski on 9/1/22.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Charts
 
-struct RatingsGraph: View {
+struct ShowRatingsGraph: View {
     
     @EnvironmentObject var modelData: ModelData
     
@@ -19,7 +19,11 @@ struct RatingsGraph: View {
         VStack(alignment: .leading) {
             Text("Show Rating Counts:")
                 .font(.headline)
-            Text("Average Rating Value: \(show.avgRating)")
+            if (show.avgRating.isNaN) {
+                Text("This show hasn't been rated yet")
+            } else {
+                Text("Average Rating Value: \(show.avgRating)")
+            }
             Chart {
                 ForEach(Rating.allCases.sorted {
                     show.ratingCounts[$0] ?? 0 > show.ratingCounts[$1] ?? 0
@@ -52,9 +56,9 @@ struct RatingsGraph: View {
     }
 }
 
-struct RatingsGraph_Previews: PreviewProvider {
+struct ShowRatingsGraph_Previews: PreviewProvider {
     static var previews: some View {
-        //RatingsGraph(show: Show(id:"1234"))
+        //ShowRatingsGraph(show: Show(id:"1234"))
         Text("oh")
     }
 }

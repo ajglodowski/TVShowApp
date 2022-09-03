@@ -25,14 +25,26 @@ struct DiscoverList: View {
     }
     
     var displayedShows : [Show] {
-        applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: nil, ratingFilters: [], tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
+        var out = applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: nil, ratingFilters: [], tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
             .sorted { $0.name < $1.name }
+        
+        if (selectedAvgRating != 0) {
+            out = out.filter { !$0.avgRating.isNaN }
+            if (selectedAvgRating == 1) {
+                out = out.sorted { $0.avgRating > $1.avgRating }
+            } else if (selectedAvgRating == 2) {
+                out = out.sorted { $0.avgRating < $1.avgRating }
+            }
+        }
+        
+        return out
     }
     
     @State var appliedServiceFilters = [Service]()
     @State var appliedTagFilters = [Tag]()
     @State var selectedLength: ShowLength = ShowLength.none
     @State var selectedLimited: Int = 0
+    @State var selectedAvgRating: Int = 0
     
     @State var selectedCategories = [TagCategory]()
     var filteredTags: [Tag] {
@@ -68,126 +80,10 @@ struct DiscoverList: View {
              */
             
             if (searchText.isEmpty) {
-                HStack { // Length Row
-                    VStack {
-                        Text("Length").bold()
-                        Picker("Length", selection: $selectedLength) {
-                            ForEach(ShowLength.allCases) { length in
-                                Text(length.rawValue).tag(length)
-                            }
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                    }
-                }
-                HStack { // Filter Row
-                    Menu { // Service Filter
-                        ForEach(Service.allCases) { service in
-                            Button(action: {
-                                if (appliedServiceFilters.contains(service)) {
-                                    appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
-                                } else {
-                                    appliedServiceFilters.append(service)
-                                }
-                            }) {
-                                Label(service.rawValue, systemImage: appliedServiceFilters.contains(service) ?
-                                        "checkmark" : "")
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                        Text("Service")
-                    }
-                    .padding(5)
-                    .background(Color.blue)
-                    .foregroundColor(Color.white)
-                    .cornerRadius(5)
-
-                    
-                    Menu { // Tag Filter
-                        HStack {
-                            Section {
-                                ForEach(TagCategory.allCases) { category in
-                                    Button (action: {
-                                        if (selectedCategories.contains(category)) {
-                                            selectedCategories = selectedCategories.filter { $0 != category}
-                                        } else {
-                                            selectedCategories.append(category)
-                                        }
-                                    }) {
-                                        Label(category.rawValue, systemImage: selectedCategories.contains(category) ?
-                                              "checkmark" : "")
-                                    }
-                                }
-                            }
-                            Section {
-                                ForEach(filteredTags) { tag in
-                                    Button(action: {
-                                        if (appliedTagFilters.contains(tag)) {
-                                            appliedTagFilters = appliedTagFilters.filter { $0 != tag}
-                                        } else {
-                                            appliedTagFilters.append(tag)
-                                        }
-                                    }) {
-                                        Label(tag.rawValue, systemImage: appliedTagFilters.contains(tag) ?
-                                              "checkmark" : "")
-                                    }
-                                }
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "tag")
-                    }
-                    .padding(5)
-                    .background(Color.blue)
-                    .foregroundColor(Color.white)
-                    .cornerRadius(5)
-                    
-                    Picker("Limited Series?", selection: $selectedLimited) {
-                        Text("All").tag(0)
-                        Text("Non-Limited").tag(1)
-                        Text("Limited").tag(2)
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    
-                }
                 
-                if (!appliedServiceFilters.isEmpty) {
-                    HStack {
-                        ForEach(appliedServiceFilters) { service in
-                        
-                            // Bug in removing service functionality
-                            Button(action: {
-                                appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
-                            }, label: {
-                                HStack {
-                                    Text(service.rawValue)
-                                    Image(systemName: "xmark")
-                                }
-                    
-                            })
-                            .buttonStyle(.bordered)
-                            .buttonBorderShape(.capsule)
-                        }
-                    }
-                }
+                toolBar
                 
-                if (!appliedTagFilters.isEmpty) {
-                    HStack {
-                        ForEach(appliedTagFilters) { tag in
-                            Button(action: {
-                                appliedTagFilters = appliedTagFilters.filter { $0 != tag}
-                            }, label: {
-                                HStack {
-                                    Text(tag.rawValue)
-                                    Image(systemName: "xmark")
-                                }
-                    
-                            })
-                            .buttonStyle(.bordered)
-                            .buttonBorderShape(.capsule)
-                        }
-                    }
-                }
+                appliedFilterButtons
                 
                 HStack {
                     Text("Show Title")
@@ -215,6 +111,146 @@ struct DiscoverList: View {
         .navigationTitle("Discover other shows")
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         .disableAutocorrection(true)
+    }
+    
+    var toolBar: some View {
+        
+        VStack {
+            HStack { // Length Row
+                VStack {
+                    Text("Length").bold()
+                    Picker("Length", selection: $selectedLength) {
+                        ForEach(ShowLength.allCases) { length in
+                            Text(length.rawValue).tag(length)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+            }
+            HStack { // Filter Row
+                Menu { // Service Filter
+                    ForEach(Service.allCases) { service in
+                        Button(action: {
+                            if (appliedServiceFilters.contains(service)) {
+                                appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
+                            } else {
+                                appliedServiceFilters.append(service)
+                            }
+                        }) {
+                            Label(service.rawValue, systemImage: appliedServiceFilters.contains(service) ?
+                                    "checkmark" : "")
+                        }
+                    }
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
+                    Text("Service")
+                }
+                .padding(5)
+                .background(Color.blue)
+                .foregroundColor(Color.white)
+                .cornerRadius(5)
+
+                
+                Menu { // Tag Filter
+                    HStack {
+                        Section {
+                            ForEach(TagCategory.allCases) { category in
+                                Button (action: {
+                                    if (selectedCategories.contains(category)) {
+                                        selectedCategories = selectedCategories.filter { $0 != category}
+                                    } else {
+                                        selectedCategories.append(category)
+                                    }
+                                }) {
+                                    Label(category.rawValue, systemImage: selectedCategories.contains(category) ?
+                                          "checkmark" : "")
+                                }
+                            }
+                        }
+                        Section {
+                            ForEach(filteredTags) { tag in
+                                Button(action: {
+                                    if (appliedTagFilters.contains(tag)) {
+                                        appliedTagFilters = appliedTagFilters.filter { $0 != tag}
+                                    } else {
+                                        appliedTagFilters.append(tag)
+                                    }
+                                }) {
+                                    Label(tag.rawValue, systemImage: appliedTagFilters.contains(tag) ?
+                                          "checkmark" : "")
+                                }
+                            }
+                        }
+                    }
+                } label: {
+                    Image(systemName: "tag")
+                }
+                .padding(5)
+                .background(Color.blue)
+                .foregroundColor(Color.white)
+                .cornerRadius(5)
+                
+                Picker("Limited Series?", selection: $selectedLimited) {
+                    Text("All").tag(0)
+                    Text("Non-Limited").tag(1)
+                    Text("Limited").tag(2)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                
+                VStack {
+                    Text("Sort by Average Rating")
+                    Picker("Sort by Average Rating", selection: $selectedAvgRating) {
+                        Text("None").tag(0)
+                        Text("Highest").tag(1)
+                        Text("Lowest").tag(2)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+                
+            }
+        }
+    }
+    
+    var appliedFilterButtons: some View {
+        VStack {
+            if (!appliedServiceFilters.isEmpty) {
+                HStack {
+                    ForEach(appliedServiceFilters) { service in
+                    
+                        // Bug in removing service functionality
+                        Button(action: {
+                            appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
+                        }, label: {
+                            HStack {
+                                Text(service.rawValue)
+                                Image(systemName: "xmark")
+                            }
+                
+                        })
+                        .buttonStyle(.bordered)
+                        .buttonBorderShape(.capsule)
+                    }
+                }
+            }
+            
+            if (!appliedTagFilters.isEmpty) {
+                HStack {
+                    ForEach(appliedTagFilters) { tag in
+                        Button(action: {
+                            appliedTagFilters = appliedTagFilters.filter { $0 != tag}
+                        }, label: {
+                            HStack {
+                                Text(tag.rawValue)
+                                Image(systemName: "xmark")
+                            }
+                
+                        })
+                        .buttonStyle(.bordered)
+                        .buttonBorderShape(.capsule)
+                    }
+                }
+            }
+        }
     }
     
     /*

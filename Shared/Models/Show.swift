@@ -31,6 +31,7 @@ struct Show : Hashable, Identifiable, Codable {
             totalRatings += value
             sum += (key.pointValue * value)
         }
+        //if (totalRatings == 0 || sum == 0) { return 0 }
         return Double(sum) / Double(totalRatings)
     }
     

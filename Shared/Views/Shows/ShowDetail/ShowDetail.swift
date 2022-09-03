@@ -115,7 +115,7 @@ struct ShowDetail: View {
                     .padding([.leading,.trailing])
                     .foregroundColor(.white)
                     
-                    RatingsGraph(show: show, backgroundColor: backgroundColor)
+                    ShowRatingsGraph(show: show, backgroundColor: backgroundColor)
                     
                     // Actors Section
                     ShowDetailActors(show: show, backgroundColor: backgroundColor)

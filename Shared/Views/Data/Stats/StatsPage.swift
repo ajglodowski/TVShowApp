@@ -29,6 +29,15 @@ struct StatsPage: View {
         List {
             
             VStack {
+                NavigationLink(
+                    destination: RatingGraphs(),
+                    label: {
+                        Text("Ratings Stats")
+                    })
+                .buttonStyle(PlainButtonStyle())
+            }
+            
+            VStack {
                 Text("Top Actors:")
                     .font(.headline)
                 let topFive = modelData.actors.sorted{ $0.name < $1.name }.sorted { $0.shows.count > $1.shows.count}.prefix(5)
@@ -51,6 +60,7 @@ struct StatsPage: View {
             NewCharts()
             
             TagsGraphs()
+            
             
             /*
             VStack {
@@ -147,7 +157,7 @@ struct NewCharts: View {
     struct StatusCount: Identifiable {
         var status: Status
         var count: Int
-        //var service: Service
+        var service: Service
         var id: UUID = UUID()
     }
     
@@ -161,11 +171,17 @@ struct NewCharts: View {
     var statusCounts: [StatusCount] {
         var statusAr: [StatusCount] = []
         for status in Status.allCases {
-            let count = modelData.shows.filter{ $0.status == status}.count
-            let adding = StatusCount(status: status, count: count)
-            statusAr.append(adding)
+            for service in Service.allCases {
+                let count = modelData.shows.filter{ $0.status == status && $0.service == service}.count
+                let adding = StatusCount(status: status, count: count, service: service)
+                statusAr.append(adding)
+            }
         }
         return statusAr
+    }
+    
+    func getStatusCount(status: Status) -> Int {
+        modelData.shows.filter{ $0.status == status }.count
     }
     
     var serviceCounts: [ServiceCount] {
@@ -219,7 +235,9 @@ struct NewCharts: View {
                         .foregroundStyle(by: .value("Service", serv.service.rawValue))
                     }
                 }
-                //.chartForegroundStyleScale(KeyValuePairs(dictionaryLiteral:serviceColors))
+                .chartForegroundStyleScale([
+                    "ABC": .gray, "Amazon": Color(red: 0/255, green: 168/255, blue: 225/255), "FX": .gray, "Hulu": .green, "HBO": Color(red: 102/255, green: 51/255, blue: 153/255), "Netflix": Color(red: 229/255, green: 9/255, blue: 20/255), "Apple TV+": .gray, "NBC": .yellow, "Disney+": Color(red: 17/255, green: 70/255, blue: 207/255), "CW": .green,  "Showtime": .red, "AMC": .gray, "USA": .red, "Viceland": .gray, "Other": .gray
+                ])
                 .chartPlotStyle { plotArea in
                     plotArea.frame(height:300)
                 }
@@ -240,15 +258,17 @@ struct NewCharts: View {
                 ScrollView(.horizontal) {
                     
                     Chart {
-                        ForEach(statusCounts.sorted(by: {$0.count > $1.count})) { stat in
+                        ForEach(statusCounts.sorted { getStatusCount(status: $0.status) > getStatusCount(status: $1.status) }) { stat in
                             BarMark(
                                 x: .value("Status", stat.status.rawValue),
                                 y: .value("Shows", stat.count)
                             )
+                            /*
                             .annotation(position: .top) {
                                 Text(String(stat.count))
                             }
-                            .foregroundStyle(by: .value("Status", stat.status.rawValue))
+                             */
+                            .foregroundStyle(by: .value("Service", stat.service.rawValue))
                         }
                     }
                     
@@ -256,8 +276,10 @@ struct NewCharts: View {
                         plotArea.frame(height:300)
                     }
                      
-                    //.chartForegroundStyleScale(serviceColors)
-                    .frame(width: 600)
+                    .chartForegroundStyleScale([
+                        "ABC": .gray, "Amazon": Color(red: 0/255, green: 168/255, blue: 225/255), "FX": .gray, "Hulu": .green, "HBO": Color(red: 102/255, green: 51/255, blue: 153/255), "Netflix": Color(red: 229/255, green: 9/255, blue: 20/255), "Apple TV+": .gray, "NBC": .yellow, "Disney+": Color(red: 17/255, green: 70/255, blue: 207/255), "CW": .green,  "Showtime": .red, "AMC": .gray, "USA": .red, "Viceland": .gray, "Other": .gray
+                    ])
+                    //.frame(width: 600)
                      
                 //.padding()
                 }

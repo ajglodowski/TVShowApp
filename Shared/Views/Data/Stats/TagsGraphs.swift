@@ -91,15 +91,21 @@ struct TagsGraphs: View {
                         
                     )
                     .annotation(position: .top) {
-                        Text(String(showTag.showCount))
+                        VStack {
+                            Text("\(showTag.tagCount) Tags")
+                            Text("\(showTag.showCount) Shows")
+                        }
                     }
                     .foregroundStyle(by: .value("Tag Count", showTag.tagCount))
                 }
             }
+            
             .chartPlotStyle { plotArea in
-                plotArea.frame(width: 300, height:350)
+                plotArea.frame(height:350)
             }
+             
             .padding(.top, 25)
+            .padding()
             
         }
     }

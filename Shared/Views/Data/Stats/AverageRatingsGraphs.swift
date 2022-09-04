@@ -64,7 +64,7 @@ struct AverageRatingsGraphs: View {
             }
             
             .chartForegroundStyleScale([
-                "ABC": .gray, "Amazon": Color(red: 0/255, green: 168/255, blue: 225/255), "FX": .gray, "Hulu": .green, "HBO": Color(red: 102/255, green: 51/255, blue: 153/255), "Netflix": Color(red: 229/255, green: 9/255, blue: 20/255), "Apple TV+": .gray, "NBC": .yellow, "Disney+": Color(red: 17/255, green: 70/255, blue: 207/255), "CW": .green,  "Showtime": .red, "AMC": .gray, "USA": .red, "Viceland": .gray, "Other": .gray
+                "ABC": Service.ABC.color, "Amazon": Service.Amazon.color, "FX": Service.FX.color, "Hulu": Service.Hulu.color, "HBO": Service.HBO.color, "Netflix": Service.Netflix.color, "Apple TV+": Service.Apple.color, "NBC": Service.NBC.color, "Disney+": Service.Disney.color, "CW": Service.CW.color,  "Showtime": Service.Showtime.color, "AMC": Service.AMC.color, "USA": Service.USA.color, "Viceland": Service.Viceland.color, "Other": Service.Other.color
             ])
             
             .padding(.top, 25)

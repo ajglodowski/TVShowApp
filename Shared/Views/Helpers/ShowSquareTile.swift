@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ShowSquareTile: View {
     
+    @StateObject var vm = ShowTileViewModel()
+    
     var show: Show
     
     //var scrollType: Int? // 0 for generic, 1 for airdates
@@ -46,6 +48,7 @@ struct ShowSquareTile: View {
                 }
             }
             
+            /*
             Image(show.name)
                 .resizable()
                 .scaledToFit()
@@ -55,6 +58,28 @@ struct ShowSquareTile: View {
                 }
                 .shadow(radius: 5)
                 .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+             */
+            if (vm.showImage != nil) {
+                vm.showImage!
+                    .resizable()
+                    .scaledToFit()
+                    .cornerRadius(15)
+                    .if(show.status == Status.NewSeason) {
+                        $0.overlay(TileBanner(text: "New\nSeason"),alignment: .bottomLeading)
+                    }
+                    .shadow(radius: 5)
+                    .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            } else {
+                Image(systemName : "ellipsis")
+                    .resizable()
+                    .scaledToFit()
+                    .cornerRadius(15)
+                    .if(show.status == Status.NewSeason) {
+                        $0.overlay(TileBanner(text: "New\nSeason"),alignment: .bottomLeading)
+                    }
+                    .shadow(radius: 5)
+                    .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            }
                 
             
             HStack {
@@ -92,6 +117,11 @@ struct ShowSquareTile: View {
         .frame(width: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         .padding(.leading, 10)
         .padding(.trailing, 10)
+        
+        .task {
+            vm.loadImage(showName: show.name)
+        }
+        
     }
 }
 

@@ -11,8 +11,10 @@ struct StatsPage: View {
     
     @EnvironmentObject var modelData: ModelData
     
+    /*
     var colors = [Service.HBO: Color(red: 102/255, green: 51/255, blue: 153/255), Service.Hulu: Color(.green), Service.Netflix: Color(red: 229/255, green: 9/255, blue: 20/255), Service.Disney: Color(red: 17/255, green: 70/255, blue: 207/255), Service.Amazon: Color(red: 0/255, green: 168/255, blue: 225/255)
     ]
+     */
     /*
     var statusCountsScaled: [Status:Double] {
         var statusScaledDict: [Status:Double] = [:]
@@ -90,6 +92,7 @@ struct StatsPage: View {
     }
 }
 
+/*
 struct ServiceChart: View {
     
     @EnvironmentObject var modelData: ModelData
@@ -150,6 +153,7 @@ struct ServiceChart: View {
         }
     }
 }
+*/
 
 struct NewCharts: View {
     @EnvironmentObject var modelData: ModelData
@@ -197,7 +201,7 @@ struct NewCharts: View {
     var serviceColors: [String:Color] {
         var output = [String:Color]()
         for service in Service.allCases {
-            output[service.rawValue] = getServiceColor(service: service)
+            output[service.rawValue] = service.color
         }
         return output
     }
@@ -236,7 +240,7 @@ struct NewCharts: View {
                     }
                 }
                 .chartForegroundStyleScale([
-                    "ABC": .gray, "Amazon": Color(red: 0/255, green: 168/255, blue: 225/255), "FX": .gray, "Hulu": .green, "HBO": Color(red: 102/255, green: 51/255, blue: 153/255), "Netflix": Color(red: 229/255, green: 9/255, blue: 20/255), "Apple TV+": .gray, "NBC": .yellow, "Disney+": Color(red: 17/255, green: 70/255, blue: 207/255), "CW": .green,  "Showtime": .red, "AMC": .gray, "USA": .red, "Viceland": .gray, "Other": .gray
+                    "ABC": Service.ABC.color, "Amazon": Service.Amazon.color, "FX": Service.FX.color, "Hulu": Service.Hulu.color, "HBO": Service.HBO.color, "Netflix": Service.Netflix.color, "Apple TV+": Service.Apple.color, "NBC": Service.NBC.color, "Disney+": Service.Disney.color, "CW": Service.CW.color,  "Showtime": Service.Showtime.color, "AMC": Service.AMC.color, "USA": Service.USA.color, "Viceland": Service.Viceland.color, "Other": Service.Other.color
                 ])
                 .chartPlotStyle { plotArea in
                     plotArea.frame(height:300)
@@ -277,7 +281,7 @@ struct NewCharts: View {
                     }
                      
                     .chartForegroundStyleScale([
-                        "ABC": .gray, "Amazon": Color(red: 0/255, green: 168/255, blue: 225/255), "FX": .gray, "Hulu": .green, "HBO": Color(red: 102/255, green: 51/255, blue: 153/255), "Netflix": Color(red: 229/255, green: 9/255, blue: 20/255), "Apple TV+": .gray, "NBC": .yellow, "Disney+": Color(red: 17/255, green: 70/255, blue: 207/255), "CW": .green,  "Showtime": .red, "AMC": .gray, "USA": .red, "Viceland": .gray, "Other": .gray
+                        "ABC": Service.ABC.color, "Amazon": Service.Amazon.color, "FX": Service.FX.color, "Hulu": Service.Hulu.color, "HBO": Service.HBO.color, "Netflix": Service.Netflix.color, "Apple TV+": Service.Apple.color, "NBC": Service.NBC.color, "Disney+": Service.Disney.color, "CW": Service.CW.color,  "Showtime": Service.Showtime.color, "AMC": Service.AMC.color, "USA": Service.USA.color, "Viceland": Service.Viceland.color, "Other": Service.Other.color
                     ])
                     //.frame(width: 600)
                      

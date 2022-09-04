@@ -63,7 +63,7 @@ struct SquareTileScrollRow: View {
         VStack(alignment: .leading) {
         
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .top, spacing: 0) {
+                LazyHStack(alignment: .top, spacing: 0) {
                     ForEach(items) { show in
                         VStack {
                             NavigationLink(destination: ShowDetail(show: show)) {

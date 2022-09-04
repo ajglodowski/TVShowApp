@@ -53,6 +53,16 @@ struct Home: View {
     var body: some View {
         NavigationView {
             List {
+                
+                VStack {
+                    NavigationLink(
+                        destination: ProfileDetail(id: "nDGVKJig1NXiigOzfozoezZeKDd2"),
+                        label: {
+                            Text("Profile Page")
+                        })
+                    .buttonStyle(PlainButtonStyle())
+                }
+                
                 ZStack {
                     // Use for actual use
                     //let picShow = getRandPic(shows: unwatchedShows)
@@ -197,7 +207,7 @@ struct Home: View {
                     .buttonStyle(.bordered)
                 }
                 
-                outsidePages()
+                //outsidePages()
                 
             }
             /*

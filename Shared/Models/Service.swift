@@ -27,6 +27,32 @@ enum Service: String, CaseIterable, Codable, Identifiable {
     case Other
     
     var id: String { self.rawValue }
+    
+    var color: Color {
+        switch(self) {
+        case Service.AMC, Service.ABC, Service.Apple, Service.FX, Service.USA, Service.Viceland, Service.Other:
+            return .gray
+        case Service.Amazon:
+            return Color(red: 0/255, green: 168/255, blue: 225/255)
+        case Service.HBO:
+            return Color(red: 102/255, green: 51/255, blue: 153/255)
+        case Service.CW:
+            return .green
+        case Service.Disney:
+            return Color(red: 17/255, green: 70/255, blue: 207/255)
+        case Service.Hulu:
+            return Color(red: 28/255, green: 231/255, blue: 131/255)
+        case Service.NBC:
+            return .yellow
+        case Service.Netflix:
+            return Color(red: 229/255, green: 9/255, blue: 20/255)
+        case Service.Showtime:
+            return .red
+        default:
+            return .gray
+        }
+    }
+    
 }
 
 func getServiceColor(service: Service) -> Color {

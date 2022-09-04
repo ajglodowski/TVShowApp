@@ -43,7 +43,7 @@ struct ShowRatingsGraph: View {
                 plotArea.frame(height:250)
             }
             .chartForegroundStyleScale([
-                "Disliked": .red, "Meh": .yellow, "Liked": .blue, "Loved": .green
+                "Disliked": Rating.Disliked.color, "Meh": Rating.Meh.color, "Liked": Rating.Liked.color, "Loved": Rating.Loved.color
             ])
             .padding(.top, 25)
         }

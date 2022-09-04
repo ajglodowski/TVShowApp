@@ -9,29 +9,44 @@ import SwiftUI
 
 struct ShowTile: View {
     
-    var show: Show
+    @StateObject var vm = ShowTileViewModel()
+    
+    //var show: Show
+    var showName: String
     
     var body: some View {
         
         VStack {
         
-            Image(show.name)
+            /*
+            Image(showName)
                 .resizable()
                 .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                 .scaledToFit()
                 //.shadow(radius: 5)
+             */
+            if (vm.showImage != nil) {
+                vm.showImage!
+                    .resizable()
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .scaledToFit()
+            } else {
+                Image(systemName : "ellipsis")
+                    .resizable()
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .scaledToFit()
+            }
+            
 
-            Text(show.name)
+            Text(showName)
                 .font(.subheadline)
         }
-        //.padding(5)
         .frame(width: 175, height: 175, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        //.background(.quaternary.opacity(0.5))
-        //.cornerRadius(10)
-
         .padding(.leading, 10)
         .padding(.trailing, 10)
-        //.shadow(radius: 5)
+        .task {
+            vm.loadImage(showName: showName)
+        }
     }
 }
 
@@ -40,6 +55,6 @@ struct ShowTile_Previews: PreviewProvider {
     static var shows = ModelData().shows
     
     static var previews: some View {
-        ShowTile(show: shows[30])
+        ShowTile(showName: shows[30].name)
     }
 }

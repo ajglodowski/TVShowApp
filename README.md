@@ -28,7 +28,7 @@ The stats page shows some basic statistics about the show data. The page has a l
 
 ## Databases
 
-The data is currently stored on Firebase NoSQL Firestore Database. This was chosen due to the fact that it allows for authentication, specialized queries, and better data mapping. The current limitations are that the object mapping does not seem precise (GraphQL?) and there are enormous amounts of reads per user that needs to be cleaned up.
+The data is currently stored on Firebase NoSQL Firestore Database. This was chosen due to the fact that it allows for authentication, specialized queries, and better data mapping. The current limitations are that the object mapping does not seem precise (GraphQL?) and there are enormous amounts of reads per user that needs to be cleaned up. A SQL database would've likely been a better choice but I wanted experience in NoSQL.
 
 The data used to be stored on a Firebase NoSQL Realtime Database and accessed primarily through REST APIs. This was due to the fact that it was easy to transfer over from the existing JSON files that stored the data. Those previous JSON files were stored in this repo and because of that, the number of commits on the repo is inflated.
 
@@ -42,24 +42,25 @@ I am currently working on switching the app over from the RealTime Database to F
 
 TODO:
 - Investigate searching FireStore (Algolia?)
+- Investigate Image Caching
 
 # Future Development:
 
 Firestore/Data Improvements Improvements:
 - Significantly restructure swift data loading so that data is loaded using more precise queries to reduce document reads. Possibly look at using Google Cloud functions to reduce even further?
 - Switch arrays to dictionaries. Since dictionaries have constant or close to constant complexity when searching, it would be best to switch more of the existing array data structures to use them instead.
-- Adding rating counts to shows so that sorting and data processing by rating can be used.
+- Adding status counts to shows so that sorting and data processing by status can be used.
 
 Social Media:
 - Given that users are implemented with Firebase it is now possible to make the app a social media platform. 
 - On the frontend, account pages that displays user's shows and allows them to follow each other would be needed.
 - On the backend, Firestore would need to add followers to user objects.
-- This would coincide with the rating counts changes.
+- This would coincide with the status counts changes.
 
 Quality of Life Updates:
 - Fix Navigation Bugs
-- Update the stats page so graphs use colors of the streaming services
-- Loading show and/or actor data, such as photos from online (ex: IMDB)
+- Update the stats pages with more graphs
+- Loading show and/or actor data, such as photos from online (ex: IMDB) (Datascraper?)
 - Improve the object relationship between actors and shows as it presents many bugs
 
 # Acknowledgements

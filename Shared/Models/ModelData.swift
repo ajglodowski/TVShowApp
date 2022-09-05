@@ -23,6 +23,7 @@ final class ModelData : ObservableObject {
     //@Published var actors: [Actor] = loadFromFile("actorData.json")
     //@Published var actors: [Actor] = load("actorData.json")
     @Published var actors = [Actor]()
+    @Published var currentUser: Profile? = nil
     
     @Published var needsUpdated: Bool = false
     
@@ -40,13 +41,14 @@ final class ModelData : ObservableObject {
         
         
         // Resets cache
-        fireStore.clearPersistence()
+        //fireStore.clearPersistence()
         
         
         //firebaseShowFetch()
         //firebaseActorFetch()
-        
-        
+        if (loggedIn) {
+            loadCurrentUser()
+        }
         fetchAllFromFireStore()
         /*
         if (loggedIn) {
@@ -72,6 +74,9 @@ final class ModelData : ObservableObject {
         //self.actors = load("actorData.json")
         //self.shows = loadFromFile("data.json")
         //self.actors = loadFromFile("actorData.json")
+        if (loggedIn) {
+            loadCurrentUser() 
+        }
         loadFromFireStore()
         fetchActorsFromFirestore()
     }
@@ -275,6 +280,36 @@ final class ModelData : ObservableObject {
         //print("Output: \(output)")
         loadActorsFromFireStore(actors: output)
         //print("Actors: \(self.actors)")
+    }
+    
+    func loadCurrentUser() {
+        let uid = Auth.auth().currentUser!.uid
+        let show = fireStore.collection("users").document(uid)
+        
+        show.addSnapshotListener { snapshot, error in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            if let snapshot = snapshot {
+                let data = snapshot.data()!
+                let username = data["username"] as! String
+                var profilePhotoURL = data["profilePhotoURL"] as? String
+                let bio = data["bio"] as? String
+                let showCount = data["showCount"] as! Int
+                
+                let followingCount = data["followingCount"] as! Int
+                let followerCount = data["followerCount"] as! Int
+                let followers = data["followers"] as? [String:String]
+                let following = data["following"] as? [String:String]
+                
+                let pinnedShows =  data["pinnedShows"] as? [String:String]
+                let pinnedShowCount = data["pinnedShowCount"] as? Int ?? 0
+                let add = Profile(id: uid, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following)
+                self.currentUser = add
+                
+            }
+        }
     }
      
     

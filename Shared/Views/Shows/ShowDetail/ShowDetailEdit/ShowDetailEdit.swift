@@ -56,7 +56,8 @@ struct ShowDetailEdit: View {
             }
             //.padding()
             
-            
+            // Shouldn't be used anymore due to functions that edit db
+            /*
             Section(header: Text("Your Details:")) {
                 if (show.addedToUserShows) {
                     // Rating
@@ -135,10 +136,9 @@ struct ShowDetailEdit: View {
                     .buttonStyle(.bordered)
                 }
             }
+             */
             
             Section(header: Text("Show Details:")) {
-                
-                
                 
                  // Running
                  Toggle(isOn: $show.running, label: {

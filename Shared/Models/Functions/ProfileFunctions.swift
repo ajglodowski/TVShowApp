@@ -83,3 +83,17 @@ func decrementPinnedShowCount(userId: String) {
         "pinnedShowCount": FieldValue.increment(Int64(-1))
     ])
 }
+
+func incrementShowCount(userId: String) {
+    Firestore.firestore().collection("users").document(userId).updateData([
+        "showCount": FieldValue.increment(Int64(1))
+    ])
+}
+
+func decrementShowCount(userId: String) {
+    Firestore.firestore().collection("users").document(userId).updateData([
+        "showCount": FieldValue.increment(Int64(-1))
+    ])
+}
+
+

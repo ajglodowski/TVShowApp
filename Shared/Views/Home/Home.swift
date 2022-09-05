@@ -86,29 +86,6 @@ struct Home: View {
                 }
                 .ignoresSafeArea()
                 
-                ZStack {
-                    // Use for actual use
-                    //let picShow = getRandPic(shows: unwatchedShows)
-                    
-                    // Use because picture fits well
-                    let picShow = "Industry"
-                    
-                    Image(picShow)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: 250)
-                        .clipped()
-                        .cornerRadius(50)
-                        .overlay(TextOverlay(text: "Discover New Shows"),alignment: .bottomLeading)
-                        .shadow(color: .black, radius: 10)
-                    NavigationLink(
-                        destination: DiscoverList()) {
-                            EmptyView()
-                    }
-                //.listRowInsets(EdgeInsets())
-                }
-                .ignoresSafeArea()
-                
                 HomeNewRows()
                 
                 //ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")

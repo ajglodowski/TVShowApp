@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Combine
-
+import Firebase
 
 struct ShowDetail: View {
     
@@ -97,6 +97,7 @@ struct ShowDetail: View {
                                 modelData.shows[showIndex].rating = nil
                                 modelData.shows[showIndex].currentSeason = nil
                                 deleteShowFromUserShows(showId: show.id)
+                                decrementShowCount(userId: Auth.auth().currentUser!.uid)
                             }) {
                                 Text("Remove from My Shows")
                             }

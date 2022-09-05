@@ -23,6 +23,7 @@ struct FollowerList: View {
             }
         }
         .navigationTitle(type)
+        .listStyle(.automatic)
     }
 }
 

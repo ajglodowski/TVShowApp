@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct ContentView: View {
     
@@ -13,7 +14,20 @@ struct ContentView: View {
     
     var body: some View {
         if (modelData.loggedIn) {
-            Home()
+            TabView {
+                Home()
+                    .tabItem {
+                        Label("Home", systemImage: "house.fill")
+                    }
+                DiscoverTab()
+                    .tabItem {
+                        Label("Discover", systemImage: "sparkles")
+                    }
+                CurrentUserProfileDetail()
+                    .tabItem {
+                        Label("Profile", systemImage: "person.fill")
+                    }
+            }
         } else {
             Login(loggedIn: $modelData.loggedIn)
         }

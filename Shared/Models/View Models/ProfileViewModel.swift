@@ -22,7 +22,7 @@ class ProfileViewModel: ObservableObject {
     
     @MainActor
     func loadProfile(id: String) {
-        fireStore.clearPersistence()
+        //fireStore.clearPersistence()
         let show = fireStore.collection("users").document("\(id)")
         
         show.addSnapshotListener { snapshot, error in

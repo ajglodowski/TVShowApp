@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct UpdateStatusButtons: View {
     
@@ -45,6 +46,7 @@ struct UpdateStatusButtons: View {
                         addingShow.status = Status.NeedsWatched
                         addingShow.currentSeason = 1
                         addOrUpdateToUserShows(show: addingShow)
+                        incrementShowCount(userId: Auth.auth().currentUser!.uid)
                     }) {
                         Text("Add to Watchlist")
                     }

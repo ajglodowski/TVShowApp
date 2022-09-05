@@ -61,6 +61,8 @@
 		1A6E07E128C5488B00BE4898 /* OldFirebaseDBFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E07E028C5488B00BE4898 /* OldFirebaseDBFunctions.swift */; };
 		1A6E07E428C548E900BE4898 /* OldFileIOFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E07E328C548E900BE4898 /* OldFileIOFunctions.swift */; };
 		1A6E07E628C54B9600BE4898 /* ShowTileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E07E528C54B9600BE4898 /* ShowTileViewModel.swift */; };
+		1A6E07EA28C561C300BE4898 /* FollowerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E07E928C561C300BE4898 /* FollowerList.swift */; };
+		1A6E07ED28C56A8200BE4898 /* ProfileFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E07EC28C56A8200BE4898 /* ProfileFunctions.swift */; };
 		1A7DA8A028768AE000A26E7B /* Home_recording.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1A7DA89F28768AE000A26E7B /* Home_recording.gif */; };
 		1A818B28289A1D34002866B2 /* ActorReferenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A818B27289A1D34002866B2 /* ActorReferenceHelper.swift */; };
 		1A818B2A289A1D34002866B2 /* ActorReferenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A818B27289A1D34002866B2 /* ActorReferenceHelper.swift */; };
@@ -191,6 +193,8 @@
 		1A6E07E028C5488B00BE4898 /* OldFirebaseDBFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldFirebaseDBFunctions.swift; sourceTree = "<group>"; };
 		1A6E07E328C548E900BE4898 /* OldFileIOFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldFileIOFunctions.swift; sourceTree = "<group>"; };
 		1A6E07E528C54B9600BE4898 /* ShowTileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTileViewModel.swift; sourceTree = "<group>"; };
+		1A6E07E928C561C300BE4898 /* FollowerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerList.swift; sourceTree = "<group>"; };
+		1A6E07EC28C56A8200BE4898 /* ProfileFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFunctions.swift; sourceTree = "<group>"; };
 		1A7DA89F28768AE000A26E7B /* Home_recording.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Home_recording.gif; sourceTree = "<group>"; };
 		1A818B27289A1D34002866B2 /* ActorReferenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorReferenceHelper.swift; sourceTree = "<group>"; };
 		1A81CBE52882417F003F6EC3 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
@@ -318,6 +322,7 @@
 		1A66E10C263A065600B47B88 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1A6E07EB28C56A7300BE4898 /* Functions */,
 				1A6E07E228C548CF00BE4898 /* Deprecated */,
 				1A88BF7C28C52A11005F7683 /* View Models */,
 				1AF3968D2638F635000C4996 /* Show.swift */,
@@ -331,7 +336,6 @@
 				1A1515C7282B5DDA00DB8948 /* ActorHelpers.swift */,
 				1A81CBF3288CA369003F6EC3 /* Rating.swift */,
 				1A81CBFD288E111C003F6EC3 /* Tag.swift */,
-				1AD246BF289C94EA00E42452 /* FireStoreFunctions.swift */,
 				1A88BF7F28C52BE9005F7683 /* Profile.swift */,
 			);
 			path = Models;
@@ -372,10 +376,20 @@
 			path = Deprecated;
 			sourceTree = "<group>";
 		};
+		1A6E07EB28C56A7300BE4898 /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				1A6E07EC28C56A8200BE4898 /* ProfileFunctions.swift */,
+				1AD246BF289C94EA00E42452 /* FireStoreFunctions.swift */,
+			);
+			path = Functions;
+			sourceTree = "<group>";
+		};
 		1A88BF7928C529F1005F7683 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
 				1A88BF7A28C52A0D005F7683 /* ProfileDetail.swift */,
+				1A6E07E928C561C300BE4898 /* FollowerList.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -714,6 +728,7 @@
 				1A88BF7E28C52A24005F7683 /* ProfileViewModel.swift in Sources */,
 				1A6E07E628C54B9600BE4898 /* ShowTileViewModel.swift in Sources */,
 				1A4B4CF0282F2DA70095324A /* StatsPage.swift in Sources */,
+				1A6E07ED28C56A8200BE4898 /* ProfileFunctions.swift in Sources */,
 				1AD246C0289C94EA00E42452 /* FireStoreFunctions.swift in Sources */,
 				1AE79A79284C4064008BB19A /* ShowDetailText.swift in Sources */,
 				1ACA81FE289F25D10021336B /* UpdateStatusButtons.swift in Sources */,
@@ -735,6 +750,7 @@
 				1A1A51D3268EBD1B00138859 /* UIImage+Extension.swift in Sources */,
 				1AA1AAE326A0CE070029FFD6 /* DeletePage.swift in Sources */,
 				1A818B28289A1D34002866B2 /* ActorReferenceHelper.swift in Sources */,
+				1A6E07EA28C561C300BE4898 /* FollowerList.swift in Sources */,
 				1A3232F326750BAF009A9F23 /* SquareTileScrollRow.swift in Sources */,
 				1A66E1052639119300B47B88 /* ShowDetail.swift in Sources */,
 				1A316A3B268FE91A00C97699 /* TileBanner.swift in Sources */,

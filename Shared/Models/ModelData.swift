@@ -40,7 +40,7 @@ final class ModelData : ObservableObject {
         
         
         // Resets cache
-        //fireStore.clearPersistence()
+        fireStore.clearPersistence()
         
         
         //firebaseShowFetch()

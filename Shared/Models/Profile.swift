@@ -13,10 +13,15 @@ struct Profile : Hashable, Identifiable, Codable {
     
     var id: String
     var username: String
-    var profilePhotoURL: String
-    var bio: String
-    var lovedShows: [Show]
+    var profilePhotoURL: String?
+    var bio: String?
+    var pinnedShows: [String:String]?
+    var pinnedShowCount: Int
     var showCount: Int
+    var followingCount: Int
+    var followerCount: Int
+    var followers: [String:String]? // ID: Username
+    var following: [String:String]?
     //var shows: [String: String]
     
     //let id : String = UUID().uuidString

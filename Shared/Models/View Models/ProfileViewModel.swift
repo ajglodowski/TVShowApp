@@ -22,7 +22,7 @@ class ProfileViewModel: ObservableObject {
     
     @MainActor
     func loadProfile(id: String) {
-        //fireStore.clearPersistence()
+        fireStore.clearPersistence()
         let show = fireStore.collection("users").document("\(id)")
         
         show.addSnapshotListener { snapshot, error in
@@ -31,17 +31,25 @@ class ProfileViewModel: ObservableObject {
                 return
             }
             if let snapshot = snapshot {
-                let data = snapshot.data()
-                let username = data!["username"] as! String
-                let profilePhotoURL = data!["profilePhotoURL"] as! String
-                let bio = data!["bio"] as! String
-                let showCount = data!["showCount"] as! Int
-                let lovedShows = [Show(id: "1085082")]
-                let add = Profile(id: id, username: username, profilePhotoURL: profilePhotoURL, bio: bio, lovedShows: lovedShows, showCount: showCount)
+                let data = snapshot.data()!
+                let username = data["username"] as! String
+                var profilePhotoURL = data["profilePhotoURL"] as? String
+                let bio = data["bio"] as? String
+                let showCount = data["showCount"] as! Int
+                
+                let followingCount = data["followingCount"] as! Int
+                let followerCount = data["followerCount"] as! Int
+                let followers = data["followers"] as? [String:String]
+                let following = data["following"] as? [String:String]
+                
+                let pinnedShows =  data["pinnedShows"] as? [String:String]
+                let pinnedShowCount = data["pinnedShowCount"] as? Int ?? 0
+                let add = Profile(id: id, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following)
                 self.profile = add
                 
                 // Loading Profile Pic
-                let picRef = self.store.child("profilePics/\(profilePhotoURL)")
+                if (profilePhotoURL == nil) { profilePhotoURL = "blank.jpg" }
+                let picRef = self.store.child("profilePics/\(profilePhotoURL!)")
                 picRef.getData(maxSize: 2 * 1024 * 1024) { data, error in // 2 MB
                   if let error = error {
                       print(error.localizedDescription)

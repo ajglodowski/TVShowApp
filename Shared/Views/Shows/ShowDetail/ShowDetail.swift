@@ -122,6 +122,7 @@ struct ShowDetail: View {
                     ShowDetailActors(show: show, backgroundColor: backgroundColor)
                 }
             }
+            .ignoresSafeArea(edges: .horizontal)
             .refreshable(action: {
                 //show = modelData.shows[showIndex]
                 

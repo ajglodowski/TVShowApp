@@ -38,7 +38,9 @@ struct Login: View {
                 errorText = error!.localizedDescription
                 print(error!.localizedDescription)
             }
+            // Create Profile Here
         }
+        
     }
     
     @State var username: String = ""
@@ -115,7 +117,7 @@ struct Login: View {
         .onAppear {
             Auth.auth().addStateDidChangeListener { auth, user in
                 if user != nil {
-                    loggedIn.toggle()
+                    loggedIn = true
                 }
             }
         }

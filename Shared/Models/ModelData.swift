@@ -14,7 +14,8 @@ final class ModelData : ObservableObject {
     
     @Published var loadedShow: Show? = nil
     
-    @Published var loggedIn = false
+    @Published var entered: Bool = false
+
     //@Published var shows: [Show] = load("showData.json")
     //@Published var shows: [Show] = load("data.json")
     @Published var shows = [Show]()
@@ -30,6 +31,9 @@ final class ModelData : ObservableObject {
     //private var ref: DatabaseReference = Database.database().reference()
     private let fireStore = Firebase.Firestore.firestore()
     
+    var loggedIn: Bool {
+        Auth.auth().currentUser != nil
+    }
     
     init() {
         /*
@@ -49,6 +53,7 @@ final class ModelData : ObservableObject {
         if (loggedIn) {
             loadCurrentUser()
         }
+        //loadCurrentUser()
         fetchAllFromFireStore()
         /*
         if (loggedIn) {
@@ -77,6 +82,7 @@ final class ModelData : ObservableObject {
         if (loggedIn) {
             loadCurrentUser() 
         }
+        //loadCurrentUser()
         loadFromFireStore()
         fetchActorsFromFirestore()
     }
@@ -292,7 +298,10 @@ final class ModelData : ObservableObject {
                 return
             }
             if let snapshot = snapshot {
-                let data = snapshot.data()!
+                let optData = snapshot.data()
+                if (optData == nil) { return }
+                let data = optData!
+                    
                 let username = data["username"] as! String
                 var profilePhotoURL = data["profilePhotoURL"] as? String
                 let bio = data["bio"] as? String

@@ -49,9 +49,13 @@ struct ProfileDetail: View {
                         
                         userDetails
                         
-                        Section(header: Text("Pinned Shows:")) {
-                            pinnedShowsRow
-                        }
+                        Divider()
+                        
+                        
+                        pinnedShowsRow
+                        
+                        
+                        Divider()
                         
                         Section(header: Text("More Data:")) {
                             
@@ -63,7 +67,6 @@ struct ProfileDetail: View {
                         
                     }
                     .navigationTitle(profile.username)
-                    .padding()
                 } else {
                     Text("Loading Profile")
                 }
@@ -79,6 +82,7 @@ struct ProfileDetail: View {
                 prof.loadProfile(id: id)
             }
         }
+        .ignoresSafeArea(edges: .horizontal)
     }
     
     var pinnedShowsRow: some View {
@@ -90,23 +94,26 @@ struct ProfileDetail: View {
             
             let profile = optProfile!
             if (profile.pinnedShows != nil && !profile.pinnedShows!.isEmpty) {
-                HStack {
-                    Text("\(profile.username)'s Pinned Shows:")
-                        .font(.headline)
-                    Spacer()
-                    if (currentProfile) {
-                        Button(action: {
-                            editingPinnedShows.toggle()
-                        }) {
-                            if (!editingPinnedShows) {
-                                Text("Edit Pinned Shows")
-                            } else {
-                                Text("Stop Editing Pinned Shows")
+                VStack {
+                    HStack {
+                        Text("\(profile.username)'s Pinned Shows:")
+                            .font(.headline)
+                        Spacer()
+                        if (currentProfile) {
+                            Button(action: {
+                                editingPinnedShows.toggle()
+                            }) {
+                                if (!editingPinnedShows) {
+                                    Text("Edit Pinned Shows")
+                                } else {
+                                    Text("Stop Editing Pinned Shows")
+                                }
                             }
+                            .buttonStyle(.bordered)
                         }
-                        .buttonStyle(.bordered)
                     }
                 }
+                .padding()
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(profile.pinnedShows!.sorted(by: >), id:\.key) { showId, showName in
@@ -135,6 +142,7 @@ struct ProfileDetail: View {
                         }
                     }
                     .foregroundColor(Color.primary)
+                    .ignoresSafeArea()
                 }
             } else {
                 Text("This user hasn't pinned any shows 😔")
@@ -163,6 +171,7 @@ struct ProfileDetail: View {
                 }
             }
         }
+        .ignoresSafeArea()
     }
     
     var userDetails: some View {
@@ -182,19 +191,22 @@ struct ProfileDetail: View {
                                 .resizable()
                                 .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                                 .scaledToFit()
+                                .shadow(radius: 5)
                         }
-                        .frame(width: 175, height: 175, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .frame(width: 125, height: 125, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     } else {
-                        Text("Loading Profile Picture")
+                        //Text("Loading Profile Picture")
                     }
                 }
-                .padding()
+                .padding(2)
                 VStack (alignment: .leading) {
                     HStack {
                         Text("@\(profile.username)")
                             .font(.title)
                             .italic()
                             .bold()
+                    }
+                    HStack {
                         if (currentProfile) {
                             Button(action: {
                                 // Nothing
@@ -229,9 +241,9 @@ struct ProfileDetail: View {
                         }
                         
                         if (currentProfile) {
-                            Spacer()
+                            //Spacer()
                             Button(action: {
-                                modelData.loggedIn = false
+                                modelData.entered = false
                                 try! Auth.auth().signOut()
                             }) {
                                 Text("Logout")
@@ -239,7 +251,6 @@ struct ProfileDetail: View {
                             .buttonStyle(.bordered)
                             .tint(.red)
                         }
-                         
                     }
                     if (profile.bio != nil) {
                         Text("\(profile.bio!)")
@@ -252,12 +263,13 @@ struct ProfileDetail: View {
                     
             }
         }
+        .padding()
     }
     
     var followerSection: some View {
         HStack {
             var optProfile: Profile? = prof.profile
-           var profilePic: Image? = prof.profilePic
+            var profilePic: Image? = prof.profilePic
             
             let profile = optProfile!
             
@@ -269,7 +281,7 @@ struct ProfileDetail: View {
                         Text("Followers")
                             .bold()
                     }
-                    .padding()
+                    .padding(5)
                     .foregroundColor(Color.primary)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
@@ -291,7 +303,7 @@ struct ProfileDetail: View {
                         Text("Following")
                             .bold()
                     }
-                    .padding()
+                    .padding(5)
                     .foregroundColor(Color.primary)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
@@ -309,10 +321,4 @@ struct ProfileDetail: View {
     
     
 }
-/*
- struct ProfileDetail_Previews: PreviewProvider {
- static var previews: some View {
- ProfileDetail()
- }
- }
- */
+

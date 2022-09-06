@@ -41,42 +41,74 @@ struct DiscoverTab: View {
                 }
                 .ignoresSafeArea()
                 
-                VStack {
-                    Text("Search for Users")
-                        .font(.title)
-                    HStack { // Search Bar
-                        Image(systemName: "magnifyingglass")
-                        TextField("Search for a user", text: $profileSearchText)
-                            .onChange(of: profileSearchText) {
-                                profileSearchVM.searchForUser(username: $0)
-                            }
-                            .autocorrectionDisabled()
-                            .textInputAutocapitalization(.none)
-                        if (!profileSearchText.isEmpty) {
-                            Button(action: {
-                                profileSearchVM.searchForUser(username: profileSearchText)
-                                print(profileSearchVM.profilesReturned)
-                            }) {
-                                Text("Search")
-                            }
-                            .buttonStyle(.bordered)
-                        }
-                    }
-                    .padding()
-                    VStack (alignment: .leading) {
-                        ForEach(profileSearchVM.profilesReturned, id:\.0) { profile in
-                            NavigationLink(destination: ProfileDetail(id: profile.0)) {
-                                Text(profile.1)
-                            }
-                        }
-                    }
-                    //.listStyle(.automatic)
-                }
+                userSearch
+                
             }
             .listStyle(.plain)
             .navigationTitle("Discover")
         }
         .navigationViewStyle(.stack)
+    }
+    
+    var userSearch: some View {
+        VStack (alignment: .leading) {
+            Text("Search for Users")
+                .font(.title)
+            Text("Unfortunately at this point you have to enter in the exact username 😔")
+            HStack { // Search Bar
+                Image(systemName: "magnifyingglass")
+                TextField("Search for a user", text: $profileSearchText)
+                    .onChange(of: profileSearchText) {
+                        profileSearchVM.searchForUser(username: $0)
+                    }
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+                /*
+                if (!profileSearchText.isEmpty) {
+                    Button(action: {
+                        profileSearchText = ""
+                    }) {
+                        Image(systemName: "xmark")
+                    }
+                    .buttonStyle(.plain)
+                }
+                 */
+                /*
+                if (!profileSearchText.isEmpty) {
+                    Button(action: {
+                        profileSearchVM.searchForUser(username: profileSearchText)
+                        print(profileSearchVM.profilesReturned)
+                    }) {
+                        Text("Search")
+                    }
+                    .buttonStyle(.bordered)
+                }
+                 */
+            }
+            .padding()
+            VStack (alignment: .leading) {
+                ForEach(profileSearchVM.profilesReturned, id:\.1) { profile in
+                    HStack {
+                        NavigationLink(destination: ProfileDetail(id: profile.1.id)) {
+                            profile.0
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                            VStack(alignment: .leading) {
+                                Text(profile.1.username)
+                                    .font(.title)
+                                    .bold()
+                                Text("\(profile.1.showCount) shows logged")
+                                    .italic()
+                                Text("\(profile.1.followerCount) followers")
+                            }
+                        }
+                    }
+                }
+            }
+            //.listStyle(.automatic)
+        }
     }
 }
 

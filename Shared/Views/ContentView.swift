@@ -13,7 +13,7 @@ struct ContentView: View {
     @EnvironmentObject var modelData : ModelData
     
     var body: some View {
-        if (modelData.loggedIn) {
+        if (modelData.entered && Auth.auth().currentUser != nil) {
             TabView {
                 Home()
                     .tabItem {
@@ -29,7 +29,7 @@ struct ContentView: View {
                     }
             }
         } else {
-            Login(loggedIn: $modelData.loggedIn)
+            Login(loggedIn: $modelData.entered)
         }
     }
 }

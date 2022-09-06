@@ -9,9 +9,20 @@ import SwiftUI
 import Firebase
 
 struct CurrentUserProfileDetail: View {
+    
+    @ObservedObject var modelData = ModelData()
+    
     var body: some View {
         NavigationView {
-            ProfileDetail(id: Auth.auth().currentUser!.uid)
+            VStack {
+                ProfileDetail(id: Auth.auth().currentUser!.uid)
+                Button(action: {
+                    try! Auth.auth().signOut()
+                }) {
+                    Text("Sign Out")
+                }
+                .buttonStyle(.bordered)
+            }
         }
         .navigationViewStyle(.stack)
     }

@@ -51,7 +51,7 @@ struct CurrentlyAiringRow: View {
                 Text("Currently Airing")
                     .font(.title)
                 ScrollView(.horizontal) {
-                    LazyHStack (alignment: .top) { // Put days next to each other
+                    HStack (alignment: .top) { // Put days next to each other
                         ForEach(AirDate.allCases) { day in
                             //Text(day.rawValue)
                             if (currentlyAiringGroups[day] != nil) {
@@ -65,6 +65,7 @@ struct CurrentlyAiringRow: View {
                         
                     }
                 }
+                .ignoresSafeArea()
             }
         }
     }

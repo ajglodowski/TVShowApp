@@ -31,7 +31,10 @@ class ProfileViewModel: ObservableObject {
                 return
             }
             if let snapshot = snapshot {
-                let data = snapshot.data()!
+                let optData = snapshot.data()
+                if (optData == nil) { return }
+                let data = optData!
+                
                 let username = data["username"] as! String
                 var profilePhotoURL = data["profilePhotoURL"] as? String
                 let bio = data["bio"] as? String

@@ -26,6 +26,8 @@ final class ModelData : ObservableObject {
     @Published var actors = [Actor]()
     @Published var currentUser: Profile? = nil
     
+    @Published var tileImageCache: [String: Image] = [String: Image]()
+    
     @Published var needsUpdated: Bool = false
     
     //private var ref: DatabaseReference = Database.database().reference()
@@ -45,7 +47,7 @@ final class ModelData : ObservableObject {
         
         
         // Resets cache
-        //fireStore.clearPersistence()
+        fireStore.clearPersistence()
         
         
         //firebaseShowFetch()

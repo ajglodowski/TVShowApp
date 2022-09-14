@@ -13,6 +13,7 @@ enum TagCategory: String, CaseIterable, Codable, Identifiable {
     case Theme
     case Producer
     case Collection
+    case Attribute
     
     var id: String { self.rawValue }
 }
@@ -47,6 +48,9 @@ enum Tag: String, CaseIterable, Codable, Identifiable {
     case SamLevinson = "Sam Levinson"
     case AdamMckay = "Adam McKay"
     
+    case Animated
+    case Spanish
+    
     case GameOfThrones = "Game of Thrones"
     case OldMarvel = "Old Marvel"
     case NewMarvel = "New Marvel"
@@ -61,6 +65,8 @@ enum Tag: String, CaseIterable, Codable, Identifiable {
             return TagCategory.Theme
         } else if (self.id > 200 && self.id < 301) {
             return TagCategory.Producer
+        } else if (self.id > 300 && self.id < 401) {
+            return TagCategory.Attribute
         } else {
             return TagCategory.Collection
         }
@@ -116,14 +122,18 @@ enum Tag: String, CaseIterable, Codable, Identifiable {
             return 207
         case "Adam McKay":
             return 208
-        case "Game of Thrones":
+        case "Animated":
             return 301
-        case "Old Marvel":
+        case "Spanish":
             return 302
+        case "Game of Thrones":
+            return 401
+        case "Old Marvel":
+            return 402
         case "New Marvel":
-            return 303
+            return 403
         case "Star Wars":
-            return 304
+            return 404
         default:
             return 0
         }

@@ -31,7 +31,7 @@ struct AddToComingSoon: View {
                     HStack {
                         ForEach(outOfSync) { s in
                             VStack {
-                                NavigationLink(destination: ShowDetail(show: s)) {
+                                NavigationLink(destination: ShowDetail(showId: s.id)) {
                                     ShowSquareTile(show: s)
                                 }
                                 .foregroundColor(.primary)

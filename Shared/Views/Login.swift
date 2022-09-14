@@ -38,7 +38,12 @@ struct Login: View {
                 errorText = error!.localizedDescription
                 print(error!.localizedDescription)
             }
-            // Create Profile Here
+            /*
+            if result != nil {
+                print("success")
+                createNewUser(username: username)
+            }
+             */
         }
         
     }
@@ -117,6 +122,7 @@ struct Login: View {
         .onAppear {
             Auth.auth().addStateDidChangeListener { auth, user in
                 if user != nil {
+                    //createNewUser(username: username)
                     loggedIn = true
                 }
             }

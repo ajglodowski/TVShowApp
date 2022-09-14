@@ -21,9 +21,9 @@ struct ScrollShowRow: View {
                 .padding(.top, 5)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(alignment: .top, spacing: 0) {
+                HStack(alignment: .top, spacing: 0) {
                     ForEach(items) { show in
-                        NavigationLink(destination: ShowDetail(show: show)) {
+                        NavigationLink(destination: ShowDetail(showId: show.id)) {
                             ShowTile(showName: show.name)
                         }
                         .accentColor(.primary)

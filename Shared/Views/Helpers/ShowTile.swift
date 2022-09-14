@@ -26,7 +26,7 @@ struct ShowTile: View {
                 //.shadow(radius: 5)
              */
             if (vm.showImage != nil) {
-                vm.showImage!
+                Image(uiImage: vm.showImage!)
                     .resizable()
                     .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                     .scaledToFit()

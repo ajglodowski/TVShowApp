@@ -113,7 +113,7 @@ struct WatchList: View {
                 }
                 
                 ForEach(displayedShows) { show in
-                    NavigationLink(destination: ShowDetail(show: show)) {
+                    NavigationLink(destination: ShowDetail(showId: show.id)) {
                         ListShowRow(show: show)
                     }
                 }
@@ -121,7 +121,7 @@ struct WatchList: View {
                  
             } else {
                 ForEach(searchShows) { show in
-                    NavigationLink(destination: ShowDetail(show: show)) {
+                    NavigationLink(destination: ShowDetail(showId: show.id)) {
                         ListShowRow(show: show)
                     }
                 }

@@ -186,3 +186,25 @@ func printShowList(input: [Show]) {
         print("\(show.name) ->")
     }
 }
+
+// Calls all the firebase functions needed to update a status
+func changeShowStatus(show: Show, status: Status) {
+    var updatedShow = show
+    switch status {
+    case Status.ShowEnded:
+        updatedShow.running = false
+    case Status.CurrentlyAiring:
+        if (show.airdate == nil) {
+            updatedShow.airdate = AirDate.Other
+        }
+    case Status.ComingSoon:
+        if (show.releaseDate == nil) {
+            updatedShow.releaseDate = Date()
+        }
+    default:
+        break
+    }
+    updateToShows(show: updatedShow, showNameEdited: false)
+    // Update counters here
+    updateShowStatus(showId: show.id, status: status)
+}

@@ -80,7 +80,7 @@ struct TodayTile: View {
                 Text(day.rawValue)
                 HStack {
                     ForEach(currentlyAiringGroups[day]!) { s in
-                        NavigationLink(destination: ShowDetail(show: s)) {
+                        NavigationLink(destination: ShowDetail(showId: s.id)) {
                             ShowSquareTile(show: s)
                         }
                         .foregroundColor(Color.primary)
@@ -109,7 +109,7 @@ struct OtherTiles: View {
             Text(day.rawValue)
             HStack {
                 ForEach(currentlyAiringGroups[day]!) { s in
-                    NavigationLink(destination: ShowDetail(show: s)) {
+                    NavigationLink(destination: ShowDetail(showId: s.id)) {
                         ShowSquareTile(show: s)
                     }
                     .foregroundColor(Color.primary)

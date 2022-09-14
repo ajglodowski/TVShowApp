@@ -93,34 +93,37 @@ struct ProfileDetail: View {
             var profilePic: Image? = prof.profilePic
             
             let profile = optProfile!
-            if (profile.pinnedShows != nil && !profile.pinnedShows!.isEmpty) {
-                VStack {
-                    HStack {
-                        Text("\(profile.username)'s Pinned Shows:")
-                            .font(.headline)
-                        Spacer()
-                        if (currentProfile) {
-                            Button(action: {
-                                editingPinnedShows.toggle()
-                            }) {
-                                if (!editingPinnedShows) {
-                                    Text("Edit Pinned Shows")
-                                } else {
-                                    Text("Stop Editing Pinned Shows")
-                                }
+            
+            VStack {
+                HStack {
+                    Text("\(profile.username)'s Pinned Shows:")
+                        .font(.headline)
+                    Spacer()
+                    if (currentProfile) {
+                        Button(action: {
+                            editingPinnedShows.toggle()
+                        }) {
+                            if (!editingPinnedShows) {
+                                Text("Edit Pinned Shows")
+                            } else {
+                                Text("Stop Editing Pinned Shows")
                             }
-                            .buttonStyle(.bordered)
                         }
+                        .buttonStyle(.bordered)
                     }
                 }
-                .padding()
+            }
+            .padding()
+            
+            if (profile.pinnedShows != nil && !profile.pinnedShows!.isEmpty) {
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(profile.pinnedShows!.sorted(by: >), id:\.key) { showId, showName in
                             VStack {
-                                let showInd = modelData.shows.firstIndex(where: { $0.id == showId })
+                                //let showInd = modelData.shows.firstIndex(where: { $0.id == showId })
+                                let showInd = 1 // Temp
                                 if (showInd != nil) {
-                                    NavigationLink(destination: ShowDetail(show: modelData.shows[showInd!])) {
+                                    NavigationLink(destination: ShowDetail(showId: showId)) {
                                         ShowTile(showName: showName)
                                     }
                                     if (editingPinnedShows) {
@@ -145,9 +148,13 @@ struct ProfileDetail: View {
                     .ignoresSafeArea()
                 }
             } else {
-                Text("This user hasn't pinned any shows 😔")
-                    .font(.headline)
+                VStack {
+                    Text("This user hasn't pinned any shows 😔")
+                        .font(.headline)
+                        .padding()
+                }
             }
+            
             VStack(alignment: .leading) {
                 if (profile.id == curUserId && editingPinnedShows) {
                     Text("Add more pinned shows")

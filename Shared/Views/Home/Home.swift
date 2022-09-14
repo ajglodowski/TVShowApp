@@ -42,6 +42,7 @@ struct Home: View {
     var comingSoon: [Show] {
         shows
             .filter { $0.status == Status.ComingSoon }
+            .filter { $0.releaseDate != nil }
             .sorted { $0.releaseDate! < $1.releaseDate! }
     }
     
@@ -146,6 +147,15 @@ struct Home: View {
                     .buttonStyle(.bordered)
                      */
                      
+                    // Cache Button
+                    Button(action: {
+                        print(modelData.tileImageCache)
+                    }, label: {
+                        Text("View Cache")
+                            //.font(.title)
+                    })
+                    .buttonStyle(.bordered)
+                    
                    
                     // Reload Button
                     Spacer()

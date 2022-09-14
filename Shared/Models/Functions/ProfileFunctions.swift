@@ -96,4 +96,24 @@ func decrementShowCount(userId: String) {
     ])
 }
 
+// Ignores ID
+func convertProfileToDictionary(profile: Profile) -> [String:Any] {
+    var out = [String:Any]()
+    out["username"] = profile.username
+    out["pinnedShowCount"] = profile.pinnedShowCount
+    out["showCount"] = profile.showCount
+    out["followingCount"] = profile.followingCount
+    out["followerCount"] = profile.followerCount
+    return out
+}
+
+func createNewUser(username: String) {
+    let newUID = Auth.auth().currentUser!.uid
+    print("Heres the uid: \(newUID)")
+    let profile = Profile(id: newUID, username: username, pinnedShowCount: 0, showCount: 0, followingCount: 0, followerCount: 0)
+    let profileData = convertProfileToDictionary(profile: profile)
+    let docRef = Firestore.firestore().collection("users").document(newUID)
+    print(docRef)
+    docRef.setData(profileData)
+}
 

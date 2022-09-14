@@ -12,9 +12,8 @@ struct ShowSeasonsRow: View {
     @EnvironmentObject var modelData: ModelData
     
     var totalSeasons: Int
-    @Binding var currentSeason: Int?
+    var currentSeason: Int?
     var backgroundColor: Color
-    var showIndex: Int
     var showId: String
     
     var body: some View {
@@ -28,7 +27,7 @@ struct ShowSeasonsRow: View {
                         if (num != currentSeason) {
                             VStack (alignment: .center) {
                                 Button(action: {
-                                    currentSeason = num
+                                    //currentSeason = num
                                     updateCurrentSeason(newSeason: num, showId: showId)
                                 }, label: {
                                     Text((String(num)))

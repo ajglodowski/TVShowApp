@@ -60,7 +60,7 @@ struct ShowSquareTile: View {
                 .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
              */
             if (vm.showImage != nil) {
-                vm.showImage!
+                Image(uiImage: vm.showImage!)
                     .resizable()
                     .scaledToFit()
                     .cornerRadius(15)

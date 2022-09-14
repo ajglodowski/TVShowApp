@@ -63,10 +63,10 @@ struct SquareTileScrollRow: View {
         VStack(alignment: .leading) {
         
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(alignment: .top, spacing: 0) {
+                HStack(alignment: .top, spacing: 0) {
                     ForEach(items) { show in
                         VStack {
-                            NavigationLink(destination: ShowDetail(show: show)) {
+                            NavigationLink(destination: ShowDetail(showId: show.id)) {
                                 ShowSquareTile(show: show, aboveExtraText: getAboveExtraText(s: show), belowExtraText: getBelowExtraText(s: show))
                             }
                             .foregroundColor(.primary)

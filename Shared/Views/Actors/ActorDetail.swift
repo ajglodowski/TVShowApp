@@ -41,8 +41,7 @@ struct ActorDetail: View {
                         .padding()
                     
                     ForEach(actor.shows.sorted(by: >), id:\.key) { showId, showName in
-                        NavigationLink(destination: ShowDetail(show: modelData.shows.first(where: { $0.id == showId
-                        })!)) {
+                        NavigationLink(destination: ShowDetail(showId: showId)) {
                             HStack {
                                 Text(showName)
                             }

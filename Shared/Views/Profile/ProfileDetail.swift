@@ -59,6 +59,10 @@ struct ProfileDetail: View {
                         
                         Section(header: Text("More Data:")) {
                             
+                            NavigationLink(destination: ShowListDetail(listId: "SHJKN1l0mSj9lkQlKDJJ")) {
+                                Text("List View")
+                            }
+                            
                             NavigationLink(destination: WatchList()) {
                                 Text("All \(profile.username)'s logged shows")
                             }

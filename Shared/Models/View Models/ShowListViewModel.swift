@@ -30,6 +30,7 @@ class ShowListViewModel: ObservableObject {
         let description = data["description"] as! String
         let ordered = data["ordered"] as! Bool
         let priv = data["priv"] as! Bool
+        let likeCount = data["likeCount"] as! Int
         
         // Loading profile
         let profId = data["profileId"] as! String
@@ -37,7 +38,6 @@ class ShowListViewModel: ObservableObject {
         
         // Loading shows
         let showIds = data["shows"] as! [String]
-        print(showIds)
         var shows = [Show]()
         let showsCol = fireStore.collection("shows")
         for showId in showIds {
@@ -76,10 +76,8 @@ class ShowListViewModel: ObservableObject {
                 add.ratingCounts[Rating(rawValue: key)!] = value
             }
             shows.append(add)
-            print(add)
         }
-        print(shows)
-        let add = ShowList(id: id, name: name, description: description, shows: shows, ordered: ordered, priv: priv, profile: profile)
+        let add = ShowList(id: id, name: name, description: description, shows: shows, ordered: ordered, priv: priv, profile: profile, likeCount: likeCount)
         self.showListObj = add
     }
     
@@ -100,10 +98,12 @@ class ShowListViewModel: ObservableObject {
         let followerCount = data["followerCount"] as! Int
         let followers = data["followers"] as? [String:String]
         let following = data["following"] as? [String:String]
+        let showLists = data["showLists"] as? [String]
+        let likedShowLists = data["likedShowLists"] as? [String]
         
         let pinnedShows =  data["pinnedShows"] as? [String:String]
         let pinnedShowCount = data["pinnedShowCount"] as? Int ?? 0
-        let add = Profile(id: id, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following)
+        let add = Profile(id: id, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following, showLists: showLists, likedShowLists: likedShowLists)
         return add
         
     }

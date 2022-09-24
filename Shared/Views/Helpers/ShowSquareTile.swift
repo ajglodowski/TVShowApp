@@ -15,6 +15,7 @@ struct ShowSquareTile: View {
     var show: Show
     
     //var scrollType: Int? // 0 for generic, 1 for airdates
+    var titleShown: Bool
     
     var aboveExtraText: [String]? // Text below the tile
     var aboveFontType: Font?
@@ -81,23 +82,24 @@ struct ShowSquareTile: View {
                     .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
                 
-            
-            HStack {
-            
-                Text(show.name)
-                    .font(.headline)
-                    .scaledToFit()
+            if (titleShown) {
+                HStack {
                     
-            }
-            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
-            
-            HStack {
-                Text(show.length.rawValue + "m")
-                    .font(.subheadline)
+                    Text(show.name)
+                        .font(.headline)
+                        .scaledToFit()
+                    
+                }
+                .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
                 
-                Text(show.service.rawValue)
-                    .font(.subheadline)
-                    .scaledToFit()
+                HStack {
+                    Text(show.length.rawValue + "m")
+                        .font(.subheadline)
+                    
+                    Text(show.service.rawValue)
+                        .font(.subheadline)
+                        .scaledToFit()
+                }
             }
             
             if (belowExtraText != nil) {
@@ -115,7 +117,7 @@ struct ShowSquareTile: View {
             
         }
         .frame(width: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        .padding(.leading, 10)
+        //.padding(.leading, 10)
         .padding(.trailing, 10)
         
         .task {
@@ -132,15 +134,15 @@ struct ShowSquareTile_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             HStack {
-                ShowSquareTile(show: shows[4])
-                ShowSquareTile(show: shows[4], belowExtraText: ["Below"])
+                ShowSquareTile(show: shows[4], titleShown: true)
+                ShowSquareTile(show: shows[4], titleShown: true, belowExtraText: ["Below"])
             }
             HStack {
-                ShowSquareTile(show: shows[4], aboveExtraText: ["Above"])
-                ShowSquareTile(show: shows[4], aboveExtraText: ["Above"], aboveFontType: .headline, belowExtraText: ["Below"])
+                ShowSquareTile(show: shows[4], titleShown: true, aboveExtraText: ["Above"])
+                ShowSquareTile(show: shows[4], titleShown: true, aboveExtraText: ["Above"], aboveFontType: .headline, belowExtraText: ["Below"])
             }
             HStack {
-                ShowSquareTile(show: shows[4])
+                ShowSquareTile(show: shows[4], titleShown: true)
             }
         }
     }

@@ -57,6 +57,10 @@ struct ProfileDetail: View {
                         
                         Divider()
                         
+                        ownedLists
+                        
+                        Divider()
+                        
                         Section(header: Text("More Data:")) {
                             
                             NavigationLink(destination: ShowListDetail(listId: "SHJKN1l0mSj9lkQlKDJJ")) {
@@ -326,6 +330,28 @@ struct ProfileDetail: View {
             } else {
                 Text("Not following anyone")
                     .bold()
+            }
+        }
+    }
+    
+    var ownedLists: some View {
+        VStack(alignment: .leading) {
+            var optProfile: Profile? = prof.profile
+            if (optProfile != nil && optProfile!.showLists != nil) {
+                let profile = optProfile!
+                Text("\(profile.username)'s Lists")
+                    .font(.headline)
+                ScrollView(.horizontal) {
+                    HStack {
+                        ForEach(profile.showLists!, id:\.self) { showListId in
+                            NavigationLink(destination: ShowListDetail(listId: showListId)) {
+                                ShowListTile(showListId: showListId)
+                                    .foregroundColor(.primary)
+                                    .padding(.horizontal, 5)
+                            }
+                        }
+                    }
+                }
             }
         }
     }

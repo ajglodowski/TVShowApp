@@ -18,6 +18,7 @@ struct ShowList : Hashable, Identifiable, Codable {
     var ordered: Bool
     var priv: Bool
     var profile: Profile
+    var likeCount: Int
     
     //let id : String = UUID().uuidString
     /*

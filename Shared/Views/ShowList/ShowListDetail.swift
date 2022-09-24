@@ -11,15 +11,52 @@ struct ShowListDetail: View {
     
     var listId: String
     
-    var modelData = ModelData()
-    var listVm = ShowListViewModel()
-    var profileVm = ProfileViewModel()
+    @ObservedObject var modelData = ModelData()
+    @StateObject var listVm = ShowListViewModel()
+    @StateObject var profileVm = ProfileViewModel()
     
     @State var listObj: ShowList? = nil
     
+    var likedByCurrentUser: Bool {
+        if (listObj != nil &&
+            modelData.currentUser != nil &&
+            modelData.currentUser!.likedShowLists != nil &&
+            modelData.currentUser!.likedShowLists!.contains(listObj!.id)) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    var ownedList: Bool {
+        if (listObj != nil &&
+            modelData.currentUser != nil &&
+            listObj!.profile.id == modelData.currentUser!.id) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    @State var searchText: String = ""
+    
+    var displayedShows: [Show] {
+        let listObj = listVm.showListObj
+        if (listObj != nil) {
+            let out = listObj!.shows
+            if (!searchText.isEmpty) {
+                return out.filter { $0.name.contains(searchText) }
+            } else {
+                return out
+            }
+        } else {
+            return [Show]()
+        }
+    }
+    
     var body: some View {
         
-        //ScrollView {
+        //List {
             VStack(alignment: .leading) {
                 if (listObj != nil) {
                     //
@@ -41,17 +78,19 @@ struct ShowListDetail: View {
                 self.listObj = listVm.showListObj
             }
         //}
+        //.listStyle(.plain)
     }
     
     var header: some View {
-        VStack {
-            var listObj = listVm.showListObj
+        VStack(alignment:.leading) {
+            let listObj = listVm.showListObj
             if (listObj != nil) {
-                VStack {
+                VStack(alignment: .leading) {
                     HStack {
                         Text(listObj!.name)
                             .font(.title)
-                        if (listObj!.profile.id == modelData.currentUser!.id) {
+                        // Public private toggle
+                        if (ownedList) {
                             if (listObj!.priv) {
                                 Button(action: {
                                     // Make public
@@ -68,22 +107,37 @@ struct ShowListDetail: View {
                                 .buttonStyle(.bordered)
                             }
                         }
+                        Spacer()
+                        // Like Button
+                        Button(action: {
+                            if (likedByCurrentUser) {
+                                dislikeList(listId: listObj!.id)
+                            } else {
+                                likeList(listId: listObj!.id)
+                            }
+                        }) {
+                            if (likedByCurrentUser) {
+                                Image(systemName: "heart.fill")
+                                    .tint(.pink)
+                                    .scaledToFill()
+                                    .frame(width: 50, height: 50)
+                            } else {
+                                Image(systemName: "heart")
+                                    .scaledToFill()
+                                    .frame(width: 50, height: 50)
+                            }
+                        }
                     }
                     Text(listObj!.description)
-                    Text("List Creator: @\(listObj!.profile.username)")
-                        .italic()
+                    NavigationLink(destination: ProfileDetail(id: listObj!.profile.id)) {
+                        Text("List Creator: @\(listObj!.profile.username)")
+                            .italic()
+                            .padding(5)
+                            .background(.tertiary)
+                            .cornerRadius(5)
+                    }
                 }
             }
-        }
-    }
-    
-    var displayedShows: [Show] {
-        var listObj = listVm.showListObj
-        if (listObj != nil) {
-            let out = listObj!.shows
-            return out
-        } else {
-            return [Show]()
         }
     }
     
@@ -98,7 +152,7 @@ struct ShowListDetail: View {
     var showSection: some View {
         
         VStack {
-            var listObj = listVm.showListObj
+            let listObj = listVm.showListObj
             if (listObj != nil) {
                 VStack {
                     
@@ -120,7 +174,7 @@ struct ShowListDetail: View {
                             }
                         }
                         Spacer()
-                        if (listObj!.profile.id == modelData.currentUser!.id) {
+                        if (ownedList) {
                             if (!editing) {
                                 Button(action: {
                                     editing = true
@@ -172,6 +226,7 @@ struct ShowListDetail: View {
                                 }
                             }
                         }
+                        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
                     } else {
                         List {
                             ForEach(Array(editingShows.enumerated()), id: \.offset) { showPlace, show in

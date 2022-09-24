@@ -313,10 +313,12 @@ final class ModelData : ObservableObject {
                 let followerCount = data["followerCount"] as! Int
                 let followers = data["followers"] as? [String:String]
                 let following = data["following"] as? [String:String]
+                let showLists = data["showLists"] as? [String]
+                let likedShowLists = data["likedShowLists"] as? [String]
                 
                 let pinnedShows =  data["pinnedShows"] as? [String:String]
                 let pinnedShowCount = data["pinnedShowCount"] as? Int ?? 0
-                let add = Profile(id: uid, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following)
+                let add = Profile(id: uid, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following, showLists: showLists, likedShowLists: likedShowLists)
                 self.currentUser = add
                 
             }

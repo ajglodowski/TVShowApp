@@ -32,7 +32,7 @@ struct AddToComingSoon: View {
                         ForEach(outOfSync) { s in
                             VStack {
                                 NavigationLink(destination: ShowDetail(showId: s.id)) {
-                                    ShowSquareTile(show: s)
+                                    ShowSquareTile(show: s, titleShown: true)
                                 }
                                 .foregroundColor(.primary)
                                 Button(action:{

@@ -67,7 +67,7 @@ struct SquareTileScrollRow: View {
                     ForEach(items) { show in
                         VStack {
                             NavigationLink(destination: ShowDetail(showId: show.id)) {
-                                ShowSquareTile(show: show, aboveExtraText: getAboveExtraText(s: show), belowExtraText: getBelowExtraText(s: show))
+                                ShowSquareTile(show: show, titleShown: true, aboveExtraText: getAboveExtraText(s: show), belowExtraText: getBelowExtraText(s: show))
                             }
                             .foregroundColor(.primary)
                             if (scrollType == 2 && isOutNow(s: show) ) {

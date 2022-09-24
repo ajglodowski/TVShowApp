@@ -22,6 +22,8 @@ struct Profile : Hashable, Identifiable, Codable {
     var followerCount: Int
     var followers: [String:String]? // ID: Username
     var following: [String:String]?
+    var showLists: [String]? // Array of ids
+    var likedShowLists: [String]? // Array of ids
     //var shows: [String: String]
     
     //let id : String = UUID().uuidString

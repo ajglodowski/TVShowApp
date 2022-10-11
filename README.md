@@ -52,13 +52,12 @@ Firestore/Data Improvements Improvements:
 - Adding status counts to shows so that sorting and data processing by status can be used.
 
 Social Media:
-- Given that users are implemented with Firebase it is now possible to make the app a social media platform. 
-- On the frontend, account pages that displays user's shows and allows them to follow each other would be needed.
-- On the backend, Firestore would need to add followers to user objects.
-- This would coincide with the status counts changes.
+- Accounts exist but there are many bugs with login and logout
+- Users can lookup each other given the exact name but that's it (search?)
+- Lists are still wonky
+- Add status counts changes.
 
 Quality of Life Updates:
-- Fix Navigation Bugs
 - Update the stats pages with more graphs
 - Loading show and/or actor data, such as photos from online (ex: IMDB) (Datascraper?)
 - Improve the object relationship between actors and shows as it presents many bugs

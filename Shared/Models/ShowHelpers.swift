@@ -104,7 +104,7 @@ func applyRatingFilters(ratingFilters: [Rating?], shows:[Show]) -> [Show] {
     }
 }
 
-func applyAllFilters(serviceFilters: [Service], statusFilters: [Status]?, ratingFilters: [Rating?], tagFilters: [Tag], showLengthFilter: ShowLength, shows: [Show], selectedLimited: Int) -> [Show] {
+func applyAllFilters(serviceFilters: [Service], statusFilters: [Status]?, ratingFilters: [Rating?], tagFilters: [Tag], showLengthFilter: ShowLength, shows: [Show], selectedLimited: Int, selectedRunning: Int, selectedAiring: Int) -> [Show] {
     var filtered = [Show]()
     if (!serviceFilters.isEmpty) {
         for service in serviceFilters {
@@ -131,6 +131,24 @@ func applyAllFilters(serviceFilters: [Service], statusFilters: [Status]?, rating
             filtered = filtered.filter { $0.limitedSeries == false}
         case 2:
             filtered = filtered.filter { $0.limitedSeries == true}
+        default:
+            break
+    }
+    
+    switch selectedRunning {
+        case 1:
+            filtered = filtered.filter { $0.running == true }
+        case 2:
+            filtered = filtered.filter { $0.running == false }
+        default:
+            break
+    }
+    
+    switch selectedAiring {
+        case 1:
+            filtered = filtered.filter { $0.currentlyAiring == true }
+        case 2:
+            filtered = filtered.filter { $0.currentlyAiring == false }
         default:
             break
     }

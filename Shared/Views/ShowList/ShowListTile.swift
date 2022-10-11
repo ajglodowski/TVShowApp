@@ -44,8 +44,16 @@ struct ShowListTile: View {
                             .frame(width: 250, alignment: .leading)
                         }
                         VStack (alignment: .leading) {
-                            Text("\(listObj.name)")
-                                .font(.headline)
+                            HStack {
+                                Text("\(listObj.name)")
+                                    .font(.headline)
+                                if (listObj.priv) {
+                                    Text("Private")
+                                        .padding(5)
+                                        .background(.tertiary)
+                                        .cornerRadius(5)
+                                }
+                            }
                             Text("\(listObj.description)")
                                 .lineLimit(2)
                                 .multilineTextAlignment(.leading)
@@ -53,10 +61,11 @@ struct ShowListTile: View {
                                 NavigationLink(destination: ProfileDetail(id: listObj.profile.id)) {
                                     Text("@\(listObj.profile.username)")
                                         .italic()
-                                        .padding(5)
-                                        .background(.tertiary)
-                                        .cornerRadius(5)
+                                        //.padding(5)
+                                        //.background(.tertiary)
+                                        //.cornerRadius(5)
                                 }
+                                .buttonStyle(.bordered)
                                 Spacer()
                                 if (likedByCurrentUser) {
                                     Text("Liked")
@@ -75,7 +84,8 @@ struct ShowListTile: View {
             }
         }
         .task {
-            await listVm.loadList(id: showListId)
+            listVm.fillInLoadedShows(shows: modelData.shows)
+            await listVm.loadList(id: showListId, showLimit: 5)
             self.showListObj = listVm.showListObj
         }
         .background(.quaternary)

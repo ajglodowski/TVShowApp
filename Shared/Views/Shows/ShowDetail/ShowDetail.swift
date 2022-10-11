@@ -18,17 +18,9 @@ struct ShowDetail: View {
     
     var showId: String
     
-    var show : Show? {
-        if (modelData.shows.contains(where: { $0.id == showId})) {
-            return modelData.shows.first(where: { $0.id == showId})
-        } else {
-            // Load show
-            showVm.loadShow(id: showId)
-            return showVm.show
-        }
-    }
+    @State var show : Show?
     
-    //@State var showEdited: Show
+    @State var showEdited: Show = Show(id:"1")
     
     @State private var isPresented = false // Edit menu var
     private var backgroundColor: Color {
@@ -170,7 +162,19 @@ struct ShowDetail: View {
             }
         }
         .task {
+            if (modelData.shows.contains(where: { $0.id == showId})) {
+                let out = modelData.shows.first(where: { $0.id == showId})
+                showEdited = out!
+                show = out
+            } else {
+                // Load show
+                showVm.loadShow(id: showId)
+                let loaded = showVm.show
+                showEdited = loaded!
+                show = loaded
+            }
             photoVm.loadImage(showName: show!.name)
+            
         }
         .refreshable {
             photoVm.loadImage(showName: show!.name)
@@ -183,39 +187,38 @@ struct ShowDetail: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 if (show != nil) {
                     Button("Edit") {
+                        showEdited = show!
                         isPresented = true
                     }
                 }
             }
         }
         
-        /*
+
         .sheet(isPresented: $isPresented) {
             NavigationView {
-                if (showEdited != nil) {
+                if (showEdited.id != "1") {
                     ShowDetailEdit(isPresented: self.$isPresented, show: $showEdited)
                         .navigationTitle(show?.name ?? "Loading Show")
                         .navigationBarItems(leading: Button("Cancel") {
                             showEdited = show!
                             isPresented = false
                         }, trailing: Button("Done") {
-                            //print(showEdited)
                             if (showEdited != show) {
-                                addOrUpdateToUserShows(show: showEdited)
+                                //addOrUpdateToUserShows(show: showEdited)
                                 if (showEdited.name != show!.name) {
                                     updateToShows(show: showEdited, showNameEdited: true)
                                 } else {
                                     updateToShows(show: showEdited, showNameEdited: false)
                                 }
                             }
-                            //print(isPresented)
                             isPresented = false
-                            //print(isPresented)
                         })
+                } else {
+                    Text("Error loading show")
                 }
             }
         }
-         */
         
         /*
         .toolbar{

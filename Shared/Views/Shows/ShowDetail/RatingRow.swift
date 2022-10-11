@@ -23,7 +23,7 @@ struct RatingRow: View {
                         incrementRatingCount(showId: show.id, rating: rating)
                     }) {
                         VStack() {
-                            Image(systemName: (curRating == rating) ? (getRatingSymbol(rating: rating)+".fill") : getRatingSymbol(rating: rating))
+                            Image(systemName: (curRating == rating) ? (rating.ratingSymbol+".fill") : rating.ratingSymbol)
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width:25, height:25)

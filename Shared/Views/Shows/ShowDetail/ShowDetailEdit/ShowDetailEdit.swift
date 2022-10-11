@@ -48,7 +48,7 @@ struct ShowDetailEdit: View {
                         .disableAutocorrection(true)
                         .font(.title)
                     if (!show.name.isEmpty) {
-                        Button(action: {show.name = ""}, label: {
+                        Button(action: { show.name = ""}, label: {
                             Image(systemName: "xmark")
                         })
                     }

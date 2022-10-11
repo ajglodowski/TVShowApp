@@ -15,7 +15,16 @@ struct ShowListDetail: View {
     @StateObject var listVm = ShowListViewModel()
     @StateObject var profileVm = ProfileViewModel()
     
+    @State private var editPresented = false
+    @State var listEdited = ShowList(id: "1", name: "Temp Show", description: "", shows: [], ordered: false, priv: false, profile: Profile(id: "1", username: "", pinnedShowCount: 0, showCount: 0, followingCount: 0, followerCount: 0), likeCount: 0)
+    
     @State var listObj: ShowList? = nil
+    
+    func reloadData() async {
+        listVm.fillInLoadedShows(shows: modelData.shows)
+        await listVm.loadList(id: listId)
+        self.listObj = listVm.showListObj
+    }
     
     var likedByCurrentUser: Bool {
         if (listObj != nil &&
@@ -64,19 +73,37 @@ struct ShowListDetail: View {
                     
                     showSection
                 } else {
-                    Text("Here")
+                    //Text("Here")
                 }
             }
             .refreshable {
                 // Refresh here
-                await listVm.loadList(id: listId)
-                self.listObj = listVm.showListObj
+                await reloadData()
             }
             .task {
                 // Load here
-                await listVm.loadList(id: listId)
-                self.listObj = listVm.showListObj
+                await reloadData()
             }
+            .sheet(isPresented: $editPresented) {
+                NavigationView {
+                    ShowListDetailEdit(showList: $listEdited, isPresented: self.$editPresented)
+                        .navigationTitle(listObj?.name ?? "Loading List")
+                        .navigationBarItems(leading: Button("Cancel") {
+                            listEdited = listObj!
+                            editPresented = false
+                        }, trailing: Button("Done") {
+                            if (listEdited != listObj!) {
+                                // Update firebase
+                                updateList(list: listEdited)
+                                Task {
+                                    await reloadData()
+                                }
+                            }
+                            editPresented = false
+                        })
+                }
+            }
+            
         //}
         //.listStyle(.plain)
     }
@@ -93,14 +120,20 @@ struct ShowListDetail: View {
                         if (ownedList) {
                             if (listObj!.priv) {
                                 Button(action: {
-                                    // Make public
+                                    makeListPublic(listId: listObj!.id)
+                                    Task {
+                                        await reloadData()
+                                    }
                                 }) {
                                     Text("Private List")
                                 }
                                 .buttonStyle(.bordered)
                             } else {
                                 Button(action: {
-                                    // Make privatte
+                                    makeListPrivate(listId: listObj!.id)
+                                    Task {
+                                        await reloadData()
+                                    }
                                 }) {
                                     Text("Public List")
                                 }
@@ -108,7 +141,20 @@ struct ShowListDetail: View {
                             }
                         }
                         Spacer()
-                        // Like Button
+                        if (ownedList) {
+                            Button(action: {
+                                listEdited = listObj!
+                                editPresented = true
+                            }) {
+                                Text("Edit List")
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                        
+                    }
+                    Text(listObj!.description)
+                    HStack {
+                        Text("\(listObj!.likeCount) likes")
                         Button(action: {
                             if (likedByCurrentUser) {
                                 dislikeList(listId: listObj!.id)
@@ -128,17 +174,18 @@ struct ShowListDetail: View {
                             }
                         }
                     }
-                    Text(listObj!.description)
                     NavigationLink(destination: ProfileDetail(id: listObj!.profile.id)) {
                         Text("List Creator: @\(listObj!.profile.username)")
                             .italic()
-                            .padding(5)
-                            .background(.tertiary)
-                            .cornerRadius(5)
+                            //.padding(5)
+                            //.background(.tertiary)
+                            //.cornerRadius(5)
                     }
+                    .buttonStyle(.bordered)
                 }
             }
         }
+        .padding()
     }
     
     @State var editing: Bool = false
@@ -198,10 +245,16 @@ struct ShowListDetail: View {
                                         editing = false
                                         // Update Firestore shows and ordered
                                         if (editingShows != listObj!.shows) {
-                                            // update
+                                            updateListShows(listId: listObj!.id, showsAr: editingShows)
+                                            Task {
+                                                await reloadData()
+                                            }
                                         }
                                         if (editingOrdered != listObj!.ordered) {
-                                            // update
+                                            updateListOrdered(listId: listObj!.id, listOrdered: editingOrdered)
+                                            Task {
+                                                await reloadData()
+                                            }
                                         }
                                         
                                     }) {
@@ -226,14 +279,17 @@ struct ShowListDetail: View {
                                 }
                             }
                         }
-                        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+                        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
                     } else {
                         List {
-                            ForEach(Array(editingShows.enumerated()), id: \.offset) { showPlace, show in
+                            //ForEach(Array(editingShows.enumerated()), id: \.offset) { showPlace, show in
+                            ForEach(editingShows) { show in
                                 HStack {
+                                    /*
                                     if (editingOrdered) {
                                         Text("\(showPlace+1).")
                                     }
+                                     */
                                     ListShowRow(show: show)
                                     Button(action: {
                                         editingShows.removeAll(where: { $0 == show})

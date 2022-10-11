@@ -32,7 +32,7 @@ struct WatchList: View {
             return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
         }
          */
-        var out = applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, ratingFilters: appliedRatingFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
+        var out = applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, ratingFilters: appliedRatingFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited, selectedRunning: selectedRunning, selectedAiring: selectedAiring)
             .sorted { $0.name < $1.name }
         
         if (selectedRatingOrder != 0) {
@@ -61,9 +61,12 @@ struct WatchList: View {
     @State var appliedRatingFilters = [Rating?]()
     @State var appliedTagFilters = [Tag]()
     @State var selectedLength: ShowLength = ShowLength.none
-    @State var selectedLimited: Int = 0
     @State var selectedRatingCategory: Int = 0
     @State var selectedRatingOrder: Int = 0
+    
+    @State var selectedLimited: Int = 0
+    @State var selectedRunning: Int = 0
+    @State var selectedAiring: Int = 0
     
     @State var selectedCategories = [TagCategory]()
     var filteredTags: [Tag] {
@@ -77,6 +80,8 @@ struct WatchList: View {
             return Tag.allCases
         }
     }
+    
+    @State var displayOptions: Bool = false
     
     var body: some View {
         
@@ -99,9 +104,19 @@ struct WatchList: View {
             
             if (searchText.isEmpty) {
                 
-                toolBar
+                HStack {
+                    Toggle(isOn: $displayOptions, label: {
+                        Text("Show options?")
+                    })
+                    .toggleStyle(SwitchToggleStyle(tint: .blue))
+                }
+                if (displayOptions) {
+                    toolBar
+                }
                 
-                appliedFilterButtons
+                if (!appliedServiceFilters.isEmpty || !appliedStatusFilters.isEmpty || !appliedRatingFilters.isEmpty || !appliedTagFilters.isEmpty) {
+                    appliedFilterButtons
+                }
                 
                 HStack {
                     Text("Show Title")
@@ -192,16 +207,6 @@ struct WatchList: View {
                 .background(Color.blue)
                 .foregroundColor(Color.white)
                 .cornerRadius(5)
-                
-                Divider()
-                
-                Picker("Limited Series?", selection: $selectedLimited) {
-                    Text("All").tag(0)
-                    Text("Non-Limited").tag(1)
-                    Text("Limited").tag(2)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                
             }
             
             // Sorting by rating
@@ -300,90 +305,127 @@ struct WatchList: View {
                     .pickerStyle(SegmentedPickerStyle())
                 }
             }
+            
+            toggleRow
+            
         }
     }
     
     var appliedFilterButtons: some View {
-        
-        VStack {
-            if (!appliedServiceFilters.isEmpty) {
-                HStack {
-                    ForEach(appliedServiceFilters) { service in
-                        
-                        // Bug in removing service functionality
-                        Button(action: {
-                            appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
-                        }, label: {
-                            HStack {
-                                Text(service.rawValue)
-                                Image(systemName: "xmark")
+            VStack {
+                
+                if (!appliedServiceFilters.isEmpty) {
+                    ScrollView (.horizontal) {
+                        HStack {
+                            ForEach(appliedServiceFilters) { service in
+                                
+                                // Bug in removing service functionality
+                                Button(action: {
+                                    appliedServiceFilters = appliedServiceFilters.filter { $0 != service}
+                                }, label: {
+                                    HStack {
+                                        Text(service.rawValue)
+                                        Image(systemName: "xmark")
+                                    }
+                                    
+                                })
+                                .buttonStyle(.bordered)
+                                .buttonBorderShape(.capsule)
                             }
-                            
-                        })
-                        .buttonStyle(.bordered)
-                        .buttonBorderShape(.capsule)
+                        }
+                    }
+                }
+                
+                if (!appliedStatusFilters.isEmpty) {
+                    ScrollView (.horizontal) {
+                        HStack {
+                            ForEach(appliedStatusFilters) { status in
+                                
+                                // Bug in removing service functionality
+                                Button(action: {
+                                    appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
+                                }, label: {
+                                    HStack {
+                                        Text(status.rawValue)
+                                        Image(systemName: "xmark")
+                                    }
+                                    
+                                })
+                                .buttonStyle(.bordered)
+                                .buttonBorderShape(.capsule)
+                            }
+                        }
+                    }
+                }
+                
+                if (!appliedRatingFilters.isEmpty) {
+                    ScrollView (.horizontal) {
+                        HStack {
+                            ForEach(appliedRatingFilters, id:\.self) { rating in
+                                Button(action: {
+                                    appliedRatingFilters = appliedRatingFilters.filter { $0 != rating}
+                                }, label: {
+                                    HStack {
+                                        Text(rating?.rawValue ?? "No Rating")
+                                        Image(systemName: "xmark")
+                                    }
+                                    
+                                })
+                                .buttonStyle(.bordered)
+                                .buttonBorderShape(.capsule)
+                            }
+                        }
+                    }
+                }
+                
+                if (!appliedTagFilters.isEmpty) {
+                    ScrollView (.horizontal) {
+                        HStack {
+                            ForEach(appliedTagFilters) { tag in
+                                Button(action: {
+                                    appliedTagFilters = appliedTagFilters.filter { $0 != tag}
+                                }, label: {
+                                    HStack {
+                                        Text(tag.rawValue)
+                                        Image(systemName: "xmark")
+                                    }
+                                    
+                                })
+                                .buttonStyle(.bordered)
+                                .buttonBorderShape(.capsule)
+                            }
+                        }
                     }
                 }
             }
+    }
+    
+    var toggleRow: some View {
+        HStack {
+            Picker("Limited Series?", selection: $selectedLimited) {
+                Text("All").tag(0)
+                Text("Non-Limited").tag(1)
+                Text("Limited").tag(2)
+            }
+            .pickerStyle(SegmentedPickerStyle())
             
-            if (!appliedStatusFilters.isEmpty) {
-                HStack {
-                    ForEach(appliedStatusFilters) { status in
-                        
-                        // Bug in removing service functionality
-                        Button(action: {
-                            appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
-                        }, label: {
-                            HStack {
-                                Text(status.rawValue)
-                                Image(systemName: "xmark")
-                            }
-                            
-                        })
-                        .buttonStyle(.bordered)
-                        .buttonBorderShape(.capsule)
-                    }
-                }
-            }
+            Divider()
             
-            if (!appliedRatingFilters.isEmpty) {
-                HStack {
-                    ForEach(appliedRatingFilters, id:\.self) { rating in
-                        Button(action: {
-                            appliedRatingFilters = appliedRatingFilters.filter { $0 != rating}
-                        }, label: {
-                            HStack {
-                                Text(rating?.rawValue ?? "No Rating")
-                                Image(systemName: "xmark")
-                            }
-                            
-                        })
-                        .buttonStyle(.bordered)
-                        .buttonBorderShape(.capsule)
-                    }
-                }
+            Picker("Running?", selection: $selectedRunning) {
+                Text("All").tag(0)
+                Text("Running").tag(1)
+                Text("Ended").tag(2)
             }
+            .pickerStyle(SegmentedPickerStyle())
             
-            if (!appliedTagFilters.isEmpty) {
-                HStack {
-                    ForEach(appliedTagFilters) { tag in
-                        Button(action: {
-                            appliedTagFilters = appliedTagFilters.filter { $0 != tag}
-                        }, label: {
-                            HStack {
-                                Text(tag.rawValue)
-                                Image(systemName: "xmark")
-                            }
-                            
-                        })
-                        .buttonStyle(.bordered)
-                        .buttonBorderShape(.capsule)
-                    }
-                }
+            Picker("Airing?", selection: $selectedAiring) {
+                Text("All").tag(0)
+                Text("Airing").tag(1)
+                Text("Not Airing").tag(2)
             }
+            .pickerStyle(SegmentedPickerStyle())
+            
         }
-        
-        
     }
     
 }

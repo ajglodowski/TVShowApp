@@ -14,11 +14,17 @@ class ShowListViewModel: ObservableObject {
     
     @Published var showListObj: ShowList? = nil
     
+    var loadedShows: [Show] = [Show]()
+    
     //private var ref: DatabaseReference = Database.database().reference()
     private var fireStore = Firebase.Firestore.firestore()
     
+    func fillInLoadedShows(shows: [Show]) {
+        loadedShows = shows
+    }
+    
     @MainActor
-    func loadList(id: String) async {
+    func loadList(id: String, showLimit: Int? = nil) async {
         //fireStore.clearPersistence()
         let show = fireStore.collection("lists").document("\(id)")
         let snapshot = try! await show.getDocument()
@@ -37,45 +43,52 @@ class ShowListViewModel: ObservableObject {
         let profile = await loadProfile(id: profId)
         
         // Loading shows
-        let showIds = data["shows"] as! [String]
+        var showIds = data["shows"] as! [String]
+        if (showLimit != nil) {
+            showIds = showIds.prefix(showLimit!).map{String($0)}
+        }
         var shows = [Show]()
         let showsCol = fireStore.collection("shows")
         for showId in showIds {
-            let snapshot = try! await showsCol.document(showId).getDocument()
-               
-            let data = snapshot.data()!
-            var add = Show(id: showId)
-            let name = data["name"] as! String
-            let running = data["running"] as! Bool
-            let totalSeasons = data["totalSeasons"] as! Int
-            let tags = data["tags"] as? [String] ?? [String]()
-            let currentlyAiring = data["currentlyAiring"] as? Bool ?? false
-            let service = data["service"] as! String
-            let limitedSeries = data["limitedSeries"] as! Bool
-            let length = data["length"] as! String
-            let releaseDate = data["releaseDate"] as? Timestamp
-            let airdate = data["airdate"] as? String
-            let actors = data["actors"] as? [String: String]
-            let ratingCounts = data["ratingCounts"] as! [String: Int]
-            var tagArray = [Tag]()
-            for tag in tags {
-                tagArray.append(Tag(rawValue: tag)!)
+            if (loadedShows.contains(where: { $0.id == showId})) {
+                shows.append(loadedShows.first(where: { $0.id == showId})!)
+            } else {
+                let snapshot = try! await showsCol.document(showId).getDocument()
+                
+                let data = snapshot.data()!
+                var add = Show(id: showId)
+                let name = data["name"] as! String
+                let running = data["running"] as! Bool
+                let totalSeasons = data["totalSeasons"] as! Int
+                let tags = data["tags"] as? [String] ?? [String]()
+                let currentlyAiring = data["currentlyAiring"] as? Bool ?? false
+                let service = data["service"] as! String
+                let limitedSeries = data["limitedSeries"] as! Bool
+                let length = data["length"] as! String
+                let releaseDate = data["releaseDate"] as? Timestamp
+                let airdate = data["airdate"] as? String
+                let actors = data["actors"] as? [String: String]
+                let ratingCounts = data["ratingCounts"] as! [String: Int]
+                var tagArray = [Tag]()
+                for tag in tags {
+                    tagArray.append(Tag(rawValue: tag)!)
+                }
+                add.name = name
+                add.running = running
+                add.totalSeasons = totalSeasons
+                add.tags = tagArray
+                add.currentlyAiring = currentlyAiring
+                add.service = Service(rawValue: service)!
+                add.limitedSeries = limitedSeries
+                add.length = ShowLength(rawValue: length)!
+                if (airdate != nil) { add.airdate = AirDate(rawValue: airdate!) }
+                add.releaseDate = releaseDate?.dateValue()
+                if (actors != nil) { add.actors = actors }
+                for (key, value) in ratingCounts {
+                    add.ratingCounts[Rating(rawValue: key)!] = value
+                }
+                shows.append(add)
             }
-            add.name = name
-            add.running = running
-            add.totalSeasons = totalSeasons
-            add.tags = tagArray
-            add.currentlyAiring = currentlyAiring
-            add.service = Service(rawValue: service)!
-            add.limitedSeries = limitedSeries
-            add.length = ShowLength(rawValue: length)!
-            if (airdate != nil) { add.airdate = AirDate(rawValue: airdate!) }
-            add.releaseDate = releaseDate?.dateValue()
-            if (actors != nil) { add.actors = actors }
-            for (key, value) in ratingCounts {
-                add.ratingCounts[Rating(rawValue: key)!] = value
-            }
-            shows.append(add)
         }
         let add = ShowList(id: id, name: name, description: description, shows: shows, ordered: ordered, priv: priv, profile: profile, likeCount: likeCount)
         self.showListObj = add

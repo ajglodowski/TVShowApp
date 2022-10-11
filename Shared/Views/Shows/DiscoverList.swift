@@ -25,7 +25,7 @@ struct DiscoverList: View {
     }
     
     var displayedShows : [Show] {
-        var out = applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: nil, ratingFilters: [], tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited)
+        var out = applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: nil, ratingFilters: [], tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited, selectedRunning: selectedRunning, selectedAiring: selectedAiring)
             .sorted { $0.name < $1.name }
         
         if (selectedAvgRating != 0) {
@@ -43,8 +43,11 @@ struct DiscoverList: View {
     @State var appliedServiceFilters = [Service]()
     @State var appliedTagFilters = [Tag]()
     @State var selectedLength: ShowLength = ShowLength.none
-    @State var selectedLimited: Int = 0
     @State var selectedAvgRating: Int = 0
+    
+    @State var selectedLimited: Int = 0
+    @State var selectedRunning: Int = 0
+    @State var selectedAiring: Int = 0
     
     @State var selectedCategories = [TagCategory]()
     var filteredTags: [Tag] {

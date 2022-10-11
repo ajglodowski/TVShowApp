@@ -46,28 +46,30 @@ struct AverageRatingsGraphs: View {
         VStack(alignment: .leading) {
             Text("Avg Rating by Service:")
                 .font(.headline)
-            Chart {
-                ForEach(serviceAvgRatings, id:\.0) { (service, avgRating) in
-                    BarMark(
-                        x: .value("Rating", service.rawValue),
-                        y: .value("Average Rating", avgRating)
-                    )
-                    .annotation(position: .top) {
-                        Text("\(avgRating, specifier: "%.3f")")
+            ScrollView(.horizontal) {
+                Chart {
+                    ForEach(serviceAvgRatings, id:\.0) { (service, avgRating) in
+                        BarMark(
+                            x: .value("Rating", service.rawValue),
+                            y: .value("Average Rating", avgRating)
+                        )
+                        .annotation(position: .top) {
+                            Text("\(avgRating, specifier: "%.3f")")
+                        }
+                        .foregroundStyle(by: .value("Service", service.rawValue))
+                        //.foregroundStyle(rating.color)
                     }
-                    .foregroundStyle(by: .value("Service", service.rawValue))
-                    //.foregroundStyle(rating.color)
                 }
+                .chartPlotStyle { plotArea in
+                    plotArea.frame(height:250)
+                }
+                
+                .chartForegroundStyleScale([
+                    "ABC": Service.ABC.color, "Amazon": Service.Amazon.color, "FX": Service.FX.color, "Hulu": Service.Hulu.color, "HBO": Service.HBO.color, "Netflix": Service.Netflix.color, "Apple TV+": Service.Apple.color, "NBC": Service.NBC.color, "Disney+": Service.Disney.color, "CW": Service.CW.color,  "Showtime": Service.Showtime.color, "AMC": Service.AMC.color, "USA": Service.USA.color, "Viceland": Service.Viceland.color, "Other": Service.Other.color
+                ])
             }
-            .chartPlotStyle { plotArea in
-                plotArea.frame(height:250)
-            }
-            
-            .chartForegroundStyleScale([
-                "ABC": Service.ABC.color, "Amazon": Service.Amazon.color, "FX": Service.FX.color, "Hulu": Service.Hulu.color, "HBO": Service.HBO.color, "Netflix": Service.Netflix.color, "Apple TV+": Service.Apple.color, "NBC": Service.NBC.color, "Disney+": Service.Disney.color, "CW": Service.CW.color,  "Showtime": Service.Showtime.color, "AMC": Service.AMC.color, "USA": Service.USA.color, "Viceland": Service.Viceland.color, "Other": Service.Other.color
-            ])
-            
             .padding(.top, 25)
+            .padding(.horizontal, 10)
         }
     }
     

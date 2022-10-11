@@ -35,3 +35,64 @@ func dislikeList(listId: String) {
     ])
     decrementListLikeCount(listId: listId)
 }
+
+func updateListShows(listId: String, showsAr: [Show]) {
+    let showIds: [String] = showsAr.map { $0.id }
+    Firestore.firestore().collection("lists").document(listId).updateData([
+        "shows": showIds
+    ])
+}
+
+func updateListOrdered(listId: String, listOrdered: Bool) {
+    Firestore.firestore().collection("lists").document(listId).updateData([
+        "ordered": listOrdered
+    ])
+}
+
+func makeListPrivate(listId: String) {
+    Firestore.firestore().collection("lists").document(listId).updateData([
+        "priv": true
+    ]) { err in
+        if let err = err {
+            print("Error writing document: \(err)")
+        } else {
+            print("Document successfully written!")
+        }
+    }
+}
+
+func makeListPublic(listId: String) {
+    Firestore.firestore().collection("lists").document(listId).updateData([
+        "priv": false
+    ]) { err in
+        if let err = err {
+            print("Error writing document: \(err)")
+        } else {
+            print("Document successfully written!")
+        }
+    }
+}
+
+func convertListToDict(list: ShowList) -> [String:Any] {
+    var out = [String:Any]()
+    out["name"] = list.name
+    out["description"] = list.description
+    out["likeCount"] = list.likeCount
+    out["priv"] = list.priv
+    out["ordered"] = list.ordered
+    out["shows"] = list.shows.map { $0.id }
+    out["profileId"] = list.profile.id
+    return out
+}
+
+func addList(list: ShowList) -> String {
+    let listDict = convertListToDict(list: list)
+    let firestoreList = Firestore.firestore().collection("lists").document()
+    firestoreList.setData(listDict)
+    return firestoreList.documentID
+}
+
+func updateList(list: ShowList) {
+    let listDict = convertListToDict(list: list)
+    Firestore.firestore().collection("lists").document(list.id).updateData(listDict)
+}

@@ -37,6 +37,10 @@ final class ModelData : ObservableObject {
         Auth.auth().currentUser != nil
     }
     
+    var showIds: [String] {
+        shows.map { $0.id }
+    }
+    
     init() {
         /*
         // Disables caching

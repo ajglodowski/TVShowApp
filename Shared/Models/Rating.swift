@@ -45,6 +45,22 @@ enum Rating: String, CaseIterable, Codable, Identifiable {
             return 0
         }
     }
+    
+    var ratingSymbol: String {
+        switch(self) {
+        case Rating.Disliked:
+            return "hand.thumbsdown"
+        case Rating.Meh:
+            return "minus.circle"
+        case Rating.Liked:
+            return "hand.thumbsup"
+        case Rating.Loved:
+            return "heart"
+        default:
+            return "questionmark"
+        }
+    }
+    
 }
 
 func getRatingSymbol(rating: Rating) -> String {

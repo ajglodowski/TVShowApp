@@ -81,7 +81,10 @@ struct PersonalRatingGraphs: View {
         List {
              yourRatings
              
-             tagsByRating
+            tagsByRating
+            
+            AverageRatingsGraphs()
+            
         }
     }
     
@@ -118,7 +121,7 @@ struct PersonalRatingGraphs: View {
         VStack {
             Text("Tags by Rating:")
                 .font(.headline)
-            //ScrollView(.horizontal) {
+            ScrollView(.horizontal) {
                 Chart {
                     ForEach(tagRatingCounts.sorted { avgTagRating(tag: $0.tag) > avgTagRating(tag: $1.tag) } ) { obj in
                         BarMark(
@@ -140,9 +143,9 @@ struct PersonalRatingGraphs: View {
                     "Disliked": Rating.Disliked.color, "Meh": Rating.Meh.color, "Liked": Rating.Liked.color, "Loved": Rating.Loved.color
                 ])
                 .chartPlotStyle { plotArea in
-                    plotArea.frame(height:250)
+                    plotArea.frame(width: (CGFloat(Tag.allCases.count) * 50),height:250)
                 }
-            //}
+            }
         }
     }
 }

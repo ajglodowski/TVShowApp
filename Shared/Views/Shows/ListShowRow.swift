@@ -32,11 +32,16 @@ struct ListShowRow: View {
                         .cornerRadius(5.0)
                 }
                 Spacer()
-                
+                /*
                 if show.running {
                     Image(systemName: "checkmark.circle")
                 } else {
                     Image(systemName: "x.circle")
+                }
+                 */
+                if (show.rating != nil) {
+                    Image(systemName: "\(show.rating!.ratingSymbol).fill")
+                        .foregroundColor(show.rating!.color)
                 }
             }
         //}

@@ -42,8 +42,8 @@ struct ShowTile: View {
                 .font(.subheadline)
         }
         .frame(width: 175, height: 175, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        .padding(.leading, 10)
-        .padding(.trailing, 10)
+        //.padding(.leading, 10)
+        .padding(.trailing, 5)
         .task {
             vm.loadImage(showName: showName)
         }

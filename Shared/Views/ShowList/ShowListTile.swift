@@ -29,7 +29,7 @@ struct ShowListTile: View {
     
     var body: some View {
         VStack {
-            if (showListObj != nil) {
+            if (showListObj != nil && (!showListObj!.priv || showListObj!.profile.id == modelData.currentUser?.id)) {
                 let listObj = showListObj!
                 NavigationLink(destination: ShowListDetail(listId: listObj.id)) {
                     VStack(alignment: .leading) {
@@ -41,7 +41,7 @@ struct ShowListTile: View {
                                         .zIndex(Double(listObj.shows.count - loopInd))
                                 }
                             }
-                            .frame(width: 250, alignment: .leading)
+                            .frame(width: 250, height: 150, alignment: .leading)
                         }
                         VStack (alignment: .leading) {
                             HStack {
@@ -54,6 +54,7 @@ struct ShowListTile: View {
                                         .cornerRadius(5)
                                 }
                             }
+                            .frame(height: 25)
                             Text("\(listObj.description)")
                                 .lineLimit(2)
                                 .multilineTextAlignment(.leading)

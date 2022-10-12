@@ -85,7 +85,7 @@ func convertListToDict(list: ShowList) -> [String:Any] {
     return out
 }
 
-func addList(list: ShowList) -> String {
+func addListToLists(list: ShowList) -> String {
     let listDict = convertListToDict(list: list)
     let firestoreList = Firestore.firestore().collection("lists").document()
     firestoreList.setData(listDict)
@@ -95,4 +95,11 @@ func addList(list: ShowList) -> String {
 func updateList(list: ShowList) {
     let listDict = convertListToDict(list: list)
     Firestore.firestore().collection("lists").document(list.id).updateData(listDict)
+}
+
+func addList(list: ShowList, userId: String) {
+    let listId = addListToLists(list: list)
+    Firestore.firestore().collection("users").document(userId).updateData([
+        "showLists": FieldValue.arrayUnion([listId])
+    ])
 }

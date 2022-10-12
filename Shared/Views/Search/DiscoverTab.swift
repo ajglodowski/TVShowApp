@@ -88,23 +88,7 @@ struct DiscoverTab: View {
             .padding()
             VStack (alignment: .leading) {
                 ForEach(profileSearchVM.profilesReturned, id:\.1) { profile in
-                    HStack {
-                        NavigationLink(destination: ProfileDetail(id: profile.1.id)) {
-                            profile.0
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                                .clipShape(Circle())
-                            VStack(alignment: .leading) {
-                                Text(profile.1.username)
-                                    .font(.title)
-                                    .bold()
-                                Text("\(profile.1.showCount) shows logged")
-                                    .italic()
-                                Text("\(profile.1.followerCount) followers")
-                            }
-                        }
-                    }
+                    ProfileTile(profileId: profile.1.id)
                 }
             }
             //.listStyle(.automatic)

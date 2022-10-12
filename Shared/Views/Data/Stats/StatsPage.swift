@@ -31,6 +31,11 @@ struct StatsPage: View {
         List {
             
             VStack {
+                Text("You've logged \(modelData.shows.filter{ $0.status != nil }.count) shows")
+                    .font(.headline)
+            }
+            
+            VStack {
                 NavigationLink(
                     destination: RatingGraphs(),
                     label: {
@@ -208,6 +213,14 @@ struct NewCharts: View {
     
     @State var selectedStatus: Status = Status.NeedsWatched
     
+    func getTotalStatusCount(status: Status) -> Int {
+        let objs = statusCounts.filter({
+            $0.status == selectedStatus
+        })
+        let count = objs.reduce(0) { $0 + $1.count }
+        return count
+    }
+    
     var body: some View {
         //Text("Hello")
         /*
@@ -288,8 +301,8 @@ struct NewCharts: View {
                 //.padding()
                 }
             }
-            /*
-            VStack {
+            
+            VStack(alignment: .leading) {
                 Text("Selected Status: "+selectedStatus.rawValue)
                 
                 Picker("Status", selection: $selectedStatus) {
@@ -299,7 +312,9 @@ struct NewCharts: View {
                 }
                 //.pickerStyle(SegmentedPickerStyle())
                 
-                /*
+                Text("You have \(getTotalStatusCount(status: selectedStatus)) shows marked as \(selectedStatus.rawValue)")
+                
+                
                 Chart {
                     ForEach(statusCounts.filter({
                         $0.status == selectedStatus
@@ -310,12 +325,13 @@ struct NewCharts: View {
                         .foregroundStyle(by: .value("Service", s.service.rawValue))
                     }
                 }
+                .chartForegroundStyleScale([
+                    "ABC": Service.ABC.color, "Amazon": Service.Amazon.color, "FX": Service.FX.color, "Hulu": Service.Hulu.color, "HBO": Service.HBO.color, "Netflix": Service.Netflix.color, "Apple TV+": Service.Apple.color, "NBC": Service.NBC.color, "Disney+": Service.Disney.color, "CW": Service.CW.color,  "Showtime": Service.Showtime.color, "AMC": Service.AMC.color, "USA": Service.USA.color, "Viceland": Service.Viceland.color, "Other": Service.Other.color
+                ])
                 .frame(height: 100)
-                 */
             }
             .padding()
             //.chartLegend(position: .top)
-            */
         }
         
     }

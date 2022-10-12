@@ -95,7 +95,7 @@ struct DiscoverList: View {
                 }
                 
                 ForEach(displayedShows) { show in
-                    NavigationLink(destination: ShowDetail(showId: show.id)) {
+                    NavigationLink(destination: ShowDetail(showId: show.id, show: show)) {
                         ListShowRow(show: show)
                     }
                 }
@@ -103,7 +103,7 @@ struct DiscoverList: View {
                  
             } else {
                 ForEach(searchShows) { show in
-                    NavigationLink(destination: ShowDetail(showId: show.id)) {
+                    NavigationLink(destination: ShowDetail(showId: show.id, show: show)) {
                         ListShowRow(show: show)
                     }
                 }

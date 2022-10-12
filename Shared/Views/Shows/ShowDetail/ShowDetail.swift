@@ -50,9 +50,10 @@ struct ShowDetail: View {
     }
      */
     
-    init(showId: String) {
-        //self.show = show
+    init(showId: String, show: Show? = nil) {
+        
         self.showId = showId
+        self.show = show
         
         UINavigationBar.appearance().backgroundColor = .clear
         //_showEdited = State(initialValue: show ?? Show(id:"1"))
@@ -162,6 +163,23 @@ struct ShowDetail: View {
             }
         }
         .task {
+            if (show == nil) {
+                if (modelData.shows.contains(where: { $0.id == showId})) {
+                    let out = modelData.shows.first(where: { $0.id == showId})
+                    showEdited = out!
+                    show = out
+                } else {
+                    // Load show
+                    showVm.loadShow(id: showId)
+                    let loaded = showVm.show
+                    showEdited = loaded!
+                    show = loaded
+                }
+            }
+            photoVm.loadImage(showName: show!.name)
+            
+        }
+        .refreshable {
             if (modelData.shows.contains(where: { $0.id == showId})) {
                 let out = modelData.shows.first(where: { $0.id == showId})
                 showEdited = out!
@@ -173,10 +191,6 @@ struct ShowDetail: View {
                 showEdited = loaded!
                 show = loaded
             }
-            photoVm.loadImage(showName: show!.name)
-            
-        }
-        .refreshable {
             photoVm.loadImage(showName: show!.name)
         }
         

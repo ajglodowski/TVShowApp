@@ -61,6 +61,7 @@ struct ProfileDetail: View {
                         
                         Divider()
                         
+                        /*
                         Section(header: Text("More Data:")) {
                             
                             NavigationLink(destination: ShowListDetail(listId: "SHJKN1l0mSj9lkQlKDJJ")) {
@@ -72,6 +73,7 @@ struct ProfileDetail: View {
                             }
                             
                         }
+                         */
                         
                     }
                     .navigationTitle(profile.username)
@@ -124,30 +126,23 @@ struct ProfileDetail: View {
             .padding()
             
             if (profile.pinnedShows != nil && !profile.pinnedShows!.isEmpty) {
-                ScrollView(.horizontal) {
+                ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(profile.pinnedShows!.sorted(by: >), id:\.key) { showId, showName in
                             VStack {
-                                //let showInd = modelData.shows.firstIndex(where: { $0.id == showId })
-                                let showInd = 1 // Temp
-                                if (showInd != nil) {
-                                    NavigationLink(destination: ShowDetail(showId: showId)) {
-                                        ShowTile(showName: showName)
-                                    }
-                                    if (editingPinnedShows) {
-                                        Button(action: {
-                                            unpinShow(showId: showId, showName: showName)
-                                        }) {
-                                            HStack {
-                                                Text("Remove Pinned Show")
-                                                Image(systemName: "xmark")
-                                            }
-                                        }
-                                        .buttonStyle(.bordered)
-                                    }
-                                } else {
-                                    // Somehow load show
+                                NavigationLink(destination: ShowDetail(showId: showId)) {
                                     ShowTile(showName: showName)
+                                }
+                                if (editingPinnedShows) {
+                                    Button(action: {
+                                        unpinShow(showId: showId, showName: showName)
+                                    }) {
+                                        HStack {
+                                            Text("Remove Pinned Show")
+                                            Image(systemName: "xmark")
+                                        }
+                                    }
+                                    .buttonStyle(.bordered)
                                 }
                             }
                         }
@@ -334,26 +329,75 @@ struct ProfileDetail: View {
         }
     }
     
+    
+    @State var newListPresented = false
+    @State var newList = ShowList(id: "", name: "New List", description: "", shows: [], ordered: false, priv: false, profile: Profile(id: Auth.auth().currentUser!.uid, username: "", pinnedShowCount: 0, showCount: 0, followingCount: 0, followerCount: 0), likeCount: 0)
+    
     var ownedLists: some View {
         VStack(alignment: .leading) {
-            var optProfile: Profile? = prof.profile
-            if (optProfile != nil && optProfile!.showLists != nil) {
+            let optProfile: Profile? = prof.profile
+            if (optProfile != nil && (optProfile!.showLists != nil || currentProfile)) {
                 let profile = optProfile!
-                Text("\(profile.username)'s Lists")
-                    .font(.headline)
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(profile.showLists!, id:\.self) { showListId in
-                            NavigationLink(destination: ShowListDetail(listId: showListId)) {
-                                ShowListTile(showListId: showListId)
-                                    .foregroundColor(.primary)
-                                    .padding(.horizontal, 5)
+                if (!currentProfile) {
+                    Text("\(profile.username)'s Lists")
+                        .font(.headline)
+                } else {
+                    Text("Your Lists")
+                        .font(.headline)
+                }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .center) {
+                        if (currentProfile) {
+                            VStack {
+                                Button(action: {
+                                    newListPresented = true
+                                }) {
+                                    VStack {
+                                        Image(systemName: "plus")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 50)
+                                        Text("Create a new list")
+                                            .font(.headline)
+                                    }
+                                    .frame(width: 150, height: 150)
+                                }
+                                .font(.title)
+                                .foregroundColor(.white)
+                                .frame(alignment: .center)
+                                .background(.green)
+                                .cornerRadius(10)
+                            }
+                            .padding(5)
+                        }
+                        if (profile.showLists != nil) {
+                            ForEach(profile.showLists!, id:\.self) { showListId in
+                                NavigationLink(destination: ShowListDetail(listId: showListId)) {
+                                    ShowListTile(showListId: showListId)
+                                        .foregroundColor(.primary)
+                                        .padding(.horizontal, 5)
+                                }
                             }
                         }
                     }
                 }
+                
             }
         }
+        .sheet(isPresented: $newListPresented) {
+            NavigationView {
+                //ShowDetailEdit(isPresented: self.$isPresented, show: newShow, showIndex: shows.count-1)
+                ShowListDetailEdit(showList: $newList, isPresented: self.$newListPresented)
+                    .navigationTitle(newList.name)
+                    .navigationBarItems(leading: Button("Cancel") {
+                        newListPresented = false
+                    }, trailing: Button("Done") {
+                        addList(list: newList, userId: Auth.auth().currentUser!.uid)
+                        newListPresented = false
+                    })
+            }
+        }
+        
     }
     
     

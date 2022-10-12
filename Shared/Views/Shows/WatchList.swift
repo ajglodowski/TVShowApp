@@ -121,14 +121,11 @@ struct WatchList: View {
                 HStack {
                     Text("Show Title")
                     Spacer()
-                    Text("Watched?")
-                        .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
-                    Divider()
-                    Text("Running?")
+                    Text("Your Rating")
                 }
                 
                 ForEach(displayedShows) { show in
-                    NavigationLink(destination: ShowDetail(showId: show.id)) {
+                    NavigationLink(destination: ShowDetail(showId: show.id, show: show)) {
                         ListShowRow(show: show)
                     }
                 }
@@ -136,7 +133,7 @@ struct WatchList: View {
                  
             } else {
                 ForEach(searchShows) { show in
-                    NavigationLink(destination: ShowDetail(showId: show.id)) {
+                    NavigationLink(destination: ShowDetail(showId: show.id, show: show)) {
                         ListShowRow(show: show)
                     }
                 }

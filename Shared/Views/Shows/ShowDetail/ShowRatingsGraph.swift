@@ -10,7 +10,7 @@ import Charts
 
 struct ShowRatingsGraph: View {
     
-    @EnvironmentObject var modelData: ModelData
+    //@EnvironmentObject var modelData: ModelData
     
     var show : Show
     var backgroundColor: Color
@@ -53,12 +53,5 @@ struct ShowRatingsGraph: View {
         .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
         .padding()
         .foregroundColor(.white)
-    }
-}
-
-struct ShowRatingsGraph_Previews: PreviewProvider {
-    static var previews: some View {
-        //ShowRatingsGraph(show: Show(id:"1234"))
-        Text("oh")
     }
 }

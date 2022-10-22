@@ -139,7 +139,7 @@ struct Home: View {
                     // Sync Button
                     Button(action: {
                         //modelData.saveData()
-                        syncRatingCounts(showList: modelData.shows)
+                        syncStatusCounts(showList: modelData.shows)
                     }, label: {
                         Text("Sync Data")
                             //.font(.title)
@@ -148,6 +148,7 @@ struct Home: View {
                      */
                      
                     // Cache Button
+                    /*
                     Button(action: {
                         print(modelData.tileImageCache)
                     }, label: {
@@ -155,7 +156,7 @@ struct Home: View {
                             //.font(.title)
                     })
                     .buttonStyle(.bordered)
-                    
+                    */
                    
                     // Reload Button
                     Spacer()

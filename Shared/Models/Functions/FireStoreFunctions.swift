@@ -31,6 +31,12 @@ func convertShowToDictionary(show: Show) -> [String:Any] {
         output["actors"] = show.actors
     }
     
+    var stringStatusCounts = [String:Int]()
+    for (key, value) in show.statusCounts {
+        stringStatusCounts[key.rawValue] = value
+    }
+    output["statusCounts"] = stringStatusCounts
+    
     var stringRatingCounts = [String:Int]()
     for (key, value) in show.ratingCounts {
         stringRatingCounts[key.rawValue] = value
@@ -66,16 +72,15 @@ func convertUserShowToDictionary(show: Show) -> [String: Any] {
     return output
 }
 
-func addOrUpdateToUserShows(show: Show) {
+func addToUserShows(show: Show) {
     let uid = Auth.auth().currentUser!.uid
     let showData = convertUserShowToDictionary(show: show)
     Firestore.firestore().collection("users/\(uid)/shows").document("\(show.id)").setData(showData) { err in
         if let err = err {
             print("Error writing document: \(err)")
-        } else {
-            print("Document successfully written!")
         }
     }
+    incrementStatusCount(showId: show.id, status: show.status!)
 }
 
 // Updating show properties in the current user's show collection
@@ -206,6 +211,18 @@ func incrementRatingCount(showId: String, rating: Rating) {
     ])
 }
 
+func decrementStatusCount(showId: String, status: Status) {
+    Firestore.firestore().collection("shows").document(showId).updateData([
+        "statusCounts.\(status.rawValue)": FieldValue.increment(Int64(-1))
+    ])
+}
+
+func incrementStatusCount(showId: String, status: Status) {
+    Firestore.firestore().collection("shows").document(showId).updateData([
+        "statusCounts.\(status.rawValue)": FieldValue.increment(Int64(1))
+    ])
+}
+
 func syncRatingCounts(showList: [Show]) {
     for show in showList {
         for rating in Rating.allCases {
@@ -216,6 +233,22 @@ func syncRatingCounts(showList: [Show]) {
             } else {
                 Firestore.firestore().collection("shows").document(show.id).updateData([
                     "ratingCounts.\(rating.rawValue)": 0
+                ])
+            }
+        }
+    }
+}
+
+func syncStatusCounts(showList: [Show]) {
+    for show in showList {
+        for status in Status.allCases {
+            if (show.status != nil && show.status == status) {
+                Firestore.firestore().collection("shows").document(show.id).updateData([
+                    "statusCounts.\(status.rawValue)": 1
+                ])
+            } else {
+                Firestore.firestore().collection("shows").document(show.id).updateData([
+                    "statusCounts.\(status.rawValue)": 0
                 ])
             }
         }

@@ -150,6 +150,7 @@ struct ShowDetail: View {
                                 .foregroundColor(.white)
                                 
                                 ShowRatingsGraph(show: show!, backgroundColor: backgroundColor)
+                                ShowStatusGraph(show: show!, backgroundColor: backgroundColor)
                                 
                                 // Actors Section
                                 ShowDetailActors(show: show!, backgroundColor: backgroundColor)

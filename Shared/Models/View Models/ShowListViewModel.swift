@@ -68,6 +68,7 @@ class ShowListViewModel: ObservableObject {
                 let releaseDate = data["releaseDate"] as? Timestamp
                 let airdate = data["airdate"] as? String
                 let actors = data["actors"] as? [String: String]
+                let statusCounts = data["statusCounts"] as! [String: Int]
                 let ratingCounts = data["ratingCounts"] as! [String: Int]
                 var tagArray = [Tag]()
                 for tag in tags {
@@ -84,6 +85,9 @@ class ShowListViewModel: ObservableObject {
                 if (airdate != nil) { add.airdate = AirDate(rawValue: airdate!) }
                 add.releaseDate = releaseDate?.dateValue()
                 if (actors != nil) { add.actors = actors }
+                for (key, value) in statusCounts {
+                    add.statusCounts[Status(rawValue: key)!] = value
+                }
                 for (key, value) in ratingCounts {
                     add.ratingCounts[Rating(rawValue: key)!] = value
                 }

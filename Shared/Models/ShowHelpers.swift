@@ -223,6 +223,7 @@ func changeShowStatus(show: Show, status: Status) {
         break
     }
     updateToShows(show: updatedShow, showNameEdited: false)
-    // Update counters here
+    decrementStatusCount(showId: show.id, status: show.status!)
     updateShowStatus(showId: show.id, status: status)
+    incrementStatusCount(showId: show.id, status: status)
 }

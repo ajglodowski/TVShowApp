@@ -23,6 +23,7 @@ struct Show : Hashable, Identifiable, Codable {
     var length: ShowLength
     var releaseDate: Date?
     var airdate: AirDate?
+    var statusCounts: [Status:Int]
     var ratingCounts: [Rating:Int]
     var avgRating: Double {
         var sum = 0
@@ -69,6 +70,9 @@ struct Show : Hashable, Identifiable, Codable {
         self.limitedSeries = false
         self.tags = [Tag]()
         self.currentlyAiring = false
+        self.statusCounts = [Status.CatchingUp: 0, Status.ComingSoon: 0, Status.CurrentlyAiring: 0, Status.NeedsWatched: 0,
+                             Status.NewRelease: 0, Status.NewSeason: 0, Status.Other: 0, Status.SeenEnough: 0,
+                             Status.ShowEnded: 0, Status.UpToDate: 0]
         self.ratingCounts = [Rating.Disliked: 0, Rating.Meh: 0, Rating.Liked: 0, Rating.Loved: 0]
         //self.rating = Rating.Meh
         //actors = []

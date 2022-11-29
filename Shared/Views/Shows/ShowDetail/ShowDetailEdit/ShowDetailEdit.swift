@@ -182,30 +182,37 @@ struct ShowDetailEdit: View {
                     })
                     .toggleStyle(SwitchToggleStyle(tint: .blue))
                 }
-                if (show.currentlyAiring) {
-                    // Airdate
-                    if (show.airdate != nil) {
-                        HStack {
-                            //Text("Airdate: " + show.airdate.rawValue)
-                            //Spacer()
-                            Picker("Change Airdate", selection: $show.airdate) {
-                                ForEach(AirDate.allCases) { airdate in
-                                    Text(airdate.rawValue).tag(airdate as AirDate?)
-                                }
+                //if (show.currentlyAiring) {
+                // Airdate
+                if (show.airdate != nil) {
+                    HStack {
+                        //Text("Airdate: " + show.airdate.rawValue)
+                        //Spacer()
+                        Picker("Change Airdate", selection: $show.airdate) {
+                            ForEach(AirDate.allCases) { airdate in
+                                Text(airdate.rawValue).tag(airdate as AirDate?)
                             }
-                            .pickerStyle(MenuPickerStyle())
-                            .buttonStyle(.bordered)
                         }
-                        //.padding()
-                    } else {
-                        Button(action: {
-                            show.airdate = AirDate.Other
-                        }) {
-                           Text("Add airdate")
-                        }
+                        .pickerStyle(MenuPickerStyle())
                         .buttonStyle(.bordered)
                     }
+                    Button(action: {
+                        show.airdate = nil
+                    }) {
+                       Text("Remove airdate")
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.red)
+                    //.padding()
+                } else {
+                    Button(action: {
+                        show.airdate = AirDate.Other
+                    }) {
+                       Text("Add airdate")
+                    }
+                    .buttonStyle(.bordered)
                 }
+                //}
             }
             
             // Limited Series
@@ -229,35 +236,35 @@ struct ShowDetailEdit: View {
             }
             
             // Seasons
-            if (show.releaseDate != nil || show.status == Status.ComingSoon) {
-                Section(header: Text("Release Date:")) {
-                    if (show.releaseDate != nil) {
-                        DatePicker(
-                            "Start Date",
-                            selection: $show.releaseDate.toUnwrapped(defaultValue: Date()),
-                            displayedComponents: [.date]
-                        )
-                        if (show.status != Status.ComingSoon) {
-                            Button(action: {
-                                show.releaseDate = nil
-                            }, label: {
-                                Text("Remove Release Date")
-                                    .bold()
-                            })
-                            .buttonStyle(.bordered)
-                        }
-                    } else {
+            //if (show.releaseDate != nil || show.status == Status.ComingSoon) {
+            Section(header: Text("Release Date:")) {
+                if (show.releaseDate != nil) {
+                    DatePicker(
+                        "Start Date",
+                        selection: $show.releaseDate.toUnwrapped(defaultValue: Date()),
+                        displayedComponents: [.date]
+                    )
+                    if (show.status != Status.ComingSoon) {
                         Button(action: {
-                            show.status = Status.ComingSoon
-                            show.releaseDate = Date()
+                            show.releaseDate = nil
                         }, label: {
-                            Text("Add a Release Date")
-                            //.font(.title)
+                            Text("Remove Release Date")
+                                .bold()
                         })
                         .buttonStyle(.bordered)
                     }
+                } else {
+                    Button(action: {
+                        show.status = Status.ComingSoon
+                        show.releaseDate = Date()
+                    }, label: {
+                        Text("Add a Release Date")
+                        //.font(.title)
+                    })
+                    .buttonStyle(.bordered)
                 }
             }
+            //}
             
             ShowDetailEditActors(show: $show)
             

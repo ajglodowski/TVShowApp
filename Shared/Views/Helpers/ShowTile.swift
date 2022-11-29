@@ -25,25 +25,28 @@ struct ShowTile: View {
                 .scaledToFit()
                 //.shadow(radius: 5)
              */
-            if (vm.showImage != nil) {
-                Image(uiImage: vm.showImage!)
-                    .resizable()
-                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                    .scaledToFit()
-            } else {
-                Image(systemName : "ellipsis")
-                    .resizable()
-                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                    .scaledToFit()
+            VStack {
+                if (vm.showImage != nil) {
+                    Image(uiImage: vm.showImage!)
+                        .resizable()
+                        .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                        .scaledToFit()
+                } else {
+                    Image(systemName : "ellipsis")
+                        .resizable()
+                        .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                        .scaledToFit()
+                }
             }
+            .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             
 
             Text(showName)
                 .font(.subheadline)
         }
-        .frame(width: 175, height: 175, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        //.frame(width: 175, height: 175, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         //.padding(.leading, 10)
-        .padding(.trailing, 5)
+        //.padding(.trailing, 5)
         .task {
             vm.loadImage(showName: showName)
         }

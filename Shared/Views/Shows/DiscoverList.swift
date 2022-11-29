@@ -25,7 +25,7 @@ struct DiscoverList: View {
     }
     
     var displayedShows : [Show] {
-        var out = applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: nil, ratingFilters: [], tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited, selectedRunning: selectedRunning, selectedAiring: selectedAiring)
+        var out = applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: nil, ratingFilters: [], tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited, selectedRunning: selectedRunning, selectedAiring: selectedAiring, appliedAirdateFilters: [AirDate?]())
             .sorted { $0.name < $1.name }
         
         if (selectedAvgRating != 0) {

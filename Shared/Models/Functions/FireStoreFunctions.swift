@@ -69,6 +69,8 @@ func convertUserShowToDictionary(show: Show) -> [String: Any] {
     output["status"] = show.status!.rawValue
     output["currentSeason"] = show.currentSeason!
     if (show.rating != nil) { output["rating"] = show.rating!.rawValue }
+    if (show.lastUpdateDate != nil) { output["lastUpdateDate"] = show.lastUpdateDate! }
+    if (show.lastUpdateMessage != nil) { output["lastUpdateMessage"] = show.lastUpdateMessage! }
     return output
 }
 
@@ -94,6 +96,16 @@ func updateToShows(show: Show, showNameEdited: Bool) {
     }
     let showData = convertShowToDictionary(show: show)
     Firestore.firestore().collection("shows").document("\(show.id)").setData(showData)
+}
+
+func updateUserShow(show: Show) {
+    let uid = Auth.auth().currentUser!.uid
+    let showData = convertUserShowToDictionary(show: show)
+    Firestore.firestore().collection("users/\(uid)/shows").document("\(show.id)").setData(showData) { err in
+        if let err = err {
+            print("Error writing document: \(err)")
+        }
+    }
 }
 
 // Adding a new show to the shows collection

@@ -31,6 +31,7 @@ struct Home: View {
     
     var unwatchedShows: [Show] {
         shows.filter { $0.status! == Status.NeedsWatched }
+        .sorted { $0.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
     }
     
     var currentlyWatching: [Show] {
@@ -109,6 +110,7 @@ struct Home: View {
                         Text("Either currently airing, new season, or catching up")
                             .font(.subheadline)
                         SquareTileScrollRow(items: currentlyWatching, scrollType: 0)
+                            .ignoresSafeArea()
                     }
                     .ignoresSafeArea()
                 }
@@ -120,6 +122,7 @@ struct Home: View {
                         Text("Watch for these to come out soon!")
                             .font(.subheadline)
                         SquareTileScrollRow(items: comingSoon, scrollType: 2)
+                            .ignoresSafeArea()
                     }
                     .ignoresSafeArea()
                 }
@@ -131,6 +134,7 @@ struct Home: View {
                         ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
                             .ignoresSafeArea()
                     }
+                    .ignoresSafeArea()
                 }
                 
                 HStack (alignment: .center) {
@@ -189,6 +193,7 @@ struct Home: View {
                 outsidePages()
                 
             }
+            //.ignoresSafeArea()
             
             /*
             .refreshable {
@@ -213,8 +218,8 @@ struct Home: View {
             .navigationTitle("Home")
             //.ignoresSafeArea()
         }
-        
-        //.listRowInsets(EdgeInsets())
+        //.ignoresSafeArea()
+        .listRowInsets(EdgeInsets())
         .navigationViewStyle(.stack)
         .listStyle(PlainListStyle())
     }

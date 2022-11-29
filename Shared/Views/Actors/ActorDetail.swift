@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Charts
 
 struct ActorDetail: View {
     
@@ -50,6 +51,11 @@ struct ActorDetail: View {
                     }
                     
                 }
+                
+                actorTagsGraph
+                
+                actorRatingsGraph
+                
             }
         }
         
@@ -83,6 +89,105 @@ struct ActorDetail: View {
             }
         }
     }
+    
+    var tagCounts: [Tag: Int] {
+        var output = [Tag: Int]()
+        for tag in Tag.allCases {
+            output[tag] = 0
+        }
+        for (showId, showName) in actor.shows {
+            let showFound = modelData.shows.first(where: { $0.id == showId })
+            if (showFound != nil && showFound!.tags != nil) {
+                for showTag in showFound!.tags! {
+                    output[showTag]! += 1
+                }
+            }
+        }
+        return output
+    }
+    
+    var actorTagsGraph: some View {
+        VStack {
+            Text("Tags")
+            ScrollView(.horizontal) {
+                Chart {
+                    ForEach(Tag.allCases.sorted {
+                        tagCounts[$0] ?? 0 > tagCounts[$1] ?? 0
+                    }) { tag in
+                        BarMark(
+                            x: .value("Tag", tag.rawValue),
+                            y: .value("Count", tagCounts[tag]!)
+                        )
+                        .annotation(position: .top) {
+                            Text(String(tagCounts[tag]!))
+                        }
+                        .foregroundStyle(by: .value("Tag", tag.rawValue))
+                    }
+                }
+                .chartPlotStyle { plotArea in
+                    plotArea.frame(height:250)
+                }
+                .padding(.top, 25)
+            }
+        }
+    }
+    
+    var ratingsCounts: [Rating: Int] {
+        var output = [Rating: Int]()
+        for tag in Rating.allCases {
+            output[tag] = 0
+        }
+        for (showId, showName) in actor.shows {
+            let showFound = modelData.shows.first(where: { $0.id == showId })
+            if (showFound != nil && showFound!.rating != nil) {
+                output[showFound!.rating!]! += 1
+            }
+        }
+        return output
+    }
+    
+    var avgRating: Double {
+        var sum = 0
+        var count = 0
+        for (showId, _) in actor.shows {
+            let showFound = modelData.shows.first(where: { $0.id == showId })
+            if (showFound != nil && showFound!.rating != nil) {
+                sum += showFound!.rating!.pointValue
+                count += 1
+            }
+        }
+        var output: Double = Double(sum) / Double(count)
+        return output
+    }
+    
+    var actorRatingsGraph: some View {
+        VStack {
+            Text("Your Ratings")
+                .font(.title)
+            Text("Your average rating: \(avgRating)")
+            ScrollView(.horizontal) {
+                Chart {
+                    ForEach(Rating.allCases.sorted {
+                        ratingsCounts[$0] ?? 0 > ratingsCounts[$1] ?? 0
+                    }) { rating in
+                        BarMark(
+                            x: .value("Rating", rating.rawValue),
+                            y: .value("Count", ratingsCounts[rating]!)
+                        )
+                        .annotation(position: .top) {
+                            Text(String(ratingsCounts[rating]!))
+                        }
+                        .foregroundStyle(by: .value("Rating", rating.rawValue))
+                    }
+                }
+                .chartPlotStyle { plotArea in
+                    plotArea.frame(height:250)
+                }
+                .padding(.top, 25)
+            }
+        }
+    }
+    
     
 }
 

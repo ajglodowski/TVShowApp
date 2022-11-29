@@ -262,10 +262,16 @@ final class ModelData : ObservableObject {
                     let currentSeason = data["currentSeason"] as! Int
                     let rating = data["rating"] as? String // No rating is allowed
                     
+                    let lastUpdateDate = data["lastUpdateDate"] as? Timestamp // No update date is allowed
+                    let lastUpdateMessage = data["lastUpdateMessage"] as? String // No update date is allowed
+                    
                     personalizedShow.status = Status(rawValue: status)
                     personalizedShow.currentSeason = currentSeason
                     if (rating != nil) { personalizedShow.rating = Rating(rawValue: rating!) }
                     else { personalizedShow.rating = nil }
+                    
+                    if (lastUpdateDate != nil) { personalizedShow.lastUpdateDate = lastUpdateDate?.dateValue() }
+                    if (lastUpdateMessage != nil) { personalizedShow.lastUpdateMessage = lastUpdateMessage }
                     
                     self.shows[entireIndex] = personalizedShow
                 }

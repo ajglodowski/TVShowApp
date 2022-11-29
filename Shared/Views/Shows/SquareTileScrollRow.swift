@@ -76,7 +76,7 @@ struct SquareTileScrollRow: View {
                                     day.dateFormat = "EEEE"
                                     //print(showIndex(show: show))
                                     modelData.shows[showIndex(show: show)].status = Status.CurrentlyAiring
-                                    modelData.shows[showIndex(show: show)].airdate = getAirDateFromString(day: day.string(from: show.releaseDate!))
+                                    modelData.shows[showIndex(show: show)].airdate = AirDate(rawValue: day.string(from: show.releaseDate!))
                                     modelData.shows[showIndex(show: show)].releaseDate = nil
                                 }) {
                                     Text("Add to \n Currently Airing")

@@ -44,6 +44,8 @@ struct Show : Hashable, Identifiable, Codable {
     var status: Status?
     var currentSeason: Int?
     var rating: Rating?
+    var lastUpdateDate: Date?
+    var lastUpdateMessage: String?
     
     // Show Detail
     var actors: [String: String]? // Added var, key is id and value is name

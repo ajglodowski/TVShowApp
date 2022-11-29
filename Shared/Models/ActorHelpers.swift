@@ -8,13 +8,6 @@
 import Foundation
 import UIKit
 
-func actorIndex(actor: Actor) -> Int {
-    let ind = ModelData().actors.firstIndex(where: { _ in actor.id == actor.id })!
-    return ind
-}
-
 func removeShow(actor: Actor, remove: Show, shows:[Show]) -> [Show] {
-    var out = [Show]()
-    out = shows.filter { $0 != remove}
-    return out
+    return shows.filter { $0 != remove }
 }

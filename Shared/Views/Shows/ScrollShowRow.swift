@@ -21,7 +21,7 @@ struct ScrollShowRow: View {
                 .padding(.top, 5)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .top, spacing: 0) {
+                HStack(alignment: .top) {
                     ForEach(items) { show in
                         NavigationLink(destination: ShowDetail(showId: show.id, show: show)) {
                             ShowTile(showName: show.name)

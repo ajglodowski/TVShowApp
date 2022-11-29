@@ -17,7 +17,6 @@ struct ShowDetailText: View {
     }()
     
     var show: Show
-    var showIndex: Int
     
     var body: some View {
         HStack {
@@ -42,13 +41,23 @@ struct ShowDetailText: View {
             }
         }
         
-        if (show.status != nil && show.status == Status.CurrentlyAiring) {
+        if (show.status != nil && show.currentlyAiring && show.status == Status.CurrentlyAiring) {
             Text("Airdate: " + show.airdate!.rawValue)
                 .font(.subheadline)
         }
          
         if (show.releaseDate != nil) {
             Text("Release Date: " + ShowDetailText.formatter.string(from: show.releaseDate!))
+        }
+        
+        if (show.lastUpdateDate != nil && show.lastUpdateMessage != nil) {
+            VStack (alignment: .leading) {
+                Text("Your last update:")
+                    .font(.subheadline)
+                    .bold()
+                Text(show.lastUpdateMessage! + " on " + ShowDetailText.formatter.string(from: show.lastUpdateDate!))
+                    .font(.subheadline)
+            }
         }
         
         Divider()
@@ -59,7 +68,7 @@ struct ShowDetailText: View {
 struct ShowDetailText_Previews: PreviewProvider {
     static let modelData = ModelData()
     static var previews: some View {
-        ShowDetailText(show: modelData.shows[0], showIndex: 0)
+        ShowDetailText(show: modelData.shows[0])
             .environmentObject(modelData)
     }
 }

@@ -60,6 +60,23 @@ struct ShowDetail: View {
         //print(showEdited)
     }
     
+    func reloadData() async {
+        if (modelData.shows.contains(where: { $0.id == showId})) {
+            let out = modelData.shows.first(where: { $0.id == showId})
+            showEdited = out!
+            show = out
+            //print(out!.service.rawValue)
+        } else {
+            // Load show
+            showVm.loadShow(id: showId)
+            let loaded = showVm.show
+            showEdited = loaded!
+            show = loaded
+        }
+        photoVm.loadImage(showName: show!.name)
+        //print(show)
+    }
+    
     var body: some View {
         
         VStack {
@@ -112,6 +129,9 @@ struct ShowDetail: View {
                                             Button(action: {
                                                 updateRating(rating: Rating.Meh, showId: show!.id)
                                                 incrementRatingCount(showId: show!.id, rating: Rating.Meh)
+                                                Task {
+                                                    await reloadData()
+                                                }
                                             }) {
                                                 Text("Add a rating")
                                             }
@@ -123,7 +143,7 @@ struct ShowDetail: View {
                                     UpdateStatusButtons(show: show!)
                                     
                                     ShowSeasonsRow(totalSeasons: show!.totalSeasons, currentSeason: show!.currentSeason, backgroundColor: backgroundColor, showId: show!.id)
-                                    ShowDetailText(show: show!, showIndex: showIndex)
+                                    ShowDetailText(show: show!)
                                     if (addedToMyShows) {
                                         Button(action: {
                                             modelData.shows[showIndex].status = nil
@@ -131,6 +151,9 @@ struct ShowDetail: View {
                                             modelData.shows[showIndex].currentSeason = nil
                                             deleteShowFromUserShows(showId: show!.id)
                                             decrementShowCount(userId: Auth.auth().currentUser!.uid)
+                                            Task {
+                                                await reloadData()
+                                            }
                                         }) {
                                             Text("Remove from My Shows")
                                         }
@@ -164,35 +187,10 @@ struct ShowDetail: View {
             }
         }
         .task {
-            if (show == nil) {
-                if (modelData.shows.contains(where: { $0.id == showId})) {
-                    let out = modelData.shows.first(where: { $0.id == showId})
-                    showEdited = out!
-                    show = out
-                } else {
-                    // Load show
-                    showVm.loadShow(id: showId)
-                    let loaded = showVm.show
-                    showEdited = loaded!
-                    show = loaded
-                }
-            }
-            photoVm.loadImage(showName: show!.name)
-            
+            await reloadData()
         }
         .refreshable {
-            if (modelData.shows.contains(where: { $0.id == showId})) {
-                let out = modelData.shows.first(where: { $0.id == showId})
-                showEdited = out!
-                show = out
-            } else {
-                // Load show
-                showVm.loadShow(id: showId)
-                let loaded = showVm.show
-                showEdited = loaded!
-                show = loaded
-            }
-            photoVm.loadImage(showName: show!.name)
+            await reloadData()
         }
         
         // Top bar
@@ -208,8 +206,6 @@ struct ShowDetail: View {
                 }
             }
         }
-        
-
         .sheet(isPresented: $isPresented) {
             NavigationView {
                 if (showEdited.id != "1") {
@@ -228,18 +224,15 @@ struct ShowDetail: View {
                                 }
                             }
                             isPresented = false
+                            Task {
+                                await reloadData()
+                            }
                         })
                 } else {
                     Text("Error loading show")
                 }
             }
         }
-        
-        /*
-        .toolbar{
-            NavigationLink("Edit", destination: ShowDetail(show: show))
-        }
-         */
     }
 }
     

@@ -14,18 +14,21 @@ struct HomeNewRows: View {
         modelData.shows
             .filter { $0.status == Status.NewSeason }
             .sorted { $0.name < $1.name }
+            .sorted { $0.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
     }
     
     var newReleases: [Show] {
         modelData.shows
             .filter { $0.status == Status.NewRelease }
             .sorted { $0.name < $1.name }
+            .sorted { $0.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
     }
     
     var catchingUp: [Show] {
         modelData.shows
             .filter { $0.status == Status.CatchingUp }
             .sorted { $0.name < $1.name }
+            .sorted { $0.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
     }
     
     var body: some View {

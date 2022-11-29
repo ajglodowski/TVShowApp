@@ -8,13 +8,6 @@
 import Foundation
 import UIKit
 
-/*
-func showIndex(show: Show) -> Int {
-    let ind = ModelData().shows.firstIndex(where: { $0.id == show.id})!
-    return ind
-}
- */
-
 func getRandPic(shows: [Show]) -> String {
     var x = 0
     var showName = shows[0].name
@@ -34,46 +27,8 @@ func getRandPic(shows: [Show]) -> String {
     return showName
 }
 
-func applyServiceFilter(applied: [Service], shows: [Show], serivce: Service) -> [Show] {
-    if (!applied.contains(serivce)) {
-        let add: [Show] = ModelData().shows.filter { $0.service == serivce }
-        var combined: [Show] = shows
-        for new in add {
-            combined.append(new)
-        }
-        return combined
-    } else {
-        let removed: [Show] = shows.filter { $0.service != serivce }
-        return removed
-    }
-    
-}
-
 func applyLengthFilter(shows: [Show], selection: ShowLength) -> [Show] {
-    
-    let filtered: [Show] = ModelData().shows.filter { $0.length == selection }
-    return filtered
-}
-
-
-// Shouldn't be used because ModelData doesn't update
-func applyAllFilters(serviceFilters: [Service], showLengthFilter: ShowLength) -> [Show] {
-    
-    var filtered = [Show]()
-    
-    if (!serviceFilters.isEmpty) {
-        for service in serviceFilters {
-            let add = ModelData().shows.filter { $0.service == service}
-            filtered.append(contentsOf: add)
-        }
-    } else {
-        filtered = ModelData().shows
-    }
-    
-    filtered = filtered.filter { $0.length == showLengthFilter}
-    
-    return filtered
-    
+    return shows.filter { $0.length == selection }
 }
 
 func applyTagFilters(tagFilters: [Tag], shows: [Show]) -> [Show] {
@@ -93,18 +48,10 @@ func applyTagFilters(tagFilters: [Tag], shows: [Show]) -> [Show] {
 }
 
 func applyRatingFilters(ratingFilters: [Rating?], shows:[Show]) -> [Show] {
-    if (!ratingFilters.isEmpty) {
-        var output = [Show]()
-        for rating in ratingFilters {
-            output.append(contentsOf: shows.filter{ $0.rating == rating})
-        }
-        return output
-    } else {
-        return shows
-    }
+    return !ratingFilters.isEmpty ? shows.filter { ratingFilters.contains($0.rating ?? nil) } : shows
 }
 
-func applyAllFilters(serviceFilters: [Service], statusFilters: [Status]?, ratingFilters: [Rating?], tagFilters: [Tag], showLengthFilter: ShowLength, shows: [Show], selectedLimited: Int, selectedRunning: Int, selectedAiring: Int) -> [Show] {
+func applyAllFilters(serviceFilters: [Service], statusFilters: [Status]?, ratingFilters: [Rating?], tagFilters: [Tag], showLengthFilter: ShowLength, shows: [Show], selectedLimited: Int, selectedRunning: Int, selectedAiring: Int, appliedAirdateFilters: [AirDate?]) -> [Show] {
     var filtered = [Show]()
     if (!serviceFilters.isEmpty) {
         for service in serviceFilters {
@@ -115,17 +62,16 @@ func applyAllFilters(serviceFilters: [Service], statusFilters: [Status]?, rating
         filtered = shows
     }
     
-    if (statusFilters != nil && !statusFilters!.isEmpty) {
-        filtered = filtered.filter {
-            statusFilters!.contains($0.status!)
-        }
-    }
+    if (statusFilters != nil && !statusFilters!.isEmpty) { filtered = filtered.filter { statusFilters!.contains($0.status!) } }
+    
+    if (!appliedAirdateFilters.isEmpty) { filtered = filtered.filter { appliedAirdateFilters.contains($0.airdate ?? nil) } }
     
     filtered = applyRatingFilters(ratingFilters: ratingFilters, shows: filtered)
     
     filtered = applyTagFilters(tagFilters: tagFilters, shows: filtered)
     
     if (showLengthFilter != ShowLength.none) { filtered = filtered.filter { $0.length == showLengthFilter} }
+    
     switch selectedLimited {
         case 1:
             filtered = filtered.filter { $0.limitedSeries == false}
@@ -170,28 +116,6 @@ func getActors(showIn: Show, actors: [Actor]) -> [Actor] {
     return output
 }
  */
- 
-
-func getAirDateFromString(day: String) -> AirDate {
-    switch day {
-    case "Sunday":
-        return AirDate.Sunday
-    case "Monday":
-        return AirDate.Monday
-    case "Tuesday":
-        return AirDate.Tuesday
-    case "Wednesday":
-        return AirDate.Wednesday
-    case "Thursday":
-        return AirDate.Thursday
-    case "Friday":
-        return AirDate.Friday
-    case "Saturday":
-        return AirDate.Saturday
-    default:
-        return AirDate.Other
-    }
-}
 
 func printActorList(input: [Actor]) {
     for act in input {
@@ -222,8 +146,11 @@ func changeShowStatus(show: Show, status: Status) {
     default:
         break
     }
-    updateToShows(show: updatedShow, showNameEdited: false)
+    //updateShowStatus(showId: show.id, status: status)
+    updatedShow.status = status
+    updatedShow.lastUpdateDate = Date()
+    updatedShow.lastUpdateMessage = "Updated status to \(status.rawValue)"
+    updateUserShow(show: updatedShow)
     decrementStatusCount(showId: show.id, status: show.status!)
-    updateShowStatus(showId: show.id, status: status)
     incrementStatusCount(showId: show.id, status: status)
 }

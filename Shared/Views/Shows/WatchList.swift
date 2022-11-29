@@ -32,7 +32,7 @@ struct WatchList: View {
             return applyAllFilters(serviceFilters: appliedServiceFilters, showLengthFilter: selectedLength)
         }
          */
-        var out = applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, ratingFilters: appliedRatingFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited, selectedRunning: selectedRunning, selectedAiring: selectedAiring)
+        var out = applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, ratingFilters: appliedRatingFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited, selectedRunning: selectedRunning, selectedAiring: selectedAiring, appliedAirdateFilters: appliedAirdateFilters)
             .sorted { $0.name < $1.name }
         
         if (selectedRatingOrder != 0) {
@@ -59,6 +59,7 @@ struct WatchList: View {
     @State var appliedServiceFilters = [Service]()
     @State var appliedStatusFilters = [Status]()
     @State var appliedRatingFilters = [Rating?]()
+    @State var appliedAirdateFilters = [AirDate?]()
     @State var appliedTagFilters = [Tag]()
     @State var selectedLength: ShowLength = ShowLength.none
     @State var selectedRatingCategory: Int = 0
@@ -204,6 +205,40 @@ struct WatchList: View {
                 .background(Color.blue)
                 .foregroundColor(Color.white)
                 .cornerRadius(5)
+                
+                Menu { // Airdate Filter
+                    Button(action: {
+                        if (appliedAirdateFilters.contains(nil)) {
+                            appliedAirdateFilters = appliedAirdateFilters.filter { $0 != nil}
+                        } else {
+                            appliedAirdateFilters.append(nil)
+                        }
+                    }) {
+                        Label("No Airdate", systemImage: appliedAirdateFilters.contains(nil) ?
+                              "checkmark" : "")
+                    }
+                    ForEach(AirDate.allCases) { airdate in
+                        Button(action: {
+                            if (appliedAirdateFilters.contains(airdate)) {
+                                appliedAirdateFilters = appliedAirdateFilters.filter { $0 != airdate}
+                            } else {
+                                appliedAirdateFilters.append(airdate)
+                            }
+                        }) {
+                            Label(airdate.rawValue, systemImage: appliedAirdateFilters.contains(airdate) ?
+                                  "checkmark" : "")
+                        }
+                    }
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
+                    Text("Airdate")
+                }
+                .padding(5)
+                .background(Color.blue)
+                .foregroundColor(Color.white)
+                .cornerRadius(5)
+                
+                
             }
             
             // Sorting by rating

@@ -117,8 +117,7 @@ struct ShowSquareTile: View {
             
         }
         .frame(width: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        //.padding(.leading, 10)
-        .padding(.trailing, 10)
+        .padding(.horizontal, 5)
         
         .task {
             vm.loadImage(showName: show.name)

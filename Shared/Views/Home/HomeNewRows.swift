@@ -34,35 +34,42 @@ struct HomeNewRows: View {
     var body: some View {
         
         CurrentlyAiringRow()
-            .ignoresSafeArea()
+        
+        Divider()
         
         if (!newSeasons.isEmpty) {
             ScrollShowRow(items: newSeasons, scrollName: "New Seasons")
-                .ignoresSafeArea()
+            Divider()
         }
         
         if (!newReleases.isEmpty) {
             VStack(alignment: .leading) {
-                Text("New Releases")
-                    .background()
-                    .font(.title)
-                Text("New shows that you have started")
-                    .font(.subheadline)
+                VStack(alignment: .leading) {
+                    Text("New Releases")
+                        .background()
+                        .font(.title)
+                    Text("New shows that you have started")
+                        .font(.subheadline)
+                }
+                .padding(.horizontal, 2)
                 SquareTileScrollRow(items: newReleases, scrollType: 0)
             }
-            .ignoresSafeArea()
+            Divider()
         }
         
         if (!catchingUp.isEmpty) {
             VStack(alignment: .leading) {
-                Text("Catching Up")
-                    .background()
-                    .font(.title)
-                Text("Shows you are catching up on to get up to date")
-                    .font(.subheadline)
+                VStack(alignment: .leading) {
+                    Text("Catching Up")
+                        .background()
+                        .font(.title)
+                    Text("Shows you are catching up on to get up to date")
+                        .font(.subheadline)
+                }
+                .padding(.horizontal, 2)
                 SquareTileScrollRow(items: catchingUp, scrollType: 0)
             }
-            .ignoresSafeArea()
+            Divider()
         }
         
     }

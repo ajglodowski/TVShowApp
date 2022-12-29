@@ -92,7 +92,6 @@ struct ProfileDetail: View {
                 prof.loadProfile(id: id)
             }
         }
-        .ignoresSafeArea(edges: .horizontal)
     }
     
     var pinnedShowsRow: some View {
@@ -147,8 +146,8 @@ struct ProfileDetail: View {
                             }
                         }
                     }
+                    .padding(.horizontal, 5)
                     .foregroundColor(Color.primary)
-                    .ignoresSafeArea()
                 }
             } else {
                 VStack {
@@ -181,7 +180,6 @@ struct ProfileDetail: View {
                 }
             }
         }
-        .ignoresSafeArea()
     }
     
     var userDetails: some View {

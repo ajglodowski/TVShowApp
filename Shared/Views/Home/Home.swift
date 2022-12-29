@@ -54,87 +54,82 @@ struct Home: View {
     
     var body: some View {
         NavigationView {
-            List {
+            ScrollView {
                 
-                ZStack {
-                    // Use for actual use
-                    //let picShow = getRandPic(shows: unwatchedShows)
-                    
-                    // Use because picture fits well
-                    let picShow = "Handmaid's Tale"
-                    
-                    Image(picShow)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: 250)
-                        .clipped()
-                        .cornerRadius(50)
-                        .overlay(TextOverlay(text: "Watchlist"),alignment: .bottomLeading)
-                        .shadow(color: .black, radius: 10)
-                    NavigationLink(
-                        destination: WatchList()) {
-                            EmptyView()
+                NavigationLink(destination: WatchList()) {
+                    ZStack {
+                        // Use for actual use
+                        //let picShow = getRandPic(shows: unwatchedShows)
+                        
+                        // Use because picture fits well
+                        let picShow = "Handmaid's Tale"
+                        
+                        Image(picShow)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: 250)
+                            .clipped()
+                            .cornerRadius(50)
+                            .overlay(TextOverlay(text: "Watchlist"),alignment: .bottomLeading)
+                            .shadow(color: .black, radius: 2)
                     }
-                //.listRowInsets(EdgeInsets())
                 }
-                .ignoresSafeArea()
+                .padding(.horizontal, 4)
+                .padding(2)
+                
+                Divider()
                 
                 HomeNewRows()
                 
                 //ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
                 
-                ZStack {
-                    // Use because picture fits well
-                    let picShow = "Scenes from a Marriage"
-                    
-                    Image(picShow)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: 250)
-                        .clipped()
-                        .cornerRadius(50)
-                        .overlay(TextOverlay(text: "Actor List"),alignment: .bottomLeading)
-                    NavigationLink(
-                        destination: ActorList()) {
-                            EmptyView()
+                NavigationLink(destination: ActorList()) {
+                    ZStack {
+                        // Use for actual use
+                        //let picShow = getRandPic(shows: unwatchedShows)
+                        
+                        // Use because picture fits well
+                        let picShow = "Scenes from a Marriage"
+                        
+                        Image(picShow)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: 250)
+                            .clipped()
+                            .cornerRadius(50)
+                            .overlay(TextOverlay(text: "Actors List"),alignment: .bottomLeading)
+                            .shadow(color: .black, radius: 2)
                     }
-                //.listRowInsets(EdgeInsets())
-                    
                 }
-                .ignoresSafeArea()
+                .padding(.horizontal, 4)
+                .padding(2)
+                
+                Divider()
+                
                 
                 if (!currentlyWatching.isEmpty) {
                     VStack(alignment: .leading) {
-                        Text("Currently Watching")
-                            .font(.title)
-                        Text("Either currently airing, new season, or catching up")
-                            .font(.subheadline)
+                        VStack(alignment: .leading) {
+                            Text("Currently Watching")
+                                .font(.title)
+                            Text("Either currently airing, new season, or catching up")
+                                .font(.subheadline)
+                        }
+                        .padding(.horizontal, 2)
                         SquareTileScrollRow(items: currentlyWatching, scrollType: 0)
-                            .ignoresSafeArea()
+                            
                     }
-                    .ignoresSafeArea()
+                    Divider()
                 }
                 
-                if (!comingSoon.isEmpty) {
-                    VStack(alignment: .leading) {
-                        Text("Coming Soon")
-                            .font(.title)
-                        Text("Watch for these to come out soon!")
-                            .font(.subheadline)
-                        SquareTileScrollRow(items: comingSoon, scrollType: 2)
-                            .ignoresSafeArea()
-                    }
-                    .ignoresSafeArea()
-                }
-                
-                AddToComingSoon()
+                ComingSoonRows
                 
                 if (!unwatchedShows.isEmpty) {
                     VStack {
                         ScrollShowRow(items: unwatchedShows, scrollName: "Shows to Start")
-                            .ignoresSafeArea()
+                            
                     }
-                    .ignoresSafeArea()
+                    Divider()
                 }
                 
                 HStack (alignment: .center) {
@@ -166,23 +161,16 @@ struct Home: View {
                     Spacer()
                     Button(action: {
                         modelData.refreshData()
-                        //print(modelData.actors)
-                        //print(shows)
                     }, label: {
                         Text("Reload Data")
-                            //.font(.title)
                     })
                     .buttonStyle(.bordered)
                     
                     Spacer()
                     // New Show Button
                     Button(action: {
-                        // TODO
                         newShow = Show(id: "1")
-                        //newShow = new
-                        //modelData.shows.append(new)
                         isPresented = true
-                        //shows.append(new)
                     }, label: {
                         Text("New Show")
                             //.font(.title)
@@ -193,7 +181,7 @@ struct Home: View {
                 outsidePages()
                 
             }
-            //.ignoresSafeArea()
+            
             
             /*
             .refreshable {
@@ -216,13 +204,34 @@ struct Home: View {
                 }
             }
             .navigationTitle("Home")
-            //.ignoresSafeArea()
+            
         }
-        //.ignoresSafeArea()
+        
         .listRowInsets(EdgeInsets())
         .navigationViewStyle(.stack)
         .listStyle(PlainListStyle())
     }
+    
+    var ComingSoonRows: some View {
+        VStack {
+            if (!comingSoon.isEmpty) {
+                VStack(alignment: .leading) {
+                    VStack(alignment: .leading) {
+                        Text("Coming Soon")
+                            .font(.title)
+                        Text("Watch for these to come out soon!")
+                            .font(.subheadline)
+                    }
+                    .padding(.horizontal, 2)
+                    SquareTileScrollRow(items: comingSoon, scrollType: 2)
+                    
+                }
+                Divider()
+            }
+            AddToComingSoon()
+        }
+    }
+    
 }
 
 struct outsidePages: View {

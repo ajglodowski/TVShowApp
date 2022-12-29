@@ -42,8 +42,9 @@ final class ModelData : ObservableObject {
     }
     
     init() {
-        /*
+        
         // Disables caching
+        /*
         let settings = FirestoreSettings()
         settings.isPersistenceEnabled = false
         fireStore.settings = settings
@@ -51,7 +52,7 @@ final class ModelData : ObservableObject {
         
         
         // Resets cache
-        fireStore.clearPersistence()
+        //fireStore.clearPersistence()
         
         
         //firebaseShowFetch()

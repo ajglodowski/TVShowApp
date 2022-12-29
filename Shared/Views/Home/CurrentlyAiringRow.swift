@@ -12,11 +12,7 @@ struct CurrentlyAiringRow: View {
     @EnvironmentObject var modelData : ModelData
     
     var shows: [Show] {
-        let out = modelData.shows.filter( {
-            $0.status != nil
-        })
-        //print(out)
-        return out
+        modelData.shows.filter { $0.addedToUserShows }
     }
     
     var currentlyAiring: [Show] {
@@ -29,15 +25,9 @@ struct CurrentlyAiringRow: View {
     var currentlyAiringGroups: [AirDate:[Show]] {
         var output : [AirDate:[Show]] = [:]
         for c in currentlyAiring {
-            //print(c)
-            if (output[c.airdate!] == nil) {
-                var newAr: [Show] = [c]
-                output[c.airdate!] = newAr
-            } else {
-                output[c.airdate!]!.append(c)
-            }
+            if (output[c.airdate!] == nil) { output[c.airdate!] = [c] }
+            else { output[c.airdate!]!.append(c) }
         }
-        //print(output)
         return output
     }
     
@@ -51,22 +41,17 @@ struct CurrentlyAiringRow: View {
             VStack(alignment: .leading) {
                 Text("Currently Airing")
                     .font(.title)
+                    .padding(.horizontal, 2)
                 ScrollView(.horizontal) {
                     HStack (alignment: .top) { // Put days next to each other
                         ForEach(AirDate.allCases) { day in
-                            //Text(day.rawValue)
                             if (currentlyAiringGroups[day] != nil) {
-                                if (day != today) {
-                                    OtherTiles(currentlyAiringGroups: currentlyAiringGroups, day: day)
-                                } else {
-                                    TodayTile(currentlyAiringGroups: currentlyAiringGroups, day: day)
-                                }
+                                if (day != today) { OtherTiles(currentlyAiringGroups: currentlyAiringGroups, day: day) }
+                                else { TodayTile(currentlyAiringGroups: currentlyAiringGroups, day: day) }
                             }
                         }
-                        
                     }
                 }
-                .ignoresSafeArea()
             }
         }
     }
@@ -88,16 +73,14 @@ struct TodayTile: View {
                         .foregroundColor(Color.primary)
                     }
                 }
-                
             }
             .padding(2)
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(Color.green, lineWidth: 2)
             )
-            .padding(.leading, 10)
-            .padding(.top, 5)
-            .padding(.bottom, 5)
+            .padding(.horizontal, 5)
+            .padding(.vertical, 5)
             Text("Today")
         }
     }
@@ -118,21 +101,18 @@ struct OtherTiles: View {
                     .foregroundColor(Color.primary)
                 }
             }
-            
         }
         .padding(2)
         .overlay(
             RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.primary, lineWidth: 2)
         )
-        .padding(.leading, 10)
-        .padding(.top, 5)
-        .padding(.bottom, 5)
+        .padding(.horizontal, 5)
+        .padding(.vertical, 5)
     }
 }
 
 struct CurrentlyAiring_Previews: PreviewProvider {
-    
     static var previews: some View {
         CurrentlyAiringRow()
             .environmentObject(ModelData())

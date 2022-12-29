@@ -87,9 +87,8 @@ struct SquareTileScrollRow: View {
                         
                     }
                 }
+                //.padding(.horizontal, 5)
             }
-            //.frame(height: 185)
-        
         }
     }
 }

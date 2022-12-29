@@ -18,7 +18,7 @@ struct ScrollShowRow: View {
         
             Text(scrollName)
                 .font(.title)
-                .padding(.top, 5)
+                .padding(.horizontal, 2)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top) {
@@ -29,9 +29,8 @@ struct ScrollShowRow: View {
                         .accentColor(.primary)
                     }
                 }
+                .padding(.horizontal, 5)
             }
-            //.frame(height: 185)
-        
         }
     }
 }

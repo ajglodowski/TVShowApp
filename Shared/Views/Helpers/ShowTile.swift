@@ -10,22 +10,11 @@ import SwiftUI
 struct ShowTile: View {
     
     @StateObject var vm = ShowTileViewModel()
-    
-    //var show: Show
     var showName: String
     
     var body: some View {
-        
         VStack {
-        
-            /*
-            Image(showName)
-                .resizable()
-                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                .scaledToFit()
-                //.shadow(radius: 5)
-             */
-            VStack {
+            VStack(alignment:.center) {
                 if (vm.showImage != nil) {
                     Image(uiImage: vm.showImage!)
                         .resizable()
@@ -39,14 +28,9 @@ struct ShowTile: View {
                 }
             }
             .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            
-
             Text(showName)
                 .font(.subheadline)
         }
-        //.frame(width: 175, height: 175, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        //.padding(.leading, 10)
-        //.padding(.trailing, 5)
         .task {
             vm.loadImage(showName: showName)
         }

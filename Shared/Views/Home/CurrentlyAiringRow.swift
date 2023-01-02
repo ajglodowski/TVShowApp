@@ -42,7 +42,7 @@ struct CurrentlyAiringRow: View {
                 Text("Currently Airing")
                     .font(.title)
                     .padding(.horizontal, 2)
-                ScrollView(.horizontal) {
+                ScrollView(.horizontal, showsIndicators: false) {
                     HStack (alignment: .top) { // Put days next to each other
                         ForEach(AirDate.allCases) { day in
                             if (currentlyAiringGroups[day] != nil) {

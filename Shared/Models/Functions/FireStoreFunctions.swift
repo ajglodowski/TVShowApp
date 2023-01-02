@@ -69,8 +69,6 @@ func convertUserShowToDictionary(show: Show) -> [String: Any] {
     output["status"] = show.status!.rawValue
     output["currentSeason"] = show.currentSeason!
     if (show.rating != nil) { output["rating"] = show.rating!.rawValue }
-    if (show.lastUpdateDate != nil) { output["lastUpdateDate"] = show.lastUpdateDate! }
-    if (show.lastUpdateMessage != nil) { output["lastUpdateMessage"] = show.lastUpdateMessage! }
     return output
 }
 

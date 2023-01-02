@@ -14,8 +14,10 @@ struct ShowSquareTile: View {
     
     var show: Show
     
-    //var scrollType: Int? // 0 for generic, 1 for airdates
     var titleShown: Bool
+    
+    var ratingShown: Bool?
+    var hasRating: Bool { show.rating != nil }
     
     var aboveExtraText: [String]? // Text below the tile
     var aboveFontType: Font?
@@ -26,15 +28,6 @@ struct ShowSquareTile: View {
     var body: some View {
         
         VStack {
-            
-            /*
-            if (scrollType == 1) {
-                Text(show.airdate.rawValue)
-                    .font(.headline)
-                    .scaledToFit()
-                    .multilineTextAlignment(.center)
-            }
-             */
             
             if (aboveExtraText != nil) {
                 VStack {
@@ -49,17 +42,6 @@ struct ShowSquareTile: View {
                 }
             }
             
-            /*
-            Image(show.name)
-                .resizable()
-                .scaledToFit()
-                .cornerRadius(15)
-                .if(show.status == Status.NewSeason) {
-                    $0.overlay(TileBanner(text: "New\nSeason"),alignment: .bottomLeading)
-                }
-                .shadow(radius: 5)
-                .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-             */
             if (vm.showImage != nil) {
                 Image(uiImage: vm.showImage!)
                     .resizable()
@@ -84,21 +66,22 @@ struct ShowSquareTile: View {
                 
             if (titleShown) {
                 HStack {
-                    
                     Text(show.name)
                         .font(.headline)
                         .scaledToFit()
-                    
                 }
                 .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
                 
                 HStack {
                     Text(show.length.rawValue + "m")
                         .font(.subheadline)
-                    
                     Text(show.service.rawValue)
                         .font(.subheadline)
                         .scaledToFit()
+                    if (ratingShown != nil && ratingShown! && hasRating) {
+                        Image(systemName: "\(show.rating!.ratingSymbol).fill")
+                            .foregroundColor(show.rating!.color)
+                    }
                 }
             }
             

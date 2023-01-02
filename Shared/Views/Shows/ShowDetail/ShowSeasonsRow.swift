@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct ShowSeasonsRow: View {
     
@@ -29,6 +30,7 @@ struct ShowSeasonsRow: View {
                                 Button(action: {
                                     //currentSeason = num
                                     updateCurrentSeason(newSeason: num, showId: showId)
+                                    addUserUpdateSeasonChange(userId: Auth.auth().currentUser!.uid, showId: showId, seasonUpdate: num)
                                 }, label: {
                                     Text((String(num)))
                                         .font(.title)

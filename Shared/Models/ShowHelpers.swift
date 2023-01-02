@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 import UIKit
 
 func getRandPic(shows: [Show]) -> String {
@@ -148,8 +149,9 @@ func changeShowStatus(show: Show, status: Status) {
     }
     //updateShowStatus(showId: show.id, status: status)
     updatedShow.status = status
-    updatedShow.lastUpdateDate = Date()
-    updatedShow.lastUpdateMessage = "Updated status to \(status.rawValue)"
+    //updatedShow.lastUpdateDate = Date()
+    //updatedShow.lastUpdateMessage = "Updated status to \(status.rawValue)"
+    addUserUpdateStatusChange(userId: Auth.auth().currentUser!.uid, show: updatedShow)
     updateUserShow(show: updatedShow)
     decrementStatusCount(showId: show.id, status: show.status!)
     incrementStatusCount(showId: show.id, status: status)

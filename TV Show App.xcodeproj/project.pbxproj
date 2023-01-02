@@ -9,14 +9,19 @@
 /* Begin PBXBuildFile section */
 		1A02E1F0289822F60026E4CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A02E1EF289822F60026E4CF /* GoogleService-Info.plist */; };
 		1A02E206289824A90026E4CF /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = 1A02E205289824A90026E4CF /* FirebaseInstallations */; };
-		1A1515C8282B5DDA00DB8948 /* ActorHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1515C7282B5DDA00DB8948 /* ActorHelpers.swift */; };
-		1A1515CA282B5DDA00DB8948 /* ActorHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1515C7282B5DDA00DB8948 /* ActorHelpers.swift */; };
 		1A1515CD282B69CF00DB8948 /* ActorDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1515CC282B69CF00DB8948 /* ActorDetailEdit.swift */; };
 		1A1515CF282B69CF00DB8948 /* ActorDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1515CC282B69CF00DB8948 /* ActorDetailEdit.swift */; };
 		1A1515D2282C3C7700DB8948 /* noID.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A1515D1282C3C7700DB8948 /* noID.json */; };
 		1A1515D4282C3C7700DB8948 /* noID.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A1515D1282C3C7700DB8948 /* noID.json */; };
 		1A1515D7282C48ED00DB8948 /* dataEdit.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A1515D6282C48ED00DB8948 /* dataEdit.json */; };
 		1A1515D9282C48ED00DB8948 /* dataEdit.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A1515D6282C48ED00DB8948 /* dataEdit.json */; };
+		1A193021296280DE0090EE72 /* UserUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A193020296280DE0090EE72 /* UserUpdate.swift */; };
+		1A1930232962830E0090EE72 /* UserUpdateFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1930222962830E0090EE72 /* UserUpdateFunctions.swift */; };
+		1A19302629628D610090EE72 /* UserUpdateCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A19302529628D610090EE72 /* UserUpdateCard.swift */; };
+		1A19302829628DCF0090EE72 /* CurrentUserUpdatesRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A19302729628DCF0090EE72 /* CurrentUserUpdatesRow.swift */; };
+		1A19302B29633BC20090EE72 /* UpdateLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A19302A29633BC20090EE72 /* UpdateLog.swift */; };
+		1A19303529633CB10090EE72 /* UpdateLogNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A19303429633CB10090EE72 /* UpdateLogNode.swift */; };
+		1A19303729636E300090EE72 /* UpdateLogSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A19303629636E300090EE72 /* UpdateLogSection.swift */; };
 		1A1A51D3268EBD1B00138859 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1A51D2268EBD1B00138859 /* UIImage+Extension.swift */; };
 		1A2FE96F263F8B0700B11F73 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FE96E263F8B0700B11F73 /* Home.swift */; };
 		1A2FE971263F8B0700B11F73 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FE96E263F8B0700B11F73 /* Home.swift */; };
@@ -173,10 +178,16 @@
 
 /* Begin PBXFileReference section */
 		1A02E1EF289822F60026E4CF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		1A1515C7282B5DDA00DB8948 /* ActorHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorHelpers.swift; sourceTree = "<group>"; };
 		1A1515CC282B69CF00DB8948 /* ActorDetailEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorDetailEdit.swift; sourceTree = "<group>"; };
 		1A1515D1282C3C7700DB8948 /* noID.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = noID.json; sourceTree = "<group>"; };
 		1A1515D6282C48ED00DB8948 /* dataEdit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dataEdit.json; sourceTree = "<group>"; };
+		1A193020296280DE0090EE72 /* UserUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdate.swift; sourceTree = "<group>"; };
+		1A1930222962830E0090EE72 /* UserUpdateFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdateFunctions.swift; sourceTree = "<group>"; };
+		1A19302529628D610090EE72 /* UserUpdateCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdateCard.swift; sourceTree = "<group>"; };
+		1A19302729628DCF0090EE72 /* CurrentUserUpdatesRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserUpdatesRow.swift; sourceTree = "<group>"; };
+		1A19302A29633BC20090EE72 /* UpdateLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateLog.swift; sourceTree = "<group>"; };
+		1A19303429633CB10090EE72 /* UpdateLogNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateLogNode.swift; sourceTree = "<group>"; };
+		1A19303629636E300090EE72 /* UpdateLogSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateLogSection.swift; sourceTree = "<group>"; };
 		1A1A51D2268EBD1B00138859 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		1A2FE96E263F8B0700B11F73 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		1A2FE973263F8CAB00B11F73 /* ScrollShowRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollShowRow.swift; sourceTree = "<group>"; };
@@ -304,9 +315,30 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1A19302429628D470090EE72 /* UserUpdate */ = {
+			isa = PBXGroup;
+			children = (
+				1A19302929633B940090EE72 /* UpdateLog */,
+				1A19302529628D610090EE72 /* UserUpdateCard.swift */,
+				1A19302729628DCF0090EE72 /* CurrentUserUpdatesRow.swift */,
+			);
+			path = UserUpdate;
+			sourceTree = "<group>";
+		};
+		1A19302929633B940090EE72 /* UpdateLog */ = {
+			isa = PBXGroup;
+			children = (
+				1A19302A29633BC20090EE72 /* UpdateLog.swift */,
+				1A19303429633CB10090EE72 /* UpdateLogNode.swift */,
+				1A19303629636E300090EE72 /* UpdateLogSection.swift */,
+			);
+			path = UpdateLog;
+			sourceTree = "<group>";
+		};
 		1A66E107263A03EB00B47B88 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1A19302429628D470090EE72 /* UserUpdate */,
 				1AD941D028DBF2B300710B75 /* ShowList */,
 				1AC420D328C66F8F0034E9EA /* Search */,
 				1A88BF7928C529F1005F7683 /* Profile */,
@@ -350,11 +382,11 @@
 				1A99FF0626CC3796009485ED /* Status.swift */,
 				1A3A33F02672AAD300B2F459 /* ShowLength.swift */,
 				1AE03C802824ABB3005FF4FA /* Actor.swift */,
-				1A1515C7282B5DDA00DB8948 /* ActorHelpers.swift */,
 				1A81CBF3288CA369003F6EC3 /* Rating.swift */,
 				1A81CBFD288E111C003F6EC3 /* Tag.swift */,
 				1A88BF7F28C52BE9005F7683 /* Profile.swift */,
 				1AD941D328DBF30700710B75 /* ShowList.swift */,
+				1A193020296280DE0090EE72 /* UserUpdate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -400,6 +432,7 @@
 				1A6E07EC28C56A8200BE4898 /* ProfileFunctions.swift */,
 				1AD246BF289C94EA00E42452 /* FireStoreFunctions.swift */,
 				1ADB3FDE28DE838000B08EBB /* ShowListFunctions.swift */,
+				1A1930222962830E0090EE72 /* UserUpdateFunctions.swift */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -751,7 +784,6 @@
 				1A2FE979263F8EC600B11F73 /* ShowTile.swift in Sources */,
 				1AF3968E2638F635000C4996 /* Show.swift in Sources */,
 				1AF396932638F6E9000C4996 /* ModelData.swift in Sources */,
-				1A1515C8282B5DDA00DB8948 /* ActorHelpers.swift in Sources */,
 				1AD941CF28DBF28A00710B75 /* ProfileTile.swift in Sources */,
 				1AD941D228DBF2BB00710B75 /* ShowListDetail.swift in Sources */,
 				1A88BF8028C52BE9005F7683 /* Profile.swift in Sources */,
@@ -777,18 +809,25 @@
 				1A6E07E628C54B9600BE4898 /* ShowTileViewModel.swift in Sources */,
 				1A4B4CF0282F2DA70095324A /* StatsPage.swift in Sources */,
 				1A6E07ED28C56A8200BE4898 /* ProfileFunctions.swift in Sources */,
+				1A193021296280DE0090EE72 /* UserUpdate.swift in Sources */,
 				1AD246C0289C94EA00E42452 /* FireStoreFunctions.swift in Sources */,
+				1A19302B29633BC20090EE72 /* UpdateLog.swift in Sources */,
 				1AE79A79284C4064008BB19A /* ShowDetailText.swift in Sources */,
 				1AD941D428DBF30700710B75 /* ShowList.swift in Sources */,
 				1ACA81FE289F25D10021336B /* UpdateStatusButtons.swift in Sources */,
 				1AC11B91288F920800A8FA10 /* ActorReferenceGame.swift in Sources */,
+				1A19302629628D610090EE72 /* UserUpdateCard.swift in Sources */,
 				1A2FE96F263F8B0700B11F73 /* Home.swift in Sources */,
 				1A5406712812594900A78AC0 /* Hidden.swift in Sources */,
 				1A6E07E428C548E900BE4898 /* OldFileIOFunctions.swift in Sources */,
 				1AF396A62638F977000C4996 /* ListShowRow.swift in Sources */,
 				1A3232F826756F6E009A9F23 /* DiscoverPage.swift in Sources */,
 				1A2FE974263F8CAB00B11F73 /* ScrollShowRow.swift in Sources */,
+				1A19303729636E300090EE72 /* UpdateLogSection.swift in Sources */,
+				1A19303529633CB10090EE72 /* UpdateLogNode.swift in Sources */,
+				1A19302829628DCF0090EE72 /* CurrentUserUpdatesRow.swift in Sources */,
 				1A99FF0226CC25DE009485ED /* AirDate.swift in Sources */,
+				1A1930232962830E0090EE72 /* UserUpdateFunctions.swift in Sources */,
 				1AF396742638F54E000C4996 /* TV_Show_AppApp.swift in Sources */,
 				1AE79A81284C42F9008BB19A /* ShowDetailActors.swift in Sources */,
 				1AE79A74284C3E7B008BB19A /* ShowSeasonsRow.swift in Sources */,
@@ -814,7 +853,6 @@
 			files = (
 				1A81CBFB288CA48C003F6EC3 /* RatingRow.swift in Sources */,
 				1A3232F526750BAF009A9F23 /* SquareTileScrollRow.swift in Sources */,
-				1A1515CA282B5DDA00DB8948 /* ActorHelpers.swift in Sources */,
 				1AD246C1289C94EA00E42452 /* FireStoreFunctions.swift in Sources */,
 				1A81CBF6288CA369003F6EC3 /* Rating.swift in Sources */,
 				1A6D246D28C130A60027DF9D /* ShowRatingsGraph.swift in Sources */,

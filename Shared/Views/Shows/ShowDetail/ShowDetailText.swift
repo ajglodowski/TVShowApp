@@ -50,16 +50,6 @@ struct ShowDetailText: View {
             Text("Release Date: " + ShowDetailText.formatter.string(from: show.releaseDate!))
         }
         
-        if (show.lastUpdateDate != nil && show.lastUpdateMessage != nil) {
-            VStack (alignment: .leading) {
-                Text("Your last update:")
-                    .font(.subheadline)
-                    .bold()
-                Text(show.lastUpdateMessage! + " on " + ShowDetailText.formatter.string(from: show.lastUpdateDate!))
-                    .font(.subheadline)
-            }
-        }
-        
         Divider()
         
     }

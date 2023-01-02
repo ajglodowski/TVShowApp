@@ -80,8 +80,9 @@ struct UpdateStatusButtons: View {
                     var addingShow = show
                     addingShow.status = Status.NeedsWatched
                     addingShow.currentSeason = 1
-                    addingShow.lastUpdateDate = Date()
-                    addingShow.lastUpdateMessage = "Added to your shows"
+                    //addingShow.lastUpdateDate = Date()
+                    //addingShow.lastUpdateMessage = "Added to your shows"
+                    addUserUpdateWatchlist(userId: Auth.auth().currentUser!.uid, show: addingShow)
                     addToUserShows(show: addingShow)
                     incrementShowCount(userId: Auth.auth().currentUser!.uid)
                 }) {

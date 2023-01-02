@@ -150,6 +150,7 @@ struct ShowDetail: View {
                                             modelData.shows[showIndex].rating = nil
                                             modelData.shows[showIndex].currentSeason = nil
                                             deleteShowFromUserShows(showId: show!.id)
+                                            addUserUpdateRemove(userId: Auth.auth().currentUser!.uid, show: show!)
                                             decrementShowCount(userId: Auth.auth().currentUser!.uid)
                                             Task {
                                                 await reloadData()
@@ -160,6 +161,8 @@ struct ShowDetail: View {
                                         .buttonStyle(.bordered)
                                         .tint(.red)
                                     }
+                                    Divider()
+                                    UpdateLogSection(show: show!)
                                     Divider()
                                     TagsSection(showId: show!.id, activeTags: show!.tags!)
                                 }

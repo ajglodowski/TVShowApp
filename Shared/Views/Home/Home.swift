@@ -77,6 +77,10 @@ struct Home: View {
                 .padding(.horizontal, 4)
                 .padding(2)
                 
+                //Divider()
+                
+                userSpecificRows
+                
                 Divider()
                 
                 HomeNewRows()
@@ -106,22 +110,6 @@ struct Home: View {
                 
                 Divider()
                 
-                
-                if (!currentlyWatching.isEmpty) {
-                    VStack(alignment: .leading) {
-                        VStack(alignment: .leading) {
-                            Text("Currently Watching")
-                                .font(.title)
-                            Text("Either currently airing, new season, or catching up")
-                                .font(.subheadline)
-                        }
-                        .padding(.horizontal, 2)
-                        SquareTileScrollRow(items: currentlyWatching, scrollType: 0)
-                            
-                    }
-                    Divider()
-                }
-                
                 ComingSoonRows
                 
                 if (!unwatchedShows.isEmpty) {
@@ -132,51 +120,7 @@ struct Home: View {
                     Divider()
                 }
                 
-                HStack (alignment: .center) {
-                    
-                    /*
-                    // Sync Button
-                    Button(action: {
-                        //modelData.saveData()
-                        syncStatusCounts(showList: modelData.shows)
-                    }, label: {
-                        Text("Sync Data")
-                            //.font(.title)
-                    })
-                    .buttonStyle(.bordered)
-                     */
-                     
-                    // Cache Button
-                    /*
-                    Button(action: {
-                        print(modelData.tileImageCache)
-                    }, label: {
-                        Text("View Cache")
-                            //.font(.title)
-                    })
-                    .buttonStyle(.bordered)
-                    */
-                   
-                    // Reload Button
-                    Spacer()
-                    Button(action: {
-                        modelData.refreshData()
-                    }, label: {
-                        Text("Reload Data")
-                    })
-                    .buttonStyle(.bordered)
-                    
-                    Spacer()
-                    // New Show Button
-                    Button(action: {
-                        newShow = Show(id: "1")
-                        isPresented = true
-                    }, label: {
-                        Text("New Show")
-                            //.font(.title)
-                    })
-                    .buttonStyle(.bordered)
-                }
+                bottomButtons
                 
                 outsidePages()
                 
@@ -198,7 +142,7 @@ struct Home: View {
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
                         }, trailing: Button("Done") {
-                            addToShows(show: newShow)
+                            let newShowId = addToShows(show: newShow)
                             isPresented = false
                         })
                 }
@@ -210,6 +154,77 @@ struct Home: View {
         .listRowInsets(EdgeInsets())
         .navigationViewStyle(.stack)
         .listStyle(PlainListStyle())
+    }
+    
+    var userSpecificRows: some View {
+        VStack {
+            
+            CurrentUserUpdatesRow()
+            
+            if (!currentlyWatching.isEmpty) {
+                VStack(alignment: .leading) {
+                    VStack(alignment: .leading) {
+                        Text("Currently Watching")
+                            .font(.title)
+                        Text("Either currently airing, new season, or catching up")
+                            .font(.subheadline)
+                    }
+                    .padding(.horizontal, 2)
+                    SquareTileScrollRow(items: currentlyWatching, scrollType: 0)
+                        
+                }
+                Divider()
+            }
+        }
+    }
+    
+    
+    var bottomButtons: some View {
+        HStack (alignment: .center) {
+            
+            /*
+            // Sync Button
+            Button(action: {
+                //modelData.saveData()
+                syncStatusCounts(showList: modelData.shows)
+            }, label: {
+                Text("Sync Data")
+                    //.font(.title)
+            })
+            .buttonStyle(.bordered)
+             */
+             
+            // Cache Button
+            /*
+            Button(action: {
+                print(modelData.tileImageCache)
+            }, label: {
+                Text("View Cache")
+                    //.font(.title)
+            })
+            .buttonStyle(.bordered)
+            */
+           
+            // Reload Button
+            Spacer()
+            Button(action: {
+                modelData.refreshData()
+            }, label: {
+                Text("Reload Data")
+            })
+            .buttonStyle(.bordered)
+            
+            Spacer()
+            // New Show Button
+            Button(action: {
+                newShow = Show(id: "1")
+                isPresented = true
+            }, label: {
+                Text("New Show")
+                    //.font(.title)
+            })
+            .buttonStyle(.bordered)
+        }
     }
     
     var ComingSoonRows: some View {

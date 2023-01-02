@@ -25,6 +25,7 @@ final class ModelData : ObservableObject {
     //@Published var actors: [Actor] = load("actorData.json")
     @Published var actors = [Actor]()
     @Published var currentUser: Profile? = nil
+    @Published var currentUserUpdates = [UserUpdate]()
     
     @Published var tileImageCache: [String: Image] = [String: Image]()
     
@@ -52,7 +53,7 @@ final class ModelData : ObservableObject {
         
         
         // Resets cache
-        //fireStore.clearPersistence()
+        fireStore.clearPersistence()
         
         
         //firebaseShowFetch()
@@ -235,6 +236,7 @@ final class ModelData : ObservableObject {
                 self.shows = output
                 if (Auth.auth().currentUser != nil) {
                     self.loadFromFireStore()
+                    self.loadCurrentUserUpdates()
                 }
                 self.fetchActorsFromFirestore()
             }
@@ -263,16 +265,10 @@ final class ModelData : ObservableObject {
                     let currentSeason = data["currentSeason"] as! Int
                     let rating = data["rating"] as? String // No rating is allowed
                     
-                    let lastUpdateDate = data["lastUpdateDate"] as? Timestamp // No update date is allowed
-                    let lastUpdateMessage = data["lastUpdateMessage"] as? String // No update date is allowed
-                    
                     personalizedShow.status = Status(rawValue: status)
                     personalizedShow.currentSeason = currentSeason
                     if (rating != nil) { personalizedShow.rating = Rating(rawValue: rating!) }
                     else { personalizedShow.rating = nil }
-                    
-                    if (lastUpdateDate != nil) { personalizedShow.lastUpdateDate = lastUpdateDate?.dateValue() }
-                    if (lastUpdateMessage != nil) { personalizedShow.lastUpdateMessage = lastUpdateMessage }
                     
                     self.shows[entireIndex] = personalizedShow
                 }
@@ -336,6 +332,40 @@ final class ModelData : ObservableObject {
                 let add = Profile(id: uid, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following, showLists: showLists, likedShowLists: likedShowLists)
                 self.currentUser = add
                 
+            }
+        }
+    }
+    
+    func loadCurrentUserUpdates() {
+        let uid = Auth.auth().currentUser!.uid
+        let updates = fireStore.collection("updates").whereField("userId", isEqualTo: uid)
+        updates.addSnapshotListener { snapshot, error in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    let updateId = document.documentID
+                    if (self.currentUserUpdates.contains(where: {$0.id == updateId})) { continue } // prevent double appending
+                    let data = document.data()
+                    let showId = data["showId"] as! String
+                    let entireIndex = self.shows.firstIndex(where: { $0.id == showId})!
+                
+                    let updateDate = data["updateDate"] as! Timestamp
+                    let updateType = data["updateType"] as! String
+                    
+                    let seasonChange = data["seasonChange"] as? Int // No update date is allowed
+                    let statusChangeRaw = data["statusChange"] as? String // No update date is allowed
+                    var statusChange: Status? = nil
+                    if (statusChangeRaw != nil) { statusChange = Status(rawValue: statusChangeRaw!) }
+                    
+                    let update = UserUpdate(id: updateId, userId: uid, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange)
+                    if (self.shows[entireIndex].currentUserUpdates != nil) { self.shows[entireIndex].currentUserUpdates!.append(update) }
+                    else { self.shows[entireIndex].currentUserUpdates = [update] }
+                    //print(self.shows[entireIndex].currentUserUpdates?.count)
+                    self.currentUserUpdates.append(update)
+                }
             }
         }
     }

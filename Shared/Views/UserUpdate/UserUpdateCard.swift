@@ -11,6 +11,10 @@ struct UserUpdateCard: View {
     
     @EnvironmentObject var modelData : ModelData
     @StateObject var vm = ShowTileViewModel()
+    @StateObject var prof = ProfileViewModel()
+    
+    var profile: Profile? { prof.profile }
+    var profilePic: Image? { prof.profilePic }
     
     var update: UserUpdate
     
@@ -45,7 +49,7 @@ struct UserUpdateCard: View {
                             .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     }
                 }
-                VStack (alignment: .leading) {
+                VStack (alignment: .leading, spacing: 0) {
                     if (show != nil) {
                         Text(show!.name)
                             .bold()
@@ -56,9 +60,10 @@ struct UserUpdateCard: View {
                         .font(.callout)
                     Text(dateString)
                         .font(.footnote)
+                    userSection
                 }
                 .multilineTextAlignment(.leading)
-                .padding(.vertical, 1)
+                //.padding(.vertical, 1)
                 .padding(.horizontal, 1)
                 .frame(width: 150, height: 100)
             }
@@ -66,8 +71,34 @@ struct UserUpdateCard: View {
         .background(.tertiary)
         .cornerRadius(15)
         .task {
+            prof.loadProfile(id: update.userId)
             vm.loadImage(showName: show!.name)
         }
+    }
+    
+    var userSection: some View {
+        HStack {
+            if (profile == nil || profilePic == nil) { Text("Loading Profile") }
+            else {
+                NavigationLink(destination: ProfileDetail(id: profile!.id)) {
+                    HStack {
+                        profilePic!
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                            .clipShape(Circle())
+                        Text(profile!.username)
+                            .font(.callout)
+                    }
+                    .padding(-5)
+                }
+                .buttonStyle(.bordered)
+                .buttonBorderShape(.capsule)
+                .foregroundColor(.primary)
+                .padding(-1)
+            }
+        }
+        
     }
     
     

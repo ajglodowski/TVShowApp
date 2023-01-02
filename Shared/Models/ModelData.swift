@@ -26,7 +26,7 @@ final class ModelData : ObservableObject {
     @Published var actors = [Actor]()
     @Published var currentUser: Profile? = nil
     @Published var currentUserUpdates = [UserUpdate]()
-    
+    @Published var lastFriendUpdates = [UserUpdate]()
     @Published var tileImageCache: [String: Image] = [String: Image]()
     
     @Published var needsUpdated: Bool = false
@@ -237,6 +237,9 @@ final class ModelData : ObservableObject {
                 if (Auth.auth().currentUser != nil) {
                     self.loadFromFireStore()
                     self.loadCurrentUserUpdates()
+                    if (self.currentUser != nil) {
+                        self.loadLatestFriendUpdates()
+                    }
                 }
                 self.fetchActorsFromFirestore()
             }
@@ -368,6 +371,40 @@ final class ModelData : ObservableObject {
                 }
             }
         }
+    }
+    
+    func loadLatestFriendUpdates() {
+        let friends = Array(self.currentUser!.following.map { $0.keys }!)
+        for friend in friends {
+            //print(friend)
+            let updates = fireStore.collection("updates").whereField("userId", isEqualTo: friend).order(by: "updateDate", descending: true).limit(to: 1)
+            updates.addSnapshotListener { snapshot, error in
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+                if let snapshot = snapshot {
+                    for document in snapshot.documents {
+                        let updateId = document.documentID
+                        if (self.lastFriendUpdates.contains(where: {$0.id == updateId})) { continue } // prevent double appending
+                        let data = document.data()
+                        let showId = data["showId"] as! String
+                        let updateDate = data["updateDate"] as! Timestamp
+                        let updateType = data["updateType"] as! String
+                        
+                        let seasonChange = data["seasonChange"] as? Int // No update date is allowed
+                        let statusChangeRaw = data["statusChange"] as? String // No update date is allowed
+                        var statusChange: Status? = nil
+                        if (statusChangeRaw != nil) { statusChange = Status(rawValue: statusChangeRaw!) }
+                        
+                        let update = UserUpdate(id: updateId, userId: friend, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange)
+                        self.lastFriendUpdates.append(update)
+                        print(self.lastFriendUpdates)
+                    }
+                }
+            }
+        }
+        
     }
      
     

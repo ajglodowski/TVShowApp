@@ -159,6 +159,8 @@ struct Home: View {
     var userSpecificRows: some View {
         VStack {
             
+            FollowingUpdatesRow()
+            
             CurrentUserUpdatesRow()
             
             if (!currentlyWatching.isEmpty) {

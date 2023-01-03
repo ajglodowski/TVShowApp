@@ -26,7 +26,8 @@ struct CurrentUserUpdatesRow: View {
             ScrollView (.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach (updates) { update in
-                        NavigationLink(destination: ShowDetail(showId: update.showId, show: getShowFromUpdate(update: update))) {
+                        //NavigationLink(destination: ShowDetail(showId: update.showId, show: getShowFromUpdate(update: update))) {
+                        NavigationLink(destination: ShowDetail(showId: update.showId)) {
                             UserUpdateCard(update: update)
                                 .foregroundColor(.primary)
                         }

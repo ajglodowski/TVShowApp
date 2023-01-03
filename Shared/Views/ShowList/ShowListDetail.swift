@@ -92,7 +92,8 @@ struct ShowListDetail: View {
                 
                 if (!editing) {
                     ForEach(Array(displayedShows.enumerated()), id: \.offset) { showPlace, show in
-                        NavigationLink(destination: ShowDetail(showId: show.id, show: show)) {
+                        //NavigationLink(destination: ShowDetail(showId: show.id, show: show)) {
+                        NavigationLink(destination: ShowDetail(showId: show.id)) {
                             HStack {
                                 if (listObj!.ordered && searchText.isEmpty) {
                                     Text("\(showPlace+1).")

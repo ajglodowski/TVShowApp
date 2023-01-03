@@ -23,7 +23,8 @@ struct ScrollShowRow: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top) {
                     ForEach(items) { show in
-                        NavigationLink(destination: ShowDetail(showId: show.id, show: show)) {
+                        //NavigationLink(destination: ShowDetail(showId: show.id, show: show)) {
+                        NavigationLink(destination: ShowDetail(showId: show.id)) {
                             ShowTile(showName: show.name)
                         }
                         .accentColor(.primary)

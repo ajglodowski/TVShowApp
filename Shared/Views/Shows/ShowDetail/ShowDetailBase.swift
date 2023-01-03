@@ -184,29 +184,25 @@ struct ShowDetailBase: View {
         }
         .sheet(isPresented: $isPresented) {
             NavigationView {
-                if (showEdited.id != "1") {
-                    ShowDetailEdit(isPresented: self.$isPresented, show: $showEdited)
-                        .navigationTitle(show?.name ?? "Loading Show")
-                        .navigationBarItems(leading: Button("Cancel") {
-                            showEdited = show!
-                            isPresented = false
-                        }, trailing: Button("Done") {
-                            if (showEdited != show) {
-                                //addOrUpdateToUserShows(show: showEdited)
-                                if (showEdited.name != show!.name) {
-                                    updateToShows(show: showEdited, showNameEdited: true)
-                                } else {
-                                    updateToShows(show: showEdited, showNameEdited: false)
-                                }
+                ShowDetailEdit(isPresented: self.$isPresented, show: $showEdited)
+                    .navigationTitle(show?.name ?? "Loading Show")
+                    .navigationBarItems(leading: Button("Cancel") {
+                        showEdited = show!
+                        isPresented = false
+                    }, trailing: Button("Done") {
+                        if (showEdited != show) {
+                            //addOrUpdateToUserShows(show: showEdited)
+                            if (showEdited.name != show!.name) {
+                                updateToShows(show: showEdited, showNameEdited: true)
+                            } else {
+                                updateToShows(show: showEdited, showNameEdited: false)
                             }
-                            isPresented = false
-                            Task {
-                                //await reloadData()
-                            }
-                        })
-                } else {
-                    Text("Error loading show")
-                }
+                        }
+                        isPresented = false
+                        Task {
+                            //await reloadData()
+                        }
+                    })
             }
         }
     }

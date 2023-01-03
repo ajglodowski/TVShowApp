@@ -229,6 +229,10 @@ final class ModelData : ObservableObject {
                     for (key, value) in ratingCounts {
                         add.ratingCounts[Rating(rawValue: key)!] = value
                     }
+                    
+                    let updates = self.currentUserUpdates.filter { $0.showId == add.id }
+                    add.currentUserUpdates = updates
+                    
                     output.append(add)
                     
                 }
@@ -248,7 +252,6 @@ final class ModelData : ObservableObject {
     
     func loadFromFireStore() {
         let uid = Auth.auth().currentUser!.uid
-        //print("UID: \(uid)")
         let show = fireStore.collection("users/\(uid)/shows")
         show.addSnapshotListener { snapshot, error in
             guard error == nil else {
@@ -272,6 +275,9 @@ final class ModelData : ObservableObject {
                     personalizedShow.currentSeason = currentSeason
                     if (rating != nil) { personalizedShow.rating = Rating(rawValue: rating!) }
                     else { personalizedShow.rating = nil }
+                    
+                    let updates = self.currentUserUpdates.filter { $0.showId == personalizedShow.id }
+                    personalizedShow.currentUserUpdates = updates
                     
                     self.shows[entireIndex] = personalizedShow
                 }
@@ -332,6 +338,7 @@ final class ModelData : ObservableObject {
                 
                 let pinnedShows =  data["pinnedShows"] as? [String:String]
                 let pinnedShowCount = data["pinnedShowCount"] as? Int ?? 0
+                
                 let add = Profile(id: uid, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following, showLists: showLists, likedShowLists: likedShowLists)
                 self.currentUser = add
                 

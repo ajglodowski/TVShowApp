@@ -19,7 +19,7 @@ class ShowDetailPhotoViewModel: ObservableObject {
     
     @MainActor
     func loadImage(showName: String) {
-        let picRef = self.store.child("showImages_640/\(showName).jpg")
+        let picRef = self.store.child("showImages/resizedImages/\(showName)_640x640.jpeg")
         picRef.getData(maxSize: 1 * 1024 * 1024) { data, error in // 1 MB Max
             if let error = error {
                 if (!error.localizedDescription.contains("does not exist.")) {

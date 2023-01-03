@@ -54,7 +54,7 @@ class ShowTileViewModel: ObservableObject {
         self.getFromCache(showName: showName)
         if (cachedShowImage == nil) {
             //print("Doing a fetch")
-            let picRef = self.store.child("showImages/showTilesNew/\(showName)_200x200.jpeg")
+            let picRef = self.store.child("showImages/resizedImages/\(showName)_200x200.jpeg")
             picRef.getData(maxSize: 1 * 512 * 1024) { data, error in // 0.5 MB Max
                 if let error = error {
                     if (!error.localizedDescription.contains("does not exist.")) {

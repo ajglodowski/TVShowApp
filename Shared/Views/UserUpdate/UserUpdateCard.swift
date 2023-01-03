@@ -91,6 +91,7 @@ struct UserUpdateCard: View {
                             .font(.callout)
                     }
                     .padding(-5)
+                    .padding(.leading, -7)
                 }
                 .buttonStyle(.bordered)
                 .buttonBorderShape(.capsule)

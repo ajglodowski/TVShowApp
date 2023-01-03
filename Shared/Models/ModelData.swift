@@ -376,7 +376,6 @@ final class ModelData : ObservableObject {
     func loadLatestFriendUpdates() {
         let friends = Array(self.currentUser!.following.map { $0.keys }!)
         for friend in friends {
-            //print(friend)
             let updates = fireStore.collection("updates").whereField("userId", isEqualTo: friend).order(by: "updateDate", descending: true).limit(to: 1)
             updates.addSnapshotListener { snapshot, error in
                 guard error == nil else {
@@ -399,7 +398,6 @@ final class ModelData : ObservableObject {
                         
                         let update = UserUpdate(id: updateId, userId: friend, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange)
                         self.lastFriendUpdates.append(update)
-                        print(self.lastFriendUpdates)
                     }
                 }
             }

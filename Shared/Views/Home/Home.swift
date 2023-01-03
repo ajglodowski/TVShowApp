@@ -81,8 +81,6 @@ struct Home: View {
                 
                 userSpecificRows
                 
-                Divider()
-                
                 HomeNewRows()
                 
                 //ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
@@ -161,7 +159,11 @@ struct Home: View {
             
             FollowingUpdatesRow()
             
+            Divider()
+            
             CurrentUserUpdatesRow()
+            
+            Divider()
             
             if (!currentlyWatching.isEmpty) {
                 VStack(alignment: .leading) {

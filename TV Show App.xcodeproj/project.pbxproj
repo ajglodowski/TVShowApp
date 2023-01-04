@@ -24,6 +24,11 @@
 		1A19303729636E300090EE72 /* UpdateLogSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A19303629636E300090EE72 /* UpdateLogSection.swift */; };
 		1A19303B29638D4E0090EE72 /* FollowingUpdatesRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A19303A29638D4E0090EE72 /* FollowingUpdatesRow.swift */; };
 		1A19303D2963B5CC0090EE72 /* ShowDetailBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A19303C2963B5CC0090EE72 /* ShowDetailBase.swift */; };
+		1A19303F2964D7090090EE72 /* ShowSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A19303E2964D7090090EE72 /* ShowSearch.swift */; };
+		1A1930422964D7D20090EE72 /* InstantSearchSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1A1930412964D7D20090EE72 /* InstantSearchSwiftUI */; };
+		1A1930442964D82E0090EE72 /* AlgoliaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1930432964D82E0090EE72 /* AlgoliaController.swift */; };
+		1A1930482964DBF10090EE72 /* InstantSearch in Frameworks */ = {isa = PBXBuildFile; productRef = 1A1930472964DBF10090EE72 /* InstantSearch */; };
+		1A19304A2964E0C50090EE72 /* AlgoliaShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1930492964E0C50090EE72 /* AlgoliaShow.swift */; };
 		1A1A51D3268EBD1B00138859 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1A51D2268EBD1B00138859 /* UIImage+Extension.swift */; };
 		1A2FE96F263F8B0700B11F73 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FE96E263F8B0700B11F73 /* Home.swift */; };
 		1A2FE971263F8B0700B11F73 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FE96E263F8B0700B11F73 /* Home.swift */; };
@@ -192,6 +197,9 @@
 		1A19303629636E300090EE72 /* UpdateLogSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateLogSection.swift; sourceTree = "<group>"; };
 		1A19303A29638D4E0090EE72 /* FollowingUpdatesRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingUpdatesRow.swift; sourceTree = "<group>"; };
 		1A19303C2963B5CC0090EE72 /* ShowDetailBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailBase.swift; sourceTree = "<group>"; };
+		1A19303E2964D7090090EE72 /* ShowSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSearch.swift; sourceTree = "<group>"; };
+		1A1930432964D82E0090EE72 /* AlgoliaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgoliaController.swift; sourceTree = "<group>"; };
+		1A1930492964E0C50090EE72 /* AlgoliaShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgoliaShow.swift; sourceTree = "<group>"; };
 		1A1A51D2268EBD1B00138859 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		1A2FE96E263F8B0700B11F73 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		1A2FE973263F8CAB00B11F73 /* ScrollShowRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollShowRow.swift; sourceTree = "<group>"; };
@@ -291,7 +299,9 @@
 			files = (
 				1A88BF8828C53750005F7683 /* FirebaseDatabaseSwift in Frameworks */,
 				1AD246B6289C597B00E42452 /* FirebaseAuth in Frameworks */,
+				1A1930422964D7D20090EE72 /* InstantSearchSwiftUI in Frameworks */,
 				1A88BF8428C535DB005F7683 /* FirebaseStorageCombine-Community in Frameworks */,
+				1A1930482964DBF10090EE72 /* InstantSearch in Frameworks */,
 				1AD246BE289C761A00E42452 /* FirebaseFirestoreSwift in Frameworks */,
 				1A02E206289824A90026E4CF /* FirebaseInstallations in Frameworks */,
 				1AD246BC289C761A00E42452 /* FirebaseFirestoreCombine-Community in Frameworks */,
@@ -392,6 +402,8 @@
 				1A88BF7F28C52BE9005F7683 /* Profile.swift */,
 				1AD941D328DBF30700710B75 /* ShowList.swift */,
 				1A193020296280DE0090EE72 /* UserUpdate.swift */,
+				1A1930432964D82E0090EE72 /* AlgoliaController.swift */,
+				1A1930492964E0C50090EE72 /* AlgoliaShow.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -492,6 +504,7 @@
 			isa = PBXGroup;
 			children = (
 				1AC420D428C66F9E0034E9EA /* DiscoverTab.swift */,
+				1A19303E2964D7090090EE72 /* ShowSearch.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -666,6 +679,8 @@
 				1A88BF8328C535DB005F7683 /* FirebaseStorageCombine-Community */,
 				1A88BF8528C53750005F7683 /* FirebaseDatabase */,
 				1A88BF8728C53750005F7683 /* FirebaseDatabaseSwift */,
+				1A1930412964D7D20090EE72 /* InstantSearchSwiftUI */,
+				1A1930472964DBF10090EE72 /* InstantSearch */,
 			);
 			productName = "TV Show App (iOS)";
 			productReference = 1AF396522638F54E000C4996 /* TV Show App.app */;
@@ -718,6 +733,7 @@
 			mainGroup = 1AF396452638F54D000C4996;
 			packageReferences = (
 				1A02E1F2289824A90026E4CF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				1A1930402964D7D20090EE72 /* XCRemoteSwiftPackageReference "instantsearch-ios" */,
 			);
 			productRefGroup = 1AF396532638F54E000C4996 /* Products */;
 			projectDirPath = "";
@@ -809,10 +825,12 @@
 				1A6E07DF28C5456F00BE4898 /* ShowDetailViewModel.swift in Sources */,
 				1A81CBF9288CA48C003F6EC3 /* RatingRow.swift in Sources */,
 				1A1515CD282B69CF00DB8948 /* ActorDetailEdit.swift in Sources */,
+				1A1930442964D82E0090EE72 /* AlgoliaController.swift in Sources */,
 				1A88BF7B28C52A0D005F7683 /* ProfileDetail.swift in Sources */,
 				1AF396762638F54E000C4996 /* ContentView.swift in Sources */,
 				1A4A323E28C2B5BF00E76BF1 /* RatingGraphs.swift in Sources */,
 				1AC953B126896D5C00B293FB /* ShowDetailEdit.swift in Sources */,
+				1A19303F2964D7090090EE72 /* ShowSearch.swift in Sources */,
 				1A88BF7E28C52A24005F7683 /* ProfileViewModel.swift in Sources */,
 				1A6E07E628C54B9600BE4898 /* ShowTileViewModel.swift in Sources */,
 				1A4B4CF0282F2DA70095324A /* StatsPage.swift in Sources */,
@@ -841,6 +859,7 @@
 				1AE79A74284C3E7B008BB19A /* ShowSeasonsRow.swift in Sources */,
 				1A81CC03288E159D003F6EC3 /* TagsSection.swift in Sources */,
 				1AF396AD2638FF4C000C4996 /* WatchList.swift in Sources */,
+				1A19304A2964E0C50090EE72 /* AlgoliaShow.swift in Sources */,
 				1A99FF0726CC3796009485ED /* Status.swift in Sources */,
 				1A90DFDB284813A500AD48BA /* CurrentlyAiringRow.swift in Sources */,
 				1A1A51D3268EBD1B00138859 /* UIImage+Extension.swift in Sources */,
@@ -1195,6 +1214,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		1A1930402964D7D20090EE72 /* XCRemoteSwiftPackageReference "instantsearch-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/algolia/instantsearch-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1212,6 +1239,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1A02E1F2289824A90026E4CF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseInstallations;
+		};
+		1A1930412964D7D20090EE72 /* InstantSearchSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A1930402964D7D20090EE72 /* XCRemoteSwiftPackageReference "instantsearch-ios" */;
+			productName = InstantSearchSwiftUI;
+		};
+		1A1930472964DBF10090EE72 /* InstantSearch */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A1930402964D7D20090EE72 /* XCRemoteSwiftPackageReference "instantsearch-ios" */;
+			productName = InstantSearch;
 		};
 		1A88BF8128C535DB005F7683 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;

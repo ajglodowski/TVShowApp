@@ -23,7 +23,7 @@ struct FollowingUpdatesRow: View {
                     ForEach (updates) { update in
                         NavigationLink(destination: ShowDetail(showId: update.showId)) {
                             UserUpdateCard(update: update)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.white)
                         }
                     }
                 }

@@ -31,6 +31,14 @@ struct UserUpdateCard: View {
         return str.replacingOccurrences(of: ",", with: "")
     }
     
+    private var backgroundColor: Color {
+        if (vm.showImage != nil) {
+            return Color(vm.showImage?.averageColor ?? .black)
+        } else {
+            return Color.black
+        }
+    }
+    
     var body: some View {
         VStack {
             HStack (alignment: .center, spacing: 0) {
@@ -64,11 +72,11 @@ struct UserUpdateCard: View {
                 }
                 .multilineTextAlignment(.leading)
                 //.padding(.vertical, 1)
-                .padding(.horizontal, 1)
-                .frame(width: 150, height: 100)
+                .padding(.horizontal, 2)
+                .frame(width: 150, height: 100, alignment: .leading)
             }
         }
-        .background(.tertiary)
+        .background(backgroundColor)
         .cornerRadius(15)
         .task {
             prof.loadProfile(id: update.userId)
@@ -90,13 +98,14 @@ struct UserUpdateCard: View {
                         Text(profile!.username)
                             .font(.callout)
                     }
-                    .padding(-5)
-                    .padding(.leading, -7)
+                    .padding(.vertical, -7)
+                    .padding(.trailing, -3)
+                    .padding(.leading, -11)
                 }
                 .buttonStyle(.bordered)
                 .buttonBorderShape(.capsule)
-                .foregroundColor(.primary)
-                .padding(-1)
+                .foregroundColor(.white)
+                //.padding(-1)
             }
         }
         

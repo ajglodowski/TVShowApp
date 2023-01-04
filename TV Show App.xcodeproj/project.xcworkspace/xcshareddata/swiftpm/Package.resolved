@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "algoliasearch-client-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/algolia/algoliasearch-client-swift",
+      "state" : {
+        "revision" : "d507e54c2f5e11134ee066727fda976d921f1c10",
+        "version" : "8.16.0"
+      }
+    },
+    {
       "identity" : "boringssl-swiftpm",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/boringssl-SwiftPM.git",
@@ -73,6 +82,24 @@
       }
     },
     {
+      "identity" : "instantsearch-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/algolia/instantsearch-ios",
+      "state" : {
+        "revision" : "61ad37651e12e2bc04910f46243ef780606dc627",
+        "version" : "7.19.1"
+      }
+    },
+    {
+      "identity" : "instantsearch-telemetry-native",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/algolia/instantsearch-telemetry-native",
+      "state" : {
+        "revision" : "10b07e4d711e1c3d0b2a19c46ecd99491fd9929c",
+        "version" : "0.1.2"
+      }
+    },
+    {
       "identity" : "leveldb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
@@ -97,6 +124,24 @@
       "state" : {
         "revision" : "3e4e743631e86c8c70dbc6efdc7beaa6e90fd3bb",
         "version" : "2.1.1"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser",
+      "state" : {
+        "revision" : "fddd1c00396eed152c45a46bea9f47b98e59301d",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log.git",
+      "state" : {
+        "revision" : "6fe203dc33195667ce1759bf0182975e4653ba1c",
+        "version" : "1.4.4"
       }
     },
     {

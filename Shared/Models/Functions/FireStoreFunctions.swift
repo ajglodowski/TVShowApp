@@ -264,3 +264,21 @@ func syncStatusCounts(showList: [Show]) {
         }
     }
 }
+
+func refreshAgolia() {
+    let db = Firestore.firestore()
+    db.collection("shows").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    Firestore.firestore().collection("shows").document(document.documentID).updateData([
+                        "statusCounts.Catching Up": FieldValue.increment(Int64(1))
+                    ])
+                    Firestore.firestore().collection("shows").document(document.documentID).updateData([
+                        "statusCounts.Catching Up": FieldValue.increment(Int64(-1))
+                    ])
+                }
+            }
+    }
+}

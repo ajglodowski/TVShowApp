@@ -186,17 +186,16 @@ struct Home: View {
     var bottomButtons: some View {
         HStack (alignment: .center) {
             
-            /*
+            
             // Sync Button
             Button(action: {
-                //modelData.saveData()
-                syncStatusCounts(showList: modelData.shows)
+                refreshAgolia()
             }, label: {
                 Text("Sync Data")
                     //.font(.title)
             })
             .buttonStyle(.bordered)
-             */
+             
              
             // Cache Button
             /*

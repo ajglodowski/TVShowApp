@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseCore
 import Firebase
+import InstantSearchSwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,

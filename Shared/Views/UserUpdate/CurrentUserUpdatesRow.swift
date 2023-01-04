@@ -29,7 +29,7 @@ struct CurrentUserUpdatesRow: View {
                         //NavigationLink(destination: ShowDetail(showId: update.showId, show: getShowFromUpdate(update: update))) {
                         NavigationLink(destination: ShowDetail(showId: update.showId)) {
                             UserUpdateCard(update: update)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.white)
                         }
                     }
                 }

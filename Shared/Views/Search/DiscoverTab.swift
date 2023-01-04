@@ -41,6 +41,12 @@ struct DiscoverTab: View {
                 }
                 .ignoresSafeArea()
                 
+                NavigationLink (destination: ShowSearch()) {
+                    Text("Find a show")
+                        .bold()
+                }
+                
+                
                 userSearch
                 
             }

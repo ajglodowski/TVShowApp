@@ -24,10 +24,11 @@ struct SquareTileScrollRow: View {
         }
         return false
     }
-    
+    /*
     func showIndex(show: Show) -> Int {
         modelData.shows.firstIndex(where: { $0.id == show.id})!
     }
+     */
     
     func getAboveExtraText(s: Show) -> [String]? {
         switch scrollType {
@@ -76,9 +77,14 @@ struct SquareTileScrollRow: View {
                                     let day = DateFormatter()
                                     day.dateFormat = "EEEE"
                                     //print(showIndex(show: show))
-                                    modelData.shows[showIndex(show: show)].status = Status.CurrentlyAiring
-                                    modelData.shows[showIndex(show: show)].airdate = AirDate(rawValue: day.string(from: show.releaseDate!))
-                                    modelData.shows[showIndex(show: show)].releaseDate = nil
+                                    var edited = show
+                                    edited.airdate = AirDate(rawValue: day.string(from: show.releaseDate!))
+                                    edited.releaseDate = nil
+                                    updateShowStatus(showId: show.id, status: Status.CurrentlyAiring)
+                                    updateToShows(show: show, showNameEdited: false)
+                                    //modelData.shows[showIndex(show: show)].status = Status.CurrentlyAiring
+                                    //modelData.shows[showIndex(show: show)].airdate = AirDate(rawValue: day.string(from: show.releaseDate!))
+                                    //modelData.shows[showIndex(show: show)].releaseDate = nil
                                 }) {
                                     Text("Add to \n Currently Airing")
                                 }

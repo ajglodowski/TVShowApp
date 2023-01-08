@@ -18,7 +18,9 @@ final class ModelData : ObservableObject {
 
     //@Published var shows: [Show] = load("showData.json")
     //@Published var shows: [Show] = load("data.json")
-    @Published var shows = [Show]()
+    //@Published var shows = [Show]()
+    var shows: [Show] { Array(showDict.values) }
+    @Published var showDict = [String:Show]()
     //@Published var otherShows = [Show]()
     //@Published var shows: [Show] = loadFromFile("data.json")
     //@Published var actors: [Actor] = loadFromFile("actorData.json")
@@ -62,12 +64,14 @@ final class ModelData : ObservableObject {
             loadCurrentUser()
         }
         //loadCurrentUser()
-        fetchAllFromFireStore()
-        /*
+        //fetchAllFromFireStore()
+        
         if (loggedIn) {
             loadFromFireStore()
+        } else {
+            print("Not logged in")
         }
-         */
+        
         //fetchActorsFromFirestore()
          
         
@@ -81,12 +85,6 @@ final class ModelData : ObservableObject {
      */
     
     func refreshData() {
-        //self.shows = load("data.json")
-        //firebaseShowFetch()
-        //firebaseActorFetch()
-        //self.actors = load("actorData.json")
-        //self.shows = loadFromFile("data.json")
-        //self.actors = loadFromFile("actorData.json")
         if (loggedIn) {
             loadCurrentUser() 
         }
@@ -95,101 +93,22 @@ final class ModelData : ObservableObject {
         fetchActorsFromFirestore()
     }
     
-    
-        
-    /*
-    func loadBasicShow(showId: String) -> Int {
-        var showIndex = -1
-        let shows = fireStore.collection("shows/\(showId)")
-        shows.getDocuments { snapshot, error in
-            guard error == nil else {
-                print(error!.localizedDescription)
-                return
-            }
-            
-            if let snapshot = snapshot {
-                for document in snapshot.documents {
-                    let data = document.data()
-                    
-                    var add = Show(id: document.documentID)
-                    
-                    let name = data["name"] as? String ?? ""
-                    let running = data["running"] as? Bool ?? false
-                    let totalSeasons = data["totalSeasons"] as? Int ?? 1
-                    
-                    let service = data["service"] as? String ?? ""
-                    let limitedSeries = data["limitedSeries"] as? Bool ?? false
-                    let length = data["showLength"] as? String ?? ""
-                    
-                    let releaseDate = data["releaseDate"] as? Date
-                    let airdate = data["airDate"] as? String
-                    
-                    
-                    add.name = name
-                    add.running = running
-                    add.totalSeasons = totalSeasons
-                    add.service = Service(rawValue: service)!
-                    add.limitedSeries = limitedSeries
-                    add.length = ShowLength(rawValue: length)!
-                    if (airdate != nil) { add.airdate = AirDate(rawValue: airdate!) }
-                    if (releaseDate != nil) { add.releaseDate = releaseDate }
-                    print(add)
-                    self.shows.append(add)
-                    
-                    showIndex = self.shows.firstIndex(of: add)!
-                    
-                    // Tag fetching
-                    let tags = self.fireStore.collection("shows/\(document.documentID)/tags")
-                    tags.getDocuments { s1, e1 in
-                        if let s1 = s1 {
-                            for d1 in s1.documents {
-                                let tagData = d1.data()
-                                let tagString = tagData["tagName"] as? String ?? ""
-                                let tag = Tag(rawValue: tagString)!
-                                self.shows[showIndex].tags.append(tag)
-                            }
-                        }
-                    }
-                    
-                    // Actor Fetching
-                    let actorCollection = self.fireStore.collection("shows/\(document.documentID)/actors")
-                    actorCollection.getDocuments { s4, e4 in
-                        if let s4 = s4 {
-                            for d4 in s4.documents {
-                                let actorData = d4.data()
-                                let actorName = actorData["actorName"] as? String ?? ""
-                                let actorId = actorData["actorId"] as? String ?? ""
-                                self.shows[showIndex].actors = [String:String]()
-                                self.shows[showIndex].actors![actorId] = actorName
-                            }
-                        }
-                    }
-                    
-                }
-            }
-        }
-        return showIndex
-    }
-     */
-    
-    func loadAllShowsFromFireStore(load: [Show]) { self.shows = load}
-    //func loadUserShowsFromFireStore(load: [Show]) { self.shows = load }
-    
     func fetchAllFromFireStore() {
-        let shows = fireStore.collection("shows")
-        shows.addSnapshotListener { snapshot, error in
-            guard error == nil else {
-                print(error!.localizedDescription)
-                return
-            }
-            
-            if let snapshot = snapshot {
-                var output = [Show]()
-                for document in snapshot.documents {
-                    let data = document.data()
+        for show in self.shows {
+            let dbShow = fireStore.collection("shows").document(show.id)
+            dbShow.addSnapshotListener { snapshot, error in
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+                
+                if let snapshot = snapshot {
+                    let data = snapshot.data()!
                     //print(data)
                     
-                    var add = Show(id: document.documentID)
+                    //let addInd = self.shows.firstIndex(where: { $0.id == show.id })!
+                    //var add = self.shows[addInd]
+                    var add = self.showDict[snapshot.documentID]!
                     
                     let name = data["name"] as! String
                     let running = data["running"] as! Bool
@@ -230,20 +149,8 @@ final class ModelData : ObservableObject {
                         add.ratingCounts[Rating(rawValue: key)!] = value
                     }
                     
-                    let updates = self.currentUserUpdates.filter { $0.showId == add.id }
-                    add.currentUserUpdates = updates
-                    
-                    output.append(add)
-                    
-                }
-                //self.loadAllShowsFromFireStore(load: output)
-                self.shows = output
-                if (Auth.auth().currentUser != nil) {
-                    self.loadFromFireStore()
-                    self.loadCurrentUserUpdates()
-                    if (self.currentUser != nil) {
-                        self.loadLatestFriendUpdates()
-                    }
+                    //self.shows[addInd] = add
+                    self.showDict[add.id] = add
                 }
                 self.fetchActorsFromFirestore()
             }
@@ -259,13 +166,11 @@ final class ModelData : ObservableObject {
                 return
             }
             if let snapshot = snapshot {
-                //var output = [Show]()
                 for document in snapshot.documents {
                     let data = document.data()
                     
                     let showId = document.documentID
-                    let entireIndex = self.shows.firstIndex(where: { $0.id == showId})!
-                    var personalizedShow = self.shows[entireIndex]
+                    var personalizedShow = Show(id: showId)
                 
                     let status = data["status"] as! String
                     let currentSeason = data["currentSeason"] as! Int
@@ -279,15 +184,17 @@ final class ModelData : ObservableObject {
                     let updates = self.currentUserUpdates.filter { $0.showId == personalizedShow.id }
                     personalizedShow.currentUserUpdates = updates
                     
-                    self.shows[entireIndex] = personalizedShow
+                    //self.shows.append(personalizedShow)
+                    self.showDict[showId] = personalizedShow
                 }
-                //self.loadUserShowsFromFireStore(load: output)
+                self.fetchAllFromFireStore() // Other Loading
+                self.loadCurrentUserUpdates()
+                self.loadLatestFriendUpdates()
             }
         }
     }
     
     func loadActorsFromFireStore(actors: [Actor]) { self.actors = actors}
-    
     
     func fetchActorsFromFirestore() {
         var output = [Actor]()
@@ -371,8 +278,9 @@ final class ModelData : ObservableObject {
                     if (statusChangeRaw != nil) { statusChange = Status(rawValue: statusChangeRaw!) }
                     
                     let update = UserUpdate(id: updateId, userId: uid, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange)
-                    if (self.shows[entireIndex].currentUserUpdates != nil) { self.shows[entireIndex].currentUserUpdates!.append(update) }
-                    else { self.shows[entireIndex].currentUserUpdates = [update] }
+                    //if (self.shows[entireIndex].currentUserUpdates != nil) { self.shows[entireIndex].currentUserUpdates!.append(update) }
+                    if (self.showDict[showId]!.currentUserUpdates != nil) { self.showDict[showId]!.currentUserUpdates!.append(update) }
+                    else { self.showDict[showId]!.currentUserUpdates = [update] }
                     //print(self.shows[entireIndex].currentUserUpdates?.count)
                     self.currentUserUpdates.append(update)
                 }

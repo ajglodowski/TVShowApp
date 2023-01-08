@@ -16,7 +16,8 @@ struct CurrentUserUpdatesRow: View {
     }
     
     func getShowFromUpdate(update: UserUpdate) -> Show? {
-        modelData.shows.first(where: { $0.id == update.showId})
+        //modelData.shows.first(where: { $0.id == update.showId})
+        modelData.showDict[update.showId]
     }
     
     var body: some View {

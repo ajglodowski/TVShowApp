@@ -96,7 +96,8 @@ struct ActorDetail: View {
             output[tag] = 0
         }
         for (showId, showName) in actor.shows {
-            let showFound = modelData.shows.first(where: { $0.id == showId })
+            //let showFound = modelData.shows.first(where: { $0.id == showId })
+            let showFound = modelData.showDict[showId]
             if (showFound != nil && showFound!.tags != nil) {
                 for showTag in showFound!.tags! {
                     output[showTag]! += 1
@@ -138,7 +139,8 @@ struct ActorDetail: View {
             output[tag] = 0
         }
         for (showId, showName) in actor.shows {
-            let showFound = modelData.shows.first(where: { $0.id == showId })
+            //let showFound = modelData.shows.first(where: { $0.id == showId })
+            let showFound = modelData.showDict[showId]
             if (showFound != nil && showFound!.rating != nil) {
                 output[showFound!.rating!]! += 1
             }
@@ -150,7 +152,8 @@ struct ActorDetail: View {
         var sum = 0
         var count = 0
         for (showId, _) in actor.shows {
-            let showFound = modelData.shows.first(where: { $0.id == showId })
+            //let showFound = modelData.shows.first(where: { $0.id == showId })
+            let showFound = modelData.showDict[showId]
             if (showFound != nil && showFound!.rating != nil) {
                 sum += showFound!.rating!.pointValue
                 count += 1

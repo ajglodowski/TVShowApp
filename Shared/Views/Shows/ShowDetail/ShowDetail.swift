@@ -22,8 +22,9 @@ struct ShowDetail: View {
     
     var body: some View {
         VStack {
-            if (modelData.shows.contains(where: { $0.id == showId })) {
-                ShowDetailBase(show: modelData.shows.first(where: { $0.id == showId }))
+            //if (modelData.shows.contains(where: { $0.id == showId })) {
+            if (modelData.showDict[showId] != nil) {
+                ShowDetailBase(show: modelData.showDict[showId])
             } else {
                 ShowDetailBase(show: loadedShow)
             }

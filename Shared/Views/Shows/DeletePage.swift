@@ -25,7 +25,7 @@ struct DeletePage: View {
     }
     
     private func deleteItem(at indexSet: IndexSet) {
-        self.modelData.shows.remove(atOffsets: indexSet)
+        //self.modelData.shows.remove(atOffsets: indexSet)
     }
     
 }

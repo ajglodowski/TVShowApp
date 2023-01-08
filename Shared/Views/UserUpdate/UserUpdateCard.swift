@@ -19,7 +19,8 @@ struct UserUpdateCard: View {
     var update: UserUpdate
     
     var show: Show? {
-        modelData.shows.first(where: { $0.id == update.showId})
+        //modelData.shows.first(where: { $0.id == update.showId})
+        modelData.showDict[update.showId]
     }
     
     var dateString: String {
@@ -65,14 +66,14 @@ struct UserUpdateCard: View {
                         Text("Show with this id cannot be found")
                     }
                     Text(update.updateMessage)
-                        .font(.callout)
+                        .font(.callout.leading(.tight))
                     Text(dateString)
                         .font(.footnote)
                     userSection
                 }
                 .multilineTextAlignment(.leading)
                 //.padding(.vertical, 1)
-                .padding(.horizontal, 2)
+                .padding(.horizontal, 4)
                 .frame(width: 150, height: 100, alignment: .leading)
             }
         }

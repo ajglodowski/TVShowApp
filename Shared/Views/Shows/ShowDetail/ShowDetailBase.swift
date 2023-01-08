@@ -33,6 +33,7 @@ struct ShowDetailBase: View {
         }
     }
     
+    /*
     var showIndex: Int {
         if (show != nil) {
             return modelData.shows.firstIndex(where: { $0.id == show!.id})!
@@ -40,6 +41,7 @@ struct ShowDetailBase: View {
            return  -1
         }
     }
+     */
     
     var addedToMyShows: Bool {
         if (show != nil && show!.status == nil) { return false }
@@ -119,9 +121,9 @@ struct ShowDetailBase: View {
                                     ShowDetailText(show: show!)
                                     if (addedToMyShows) {
                                         Button(action: {
-                                            modelData.shows[showIndex].status = nil
-                                            modelData.shows[showIndex].rating = nil
-                                            modelData.shows[showIndex].currentSeason = nil
+                                            //modelData.shows[showIndex].status = nil
+                                            //modelData.shows[showIndex].rating = nil
+                                            //modelData.shows[showIndex].currentSeason = nil
                                             deleteShowFromUserShows(showId: show!.id)
                                             addUserUpdateRemove(userId: Auth.auth().currentUser!.uid, show: show!)
                                             decrementShowCount(userId: Auth.auth().currentUser!.uid)

@@ -17,7 +17,6 @@ class ShowDetailPhotoViewModel: ObservableObject {
     private var fireStore = Firebase.Firestore.firestore()
     private var store = Storage.storage().reference()
     
-    @MainActor
     func loadImage(showName: String) {
         let picRef = self.store.child("showImages/resizedImages/\(showName)_640x640.jpeg")
         picRef.getData(maxSize: 1 * 1024 * 1024) { data, error in // 1 MB Max

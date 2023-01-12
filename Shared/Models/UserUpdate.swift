@@ -19,6 +19,7 @@ struct UserUpdate : Hashable, Identifiable, Codable {
     // Type-Dependent
     var statusChange: Status?
     var seasonChange: Int?
+    var ratingChange: Rating?
     
     var updateMessage: String {
         switch self.updateType {
@@ -30,6 +31,10 @@ struct UserUpdate : Hashable, Identifiable, Codable {
                 return "Updated status to \(self.statusChange!.rawValue)"
             case UserUpdateCategory.RemovedFromWatchlist:
                 return "Removed from your watchlist"
+            case UserUpdateCategory.ChangedRating:
+                return "Rated \(self.ratingChange!.rawValue)"
+            case UserUpdateCategory.RemovedRating:
+                return "Removed rating"
             default:
                 return "Update Type Error"
         }
@@ -42,6 +47,8 @@ enum UserUpdateCategory: String, CaseIterable, Codable, Identifiable {
     case UpdatedStatus
     case RemovedFromWatchlist
     case ChangedSeason
+    case ChangedRating
+    case RemovedRating
     
     var id: String { self.rawValue }
 }

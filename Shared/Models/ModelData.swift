@@ -33,6 +33,8 @@ final class ModelData : ObservableObject {
     
     @Published var needsUpdated: Bool = false
     
+     var initialLoaded = false
+    
     //private var ref: DatabaseReference = Database.database().reference()
     private let fireStore = Firebase.Firestore.firestore()
     
@@ -45,7 +47,6 @@ final class ModelData : ObservableObject {
     }
     
     init() {
-        
         // Disables caching
         /*
         let settings = FirestoreSettings()
@@ -54,9 +55,9 @@ final class ModelData : ObservableObject {
         */
         
         // Resets cache
-        //fireStore.clearPersistence()
+        fireStore.clearPersistence()
         
-        if (loggedIn) {
+        if (loggedIn && !initialLoaded) {
             loadCurrentUser()
             loadFromFireStore()
         } else {
@@ -81,6 +82,7 @@ final class ModelData : ObservableObject {
     }
     
     func fetchAllFromFireStore() {
+        if (self.initialLoaded) { return }
         let keys = Array(self.showDict.keys)
         let chunkSize = 10
         let chunks = stride(from: 0, to: keys.count, by: chunkSize).map {
@@ -139,15 +141,18 @@ final class ModelData : ObservableObject {
                         }
                         self.showDict[add.id] = add
                     }
-                    if (chunk == chunks.last) {
-                        self.fetchActorsFromFirestore()
-                    }
+                }
+             
+                if (chunk == chunks.last) {
+                    self.fetchActorsFromFirestore()
                 }
             }
+             
         }
     }
     
     func loadFromFireStore() {
+        print("Start overall")
         let uid = Auth.auth().currentUser!.uid
         let show = fireStore.collection("users/\(uid)/shows")
         show.addSnapshotListener { snapshot, error in
@@ -264,12 +269,13 @@ final class ModelData : ObservableObject {
                     let updateDate = data["updateDate"] as! Timestamp
                     let updateType = data["updateType"] as! String
                     
-                    let seasonChange = data["seasonChange"] as? Int // No update date is allowed
-                    let statusChangeRaw = data["statusChange"] as? String // No update date is allowed
-                    var statusChange: Status? = nil
-                    if (statusChangeRaw != nil) { statusChange = Status(rawValue: statusChangeRaw!) }
+                    let seasonChange = data["seasonChange"] as? Int // Type specific values
+                    let statusChangeRaw = data["statusChange"] as? String
+                    let ratingChangeRaw = data["ratingChange"] as? String
+                    let statusChange = (statusChangeRaw != nil) ? Status(rawValue: statusChangeRaw!) : nil
+                    let ratingChange = (ratingChangeRaw != nil) ? Rating(rawValue: ratingChangeRaw!) : nil
                     
-                    let update = UserUpdate(id: updateId, userId: uid, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange)
+                    let update = UserUpdate(id: updateId, userId: uid, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange, ratingChange: ratingChange)
                     //if (self.shows[entireIndex].currentUserUpdates != nil) { self.shows[entireIndex].currentUserUpdates!.append(update) }
                     if (self.showDict[showId]!.currentUserUpdates != nil) { self.showDict[showId]!.currentUserUpdates!.append(update) }
                     else { self.showDict[showId]!.currentUserUpdates = [update] }
@@ -299,12 +305,13 @@ final class ModelData : ObservableObject {
                         let updateDate = data["updateDate"] as! Timestamp
                         let updateType = data["updateType"] as! String
                         
-                        let seasonChange = data["seasonChange"] as? Int // No update date is allowed
-                        let statusChangeRaw = data["statusChange"] as? String // No update date is allowed
-                        var statusChange: Status? = nil
-                        if (statusChangeRaw != nil) { statusChange = Status(rawValue: statusChangeRaw!) }
+                        let seasonChange = data["seasonChange"] as? Int // Type specific values
+                        let statusChangeRaw = data["statusChange"] as? String
+                        let ratingChangeRaw = data["ratingChange"] as? String
+                        let statusChange = (statusChangeRaw != nil) ? Status(rawValue: statusChangeRaw!) : nil
+                        let ratingChange = (ratingChangeRaw != nil) ? Rating(rawValue: ratingChangeRaw!) : nil
                         
-                        let update = UserUpdate(id: updateId, userId: friend, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange)
+                        let update = UserUpdate(id: updateId, userId: friend, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange, ratingChange: ratingChange)
                         self.lastFriendUpdates.append(update)
                     }
                 }

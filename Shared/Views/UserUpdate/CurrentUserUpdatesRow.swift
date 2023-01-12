@@ -12,7 +12,7 @@ struct CurrentUserUpdatesRow: View {
     @EnvironmentObject var modelData : ModelData
     
     var updates: [UserUpdate] {
-        Array(modelData.currentUserUpdates.prefix(10)).sorted { $0.updateDate > $1.updateDate}
+        Array(modelData.currentUserUpdates.sorted { $0.updateDate > $1.updateDate}.prefix(10))
     }
     
     func getShowFromUpdate(update: UserUpdate) -> Show? {

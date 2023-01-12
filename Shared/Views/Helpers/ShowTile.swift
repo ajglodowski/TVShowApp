@@ -31,7 +31,7 @@ struct ShowTile: View {
             Text(showName)
                 .font(.subheadline)
         }
-        .task {
+        .task(id: showName) {
             vm.loadImage(showName: showName)
         }
     }

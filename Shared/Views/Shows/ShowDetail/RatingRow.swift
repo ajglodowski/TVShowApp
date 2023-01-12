@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct RatingRow: View {
     
@@ -20,6 +21,7 @@ struct RatingRow: View {
                     Button(action: {
                         decrementRatingCount(showId: show.id, rating: show.rating!)
                         updateRating(rating: rating, showId: show.id)
+                        addUserUpdateRatingChange(userId: Auth.auth().currentUser!.uid, show: show, rating: rating)
                         incrementRatingCount(showId: show.id, rating: rating)
                     }) {
                         VStack() {
@@ -39,6 +41,7 @@ struct RatingRow: View {
             Button(action: {
                 decrementRatingCount(showId: show.id, rating: show.rating!)
                 deleteRatingFromUserShows(showId: show.id)
+                addUserUpdateRatingRemoval(userId: Auth.auth().currentUser!.uid, show: show)
             }) {
                 Text("Remove Rating")
             }

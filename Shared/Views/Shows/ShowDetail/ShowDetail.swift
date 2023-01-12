@@ -14,7 +14,7 @@ struct ShowDetail: View {
     @EnvironmentObject var modelData: ModelData
     
     @ObservedObject var showVm = ShowDetailViewModel()
-    @ObservedObject var photoVm = ShowDetailPhotoViewModel()
+    //@ObservedObject var photoVm = ShowDetailPhotoViewModel()
     
     var showId: String
     

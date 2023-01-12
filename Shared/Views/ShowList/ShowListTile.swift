@@ -10,7 +10,7 @@ import SwiftUI
 struct ShowListTile: View {
     
     @StateObject var listVm = ShowListViewModel()
-    @ObservedObject var modelData = ModelData()
+    @EnvironmentObject var modelData : ModelData
     
     var showListId: String
     
@@ -34,10 +34,10 @@ struct ShowListTile: View {
                 NavigationLink(destination: ShowListDetail(listId: listObj.id)) {
                     VStack(alignment: .leading) {
                         VStack { // Image section
-                            ZStack {
+                            ZStack(alignment: .leading) {
                                 ForEach(Array(listObj.shows.enumerated()), id: \.offset) { loopInd, show in
                                     ShowSquareTile(show: show, titleShown: false)
-                                        .offset(x: CGFloat(loopInd) * 30)
+                                        .offset(x: (CGFloat(loopInd) * 30) - 5.0)
                                         .zIndex(Double(listObj.shows.count - loopInd))
                                 }
                             }
@@ -84,8 +84,10 @@ struct ShowListTile: View {
                 }
             }
         }
-        .task {
+        .task(id: modelData.shows) {
             listVm.fillInLoadedShows(shows: modelData.shows)
+        }
+        .task {
             await listVm.loadList(id: showListId, showLimit: 5)
             self.showListObj = listVm.showListObj
         }

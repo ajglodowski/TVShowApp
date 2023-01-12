@@ -10,7 +10,7 @@ import Firebase
 
 struct CurrentUserProfileDetail: View {
     
-    @ObservedObject var modelData = ModelData()
+    @EnvironmentObject var modelData : ModelData
     
     var body: some View {
         NavigationView {

@@ -102,7 +102,7 @@ struct ShowSquareTile: View {
         .frame(width: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         .padding(.horizontal, 5)
         
-        .task {
+        .task(id: show.name){
             vm.loadImage(showName: show.name)
         }
         

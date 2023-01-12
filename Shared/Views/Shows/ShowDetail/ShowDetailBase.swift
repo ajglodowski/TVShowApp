@@ -103,6 +103,7 @@ struct ShowDetailBase: View {
                                         } else if (addedToMyShows) {
                                             Button(action: {
                                                 updateRating(rating: Rating.Meh, showId: show!.id)
+                                                addUserUpdateRatingChange(userId: Auth.auth().currentUser!.uid, show: show!, rating: Rating.Meh)
                                                 incrementRatingCount(showId: show!.id, rating: Rating.Meh)
                                                 Task {
                                                     //await reloadData()

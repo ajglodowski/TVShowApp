@@ -48,28 +48,34 @@ class ShowTileViewModel: ObservableObject {
     private var fireStore = Firebase.Firestore.firestore()
     private var store = Storage.storage().reference()
     
-    @MainActor
+    //@MainActor
     func loadImage(showName: String) {
         //fireStore.clearPersistence()
         self.getFromCache(showName: showName)
         if (cachedShowImage == nil) {
-            //print("Doing a fetch")
-            let picRef = self.store.child("showImages/resizedImages/\(showName)_200x200.jpeg")
-            picRef.getData(maxSize: 1 * 512 * 1024) { data, error in // 0.5 MB Max
-                if let error = error {
-                    if (!error.localizedDescription.contains("does not exist.")) {
-                        print(error.localizedDescription)
+            //print("Doing a fetch for \(showName)")
+            DispatchQueue.global().async {
+                let picRef = self.store.child("showImages/resizedImages/\(showName)_200x200.jpeg")
+                picRef.getData(maxSize: 1 * 512 * 1024) { data, error in // 0.5 MB Max
+                    if let error = error {
+                        if (!error.localizedDescription.contains("does not exist.")) {
+                            print(error.localizedDescription)
+                        }
+                    } else {
+                        let profImage = UIImage(data: data!)!
+                        DispatchQueue.main.async {
+                            self.showImage = profImage
+                            self.saveToCache(showName: showName)
+                        }
                     }
-                } else {
-                    let profImage = UIImage(data: data!)!
-                    self.showImage = profImage
-                    self.saveToCache(showName: showName)
                 }
             }
         } else {
+            //print("Using cache")
             self.showImage = self.cachedShowImage
         }
     }
+    
     
     func saveToCache(showName: String) {
         guard let image = self.showImage else { return }

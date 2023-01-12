@@ -10,7 +10,7 @@ import Firebase
 
 struct FollowerList: View {
     
-    @ObservedObject var modelData = ModelData()
+    @EnvironmentObject var modelData : ModelData
     
     var followerList: [String: String] // ID: Username
     var type: String

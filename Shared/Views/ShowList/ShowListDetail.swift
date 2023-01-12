@@ -11,7 +11,7 @@ struct ShowListDetail: View {
     
     var listId: String
     
-    @ObservedObject var modelData = ModelData()
+    @EnvironmentObject var modelData : ModelData
     @StateObject var listVm = ShowListViewModel()
     @StateObject var profileVm = ProfileViewModel()
     

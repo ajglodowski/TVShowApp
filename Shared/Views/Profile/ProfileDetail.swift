@@ -10,7 +10,7 @@ import Firebase
 
 struct ProfileDetail: View {
     
-    @ObservedObject var modelData = ModelData()
+    @EnvironmentObject var modelData : ModelData
     
     @StateObject var prof = ProfileViewModel()
     @StateObject var showVm = ShowDetailViewModel()

@@ -29,8 +29,12 @@ class ShowDetailViewModel: ObservableObject {
             }
             
             if let snapshot = snapshot {
-                    let data = snapshot.data()!
-                    
+                    let rawData = snapshot.data()
+                    if (rawData == nil) {
+                        print("Attempting to load show with invalid id")
+                        return
+                    }
+                    let data = rawData!
                     var add = Show(id: show.documentID)
                     
                     let name = data["name"] as! String

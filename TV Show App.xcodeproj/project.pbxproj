@@ -108,8 +108,6 @@
 		1AC420D728C675530034E9EA /* ProfileSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC420D628C675530034E9EA /* ProfileSearchViewModel.swift */; };
 		1AC953B126896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
 		1AC953B326896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
-		1ACA81F8289DBB3F0021336B /* DiscoverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA81F7289DBB3F0021336B /* DiscoverList.swift */; };
-		1ACA81F9289DBB3F0021336B /* DiscoverList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA81F7289DBB3F0021336B /* DiscoverList.swift */; };
 		1ACA81FE289F25D10021336B /* UpdateStatusButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA81FD289F25D10021336B /* UpdateStatusButtons.swift */; };
 		1ACA81FF289F25D10021336B /* UpdateStatusButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA81FD289F25D10021336B /* UpdateStatusButtons.swift */; };
 		1ACFA77D26DDA49F00CB2E16 /* Home.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA77426DDA49E00CB2E16 /* Home.png */; };
@@ -248,7 +246,6 @@
 		1AC420D428C66F9E0034E9EA /* DiscoverTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverTab.swift; sourceTree = "<group>"; };
 		1AC420D628C675530034E9EA /* ProfileSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSearchViewModel.swift; sourceTree = "<group>"; };
 		1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowDetailEdit.swift; sourceTree = "<group>"; };
-		1ACA81F7289DBB3F0021336B /* DiscoverList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverList.swift; sourceTree = "<group>"; };
 		1ACA81FD289F25D10021336B /* UpdateStatusButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateStatusButtons.swift; sourceTree = "<group>"; };
 		1ACFA77426DDA49E00CB2E16 /* Home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home.png; sourceTree = "<group>"; };
 		1ACFA78926DDA58100CB2E16 /* Watchlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Watchlist.png; sourceTree = "<group>"; };
@@ -371,7 +368,6 @@
 		1A66E10B263A060F00B47B88 /* Shows */ = {
 			isa = PBXGroup;
 			children = (
-				1ACA81F7289DBB3F0021336B /* DiscoverList.swift */,
 				1AE79A7D284C4181008BB19A /* ShowDetail */,
 				1AF396AC2638FF4C000C4996 /* WatchList.swift */,
 				1AF396A52638F977000C4996 /* ListShowRow.swift */,
@@ -820,7 +816,6 @@
 				1AC420D528C66F9E0034E9EA /* DiscoverTab.swift in Sources */,
 				1AE03C872824B2D4005FF4FA /* ActorDetail.swift in Sources */,
 				1AD246B1289C57A400E42452 /* Login.swift in Sources */,
-				1ACA81F8289DBB3F0021336B /* DiscoverList.swift in Sources */,
 				1ADB3FDF28DE838000B08EBB /* ShowListFunctions.swift in Sources */,
 				1A6E07DF28C5456F00BE4898 /* ShowDetailViewModel.swift in Sources */,
 				1A81CBF9288CA48C003F6EC3 /* RatingRow.swift in Sources */,
@@ -895,7 +890,6 @@
 				1AC11B93288F920800A8FA10 /* ActorReferenceGame.swift in Sources */,
 				1A99FF0926CC3796009485ED /* Status.swift in Sources */,
 				1AE79A89284C44A6008BB19A /* HomeNewRows.swift in Sources */,
-				1ACA81F9289DBB3F0021336B /* DiscoverList.swift in Sources */,
 				1AD246B3289C57A400E42452 /* Login.swift in Sources */,
 				1AF396672638F54E000C4996 /* Tests_iOS.swift in Sources */,
 				1AF396952638F6E9000C4996 /* ModelData.swift in Sources */,

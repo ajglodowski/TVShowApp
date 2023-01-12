@@ -12,6 +12,7 @@ struct UserUpdateCard: View {
     @EnvironmentObject var modelData : ModelData
     @StateObject var vm = ShowTileViewModel()
     @StateObject var prof = ProfileViewModel()
+    @StateObject var showVm = ShowDetailViewModel()
     
     var profile: Profile? { prof.profile }
     var profilePic: Image? { prof.profilePic }
@@ -19,8 +20,8 @@ struct UserUpdateCard: View {
     var update: UserUpdate
     
     var show: Show? {
-        //modelData.shows.first(where: { $0.id == update.showId})
-        modelData.showDict[update.showId]
+        if (modelData.showDict[update.showId] != nil) { return modelData.showDict[update.showId] }
+        else { return showVm.show }
     }
     
     var dateString: String {
@@ -63,7 +64,7 @@ struct UserUpdateCard: View {
                         Text(show!.name)
                             .bold()
                     } else {
-                        Text("Show with this id cannot be found")
+                        Text("Loading Show")
                     }
                     Text(update.updateMessage)
                         .font(.callout.leading(.tight))
@@ -81,7 +82,10 @@ struct UserUpdateCard: View {
         .cornerRadius(15)
         .task {
             prof.loadProfile(id: update.userId)
-            vm.loadImage(showName: show!.name)
+            if (show == nil) { showVm.loadShow(id: update.showId) }
+        }
+        .task(id: show?.name ?? nil) {
+            if (show != nil) { vm.loadImage(showName: show!.name) }
         }
     }
     

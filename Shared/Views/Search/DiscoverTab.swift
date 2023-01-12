@@ -34,19 +34,13 @@ struct DiscoverTab: View {
                         .overlay(TextOverlay(text: "Discover New Shows"),alignment: .bottomLeading)
                         .shadow(color: .black, radius: 10)
                     NavigationLink(
-                        destination: DiscoverList()) {
+                        destination: ShowSearch()) {
                             EmptyView()
                     }
                 //.listRowInsets(EdgeInsets())
                 }
                 .ignoresSafeArea()
-                
-                NavigationLink (destination: ShowSearch()) {
-                    Text("Find a show")
-                        .bold()
-                }
-                
-                
+             
                 userSearch
                 
             }

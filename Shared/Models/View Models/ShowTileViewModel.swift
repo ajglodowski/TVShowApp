@@ -72,7 +72,7 @@ class ShowTileViewModel: ObservableObject {
                 }
             }
         } else {
-            print("Using cache")
+            //print("Using cache")
             self.showImage = self.cachedShowImage
         }
     }

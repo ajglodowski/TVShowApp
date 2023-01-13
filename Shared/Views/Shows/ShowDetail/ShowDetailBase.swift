@@ -17,13 +17,14 @@ struct ShowDetailBase: View {
     
     var show : Show?
     
-    var photo: UIImage? { photoVm.showImage }
+    //var photo: UIImage? { photoVm.showImage }
+    var photo: UIImage? { modelData.fullShowImages[show?.id ?? "-1"] }
     
     @State var showEdited: Show = Show(id:"1")
     
     @State private var isPresented = false // Edit menu var
     private var backgroundColor: Color {
-        if (photoVm.showImage != nil) { return Color(photoVm.showImage?.averageColor ?? .black) }
+        if (photo != nil) { return Color(photo?.averageColor ?? .black) }
         else { return Color.black }
     }
     
@@ -50,7 +51,7 @@ struct ShowDetailBase: View {
                             VStack (alignment: .center) {
                                 // Show Picture
                                 if (photo != nil) {
-                                    Image(uiImage: photoVm.showImage!)
+                                    Image(uiImage: photo!)
                                         .resizable()
                                         .scaledToFit()
                                         .clipped()
@@ -141,10 +142,10 @@ struct ShowDetailBase: View {
             }
         }
         .task {
-            if (show != nil) { photoVm.loadImage(showName: show!.name) }
+            if (show != nil) { photoVm.loadImage(modelData: modelData, show: show!) }
         }
         .refreshable {
-            if (show != nil) { photoVm.loadImage(showName: show!.name) }
+            if (show != nil) { photoVm.loadImage(modelData: modelData, show: show!) }
         }
         
         // Top bar

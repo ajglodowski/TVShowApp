@@ -16,8 +16,9 @@ struct UserUpdateCard: View {
     var update: UserUpdate
     
     var show: Show? {
-        if (modelData.showDict[update.showId] != nil) { return modelData.showDict[update.showId] }
-        else { return showVm.show }
+        modelData.showDict[update.showId]
+        //if (modelData.showDict[update.showId] != nil) { return modelData.showDict[update.showId] }
+        //else { return showVm.show }
     }
     
     var dateString: String {
@@ -74,7 +75,7 @@ struct UserUpdateCard: View {
         .background(backgroundColor)
         .cornerRadius(15)
         .task {
-            if (show == nil) { showVm.loadShow(id: update.showId) }
+            if (show == nil) { showVm.loadShow(modelData: modelData, id: update.showId) }
         }
         .task(id: show?.name ?? nil) {
             if (show != nil) { vm.loadImage(showName: show!.name) }

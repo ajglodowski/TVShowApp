@@ -21,6 +21,8 @@ final class ModelData : ObservableObject {
     //@Published var shows = [Show]()
     var shows: [Show] { Array(showDict.values) }
     @Published var showDict = [String:Show]()
+    @Published var loadingShows: Set<String> = Set<String>()
+    @Published var fullShowImages: [String:UIImage] = [String:UIImage]()
     //@Published var otherShows = [Show]()
     //@Published var shows: [Show] = loadFromFile("data.json")
     //@Published var actors: [Actor] = loadFromFile("actorData.json")

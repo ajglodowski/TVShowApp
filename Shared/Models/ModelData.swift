@@ -25,11 +25,16 @@ final class ModelData : ObservableObject {
     //@Published var shows: [Show] = loadFromFile("data.json")
     //@Published var actors: [Actor] = loadFromFile("actorData.json")
     //@Published var actors: [Actor] = load("actorData.json")
-    @Published var actors = [Actor]()
+    @Published var actorDict = [String:Actor]()
+    var actors: [Actor] { Array(actorDict.values) }
     @Published var currentUser: Profile? = nil
     @Published var currentUserUpdates = [UserUpdate]()
     @Published var lastFriendUpdates = [UserUpdate]()
     @Published var tileImageCache: [String: Image] = [String: Image]()
+    
+    @Published var profiles: [String: Profile] = [String: Profile]()
+    @Published var profilePics: [String: Image] = [String: Image]()
+    @Published var loadingProfiles: Set<String> = Set<String>()
     
     @Published var needsUpdated: Bool = false
     
@@ -48,12 +53,12 @@ final class ModelData : ObservableObject {
     
     init() {
         // Disables caching
-        /*
+        
         let settings = FirestoreSettings()
         settings.isPersistenceEnabled = false
         fireStore.settings = settings
-        */
         
+    
         // Resets cache
         fireStore.clearPersistence()
         
@@ -83,7 +88,7 @@ final class ModelData : ObservableObject {
     
     func fetchAllFromFireStore() {
         if (self.initialLoaded) { return }
-        let keys = Array(self.showDict.keys)
+        let keys = Array(self.showDict.keys).sorted { $0 < $1 }
         let chunkSize = 10
         let chunks = stride(from: 0, to: keys.count, by: chunkSize).map {
             Array(keys[$0..<min($0 + chunkSize, keys.count)])
@@ -152,7 +157,6 @@ final class ModelData : ObservableObject {
     }
     
     func loadFromFireStore() {
-        print("Start overall")
         let uid = Auth.auth().currentUser!.uid
         let show = fireStore.collection("users/\(uid)/shows")
         show.addSnapshotListener { snapshot, error in
@@ -189,27 +193,21 @@ final class ModelData : ObservableObject {
         }
     }
     
-    func loadActorsFromFireStore(actors: [Actor]) { self.actors = actors}
-    
     func fetchActorsFromFirestore() {
-        var output = [Actor]()
         for show in self.shows {
             if (show.actors != nil) {
                 for (actorId, actorName) in show.actors! {
-                    let found = output.firstIndex(where: {$0.id == actorId})
-                    if (found != nil) { output[found!].shows[show.id] = show.name }
+                    if (self.actorDict[actorId] != nil) { self.actorDict[actorId]!.shows[show.id] = show.name }
                     else {
                         var a = Actor(id: actorId)
                         a.name = actorName
                         a.shows[show.id] = show.name
-                        output.append(a)
+                        self.actorDict[actorId] = a
                     }
                 }
             }
         }
-        //print("Output: \(output)")
-        loadActorsFromFireStore(actors: output)
-        //print("Actors: \(self.actors)")
+        print("Done loading actors")
     }
     
     func loadCurrentUser() {
@@ -264,7 +262,6 @@ final class ModelData : ObservableObject {
                     if (self.currentUserUpdates.contains(where: {$0.id == updateId})) { continue } // prevent double appending
                     let data = document.data()
                     let showId = data["showId"] as! String
-                    let entireIndex = self.shows.firstIndex(where: { $0.id == showId})!
                 
                     let updateDate = data["updateDate"] as! Timestamp
                     let updateType = data["updateType"] as! String
@@ -276,10 +273,8 @@ final class ModelData : ObservableObject {
                     let ratingChange = (ratingChangeRaw != nil) ? Rating(rawValue: ratingChangeRaw!) : nil
                     
                     let update = UserUpdate(id: updateId, userId: uid, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange, ratingChange: ratingChange)
-                    //if (self.shows[entireIndex].currentUserUpdates != nil) { self.shows[entireIndex].currentUserUpdates!.append(update) }
                     if (self.showDict[showId]!.currentUserUpdates != nil) { self.showDict[showId]!.currentUserUpdates!.append(update) }
                     else { self.showDict[showId]!.currentUserUpdates = [update] }
-                    //print(self.shows[entireIndex].currentUserUpdates?.count)
                     self.currentUserUpdates.append(update)
                 }
             }

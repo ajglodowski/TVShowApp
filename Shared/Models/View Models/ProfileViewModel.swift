@@ -21,8 +21,16 @@ class ProfileViewModel: ObservableObject {
     private var store = Storage.storage().reference()
     
     @MainActor
-    func loadProfile(id: String) {
+    func loadProfile(modelData: ModelData, id: String) {
         //fireStore.clearPersistence()
+        if (modelData.profiles[id] != nil && modelData.profilePics[id] != nil) {
+            self.profile = modelData.profiles[id]
+            self.profilePic = modelData.profilePics[id]
+            return
+        }
+        if (modelData.loadingProfiles.contains(id)) { return }
+        modelData.loadingProfiles.insert(id)
+        //print("Loading profile: \(id)")
         let show = fireStore.collection("users").document("\(id)")
         
         show.addSnapshotListener { snapshot, error in
@@ -52,7 +60,7 @@ class ProfileViewModel: ObservableObject {
                 let pinnedShowCount = data["pinnedShowCount"] as? Int ?? 0
                 let add = Profile(id: id, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following, showLists: showLists, likedShowLists: likedShowLists)
                 self.profile = add
-                
+                modelData.profiles[id] = add
                 // Loading Profile Pic
                 if (profilePhotoURL == nil) { profilePhotoURL = "blank.jpg" }
                 let picRef = self.store.child("profilePics/\(profilePhotoURL!)")
@@ -62,6 +70,7 @@ class ProfileViewModel: ObservableObject {
                   } else {
                       let profImage = UIImage(data: data!)!
                       self.profilePic = Image(uiImage: profImage)
+                      modelData.profilePics[id] = Image(uiImage: profImage)
                   }
                 }
                 

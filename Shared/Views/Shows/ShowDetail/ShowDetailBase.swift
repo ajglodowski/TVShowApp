@@ -14,9 +14,6 @@ struct ShowDetailBase: View {
     @EnvironmentObject var modelData: ModelData
     
     @StateObject var photoVm = ShowDetailPhotoViewModel()
-    //@ObservedObject var showVm = ShowDetailViewModel()
-    
-    //var showId: String
     
     var show : Show?
     
@@ -26,38 +23,16 @@ struct ShowDetailBase: View {
     
     @State private var isPresented = false // Edit menu var
     private var backgroundColor: Color {
-        if (photoVm.showImage != nil) {
-            return Color(photoVm.showImage?.averageColor ?? .black)
-        } else {
-            return Color.black
-        }
+        if (photoVm.showImage != nil) { return Color(photoVm.showImage?.averageColor ?? .black) }
+        else { return Color.black }
     }
-    
-    /*
-    var showIndex: Int {
-        if (show != nil) {
-            return modelData.shows.firstIndex(where: { $0.id == show!.id})!
-        } else {
-           return  -1
-        }
-    }
-     */
-    
-    var addedToMyShows: Bool {
-        if (show != nil && show!.status == nil) { return false }
-        else { return true }
-    }
-    
-    /*
-    var actorList: [Actor] {
-        getActors(showIn: show, actors: modelData.actors)
-    }
-     */
     
     init(show: Show? = nil) {
         self.show = show
         UINavigationBar.appearance().backgroundColor = .clear
     }
+    
+    
     
     var body: some View {
         
@@ -99,8 +74,8 @@ struct ShowDetailBase: View {
                                 VStack (alignment: .leading) {
                                     
                                     HStack {
-                                        if (addedToMyShows && show!.rating != nil) { RatingRow(curRating: show!.rating!, show: show!)
-                                        } else if (addedToMyShows) {
+                                        if (show!.addedToUserShows && show!.rating != nil) { RatingRow(curRating: show!.rating!, show: show!)
+                                        } else if (show!.addedToUserShows) {
                                             Button(action: {
                                                 updateRating(rating: Rating.Meh, showId: show!.id)
                                                 addUserUpdateRatingChange(userId: Auth.auth().currentUser!.uid, show: show!, rating: Rating.Meh)
@@ -120,7 +95,7 @@ struct ShowDetailBase: View {
                                     
                                     ShowSeasonsRow(totalSeasons: show!.totalSeasons, currentSeason: show!.currentSeason, backgroundColor: backgroundColor, showId: show!.id)
                                     ShowDetailText(show: show!)
-                                    if (addedToMyShows) {
+                                    if (show!.addedToUserShows) {
                                         Button(action: {
                                             //modelData.shows[showIndex].status = nil
                                             //modelData.shows[showIndex].rating = nil

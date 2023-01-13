@@ -11,11 +11,7 @@ struct UserUpdateCard: View {
     
     @EnvironmentObject var modelData : ModelData
     @StateObject var vm = ShowTileViewModel()
-    @StateObject var prof = ProfileViewModel()
     @StateObject var showVm = ShowDetailViewModel()
-    
-    var profile: Profile? { prof.profile }
-    var profilePic: Image? { prof.profilePic }
     
     var update: UserUpdate
     
@@ -34,11 +30,8 @@ struct UserUpdateCard: View {
     }
     
     private var backgroundColor: Color {
-        if (vm.showImage != nil) {
-            return Color(vm.showImage?.averageColor ?? .black)
-        } else {
-            return Color.black
-        }
+        if (vm.showImage != nil) { return Color(vm.showImage?.averageColor ?? .black) }
+        else { return Color.black }
     }
     
     var body: some View {
@@ -70,7 +63,7 @@ struct UserUpdateCard: View {
                         .font(.callout.leading(.tight))
                     Text(dateString)
                         .font(.footnote)
-                    userSection
+                    ProfileBubble(profileId: update.userId)
                 }
                 .multilineTextAlignment(.leading)
                 //.padding(.vertical, 1)
@@ -81,42 +74,11 @@ struct UserUpdateCard: View {
         .background(backgroundColor)
         .cornerRadius(15)
         .task {
-            prof.loadProfile(id: update.userId)
             if (show == nil) { showVm.loadShow(id: update.showId) }
         }
         .task(id: show?.name ?? nil) {
             if (show != nil) { vm.loadImage(showName: show!.name) }
         }
     }
-    
-    var userSection: some View {
-        HStack {
-            if (profile == nil || profilePic == nil) { Text("Loading Profile") }
-            else {
-                NavigationLink(destination: ProfileDetail(id: profile!.id)) {
-                    HStack {
-                        profilePic!
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                            .clipShape(Circle())
-                        Text(profile!.username)
-                            .font(.callout)
-                    }
-                    .padding(.vertical, -7)
-                    .padding(.trailing, -3)
-                    .padding(.leading, -11)
-                }
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.capsule)
-                .foregroundColor(.white)
-                //.padding(-1)
-            }
-        }
-        
-    }
-    
-    
-    
     
 }

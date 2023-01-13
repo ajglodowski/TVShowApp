@@ -89,7 +89,7 @@ struct ProfileDetail: View {
              }
              */
             .task {
-                prof.loadProfile(id: id)
+                prof.loadProfile(modelData: modelData, id: id)
             }
         }
     }

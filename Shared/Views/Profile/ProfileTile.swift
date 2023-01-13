@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfileTile: View {
     
     var profileId: String
+    @EnvironmentObject var modelData: ModelData
     @StateObject var prof = ProfileViewModel()
     
     var profile: Profile? {
@@ -41,7 +42,7 @@ struct ProfileTile: View {
             }
         }
         .task {
-            prof.loadProfile(id: profileId)
+            prof.loadProfile(modelData: modelData, id: profileId)
         }
     }
 }

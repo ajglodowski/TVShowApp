@@ -53,14 +53,12 @@ struct Show : Hashable, Identifiable, Codable {
     var actors: [String: String]? // Added var, key is id and value is name
     var currentlyAiring: Bool
     
-    
     // Removing
     var wanted: Bool?
     var discovered: Bool?
     var watched: Bool?
     
     init(id: String) {
-        //id = generateShowId()
         self.id = id
         self.name = "New Show"
         self.service = Service.Other
@@ -78,9 +76,6 @@ struct Show : Hashable, Identifiable, Codable {
                              Status.NewRelease: 0, Status.NewSeason: 0, Status.Other: 0, Status.SeenEnough: 0,
                              Status.ShowEnded: 0, Status.UpToDate: 0]
         self.ratingCounts = [Rating.Disliked: 0, Rating.Meh: 0, Rating.Liked: 0, Rating.Loved: 0]
-        //self.rating = Rating.Meh
-        //actors = []
-        //super.init()
     }
     
     
@@ -92,17 +87,5 @@ struct Show : Hashable, Identifiable, Codable {
         else { return false }
     }
     
-    /*
-    mutating func addActor(toAdd: Actor) {
-        if (!actors.contains(toAdd)) { actors.append(toAdd); }
-    }
-     */
-    
-
 }
 
-/*
-class ShowStore: ObservableObject {
-    @Published var shows = [Show]()
-}
- */

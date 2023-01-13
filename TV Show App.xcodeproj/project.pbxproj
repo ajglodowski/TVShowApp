@@ -121,6 +121,8 @@
 		1AD246BE289C761A00E42452 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1AD246BD289C761A00E42452 /* FirebaseFirestoreSwift */; };
 		1AD246C0289C94EA00E42452 /* FireStoreFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD246BF289C94EA00E42452 /* FireStoreFunctions.swift */; };
 		1AD246C1289C94EA00E42452 /* FireStoreFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD246BF289C94EA00E42452 /* FireStoreFunctions.swift */; };
+		1AD8B5B92970C0F10072083A /* ShowUpdatesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD8B5B82970C0F10072083A /* ShowUpdatesViewModel.swift */; };
+		1AD8B5BB2970CC6F0072083A /* ProfileBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD8B5BA2970CC6F0072083A /* ProfileBubble.swift */; };
 		1AD941CF28DBF28A00710B75 /* ProfileTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD941CE28DBF28A00710B75 /* ProfileTile.swift */; };
 		1AD941D228DBF2BB00710B75 /* ShowListDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD941D128DBF2BB00710B75 /* ShowListDetail.swift */; };
 		1AD941D428DBF30700710B75 /* ShowList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD941D328DBF30700710B75 /* ShowList.swift */; };
@@ -251,6 +253,8 @@
 		1ACFA78926DDA58100CB2E16 /* Watchlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Watchlist.png; sourceTree = "<group>"; };
 		1AD246B0289C57A400E42452 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		1AD246BF289C94EA00E42452 /* FireStoreFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreFunctions.swift; sourceTree = "<group>"; };
+		1AD8B5B82970C0F10072083A /* ShowUpdatesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowUpdatesViewModel.swift; sourceTree = "<group>"; };
+		1AD8B5BA2970CC6F0072083A /* ProfileBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBubble.swift; sourceTree = "<group>"; };
 		1AD941CE28DBF28A00710B75 /* ProfileTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTile.swift; sourceTree = "<group>"; };
 		1AD941D128DBF2BB00710B75 /* ShowListDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowListDetail.swift; sourceTree = "<group>"; };
 		1AD941D328DBF30700710B75 /* ShowList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowList.swift; sourceTree = "<group>"; };
@@ -457,6 +461,7 @@
 				1A6E07E928C561C300BE4898 /* FollowerList.swift */,
 				1A463F8328C6431200DB2553 /* CurrentUserProfileDetail.swift */,
 				1AD941CE28DBF28A00710B75 /* ProfileTile.swift */,
+				1AD8B5BA2970CC6F0072083A /* ProfileBubble.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -470,6 +475,7 @@
 				1AC420D628C675530034E9EA /* ProfileSearchViewModel.swift */,
 				1AA8F30B28D1423100866E46 /* ShowDetailPhotoViewModel.swift */,
 				1AD941D528DBFFC100710B75 /* ShowListViewModel.swift */,
+				1AD8B5B82970C0F10072083A /* ShowUpdatesViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -812,6 +818,7 @@
 				1A81CBF4288CA369003F6EC3 /* Rating.swift in Sources */,
 				1A66E109263A042600B47B88 /* WatchedButton.swift in Sources */,
 				1ABEE03D28E76BD900917D5B /* ShowListDetailEdit.swift in Sources */,
+				1AD8B5B92970C0F10072083A /* ShowUpdatesViewModel.swift in Sources */,
 				1A81CBFE288E111C003F6EC3 /* Tag.swift in Sources */,
 				1AC420D528C66F9E0034E9EA /* DiscoverTab.swift in Sources */,
 				1AE03C872824B2D4005FF4FA /* ActorDetail.swift in Sources */,
@@ -866,6 +873,7 @@
 				1A66E1052639119300B47B88 /* ShowDetail.swift in Sources */,
 				1A316A3B268FE91A00C97699 /* TileBanner.swift in Sources */,
 				1AE03C812824ABB3005FF4FA /* Actor.swift in Sources */,
+				1AD8B5BB2970CC6F0072083A /* ProfileBubble.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

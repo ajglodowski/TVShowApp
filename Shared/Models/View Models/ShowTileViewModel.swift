@@ -23,6 +23,8 @@ class ShowTileCacheManager {
         return cache
     }()
     
+    var imagesLoading = Set<String>()
+    
     func add(image: UIImage, name: String) {
         imageCache.setObject(image, forKey: name as NSString)
     }
@@ -53,7 +55,6 @@ class ShowTileViewModel: ObservableObject {
         //fireStore.clearPersistence()
         self.getFromCache(showName: showName)
         if (cachedShowImage == nil) {
-            //print("Doing a fetch for \(showName)")
             DispatchQueue.global().async {
                 let picRef = self.store.child("showImages/resizedImages/\(showName)_200x200.jpeg")
                 picRef.getData(maxSize: 1 * 512 * 1024) { data, error in // 0.5 MB Max
@@ -63,7 +64,7 @@ class ShowTileViewModel: ObservableObject {
                         }
                     } else {
                         let profImage = UIImage(data: data!)!
-                        DispatchQueue.main.async {
+                        DispatchQueue.main.async { [self] in
                             self.showImage = profImage
                             self.saveToCache(showName: showName)
                         }
@@ -71,7 +72,7 @@ class ShowTileViewModel: ObservableObject {
                 }
             }
         } else {
-            //print("Using cache")
+            print("Using cache")
             self.showImage = self.cachedShowImage
         }
     }

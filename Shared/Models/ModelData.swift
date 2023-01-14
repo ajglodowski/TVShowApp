@@ -16,22 +16,34 @@ final class ModelData : ObservableObject {
     
     @Published var entered: Bool = false
 
-    //@Published var shows: [Show] = load("showData.json")
-    //@Published var shows: [Show] = load("data.json")
-    //@Published var shows = [Show]()
     var shows: [Show] { Array(showDict.values) }
     @Published var showDict = [String:Show]()
     @Published var loadingShows: Set<String> = Set<String>()
     @Published var fullShowImages: [String:UIImage] = [String:UIImage]()
-    //@Published var otherShows = [Show]()
-    //@Published var shows: [Show] = loadFromFile("data.json")
-    //@Published var actors: [Actor] = loadFromFile("actorData.json")
-    //@Published var actors: [Actor] = load("actorData.json")
+
     @Published var actorDict = [String:Actor]()
     var actors: [Actor] { Array(actorDict.values) }
+    
     @Published var currentUser: Profile? = nil
-    @Published var currentUserUpdates = [UserUpdate]()
-    @Published var lastFriendUpdates = [UserUpdate]()
+    
+    @Published var updateDict = [String:UserUpdate]()
+    var currentUserUpdates: [UserUpdate] {
+        if (currentUser != nil) {
+            return Array(updateDict.values).filter { $0.userId == currentUser!.id }
+        } else { return [UserUpdate]() }
+    }
+    var lastFriendUpdates: [UserUpdate] {
+        var output = [UserUpdate]()
+        if (currentUser != nil) {
+            let allFriendUpdates = Array(updateDict.values).filter { $0.userId != Auth.auth().currentUser!.uid }.sorted{ $0.updateDate > $1.updateDate }.sorted{ $0.userId < $1.userId }
+            let friends = Array(Set(allFriendUpdates.map { $0.userId }))
+            for friend in friends {
+                output.append(allFriendUpdates.first(where: { $0.userId == friend })!)
+            }
+            return output
+        }
+        return output
+    }
     @Published var tileImageCache: [String: Image] = [String: Image]()
     
     @Published var profiles: [String: Profile] = [String: Profile]()
@@ -55,11 +67,11 @@ final class ModelData : ObservableObject {
     
     init() {
         // Disables caching
-        
+        /*
         let settings = FirestoreSettings()
         settings.isPersistenceEnabled = false
         fireStore.settings = settings
-        
+        */
     
         // Resets cache
         fireStore.clearPersistence()
@@ -89,72 +101,65 @@ final class ModelData : ObservableObject {
     }
     
     func fetchAllFromFireStore() {
-        if (self.initialLoaded) { return }
         let keys = Array(self.showDict.keys).sorted { $0 < $1 }
-        let chunkSize = 10
-        let chunks = stride(from: 0, to: keys.count, by: chunkSize).map {
-            Array(keys[$0..<min($0 + chunkSize, keys.count)])
-        }
-        for chunk in chunks {
-            let dbChunk = fireStore.collection("shows").whereField(FieldPath.documentID(), in: chunk)
-            dbChunk.addSnapshotListener { snapshot, error in
+        for key in keys {
+            let dbDoc = fireStore.collection("shows").document(key)
+            dbDoc.getDocument { document, error in
                 guard error == nil else {
                     print(error!.localizedDescription)
                     return
                 }
                 
-                if let snapshot = snapshot {
-                    for doc in snapshot.documents {
-                        let data = doc.data()
-                        var add = self.showDict[doc.documentID]!
-                        
-                        let name = data["name"] as! String
-                        let running = data["running"] as! Bool
-                        let totalSeasons = data["totalSeasons"] as! Int
-                        let tags = data["tags"] as? [String] ?? [String]()
-                        let currentlyAiring = data["currentlyAiring"] as? Bool ?? false
-                        let service = data["service"] as! String
-                        let limitedSeries = data["limitedSeries"] as! Bool
-                        let length = data["length"] as! String
-                        
-                        let releaseDate = data["releaseDate"] as? Timestamp
-                        let airdate = data["airdate"] as? String
-                        
-                        let actors = data["actors"] as? [String: String]
-                        let statusCounts = data["statusCounts"] as! [String: Int]
-                        let ratingCounts = data["ratingCounts"] as! [String: Int]
-                        
-                        var tagArray = [Tag]()
-                        for tag in tags {
-                            tagArray.append(Tag(rawValue: tag)!)
-                        }
-                        
-                        add.name = name
-                        add.running = running
-                        add.totalSeasons = totalSeasons
-                        add.tags = tagArray
-                        add.currentlyAiring = currentlyAiring
-                        add.service = Service(rawValue: service)!
-                        add.limitedSeries = limitedSeries
-                        add.length = ShowLength(rawValue: length)!
-                        if (airdate != nil) { add.airdate = AirDate(rawValue: airdate!) }
-                        add.releaseDate = releaseDate?.dateValue()
-                        if (actors != nil) { add.actors = actors }
-                        for (key, value) in statusCounts {
-                            add.statusCounts[Status(rawValue: key)!] = value
-                        }
-                        for (key, value) in ratingCounts {
-                            add.ratingCounts[Rating(rawValue: key)!] = value
-                        }
-                        self.showDict[add.id] = add
+                if let document = document, document.exists {
+                    let data = document.data()!
+                    var add = self.showDict[key]!
+                    
+                    let name = data["name"] as! String
+                    let running = data["running"] as! Bool
+                    let totalSeasons = data["totalSeasons"] as! Int
+                    let tags = data["tags"] as? [String] ?? [String]()
+                    let currentlyAiring = data["currentlyAiring"] as? Bool ?? false
+                    let service = data["service"] as! String
+                    let limitedSeries = data["limitedSeries"] as! Bool
+                    let length = data["length"] as! String
+                    
+                    let releaseDate = data["releaseDate"] as? Timestamp
+                    let airdate = data["airdate"] as? String
+                    
+                    let actors = data["actors"] as? [String: String]
+                    let statusCounts = data["statusCounts"] as! [String: Int]
+                    let ratingCounts = data["ratingCounts"] as! [String: Int]
+                    
+                    var tagArray = [Tag]()
+                    for tag in tags {
+                        tagArray.append(Tag(rawValue: tag)!)
+                    }
+                    
+                    add.name = name
+                    add.running = running
+                    add.totalSeasons = totalSeasons
+                    add.tags = tagArray
+                    add.currentlyAiring = currentlyAiring
+                    add.service = Service(rawValue: service)!
+                    add.limitedSeries = limitedSeries
+                    add.length = ShowLength(rawValue: length)!
+                    if (airdate != nil) { add.airdate = AirDate(rawValue: airdate!) }
+                    add.releaseDate = releaseDate?.dateValue()
+                    if (actors != nil) { add.actors = actors }
+                    for (key, value) in statusCounts {
+                        add.statusCounts[Status(rawValue: key)!] = value
+                    }
+                    for (key, value) in ratingCounts {
+                        add.ratingCounts[Rating(rawValue: key)!] = value
+                    }
+                    self.showDict[add.id] = add
+                    
+                    if (key == keys.last) {
+                        self.fetchActorsFromFirestore()
+                        self.loadCurrentUserUpdates()
                     }
                 }
-             
-                if (chunk == chunks.last) {
-                    self.fetchActorsFromFirestore()
-                }
             }
-             
         }
     }
     
@@ -244,25 +249,25 @@ final class ModelData : ObservableObject {
                 let add = Profile(id: uid, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following, showLists: showLists, likedShowLists: likedShowLists)
                 self.currentUser = add
                 
-                self.loadCurrentUserUpdates()
+                
                 self.loadLatestFriendUpdates()
             }
         }
     }
     
-    func loadCurrentUserUpdates() {
+    func loadCurrentUserUpdates() { // Loading the only the latest updates for shows
         let uid = Auth.auth().currentUser!.uid
-        let updates = fireStore.collection("updates").whereField("userId", isEqualTo: uid)
-        updates.addSnapshotListener { snapshot, error in
-            guard error == nil else {
-                print(error!.localizedDescription)
-                return
-            }
-            if let snapshot = snapshot {
-                for document in snapshot.documents {
-                    let updateId = document.documentID
-                    if (self.currentUserUpdates.contains(where: {$0.id == updateId})) { continue } // prevent double appending
+        let keys = Array(self.showDict.keys).sorted { $0 < $1 }
+        for key in keys { // Go through the users shows
+            let dbDoc = fireStore.collection("updates").whereField("showId", isEqualTo: key).whereField("userId", isEqualTo: uid).order(by: "updateDate", descending: true).limit(to: 1) // Find latest update for a user's show
+            dbDoc.getDocuments { querySnapshot, error in
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+                for document in querySnapshot!.documents {
                     let data = document.data()
+                    let updateId = document.documentID
                     let showId = data["showId"] as! String
                 
                     let updateDate = data["updateDate"] as! Timestamp
@@ -277,10 +282,13 @@ final class ModelData : ObservableObject {
                     let update = UserUpdate(id: updateId, userId: uid, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange, ratingChange: ratingChange)
                     if (self.showDict[showId]!.currentUserUpdates != nil) { self.showDict[showId]!.currentUserUpdates!.append(update) }
                     else { self.showDict[showId]!.currentUserUpdates = [update] }
-                    self.currentUserUpdates.append(update)
+                    
+                    self.updateDict[updateId] = update
+                    
                 }
             }
         }
+        
     }
     
     func loadLatestFriendUpdates() {
@@ -296,7 +304,7 @@ final class ModelData : ObservableObject {
                 if let snapshot = snapshot {
                     for document in snapshot.documents {
                         let updateId = document.documentID
-                        if (self.lastFriendUpdates.contains(where: {$0.id == updateId})) { continue } // prevent double appending
+                        //if (self.lastFriendUpdates.contains(where: {$0.id == updateId})) { continue } // prevent double appending
                         let data = document.data()
                         let showId = data["showId"] as! String
                         let updateDate = data["updateDate"] as! Timestamp
@@ -309,7 +317,8 @@ final class ModelData : ObservableObject {
                         let ratingChange = (ratingChangeRaw != nil) ? Rating(rawValue: ratingChangeRaw!) : nil
                         
                         let update = UserUpdate(id: updateId, userId: friend, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange, ratingChange: ratingChange)
-                        self.lastFriendUpdates.append(update)
+                        //self.lastFriendUpdates.append(update)
+                        self.updateDict[updateId] = update
                     }
                 }
             }

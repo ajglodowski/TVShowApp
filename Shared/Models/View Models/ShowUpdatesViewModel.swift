@@ -14,19 +14,16 @@ import Firebase
 
 class ShowUpdatesViewModel: ObservableObject {
     
-    @Published var userUpdates: [UserUpdate] = [UserUpdate]()
-    @Published var friendUpdates: [UserUpdate] = [UserUpdate]()
-    
     private var fireStore = Firebase.Firestore.firestore()
     
     private let currentUser = Auth.auth().currentUser?.uid
     
-    func loadUpdates(showId: String, friends: [String]) {
-        self.loadUserUpdates(showId: showId)
-        self.loadFriendUpdates(showId: showId, friends: friends)
+    func loadUpdates(modelData: ModelData, showId: String, friends: [String]) {
+        self.loadUserUpdates(modelData: modelData,showId: showId)
+        self.loadFriendUpdates(modelData: modelData, showId: showId, friends: friends)
     }
     
-    private func loadUserUpdates(showId: String) {
+    private func loadUserUpdates(modelData: ModelData, showId: String) {
         if (self.currentUser == nil) { print("User null"); return }
         let updates = fireStore.collection("updates").whereField("showId", isEqualTo: showId).whereField("userId", isEqualTo: self.currentUser!)
         updates.addSnapshotListener { snapshot, error in
@@ -50,15 +47,15 @@ class ShowUpdatesViewModel: ObservableObject {
                     let ratingChange = (ratingChangeRaw != nil) ? Rating(rawValue: ratingChangeRaw!) : nil
                     
                     let update = UserUpdate(id: updateId, userId: userId, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange, ratingChange: ratingChange)
-                    self.userUpdates.append(update)
+                    modelData.updateDict[updateId] = update
                 }
             }
         }
     }
     
     
-    private func loadFriendUpdates(showId: String, friends: [String]) {
-        if (self.currentUser == nil) { print("User null"); return }
+    private func loadFriendUpdates(modelData: ModelData, showId: String, friends: [String]) {
+        if (self.currentUser == nil || friends.isEmpty) { return }
         let updates = fireStore.collection("updates").whereField("showId", isEqualTo: showId).whereField("userId", in: friends)
         updates.addSnapshotListener { snapshot, error in
             guard error == nil else {
@@ -81,7 +78,7 @@ class ShowUpdatesViewModel: ObservableObject {
                     let ratingChange = (ratingChangeRaw != nil) ? Rating(rawValue: ratingChangeRaw!) : nil
                     
                     let update = UserUpdate(id: updateId, userId: userId, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange, ratingChange: ratingChange)
-                    self.friendUpdates.append(update)
+                    modelData.updateDict[updateId] = update
                 }
             }
         }

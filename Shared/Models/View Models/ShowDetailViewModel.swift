@@ -25,20 +25,22 @@ class ShowDetailViewModel: ObservableObject {
         modelData.loadingShows.insert(id)
         print("Doing fetch for \(id)")
         let show = fireStore.collection("shows").document("\(id)")
-        show.addSnapshotListener { snapshot, error in
+        show.getDocument { document, error in
             guard error == nil else {
                 print(error!.localizedDescription)
                 return
             }
             
-            if let snapshot = snapshot {
-                let rawData = snapshot.data()
+            if let document = document {
+                let rawData = document.data()
                 if (rawData == nil) {
                     print("Attempting to load show with invalid id")
                     return
                 }
                 let data = rawData!
+               
                 var add = Show(id: show.documentID)
+                if (modelData.showDict[id] != nil) { add = modelData.showDict[id]! }
                 
                 let name = data["name"] as! String
                 let running = data["running"] as! Bool

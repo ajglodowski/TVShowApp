@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct UpdateLogSection: View {
     
@@ -15,14 +16,10 @@ struct UpdateLogSection: View {
     
     @StateObject var updatesVm = ShowUpdatesViewModel()
     
-    var count: Int {
-        let updates = show.currentUserUpdates ?? [UserUpdate]()
-        print(updates.count)
-        return updates.count
+    var userUpdates: [UserUpdate] { modelData.currentUserUpdates.filter { $0.showId == show.id } }
+    var friendUpdates: [UserUpdate] {
+        Array(modelData.updateDict.values).filter { $0.userId != Auth.auth().currentUser!.uid && $0.showId ==  show.id }
     }
-    
-    var userUpdates: [UserUpdate] { updatesVm.userUpdates }
-    var friendUpdates: [UserUpdate] { updatesVm.friendUpdates }
     var friends: [String] { Array(Set(friendUpdates.map { $0.userId })) }
     
     var body: some View {
@@ -50,9 +47,11 @@ struct UpdateLogSection: View {
             
         }
         .task {
-            if (modelData.currentUser != nil && userUpdates.isEmpty) {
-                if (modelData.currentUser!.following != nil && friendUpdates.isEmpty) { updatesVm.loadUpdates(showId: show.id, friends: Array(modelData.currentUser!.following!.keys)) }
-                else { updatesVm.loadUpdates(showId: show.id, friends: []) }
+            if (modelData.currentUser != nil) {
+                if (modelData.currentUser!.following != nil && !friendUpdates.isEmpty) {
+                    updatesVm.loadUpdates(modelData: modelData, showId: show.id, friends: Array(modelData.currentUser!.following!.keys))
+                }
+                else { updatesVm.loadUpdates(modelData: modelData,showId: show.id, friends: []) }
             }
         }
     }

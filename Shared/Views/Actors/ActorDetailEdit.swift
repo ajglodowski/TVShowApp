@@ -100,7 +100,7 @@ struct ActorDetailEdit: View {
                 
                 ForEach(searchShows) { show in
                     Button(action: {
-                        addActorToShow(act: actor, showId: show.id)
+                        addActorToShow(act: actor, showId: show.id, showName: show.name)
                     }, label: {
                         Text(show.name)
                     })

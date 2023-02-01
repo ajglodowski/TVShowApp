@@ -77,6 +77,38 @@ class ShowTileViewModel: ObservableObject {
         }
     }
     
+    func loadImage(modelData: ModelData, showId: String, showName: String) {
+        //fireStore.clearPersistence()
+        if (modelData.showDict[showId]?.tileImage != nil) {
+            self.showImage = modelData.showDict[showId]?.tileImage
+            return
+        }
+        self.getFromCache(showName: showName)
+        if (cachedShowImage == nil) {
+            DispatchQueue.global().async {
+                let picRef = self.store.child("showImages/resizedImages/\(showName)_200x200.jpeg")
+                picRef.getData(maxSize: 1 * 512 * 1024) { data, error in // 0.5 MB Max
+                    if let error = error {
+                        if (!error.localizedDescription.contains("does not exist.")) {
+                            print(error.localizedDescription)
+                        }
+                    } else {
+                        let profImage = UIImage(data: data!)!
+                        DispatchQueue.main.async { [self] in
+                            modelData.showDict[showId]?.tileImage = profImage
+                            self.showImage = profImage
+                            self.saveToCache(showName: showName)
+                        }
+                    }
+                }
+            }
+        } else {
+            if (modelData.showDict[showId] != nil) { modelData.showDict[showId]!.tileImage = self.cachedShowImage }
+            self.showImage = self.cachedShowImage
+        }
+    }
+    
+    
     
     func saveToCache(showName: String) {
         guard let image = self.showImage else { return }

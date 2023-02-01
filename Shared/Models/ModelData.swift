@@ -21,16 +21,38 @@ final class ModelData : ObservableObject {
     @Published var loadingShows: Set<String> = Set<String>()
     @Published var fullShowImages: [String:UIImage] = [String:UIImage]()
 
-    @Published var actorDict = [String:Actor]()
+    @Published var loadedActors = [String: Actor]()
+    
+    var computedActors: [String:Actor] {
+        var output = [String:Actor]()
+        for show in self.shows {
+            if (show.actors != nil) {
+                for (actorId, actorName) in show.actors! {
+                    if (output[actorId] != nil) { output[actorId]!.shows[show.id] = show.name }
+                    else {
+                        var a = Actor(id: actorId)
+                        a.name = actorName
+                        a.shows[show.id] = show.name
+                        output[actorId] = a
+                    }
+                }
+            }
+        }
+        return output
+    }
+    var actorDict: [String:Actor] {
+        return computedActors.merging(loadedActors) { (_, new) in new }
+    }
+    
+    
     var actors: [Actor] { Array(actorDict.values) }
     
     @Published var currentUser: Profile? = nil
     
     @Published var updateDict = [String:UserUpdate]()
     var currentUserUpdates: [UserUpdate] {
-        if (currentUser != nil) {
-            return Array(updateDict.values).filter { $0.userId == currentUser!.id }
-        } else { return [UserUpdate]() }
+        if (currentUser != nil) { return Array(updateDict.values).filter { $0.userId == currentUser!.id } }
+        else { return [UserUpdate]() }
     }
     var lastFriendUpdates: [UserUpdate] {
         var output = [UserUpdate]()
@@ -40,7 +62,6 @@ final class ModelData : ObservableObject {
             for friend in friends {
                 output.append(allFriendUpdates.first(where: { $0.userId == friend })!)
             }
-            return output
         }
         return output
     }
@@ -74,7 +95,7 @@ final class ModelData : ObservableObject {
         */
     
         // Resets cache
-        fireStore.clearPersistence()
+        //fireStore.clearPersistence()
         
         if (loggedIn && !initialLoaded) {
             loadCurrentUser()
@@ -97,7 +118,7 @@ final class ModelData : ObservableObject {
         }
         //loadCurrentUser()
         loadFromFireStore()
-        fetchActorsFromFirestore()
+        //fetchActorsFromFirestore()
     }
     
     func fetchAllFromFireStore() {
@@ -155,7 +176,7 @@ final class ModelData : ObservableObject {
                     self.showDict[add.id] = add
                     
                     if (key == keys.last) {
-                        self.fetchActorsFromFirestore()
+                        //self.fetchActorsFromFirestore()
                         self.loadCurrentUserUpdates()
                     }
                 }
@@ -199,7 +220,8 @@ final class ModelData : ObservableObject {
             }
         }
     }
-    
+    /*
+    // 01/18/2023 Switched to computed property
     func fetchActorsFromFirestore() {
         for show in self.shows {
             if (show.actors != nil) {
@@ -216,6 +238,7 @@ final class ModelData : ObservableObject {
         }
         print("Done loading actors")
     }
+     */
     
     func loadCurrentUser() {
         let uid = Auth.auth().currentUser!.uid

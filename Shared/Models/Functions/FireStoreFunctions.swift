@@ -27,7 +27,6 @@ func convertShowToDictionary(show: Show) -> [String:Any] {
     }
     
     if (show.actors != nil && !show.actors!.isEmpty) {
-        //print("Actor dict: \(show.actors!)\n")
         output["actors"] = show.actors
     }
     
@@ -59,7 +58,7 @@ func convertActorToDictionary(actor: Actor) -> [String:Any] {
     var output = [String:Any]()
     //output["id"] = actor.id
     output["actorName"] = actor.name
-    //output["shows"] = actor.shows // For Final use
+    output["shows"] = actor.shows
     return output
 }
 
@@ -85,7 +84,7 @@ func addToUserShows(show: Show) {
 
 // Updating show properties in the current user's show collection
 func updateToShows(show: Show, showNameEdited: Bool) {
-    if (showNameEdited && show.actors != nil) {
+    if (show.actors != nil) {
         for (actorID, _) in show.actors! {
             Firestore.firestore().collection("actors").document(actorID).updateData([
                 "shows.\(show.id)": show.name
@@ -130,7 +129,7 @@ func updateActor(act: Actor, actorNameEdited: Bool) {
         }
     }
     let showData = convertActorToDictionary(actor: act)
-    Firestore.firestore().collection("actors").document("\(act.id)").setData(showData)
+    Firestore.firestore().collection("actors").document(act.id).setData(showData)
 }
 
 func updateShowStatus(showId: String, status: Status) {
@@ -184,12 +183,12 @@ func deleteRatingFromUserShows(showId: String) {
     ])
 }
 
-func addActorToShow(act: Actor, showId: String) {
+func addActorToShow(act: Actor, showId: String, showName: String) {
     Firestore.firestore().collection("shows").document(showId).updateData([
         "actors.\(act.id)": act.name
     ])
     Firestore.firestore().collection("actors").document(act.id).updateData([
-        "shows.\(showId)": FieldValue.delete()
+        "shows.\(showId)": showName
     ])
 }
 
@@ -280,5 +279,14 @@ func refreshAgolia() {
                     ])
                 }
             }
+    }
+}
+
+func updateFirestoreActorObjects(actors: [Actor]) {
+    let db = Firestore.firestore()
+    for actor in actors {
+        db.collection("actors").document(actor.id).updateData([
+            "shows": actor.shows
+        ])
     }
 }

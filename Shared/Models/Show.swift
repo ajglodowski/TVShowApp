@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-struct Show : Hashable, Identifiable, Codable {
+struct Show : Hashable, Identifiable {
     
     // Both
     var id : String // Needed for Actors
@@ -52,6 +52,10 @@ struct Show : Hashable, Identifiable, Codable {
     // Show Detail
     var actors: [String: String]? // Added var, key is id and value is name
     var currentlyAiring: Bool
+    
+    // Images
+    var tileImage: UIImage?
+    var fullImage: UIImage?
     
     // Removing
     var wanted: Bool?

@@ -35,7 +35,7 @@ struct UpdateLogSection: View {
                         VStack (alignment: .leading) {
                             HStack(spacing: 0) {
                                 ProfileBubble(profileId: friend)
-                                Text("'s for this show")
+                                Text("'s updates for this show")
                                     .font(.headline)
                             }
                             UpdateLog(updates: friendUpdates.filter { $0.userId == friend }.sorted { $0.updateDate < $1.updateDate })

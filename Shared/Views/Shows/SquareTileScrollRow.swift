@@ -37,7 +37,8 @@ struct SquareTileScrollRow: View {
         case 2:
             if (!isOutNow(s: s)) {
                 //print(s)
-                return ["In \(String(Calendar.current.dateComponents([.day], from: Date.now, to: s.releaseDate!).day!)) days"]
+                let daysTil = Calendar.current.dateComponents([.day], from: Date.now, to: s.releaseDate!).day!
+                return ["\(daysTil < 1 ? "Within the day" : "In \(daysTil) days" )"]
             } else {
                 return ["Out Now"]
             }

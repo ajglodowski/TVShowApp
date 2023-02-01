@@ -66,7 +66,7 @@ struct ShowDetailEditActors: View {
             ForEach(searchActors) { act in
                 Button(action: {
                     show.actors![act.id] = act.name
-                    addActorToShow(act: act, showId: show.id)
+                    addActorToShow(act: act, showId: show.id, showName: show.name)
                 }, label: {
                     Text(act.name)
                 })
@@ -78,9 +78,10 @@ struct ShowDetailEditActors: View {
         Section(header: Text("Add a new actor")) {
             Button(action: {
                 var new = Actor(id: "1")
+                new.shows[show.id] = show.name
                 let newActId = addActorToActors(act: new)
                 new.id = newActId
-                addActorToShow(act: new, showId: show.id)
+                addActorToShow(act: new, showId: show.id, showName: show.name)
             }, label: {
                 Text("Add a new Actor")
                     //.font(.title)

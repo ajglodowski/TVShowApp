@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-struct ShowList : Hashable, Identifiable, Codable {
+struct ShowList : Hashable, Identifiable {
     
     var id: String
     var name: String

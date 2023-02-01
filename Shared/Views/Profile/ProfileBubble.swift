@@ -17,11 +17,6 @@ struct ProfileBubble: View {
     
     var profileId: String
     
-    var x: String {
-        print(profileId)
-        return profileId
-    }
-    
     var body: some View {
         
         HStack {

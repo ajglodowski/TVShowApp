@@ -11,6 +11,8 @@ import InstantSearch
 
 struct ShowSearch: View {
     
+    @EnvironmentObject var modelData : ModelData
+    
     static let algoliaController = AlgoliaController()
     @ObservedObject var searchBoxController: SearchBoxObservableController = algoliaController.searchBoxController
     @ObservedObject var hitsController: HitsObservableController<Hit<AlgoliaShow>> = algoliaController.hitsController
@@ -36,6 +38,21 @@ struct ShowSearch: View {
         }
         return output
     }
+    var loggedShows: [Show] { hits.filter{ modelData.showDict[$0.id] != nil && modelData.showDict[$0.id]!.addedToUserShows } }
+    var newShows: [Show] { hits.filter{ !loggedShows.contains($0) } }
+    @State var newOnly = 0
+    var shownResults: [Show] {
+        switch newOnly {
+            case 0:
+                return newShows
+            case 1:
+                return loggedShows
+            case 2:
+                return hits
+            default:
+                return hits
+        }
+    }
     
     var body: some View {
         
@@ -50,31 +67,25 @@ struct ShowSearch: View {
                     }
                 }
                 
-                ForEach(hits) { hit in
-                    NavigationLink(destination: ShowDetail(showId: hit.id)) {
-                        HStack {
-                            Text(hit.name)
-                        }
+                HStack {
+                    Picker(selection: $newOnly, label: Text("")) {
+                        Text("New Shows").tag(0)
+                        Text("Logged Shows").tag(1)
+                        Text("All").tag(2)
                     }
-                    .foregroundColor(.primary)
+                    .pickerStyle(.segmented)
                 }
-                /*
-                HitsList(hitsController) { (hit, _) in
-                    if (hit != nil) {
-                        VStack(alignment: .leading) {
-                            NavigationLink(destination: ShowDetail(showId: (hit?.objectID.rawValue)!)) {
-                                HStack {
-                                    Text(hit?.object.name ?? "")
-                                }
+                
+                if (!hits.isEmpty) {
+                    ForEach(shownResults) { hit in
+                        NavigationLink(destination: ShowDetail(showId: hit.id)) {
+                            HStack {
+                                Text(hit.name)
                             }
-                            .foregroundColor(.primary)
-                            Divider()
                         }
+                        .foregroundColor(.primary)
                     }
-                } noResults: {
-                    Text("No Results")
                 }
-                 */
             }
         }
         .searchable(text: $searchBoxController.query, placement: .navigationBarDrawer(displayMode: .always))

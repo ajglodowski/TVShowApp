@@ -189,7 +189,7 @@ struct Home: View {
             
             // Sync Button
             Button(action: {
-                refreshAgolia()
+                //updateFirestoreActorObjects(actors: modelData.actors)
             }, label: {
                 Text("Sync Data")
                     //.font(.title)
@@ -253,6 +253,9 @@ struct Home: View {
 }
 
 struct outsidePages: View {
+    
+    @EnvironmentObject var modelData : ModelData
+    
     var body: some View {
         HStack {
             // Delete Page

@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ShowSquareTile: View {
     
+    @EnvironmentObject var modelData : ModelData
+    
     @StateObject var vm = ShowTileViewModel()
     
     var show: Show
@@ -42,8 +44,8 @@ struct ShowSquareTile: View {
                 }
             }
             
-            if (vm.showImage != nil) {
-                Image(uiImage: vm.showImage!)
+            if (show.tileImage != nil) {
+                Image(uiImage: show.tileImage!)
                     .resizable()
                     .scaledToFit()
                     .cornerRadius(15)
@@ -103,7 +105,7 @@ struct ShowSquareTile: View {
         .padding(.horizontal, 5)
         
         .task(id: show.name){
-            vm.loadImage(showName: show.name)
+            vm.loadImage(modelData: modelData, showId: show.id, showName: show.name)
         }
         
     }

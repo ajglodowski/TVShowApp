@@ -76,7 +76,7 @@ struct ShowDetailActors: View {
                 var new = Actor(id: "1")
                 let newActId = addActorToActors(act: new)
                 new.id = newActId
-                addActorToShow(act: new, showId: show.id)
+                addActorToShow(act: new, showId: show.id, showName: show.name)
             }, label: {
                 Text("Add a new Actor")
                 //.font(.title)

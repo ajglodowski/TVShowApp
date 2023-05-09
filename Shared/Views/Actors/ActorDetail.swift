@@ -11,74 +11,104 @@ import Charts
 struct ActorDetail: View {
     
     @EnvironmentObject var modelData: ModelData
+    @ObservedObject var vm = ActorDetailViewModel()
         
-    var actor: Actor
+    var actorId: String
+    var actor: Actor? { modelData.actorDict[actorId] }
     
-    @State var actorEdited: Actor
+    @State var actorEdited: Actor = Actor(id: "1")
     
     @State private var isPresented = false // Edit menu var
     
-    var actorIndex: Int {
-        modelData.actors.firstIndex(where: { $0.id == actor.id})!
+    var loggedShows: [String: String] {
+        if (actor == nil) { return [String:String]() }
+        else { return actor!.shows.filter { modelData.showDict[$0.key] != nil && modelData.showDict[$0.key]!.addedToUserShows } }
     }
     
-    init(actor: Actor) {
-        self.actor = actor
-        _actorEdited = State(initialValue: actor)
-        //print(showEdited)
-    }
+    var newShows: [String: String] { actor!.shows.filter { loggedShows[$0.key] == nil } }
     
     var body: some View {
         
         ScrollView {
             VStack {
-                Text(actor.name)
-                    .font(.title)
-                    .padding()
-                Spacer()
-            
-                VStack (alignment: .leading) {
-                    Text("Shows "+actor.name+" has appeared in:")
-                        .padding()
-                    
-                    ForEach(actor.shows.sorted(by: >), id:\.key) { showId, showName in
-                        NavigationLink(destination: ShowDetail(showId: showId)) {
-                            HStack {
-                                Text(showName)
+                if (actor != nil) {
+                    let loadedActor = actor!
+                    VStack {
+                        Text(loadedActor.name)
+                            .font(.title)
+                            .padding()
+                        Spacer()
+                        
+                        VStack (alignment: .leading) {
+                            Text("Logged Shows \(loadedActor.name) has appeared in:")
+                                .padding()
+                            
+                            ForEach(loggedShows.sorted(by: >), id:\.key) { showId, showName in
+                                NavigationLink(destination: ShowDetail(showId: showId)) {
+                                    HStack {
+                                        Text(showName)
+                                    }
+                                }
+                                .padding()
                             }
                         }
-                        .padding()
+                        
+                        VStack (alignment: .leading) {
+                            Text("Other Shows \(loadedActor.name) has appeared in:")
+                                .padding()
+                            
+                            ForEach(newShows.sorted(by: >), id:\.key) { showId, showName in
+                                NavigationLink(destination: ShowDetail(showId: showId)) {
+                                    HStack {
+                                        Text(showName)
+                                    }
+                                }
+                                .padding()
+                            }
+                        }
+                        
+                        //actorTagsGraph
+                        
+                        //actorRatingsGraph
+                        
                     }
-                    
+                } else {
+                    VStack {
+                        Text("Loading Actor")
+                    }
                 }
-                
-                actorTagsGraph
-                
-                actorRatingsGraph
-                
+            }
+            .refreshable {
+                vm.loadActor(modelData: modelData, id: actorId)
+            }
+            .task {
+                vm.loadActor(modelData: modelData, id: actorId)
             }
         }
         
-        .navigationTitle(actor.name)
+        .navigationTitle(actor?.name ?? "Loading Actor")
         .navigationBarTitleDisplayMode(.inline)
         //.navigationBarBackButtonHidden(false)
         
         .navigationBarItems(trailing: Button("Edit") {
-                    isPresented = true
-                })
+            if (actor != nil) {
+                actorEdited = actor!
+                isPresented = true
+            }
+        })
         
         .sheet(isPresented: $isPresented) {
             NavigationView {
                 ActorDetailEdit(isPresented: self.$isPresented, actor: $actorEdited)
                 //ShowDetailEdit(isPresented: self.$isPresented)
-                    .navigationTitle(actor.name)
+                    .navigationTitle(actor!.name)
                     .navigationBarItems(leading: Button("Cancel") {
-                        actorEdited = actor
+                        actorEdited = actor!
                         isPresented = false
                     }, trailing: Button("Done") {
                         //print(showEdited)
                         if (actorEdited != actor) {
-                            if (actorEdited.name != actor.name) {
+                            if (actorEdited.name != actor!.name) {
                                 updateActor(act: actorEdited, actorNameEdited: true)
                             } else {
                                 updateActor(act: actorEdited, actorNameEdited: false)
@@ -89,7 +119,7 @@ struct ActorDetail: View {
             }
         }
     }
-    
+    /*
     var tagCounts: [Tag: Int] {
         var output = [Tag: Int]()
         for tag in Tag.allCases {
@@ -190,7 +220,7 @@ struct ActorDetail: View {
             }
         }
     }
-    
+    */
     
 }
 

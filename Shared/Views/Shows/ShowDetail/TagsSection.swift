@@ -31,6 +31,7 @@ struct TagsSection: View {
                                 Image(systemName:"xmark")
                             }
                             .buttonStyle(.bordered)
+                            .buttonBorderShape(.capsule)
                         }
                     }
                 }
@@ -50,6 +51,7 @@ struct TagsSection: View {
                                 Image(systemName:"plus")
                             }
                             .buttonStyle(.bordered)
+                            .buttonBorderShape(.capsule)
                         }
                     }
                 }

@@ -60,12 +60,10 @@ struct ShowDetailActors: View {
                     Text("Actors")
                         .font(.title)
                     ForEach(show.actors!.sorted(by: >), id:\.key) { actorId, actorName in
-                        if (modelData.actorDict[actorId] != nil) {
-                            NavigationLink(destination: ActorDetail(actor: modelData.actorDict[actorId]!)) {
-                                ListActorRow(actorName: actorName)
-                                    .background(backgroundColor.blendMode(.softLight))
-                                    .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-                            }
+                        NavigationLink(destination: ActorDetail(actorId: actorId)) {
+                            ListActorRow(actorName: actorName)
+                                .background(backgroundColor.blendMode(.softLight))
+                                .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
                         }
                     }
                 }

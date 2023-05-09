@@ -283,10 +283,30 @@ func refreshAgolia() {
 }
 
 func updateFirestoreActorObjects(actors: [Actor]) {
+    print("Starting refresh")
     let db = Firestore.firestore()
-    for actor in actors {
-        db.collection("actors").document(actor.id).updateData([
-            "shows": actor.shows
-        ])
+    db.collection("actors").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let actorName = document.data()["actorName"] as! String
+                    print(actorName)
+                    db.collection("shows").whereField("actors.\(document.documentID)", isEqualTo: actorName).getDocuments() { (qs, error) in
+                            if let error = error {
+                                print("Error getting documents: \(error)")
+                            } else {
+                                for d in qs!.documents {
+                                    let showName = d.data()["name"] as! String
+                                    print("Actor: \(actorName) and Show: \(showName)")
+                                    Firestore.firestore().collection("actors").document(document.documentID).updateData([
+                                        "shows.\(d.documentID)": showName
+                                    ])
+                                }
+                            }
+                    }
+                }
+            }
     }
+    print("Refresh Done")
 }

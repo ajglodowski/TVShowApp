@@ -22,7 +22,7 @@ struct ActorList: View {
         List {
             if (searchText.isEmpty) {
                 ForEach(modelData.actors.sorted { $0.name < $1.name }) { specActor in
-                    NavigationLink(destination: ActorDetail(actor: specActor)) {
+                    NavigationLink(destination: ActorDetail(actorId: specActor.id)) {
                         HStack {
                             Text(specActor.name)
                             Spacer()
@@ -31,7 +31,7 @@ struct ActorList: View {
                 }
             } else {
                 ForEach(searchActors) { specActor in
-                    NavigationLink(destination: ActorDetail(actor: specActor)) {
+                    NavigationLink(destination: ActorDetail(actorId: specActor.id)) {
                         HStack {
                             Text(specActor.name)
                             Spacer()

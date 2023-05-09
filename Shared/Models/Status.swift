@@ -20,6 +20,33 @@ enum Status: String, CaseIterable, Codable, Identifiable {
     
     case Other
     
+    var order: Int {
+        switch(self) {
+        case Status.CurrentlyAiring:
+            return 0
+        case Status.CatchingUp:
+            return 1
+        case Status.NewRelease:
+            return 2
+        case Status.NewSeason:
+            return 3
+        case Status.ComingSoon:
+            return 4
+        case Status.NeedsWatched:
+            return 5
+        case Status.UpToDate:
+            return 6
+        case Status.ShowEnded:
+            return 7
+        case Status.SeenEnough:
+            return 8
+        case Status.Other:
+            return 9
+        default:
+            return -1
+        }
+    }
+    
     var id: String { self.rawValue }
 }
 

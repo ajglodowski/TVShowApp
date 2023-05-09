@@ -27,6 +27,11 @@ struct ShowSquareTile: View {
     var belowExtraText: [String]? // Text below the tile
     var belowFontType: Font?
     
+    private var backgroundColor: Color {
+        if (show.tileImage != nil) { return Color(vm.showImage?.averageColor ?? .black) }
+        else { return Color.black }
+    }
+    
     var body: some View {
         
         VStack {
@@ -102,6 +107,10 @@ struct ShowSquareTile: View {
             
         }
         .frame(width: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        .foregroundColor(.white)
+        .background(backgroundColor)
+        .cornerRadius(15)
+        .shadow(radius: 5)
         .padding(.horizontal, 5)
         
         .task(id: show.name){

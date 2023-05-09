@@ -45,11 +45,7 @@ struct ListShowRow: View {
                         
                         Text("\(show.length.rawValue)m")
                             .font(.callout)
-                        Text(show.service.rawValue)
-                            .padding(6)
-                            .font(.callout)
-                            .foregroundColor(.white)
-                            .background(Capsule().fill(show.service.color))
+                        ServiceBubble(service: show.service)
                         if (show.limitedSeries) {
                             Text("Limited")
                                 .font(.callout)

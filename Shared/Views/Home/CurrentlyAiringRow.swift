@@ -91,18 +91,18 @@ struct OtherTiles: View {
     var currentlyAiringGroups: [AirDate:[Show]]
     var day: AirDate
     var body: some View {
-        VStack { // Day Group
+        VStack(spacing: 0) { // Day Group
             Text(day.rawValue)
             HStack {
                 ForEach(currentlyAiringGroups[day]!) { s in
                     //NavigationLink(destination: ShowDetail(showId: s.id, show: s)) {
                     NavigationLink(destination: ShowDetail(showId: s.id)) {
                         ShowSquareTile(show: s, titleShown: true)
-                            .padding(.leading, 10)
                     }
                     .foregroundColor(Color.primary)
                 }
             }
+            .padding(.horizontal, 2)
         }
         .padding(2)
         .overlay(

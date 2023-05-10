@@ -34,3 +34,15 @@ struct ShowList : Hashable, Identifiable {
      */
 
 }
+
+func convertListToDict(list: ShowList) -> [String:Any] {
+    var out = [String:Any]()
+    out["name"] = list.name
+    out["description"] = list.description
+    out["likeCount"] = list.likeCount
+    out["priv"] = list.priv
+    out["ordered"] = list.ordered
+    out["shows"] = list.shows.map { $0.id }
+    out["profileId"] = list.profile.id
+    return out
+}

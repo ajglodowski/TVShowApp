@@ -42,28 +42,12 @@ class ProfileViewModel: ObservableObject {
                 let optData = snapshot.data()
                 if (optData == nil) { return }
                 let data = optData!
-                
-                let username = data["username"] as! String
-                var profilePhotoURL = data["profilePhotoURL"] as? String
-                let bio = data["bio"] as? String
-                let showCount = data["showCount"] as! Int
-                
-                let followingCount = data["followingCount"] as! Int
-                let followerCount = data["followerCount"] as! Int
-                let followers = data["followers"] as? [String:String]
-                let following = data["following"] as? [String:String]
-                
-                let showLists = data["showLists"] as? [String]
-                let likedShowLists = data["likedShowLists"] as? [String]
-                
-                let pinnedShows =  data["pinnedShows"] as? [String:String]
-                let pinnedShowCount = data["pinnedShowCount"] as? Int ?? 0
-                let add = Profile(id: id, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following, showLists: showLists, likedShowLists: likedShowLists)
+                var add = convertProfileDictToProfile(profileId: id, data: data)
                 self.profile = add
                 modelData.profiles[id] = add
                 // Loading Profile Pic
-                if (profilePhotoURL == nil) { profilePhotoURL = "blank.jpg" }
-                let picRef = self.store.child("profilePics/\(profilePhotoURL!)")
+                if (add.profilePhotoURL == nil) { add.profilePhotoURL = "blank.jpg" }
+                let picRef = self.store.child("profilePics/\(add.profilePhotoURL!)")
                 picRef.getData(maxSize: 2 * 1024 * 1024) { data, error in // 2 MB
                   if let error = error {
                       print(error.localizedDescription)

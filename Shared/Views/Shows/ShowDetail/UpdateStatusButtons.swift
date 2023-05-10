@@ -29,7 +29,8 @@ struct UpdateStatusButtons: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            if (show.status != nil) {
+            if (show.status == nil) { AddToWatchlistButton }
+            else {
                 ScrollView(.horizontal) {
                     HStack(alignment:.top) {
                         if (!showingAllStatus) {
@@ -75,21 +76,23 @@ struct UpdateStatusButtons: View {
                         .buttonStyle(.bordered)
                     }
                 }
-            } else {
-                Button(action: {
-                    var addingShow = show
-                    addingShow.status = Status.NeedsWatched
-                    addingShow.currentSeason = 1
-                    //addingShow.lastUpdateDate = Date()
-                    //addingShow.lastUpdateMessage = "Added to your shows"
-                    addUserUpdateWatchlist(userId: Auth.auth().currentUser!.uid, show: addingShow)
-                    addToUserShows(show: addingShow)
-                    incrementShowCount(userId: Auth.auth().currentUser!.uid)
-                }) {
-                    Text("Add to Watchlist")
-                }
-                .buttonStyle(.bordered)
             }
         }
+    }
+    
+    var AddToWatchlistButton: some View {
+        Button(action: {
+            var addingShow = show
+            addingShow.status = Status.NeedsWatched
+            addingShow.currentSeason = 1
+            //addingShow.lastUpdateDate = Date()
+            //addingShow.lastUpdateMessage = "Added to your shows"
+            addUserUpdateWatchlist(userId: Auth.auth().currentUser!.uid, show: addingShow)
+            addToUserShows(show: addingShow)
+            incrementShowCount(userId: Auth.auth().currentUser!.uid)
+        }) {
+            Text("Add to Watchlist")
+        }
+        .buttonStyle(.bordered)
     }
 }

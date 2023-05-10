@@ -54,6 +54,58 @@ func convertShowToDictionary(show: Show) -> [String:Any] {
     return output
 }
 
+func convertShowDictToShow(showId: String, data: [String:Any]) -> Show {
+    let name = data["name"] as! String
+    let running = data["running"] as! Bool
+    let totalSeasons = data["totalSeasons"] as! Int
+    let tags = data["tags"] as? [String] ?? [String]()
+    let currentlyAiring = data["currentlyAiring"] as? Bool ?? false
+    let service = data["service"] as! String
+    let limitedSeries = data["limitedSeries"] as! Bool
+    let length = data["length"] as! String
+    
+    let releaseDate = data["releaseDate"] as? Timestamp
+    let airdate = data["airdate"] as? String
+    
+    let actors = data["actors"] as? [String: String]
+    let statusCounts = data["statusCounts"] as! [String: Int]
+    let ratingCounts = data["ratingCounts"] as! [String: Int]
+    
+    var tagArray = [Tag]()
+    for tag in tags {
+        tagArray.append(Tag(rawValue: tag)!)
+    }
+    
+    var out = Show(id: showId)
+    out.name = name
+    out.running = running
+    out.totalSeasons = totalSeasons
+    out.tags = tagArray
+    out.currentlyAiring = currentlyAiring
+    out.service = Service(rawValue: service)!
+    out.limitedSeries = limitedSeries
+    out.length = ShowLength(rawValue: length)!
+    if (airdate != nil) { out.airdate = AirDate(rawValue: airdate!) }
+    out.releaseDate = releaseDate?.dateValue()
+    if (actors != nil) { out.actors = actors }
+    for (key, value) in statusCounts {
+        out.statusCounts[Status(rawValue: key)!] = value
+    }
+    for (key, value) in ratingCounts {
+        out.ratingCounts[Rating(rawValue: key)!] = value
+    }
+    
+    return out
+}
+
+func mergeShowTypes(userData: Show, showData: Show) -> Show {
+    var combined = showData
+    combined.status = userData.status
+    combined.currentSeason = userData.currentSeason
+    combined.rating = userData.rating
+    return combined
+}
+
 func convertActorToDictionary(actor: Actor) -> [String:Any] {
     var output = [String:Any]()
     //output["id"] = actor.id

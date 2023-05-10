@@ -16,44 +16,6 @@ struct ShowDetailActors: View {
     
     var body: some View {
         
-        // Old Actor Section
-        /*
-        VStack(alignment: .leading){
-            Text("Actors")
-                .font(.title)
-            ForEach(actorList) { indActor in
-                NavigationLink(destination: ActorDetail(actor: indActor)) {
-                    ListActorRow(actor: indActor)
-                }
-            }
-            Divider()
-            // Add a new actor
-            Button(action: {
-                var new = Actor()
-                new.shows.append(show)
-                //newShow = new
-                modelData.actors.append(new)
-                //ActorDetail(actor: new)
-            }, label: {
-                Text("Add a new Actor")
-                    //.font(.title)
-            })
-            .buttonStyle(.bordered)
-            
-            //.onDelete(perform: removeRows)
-            //.background(backgroundColor.blendMode(.softLight))
-            
-        }
-        .padding()
-        // Darker, possible use in future
-        //.background(Color.secondary)
-        .background(backgroundColor.blendMode(.softLight))
-        .cornerRadius(20)
-        .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-        .padding()
-        .foregroundColor(.white)
-         */
-        
         VStack {
             if (show.actors != nil) {
                 VStack(alignment: .leading){

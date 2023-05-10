@@ -40,9 +40,7 @@ struct ShowDetail: View {
     var body: some View {
         
         VStack {
-            
             if (show != nil) {
-                
                 ZStack (alignment: .bottom) {
                     
                     backgroundColor

@@ -34,21 +34,11 @@ class ProfileSearchViewModel: ObservableObject {
                     } else {
                         for document in querySnapshot!.documents {
                             let data = document.data()
-                            let username = data["username"] as! String
-                            var profilePhotoURL = data["profilePhotoURL"] as? String
-                            let bio = data["bio"] as? String
-                            let showCount = data["showCount"] as! Int
-                            let followingCount = data["followingCount"] as! Int
-                            let followerCount = data["followerCount"] as! Int
-                            let followers = data["followers"] as? [String:String]
-                            let following = data["following"] as? [String:String]
-                            let pinnedShows =  data["pinnedShows"] as? [String:String]
-                            let pinnedShowCount = data["pinnedShowCount"] as? Int ?? 0
-                            let add = Profile(id: document.documentID, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following)
+                            var add = convertProfileDictToProfile(profileId: document.documentID, data: data)
                             
                             // Loading Profile Pic
-                            if (profilePhotoURL == nil) { profilePhotoURL = "blank.jpg" }
-                            let picRef = self.store.child("profilePics/\(profilePhotoURL!)")
+                            if (add.profilePhotoURL == nil) { add.profilePhotoURL = "blank.jpg" }
+                            let picRef = self.store.child("profilePics/\(add.profilePhotoURL!)")
                             picRef.getData(maxSize: 2 * 1024 * 1024) { data, error in // 2 MB
                               if let error = error {
                                   print(error.localizedDescription)

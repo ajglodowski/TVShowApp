@@ -23,7 +23,7 @@ struct ProfileTile: View {
     var body: some View {
         HStack {
             if (profile != nil && profilePic != nil) {
-                var loadedProfile = profile!
+                let loadedProfile = profile!
                 NavigationLink(destination: ProfileDetail(id: profileId)) {
                     profilePic!
                         .resizable()

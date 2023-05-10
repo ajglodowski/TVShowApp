@@ -22,7 +22,7 @@ class ProfileSearchViewModel: ObservableObject {
     @MainActor
     func searchForUser(username: String) {
         self.profilesReturned = [(Image, Profile)]()
-        var output = [(Image, Profile)]()
+        //var output = [(Image, Profile)]()
         let ref = fireStore.collection("users")
             //.whereField("username", isEqualTo: username)
             .whereField("username", isGreaterThanOrEqualTo: username)

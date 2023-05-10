@@ -144,7 +144,7 @@ struct Home: View {
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
                         }, trailing: Button("Done") {
-                            let newShowId = addToShows(show: newShow)
+                            let _ = addToShows(show: newShow)
                             isPresented = false
                         })
                 }

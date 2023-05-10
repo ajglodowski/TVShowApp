@@ -36,8 +36,8 @@ struct ProfileDetail: View {
     
     var body: some View {
         
-        var optProfile: Profile? = prof.profile
-        var profilePic: Image? = prof.profilePic
+        let optProfile: Profile? = prof.profile
+        //let profilePic: Image? = prof.profilePic
         
         ScrollView {
             
@@ -98,8 +98,8 @@ struct ProfileDetail: View {
         
         VStack(alignment: .leading) {
             
-            var optProfile: Profile? = prof.profile
-            var profilePic: Image? = prof.profilePic
+            let optProfile: Profile? = prof.profile
+            //var profilePic: Image? = prof.profilePic
             
             let profile = optProfile!
             
@@ -186,8 +186,8 @@ struct ProfileDetail: View {
         
         VStack {
             
-            var optProfile: Profile? = prof.profile
-            var profilePic: Image? = prof.profilePic
+            let optProfile: Profile? = prof.profile
+            let profilePic: Image? = prof.profilePic
             
             let profile = optProfile!
             
@@ -276,8 +276,8 @@ struct ProfileDetail: View {
     
     var followerSection: some View {
         HStack {
-            var optProfile: Profile? = prof.profile
-            var profilePic: Image? = prof.profilePic
+            let optProfile: Profile? = prof.profile
+            //var profilePic: Image? = prof.profilePic
             
             let profile = optProfile!
             

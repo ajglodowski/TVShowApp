@@ -81,7 +81,7 @@ func actorBfs(showList: [Show],actorList: [Actor], src: Actor, dest: Actor) -> [
                 showHistory[actorKey] = showName
                 let showActorList = showList.first(where: { $0.id == actorKey})!.actors // Actor list of a specific show
                 if (showActorList != nil) {
-                    for (actorKey, actorName) in showActorList! {
+                    for (actorKey, _) in showActorList! {
                         let act = actorList.first(where: {$0.id == actorKey})!
                         if (!actorHistory.contains(act)) {
                             pred[act] = curActor

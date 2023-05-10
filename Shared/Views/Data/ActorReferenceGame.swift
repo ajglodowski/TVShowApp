@@ -45,7 +45,7 @@ struct ActorReferenceGame: View {
     func getActorListFromShow(show: Show) -> [Actor] {
         var output = [Actor]()
         if (show.actors == nil) { return output }
-        for (actorKey, actorName) in show.actors! {
+        for (actorKey, _) in show.actors! {
             let actorObj = modelData.actors.first(where: { $0.id == actorKey})!
             output.append(actorObj)
         }
@@ -54,7 +54,7 @@ struct ActorReferenceGame: View {
     
     func getShowListFromActor(actor: Actor) -> [Show] {
         var output = [Show]()
-        for (showKey, showName) in actor.shows {
+        for (showKey, _) in actor.shows {
             //let showObj = modelData.shows.first(where: { $0.id == showKey})!
             let showObj = modelData.showDict[showKey]!
             output.append(showObj)

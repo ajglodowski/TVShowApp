@@ -35,18 +35,7 @@ class ShowUpdatesViewModel: ObservableObject {
                 for document in snapshot.documents {
                     let updateId = document.documentID
                     let data = document.data()
-                    let showId = data["showId"] as! String
-                    let userId = data["userId"] as! String
-                    let updateDate = data["updateDate"] as! Timestamp
-                    let updateType = data["updateType"] as! String
-                    
-                    let seasonChange = data["seasonChange"] as? Int // Type specific values
-                    let statusChangeRaw = data["statusChange"] as? String
-                    let ratingChangeRaw = data["ratingChange"] as? String
-                    let statusChange = (statusChangeRaw != nil) ? Status(rawValue: statusChangeRaw!) : nil
-                    let ratingChange = (ratingChangeRaw != nil) ? Rating(rawValue: ratingChangeRaw!) : nil
-                    
-                    let update = UserUpdate(id: updateId, userId: userId, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange, ratingChange: ratingChange)
+                    let update = convertDataDictToUserUpdate(updateId: updateId, data: data)
                     modelData.updateDict[updateId] = update
                 }
             }
@@ -66,22 +55,34 @@ class ShowUpdatesViewModel: ObservableObject {
                 for document in snapshot.documents {
                     let updateId = document.documentID
                     let data = document.data()
-                    let showId = data["showId"] as! String
-                    let userId = data["userId"] as! String
-                    let updateDate = data["updateDate"] as! Timestamp
-                    let updateType = data["updateType"] as! String
-                    
-                    let seasonChange = data["seasonChange"] as? Int // Type specific values
-                    let statusChangeRaw = data["statusChange"] as? String
-                    let ratingChangeRaw = data["ratingChange"] as? String
-                    let statusChange = (statusChangeRaw != nil) ? Status(rawValue: statusChangeRaw!) : nil
-                    let ratingChange = (ratingChangeRaw != nil) ? Rating(rawValue: ratingChangeRaw!) : nil
-                    
-                    let update = UserUpdate(id: updateId, userId: userId, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange, ratingChange: ratingChange)
+                    let update = convertDataDictToUserUpdate(updateId: updateId, data: data)
                     modelData.updateDict[updateId] = update
                 }
             }
         }
+    }
+    
+    
+    // Loads the 20 most recent updates of the given user into the app's memory
+    public func loadMostRecent20Updates(modelData: ModelData, userId: String) {
+        let dbDoc = fireStore.collection("updates").whereField("userId", isEqualTo: userId).order(by: "updateDate", descending: true).limit(to: 20)
+        dbDoc.getDocuments { querySnapshot, error in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            for document in querySnapshot!.documents {
+                let data = document.data()
+                let updateId = document.documentID
+                let update = convertDataDictToUserUpdate(updateId: updateId, data: data)
+                let showId = update.showId
+                if (modelData.showDict[showId]!.currentUserUpdates != nil) { modelData.showDict[showId]!.currentUserUpdates!.append(update) }
+                else { modelData.showDict[showId]!.currentUserUpdates = [update] }
+                
+                modelData.updateDict[updateId] = update
+            }
+        }
+        
     }
         
     

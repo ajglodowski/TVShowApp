@@ -76,6 +76,7 @@
 		1A6E07EA28C561C300BE4898 /* FollowerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E07E928C561C300BE4898 /* FollowerList.swift */; };
 		1A6E07ED28C56A8200BE4898 /* ProfileFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E07EC28C56A8200BE4898 /* ProfileFunctions.swift */; };
 		1A7498D22A0A00470070CC13 /* UserUpdateDetailRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7498D12A0A00470070CC13 /* UserUpdateDetailRow.swift */; };
+		1A7498D42A0A00FB0070CC13 /* AllUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7498D32A0A00FB0070CC13 /* AllUpdates.swift */; };
 		1A7DA8A028768AE000A26E7B /* Home_recording.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1A7DA89F28768AE000A26E7B /* Home_recording.gif */; };
 		1A818B28289A1D34002866B2 /* ActorReferenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A818B27289A1D34002866B2 /* ActorReferenceHelper.swift */; };
 		1A818B2A289A1D34002866B2 /* ActorReferenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A818B27289A1D34002866B2 /* ActorReferenceHelper.swift */; };
@@ -234,6 +235,7 @@
 		1A6E07E928C561C300BE4898 /* FollowerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerList.swift; sourceTree = "<group>"; };
 		1A6E07EC28C56A8200BE4898 /* ProfileFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFunctions.swift; sourceTree = "<group>"; };
 		1A7498D12A0A00470070CC13 /* UserUpdateDetailRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdateDetailRow.swift; sourceTree = "<group>"; };
+		1A7498D32A0A00FB0070CC13 /* AllUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllUpdates.swift; sourceTree = "<group>"; };
 		1A7DA89F28768AE000A26E7B /* Home_recording.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Home_recording.gif; sourceTree = "<group>"; };
 		1A818B27289A1D34002866B2 /* ActorReferenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorReferenceHelper.swift; sourceTree = "<group>"; };
 		1A81CBE52882417F003F6EC3 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 				1A19302729628DCF0090EE72 /* CurrentUserUpdatesRow.swift */,
 				1A19303A29638D4E0090EE72 /* FollowingUpdatesRow.swift */,
 				1A7498D12A0A00470070CC13 /* UserUpdateDetailRow.swift */,
+				1A7498D32A0A00FB0070CC13 /* AllUpdates.swift */,
 			);
 			path = UserUpdate;
 			sourceTree = "<group>";
@@ -826,6 +829,7 @@
 				1AD941D628DBFFC100710B75 /* ShowListViewModel.swift in Sources */,
 				1AC420D728C675530034E9EA /* ProfileSearchViewModel.swift in Sources */,
 				1A81CBF4288CA369003F6EC3 /* Rating.swift in Sources */,
+				1A7498D42A0A00FB0070CC13 /* AllUpdates.swift in Sources */,
 				1A66E109263A042600B47B88 /* WatchedButton.swift in Sources */,
 				1ABEE03D28E76BD900917D5B /* ShowListDetailEdit.swift in Sources */,
 				1AD8B5B92970C0F10072083A /* ShowUpdatesViewModel.swift in Sources */,

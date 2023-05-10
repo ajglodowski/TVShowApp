@@ -107,7 +107,7 @@ class ShowListViewModel: ObservableObject {
         let data = optData!
         
         let username = data["username"] as! String
-        var profilePhotoURL = data["profilePhotoURL"] as? String
+        let profilePhotoURL = data["profilePhotoURL"] as? String
         let bio = data["bio"] as? String
         let showCount = data["showCount"] as! Int
         

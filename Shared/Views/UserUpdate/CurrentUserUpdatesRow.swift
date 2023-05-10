@@ -11,6 +11,8 @@ struct CurrentUserUpdatesRow: View {
     
     @EnvironmentObject var modelData : ModelData
     
+    
+    
     var updates: [UserUpdate] {
         Array(modelData.currentUserUpdates.sorted { $0.updateDate > $1.updateDate}.prefix(10))
     }
@@ -21,20 +23,26 @@ struct CurrentUserUpdatesRow: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Your most recent updates")
-                .font(.title)
-            ScrollView (.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach (updates) { update in
-                        //NavigationLink(destination: ShowDetail(showId: update.showId, show: getShowFromUpdate(update: update))) {
-                        NavigationLink(destination: ShowDetail(showId: update.showId)) {
-                            UserUpdateCard(update: update)
-                                .foregroundColor(.white)
+        
+        let curUserId = modelData.currentUser?.id ?? "1"
+        
+        NavigationLink(destination: AllUpdates(user: curUserId)) {
+            VStack(alignment: .leading) {
+                Text("Your most recent updates")
+                    .font(.title)
+                    .foregroundColor(.primary)
+                ScrollView (.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach (updates) { update in
+                            //NavigationLink(destination: ShowDetail(showId: update.showId, show: getShowFromUpdate(update: update))) {
+                            NavigationLink(destination: ShowDetail(showId: update.showId)) {
+                                UserUpdateCard(update: update)
+                                    .foregroundColor(.white)
+                            }
                         }
                     }
+                    .padding(.horizontal, 2)
                 }
-                .padding(.horizontal, 2)
             }
         }
         

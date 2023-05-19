@@ -44,12 +44,14 @@ struct UserUpdateCard: View {
                             .resizable()
                             .scaledToFit()
                             .cornerRadius(15)
+                            .shadow(radius: 5)
                             .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     } else {
                         Image(systemName : "ellipsis")
                             .resizable()
                             .scaledToFit()
                             .cornerRadius(15)
+                            .shadow(radius: 5)
                             .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     }
                 }

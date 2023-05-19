@@ -27,7 +27,7 @@ struct UserUpdate : Hashable, Identifiable, Codable {
             case UserUpdateCategory.ChangedSeason:
                 return "Updated current season to \(self.seasonChange!)"
             case UserUpdateCategory.AddedToWatchlist:
-                return "Added show to your Watchlist"
+                return "Added to Watchlist"
             case UserUpdateCategory.UpdatedStatus:
                 return "Updated status to \(self.statusChange!.rawValue)"
             case UserUpdateCategory.RemovedFromWatchlist:

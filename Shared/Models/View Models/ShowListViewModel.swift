@@ -19,6 +19,12 @@ class ShowListViewModel: ObservableObject {
     //private var ref: DatabaseReference = Database.database().reference()
     private var fireStore = Firebase.Firestore.firestore()
     
+    func fillInLoadedShows(shows: [Show]) {
+        shows.forEach { show in
+            loadedShows[show.id] = show
+        }
+    }
+
     @MainActor
     func loadList(id: String, showLimit: Int? = nil) async {
         //fireStore.clearPersistence()

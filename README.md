@@ -36,31 +36,21 @@ The data used to be stored on a Firebase NoSQL Realtime Database and accessed pr
 
 The app is written entirely in Swift and SwiftUI as the purpose was for this to be a learning experience for me. The app deals with HTTP requests, parsing the data returned into Swift objects, and manipulating it throughout the app. It gives some great exposure to the languages varying data structures, like dates, class hierarchy, and enums. The app also explores some of the functionality unique to iOS such as notifications and Swift Charts.
 
-# In Progress:
-
-I am currently working on switching the app over from the RealTime Database to FireStore. This involves remapping all the objects and their relationships and will significantly help with the upkeep of the app. This switch also involves adding Authentication and users so that the app could be used by others. Most of this switch has been completed but there are still significant lingering issues regarding this.
-
-TODO:
-- Investigate searching FireStore (Algolia?)
-- Investigate Image Caching
-
 # Future Development:
 
-Firestore/Data Improvements Improvements:
-- Significantly restructure swift data loading so that data is loaded using more precise queries to reduce document reads. Possibly look at using Google Cloud functions to reduce even further?
-- Switch arrays to dictionaries. Since dictionaries have constant or close to constant complexity when searching, it would be best to switch more of the existing array data structures to use them instead.
-- Adding status counts to shows so that sorting and data processing by status can be used.
+UI Updates:
+- Continue to make UI improvements across the app, specifically including more color
+- Use more creative shapes and experiment with gradient and noise
 
 Social Media:
 - Accounts exist but there are many bugs with login and logout
 - Users can lookup each other given the exact name but that's it (search?)
 - Lists are still wonky
-- Add status counts changes.
 
 Quality of Life Updates:
 - Update the stats pages with more graphs
-- Loading show and/or actor data, such as photos from online (ex: IMDB) (Datascraper?)
-- Improve the object relationship between actors and shows as it presents many bugs
+- Loading show and/or actor data, such as photos from online (ex: IMDB) (Datascraping Google or using AI integration?)
+- Adding descriptions to shows from online data
 
 # Acknowledgements
 This follows many of the concepts taught in Apple's SwiftUI and IOS tutorials, however significantly expands on them with more views, more complex filters, etc. The process of obtaining dynamic backgrounds on show pages comes from here: https://medium.com/swlh/swiftui-read-the-average-color-of-an-image-c736adb43000, but is adapted to fit my project. I do not own any of the rights to the photos used.

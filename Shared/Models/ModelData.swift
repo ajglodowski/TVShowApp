@@ -135,7 +135,8 @@ final class ModelData : ObservableObject {
                     let data = document.data()!
                     let userSpecificData = self.showDict[key]!
                     let showData = convertShowDictToShow(showId: key, data: data)
-                    let combined = mergeShowTypes(userData: userSpecificData, showData: showData)
+                    var combined = mergeShowTypes(userData: userSpecificData, showData: showData)
+                    combined.partiallyLoaded = false
                     self.showDict[key] = combined
                     
                     if (key == keys.last) {
@@ -174,12 +175,11 @@ final class ModelData : ObservableObject {
                     let updates = self.currentUserUpdates.filter { $0.showId == personalizedShow.id }
                     personalizedShow.currentUserUpdates = updates
                     
-                    //self.shows.append(personalizedShow)
+                    personalizedShow.partiallyLoaded = true
+                    
                     self.showDict[showId] = personalizedShow
                 }
                 self.fetchAllFromFireStore() // Other Loading
-                //self.loadCurrentUserUpdates()
-                //self.loadLatestFriendUpdates()
             }
         }
     }

@@ -15,11 +15,7 @@ struct UserUpdateCard: View {
     
     var update: UserUpdate
     
-    var show: Show? {
-        modelData.showDict[update.showId]
-        //if (modelData.showDict[update.showId] != nil) { return modelData.showDict[update.showId] }
-        //else { return showVm.show }
-    }
+    var show: Show? { modelData.showDict[update.showId] }
     
     var dateString: String {
         let df = DateFormatter()
@@ -47,8 +43,7 @@ struct UserUpdateCard: View {
                             .shadow(radius: 5)
                             .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     } else {
-                        Image(systemName : "ellipsis")
-                            .resizable()
+                        LoadingView()
                             .scaledToFit()
                             .cornerRadius(15)
                             .shadow(radius: 5)
@@ -56,11 +51,14 @@ struct UserUpdateCard: View {
                     }
                 }
                 VStack (alignment: .leading, spacing: 0) {
-                    if (show != nil) {
+                    if (show != nil && !show!.partiallyLoaded) {
                         Text(show!.name)
                             .bold()
                     } else {
-                        Text("Loading Show")
+                        LoadingView()
+                            .scaledToFill()
+                            .cornerRadius(15)
+                            .shadow(radius: 5)
                     }
                     Text(update.updateMessage)
                         .font(.callout.leading(.tight))

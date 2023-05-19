@@ -28,8 +28,7 @@ struct ListShowRow: View {
                         .cornerRadius(5)
                         .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 } else {
-                    Image(systemName : "ellipsis")
-                        .resizable()
+                    LoadingView()
                         .scaledToFit()
                         .cornerRadius(5)
                         .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)

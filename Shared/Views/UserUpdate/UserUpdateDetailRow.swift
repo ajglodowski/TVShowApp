@@ -38,8 +38,7 @@ struct UserUpdateDetailRow: View {
                             .cornerRadius(15)
                             .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     } else {
-                        Image(systemName : "ellipsis")
-                            .resizable()
+                        LoadingView()
                             .scaledToFit()
                             .cornerRadius(15)
                             .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)

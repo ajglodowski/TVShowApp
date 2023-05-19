@@ -60,8 +60,7 @@ struct ShowDetail: View {
                                         .shadow(radius: 10)
                                         .padding(.top, 25)
                                 } else {
-                                    Image(systemName : "ellipsis")
-                                        .resizable()
+                                    LoadingView()
                                         .scaledToFit()
                                         .clipped()
                                         .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)

@@ -14,7 +14,6 @@ struct Show : Hashable, Identifiable {
     
     // Both
     var id : String // Needed for Actors
-    //var id : String = UUID().uuidString // For Previous builds
     var name: String // Needed for Actors
     var service: Service // Needed for Actors
     var running: Bool
@@ -36,6 +35,7 @@ struct Show : Hashable, Identifiable {
         //if (totalRatings == 0 || sum == 0) { return 0 }
         return Double(sum) / Double(totalRatings)
     }
+    var partiallyLoaded: Bool // Used for initial load where user details are loaded before show details
     
     // User Specific
     var addedToUserShows: Bool {
@@ -81,6 +81,7 @@ struct Show : Hashable, Identifiable {
                              Status.NewRelease: 0, Status.NewSeason: 0, Status.Other: 0, Status.SeenEnough: 0,
                              Status.ShowEnded: 0, Status.UpToDate: 0]
         self.ratingCounts = [Rating.Disliked: 0, Rating.Meh: 0, Rating.Liked: 0, Rating.Loved: 0]
+        self.partiallyLoaded = false
     }
     
     

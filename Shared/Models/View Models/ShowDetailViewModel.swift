@@ -13,9 +13,6 @@ import FirebaseStorage
 
 class ShowDetailViewModel: ObservableObject {
     
-    @Published var show: Show? = nil
-    @Published var profilePic: Image? = nil
-    
     private var fireStore = Firebase.Firestore.firestore()
     private var store = Storage.storage().reference()
     
@@ -39,7 +36,9 @@ class ShowDetailViewModel: ObservableObject {
                 }
                 let data = rawData!
                 var add = convertShowDictToShow(showId: id, data: data)
-                self.show = add
+                if (modelData.showDict[id] != nil) {
+                    add = mergeShowTypes(userData: modelData.showDict[id]!, showData: add)
+                }
                 modelData.showDict[id] = add
                 modelData.loadingShows.remove(id)
             }

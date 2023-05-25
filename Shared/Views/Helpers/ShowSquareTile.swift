@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import SkeletonUI
 
 struct ShowSquareTile: View {
     
@@ -49,49 +50,39 @@ struct ShowSquareTile: View {
                 }
             }
             
-            if (show.tileImage != nil) {
-                Image(uiImage: show.tileImage!)
-                    .resizable()
-                    .scaledToFit()
-                    .cornerRadius(15)
-                    .if(show.status == Status.NewSeason) {
-                        $0.overlay(TileBanner(text: "New\nSeason"),alignment: .bottomLeading)
-                    }
-                    .shadow(radius: 5)
-                    .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            } else {
-                LoadingView()
-                    .scaledToFit()
-                    .cornerRadius(15)
-                    .shadow(radius: 5)
-                    .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            }
+            Image(uiImage: show.tileImage)
+                .resizable()
+                .skeleton(with: show.tileImage == nil)
+                .shape(type: .rectangle)
+                .scaledToFit()
+                .cornerRadius(15)
+                .if(show.status == Status.NewSeason) {
+                    $0.overlay(TileBanner(text: "New\nSeason"),alignment: .bottomLeading)
+                }
+                .shadow(radius: 5)
+                .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 
             if (titleShown) {
-                if (!show.partiallyLoaded) {
-                    HStack {
-                        Text(show.name)
-                            .font(.headline)
-                            .scaledToFit()
-                    }
-                    .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
-                    
-                    HStack {
-                        Text(show.length.rawValue + "m")
-                            .font(.subheadline)
-                        Text(show.service.rawValue)
-                            .font(.subheadline)
-                            .scaledToFit()
-                        if (ratingShown != nil && ratingShown! && hasRating) {
-                            Image(systemName: "\(show.rating!.ratingSymbol).fill")
-                                .foregroundColor(show.rating!.color)
-                        }
-                    }
-                } else {
-                    LoadingView()
+                HStack {
+                    Text(show.name)
+                        .skeleton(with: show.partiallyLoaded)
+                        .font(.headline)
                         .scaledToFit()
-                        .cornerRadius(15)
-                        .shadow(radius: 5)
+                }
+                .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                
+                HStack {
+                    Text(show.length.rawValue + "m")
+                        .skeleton(with: show.partiallyLoaded)
+                        .font(.subheadline)
+                    Text(show.service.rawValue)
+                        .skeleton(with: show.partiallyLoaded)
+                        .font(.subheadline)
+                        .scaledToFit()
+                    if (ratingShown != nil && ratingShown! && hasRating) {
+                        Image(systemName: "\(show.rating!.ratingSymbol).fill")
+                            .foregroundColor(show.rating!.color)
+                    }
                 }
             }
             

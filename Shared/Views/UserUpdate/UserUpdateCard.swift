@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SkeletonUI
 
 struct UserUpdateCard: View {
     
@@ -31,38 +32,30 @@ struct UserUpdateCard: View {
         else { return Color.black }
     }
     
+    var imageLoaded: Bool { vm.showImage != nil }
+    
     var body: some View {
         VStack {
             HStack (alignment: .center, spacing: 0) {
                 VStack {
-                    if (vm.showImage != nil) {
-                        Image(uiImage: vm.showImage!)
-                            .resizable()
-                            .scaledToFit()
-                            .cornerRadius(15)
-                            .shadow(radius: 5)
-                            .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    } else {
-                        LoadingView()
-                            .scaledToFit()
-                            .cornerRadius(15)
-                            .shadow(radius: 5)
-                            .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    }
+                    Image(uiImage: vm.showImage)
+                        .resizable()
+                        .skeleton(with: !imageLoaded)
+                        .shape(type: .rectangle)
+                        .scaledToFit()
+                        .cornerRadius(15)
+                        .shadow(radius: 5)
+                        .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 }
                 VStack (alignment: .leading, spacing: 0) {
-                    if (show != nil && !show!.partiallyLoaded) {
-                        Text(show!.name)
-                            .bold()
-                    } else {
-                        LoadingView()
-                            .scaledToFill()
-                            .cornerRadius(15)
-                            .shadow(radius: 5)
-                    }
+                    Text(show?.name)
+                        .skeleton(with: (show == nil || show!.partiallyLoaded))
+                        .bold()
                     Text(update.updateMessage)
+                        .skeleton(with: (show == nil || show!.partiallyLoaded))
                         .font(.callout.leading(.tight))
                     Text(dateString)
+                        .skeleton(with: (show == nil || show!.partiallyLoaded))
                         .font(.footnote)
                     ProfileBubble(profileId: update.userId)
                 }

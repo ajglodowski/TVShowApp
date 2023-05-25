@@ -27,6 +27,17 @@ struct ShowListTile: View {
         }
     }
     
+    var listShows: [Show] {
+        var output = [Show]()
+        if (showListObj == nil) { return output }
+        showListObj!.shows.forEach { show in
+            if (modelData.showDict[show] != nil) {
+                output.append(modelData.showDict[show]!)
+            }
+        }
+        return output
+    }
+    
     var body: some View {
         VStack {
             if (showListObj != nil && (!showListObj!.priv || showListObj!.profile.id == modelData.currentUser?.id)) {
@@ -35,10 +46,10 @@ struct ShowListTile: View {
                     VStack(alignment: .leading) {
                         VStack { // Image section
                             ZStack(alignment: .leading) {
-                                ForEach(Array(listObj.shows.enumerated()), id: \.offset) { loopInd, show in
+                                ForEach(Array(listShows.enumerated()), id: \.offset) { loopInd, show in
                                     ShowSquareTile(show: show, titleShown: false)
                                         .offset(x: (CGFloat(loopInd) * 30) - 5.0)
-                                        .zIndex(Double(listObj.shows.count - loopInd))
+                                        .zIndex(Double(listShows.count - loopInd))
                                 }
                             }
                             .frame(width: 250, height: 150, alignment: .leading)
@@ -59,14 +70,7 @@ struct ShowListTile: View {
                                 .lineLimit(2)
                                 .multilineTextAlignment(.leading)
                             HStack {
-                                NavigationLink(destination: ProfileDetail(id: listObj.profile.id)) {
-                                    Text("@\(listObj.profile.username)")
-                                        .italic()
-                                        //.padding(5)
-                                        //.background(.tertiary)
-                                        //.cornerRadius(5)
-                                }
-                                .buttonStyle(.bordered)
+                                ProfileBubble(profileId: listObj.profile.id)
                                 Spacer()
                                 if (likedByCurrentUser) {
                                     Text("Liked")
@@ -84,11 +88,8 @@ struct ShowListTile: View {
                 }
             }
         }
-        .task(id: modelData.shows) {
-            listVm.fillInLoadedShows(shows: modelData.shows)
-        }
         .task {
-            await listVm.loadList(id: showListId, showLimit: 5)
+            await listVm.loadList(modelData: modelData, id: showListId, showLimit: 5)
             self.showListObj = listVm.showListObj
         }
         .background(.quaternary)

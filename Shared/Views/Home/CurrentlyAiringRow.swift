@@ -46,8 +46,7 @@ struct CurrentlyAiringRow: View {
                     HStack (alignment: .top) { // Put days next to each other
                         ForEach(AirDate.allCases) { day in
                             if (currentlyAiringGroups[day] != nil) {
-                                if (day != today) { OtherTiles(currentlyAiringGroups: currentlyAiringGroups, day: day) }
-                                else { TodayTile(currentlyAiringGroups: currentlyAiringGroups, day: day) }
+                                DayTile(today: day == today, currentlyAiringGroups: currentlyAiringGroups, day: day)
                             }
                         }
                     }
@@ -58,7 +57,8 @@ struct CurrentlyAiringRow: View {
     }
 }
 
-struct TodayTile: View {
+struct DayTile: View {
+    var today: Bool
     var currentlyAiringGroups: [AirDate:[Show]]
     var day: AirDate
     var body: some View {
@@ -79,37 +79,12 @@ struct TodayTile: View {
                 }
                 .padding(.vertical, 5)
             }
-            .background(.quaternary)
-            .cornerRadius(20)
-            .padding(.vertical, 5)
-            Text("Today")
-                .bold()
-                .padding(6)
-                .foregroundColor(.white)
-                .background(Capsule().fill(.blue))
-        }
-    }
-}
-
-struct OtherTiles: View {
-    var currentlyAiringGroups: [AirDate:[Show]]
-    var day: AirDate
-    var body: some View {
-        VStack(spacing: 0) { // Day Group
-            Text(day.rawValue)
-                .padding(.top, 5)
-                .bold()
-            HStack(spacing: 0) {
-                ForEach(currentlyAiringGroups[day]!) { s in
-                    //NavigationLink(destination: ShowDetail(showId: s.id, show: s)) {
-                    NavigationLink(destination: ShowDetail(showId: s.id)) {
-                        ShowSquareTile(show: s, titleShown: true)
-                    }
-                    .foregroundColor(Color.primary)
-                    //.padding(.horizontal, 1)
-                }
+            if (today) {
+                Text("Today")
+                    .bold()
+                    .padding(6)
+                    .background(Capsule().fill(.quaternary))
             }
-            .padding(.vertical, 5)
         }
         .background(.quaternary)
         .cornerRadius(20)

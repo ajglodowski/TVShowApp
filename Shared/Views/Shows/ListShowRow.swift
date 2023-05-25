@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SkeletonUI
 
 struct ListShowRow: View {
     
@@ -21,18 +22,13 @@ struct ListShowRow: View {
         HStack {
             
             VStack { // Show Image
-                if (show.tileImage != nil) {
-                    Image(uiImage: show.tileImage!)
-                        .resizable()
-                        .scaledToFit()
-                        .cornerRadius(5)
-                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                } else {
-                    LoadingView()
-                        .scaledToFit()
-                        .cornerRadius(5)
-                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                }
+                Image(uiImage: show.tileImage)
+                    .resizable()
+                    .skeleton(with: show.tileImage == nil)
+                    .shape(type: .rectangle)
+                    .scaledToFit()
+                    .cornerRadius(5)
+                    .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
             
             

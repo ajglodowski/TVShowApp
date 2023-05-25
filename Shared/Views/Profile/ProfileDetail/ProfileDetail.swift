@@ -21,163 +21,32 @@ struct ProfileDetail: View {
     
     @State var unfollowConfirmation: Bool = false
     
-    @State var editingPinnedShows: Bool = false
-    
-    @State var pinnedShowText: String = ""
-    var pinnedShowSearchList: [Show] {
-        modelData.shows.filter { $0.name.lowercased().contains(pinnedShowText.lowercased())}
-    }
-    
-    var currentProfile: Bool {
-        prof.profile != nil && prof.profile!.id == curUserId
-    }
-    
-    
+    var currentProfile: Bool { prof.profile != nil && prof.profile!.id == curUserId }
     
     var body: some View {
-        
         let optProfile: Profile? = prof.profile
-        //let profilePic: Image? = prof.profilePic
-        
         ScrollView {
-            
             VStack {
-                
-                if (optProfile != nil) {
+                if (optProfile == nil) {
+                    Text("Loading Profile")
+                } else {
                     let profile = optProfile!
                     VStack (alignment: .leading) {
-                        
                         userDetails
                         
                         Divider()
                         
-                        
-                        pinnedShowsRow
-                        
+                        PinnedShowsSection(profile: profile, currentProfile: currentProfile)
                         
                         Divider()
                         
                         ownedLists
-                        
-                        Divider()
-                        
-                        /*
-                        Section(header: Text("More Data:")) {
-                            
-                            NavigationLink(destination: ShowListDetail(listId: "SHJKN1l0mSj9lkQlKDJJ")) {
-                                Text("List View")
-                            }
-                            
-                            NavigationLink(destination: WatchList()) {
-                                Text("All \(profile.username)'s logged shows")
-                            }
-                            
-                        }
-                         */
-                        
                     }
                     .navigationTitle(profile.username)
-                } else {
-                    Text("Loading Profile")
                 }
-                
             }
-            /*
-             .refreshable {
-             if (!current) { await rm.fetchAll(year: year!, round: round!, current: false) }
-             else { await rm.fetchAll(year: "", round: "", current: true) }
-             }
-             */
             .task {
                 prof.loadProfile(modelData: modelData, id: id)
-            }
-        }
-    }
-    
-    var pinnedShowsRow: some View {
-        
-        VStack(alignment: .leading) {
-            
-            let optProfile: Profile? = prof.profile
-            //var profilePic: Image? = prof.profilePic
-            
-            let profile = optProfile!
-            
-            VStack {
-                HStack {
-                    Text("\(profile.username)'s Pinned Shows:")
-                        .font(.headline)
-                    Spacer()
-                    if (currentProfile) {
-                        Button(action: {
-                            editingPinnedShows.toggle()
-                        }) {
-                            if (!editingPinnedShows) {
-                                Text("Edit Pinned Shows")
-                            } else {
-                                Text("Stop Editing Pinned Shows")
-                            }
-                        }
-                        .buttonStyle(.bordered)
-                    }
-                }
-            }
-            .padding()
-            
-            if (profile.pinnedShows != nil && !profile.pinnedShows!.isEmpty) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(profile.pinnedShows!.sorted(by: >), id:\.key) { showId, showName in
-                            VStack {
-                                NavigationLink(destination: ShowDetail(showId: showId)) {
-                                    ShowTile(showName: showName)
-                                }
-                                if (editingPinnedShows) {
-                                    Button(action: {
-                                        unpinShow(showId: showId, showName: showName)
-                                    }) {
-                                        HStack {
-                                            Text("Remove Pinned Show")
-                                            Image(systemName: "xmark")
-                                        }
-                                    }
-                                    .buttonStyle(.bordered)
-                                }
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 5)
-                    .foregroundColor(Color.primary)
-                }
-            } else {
-                VStack {
-                    Text("This user hasn't pinned any shows 😔")
-                        .font(.headline)
-                        .padding()
-                }
-            }
-            
-            VStack(alignment: .leading) {
-                if (profile.id == curUserId && editingPinnedShows) {
-                    Text("Add more pinned shows")
-                    HStack { // Search Bar
-                        Image(systemName: "magnifyingglass")
-                        TextField("Search for a show here", text: $pinnedShowText)
-                            .disableAutocorrection(true)
-                        if (!pinnedShowText.isEmpty) {
-                            Button(action: { pinnedShowText = "" }, label: {
-                                Image(systemName: "xmark")
-                            })
-                        }
-                    }
-                    ForEach(pinnedShowSearchList) { show in
-                        Button(action: {
-                            pinShow(showId: show.id, showName: show.name)
-                        }, label: {
-                            Text(show.name)
-                        })
-                    }
-                }
             }
         }
     }

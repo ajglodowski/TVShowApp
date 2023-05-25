@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 import Firebase
+import SkeletonUI
 
 struct ShowDetail: View {
     
@@ -50,24 +51,16 @@ struct ShowDetail: View {
                         ScrollView {
                             VStack (alignment: .center) {
                                 // Show Picture
-                                if (photo != nil) {
-                                    Image(uiImage: photo!)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .clipped()
-                                        .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
-                                        .cornerRadius(20)
-                                        .shadow(radius: 10)
-                                        .padding(.top, 25)
-                                } else {
-                                    LoadingView()
-                                        .scaledToFit()
-                                        .clipped()
-                                        .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
-                                        .cornerRadius(20)
-                                        .shadow(radius: 10)
-                                        .padding(.top, 25)
-                                }
+                                Image(uiImage: photo)
+                                    .resizable()
+                                    .skeleton(with: photo == nil)
+                                    .shape(type: .rectangle)
+                                    .scaledToFit()
+                                    .clipped()
+                                    .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
+                                    .cornerRadius(20)
+                                    .shadow(radius: 10)
+                                    .padding(.top, 25)
                                 
                                 
                                 // Main Portion

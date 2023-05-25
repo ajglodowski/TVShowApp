@@ -14,7 +14,7 @@ struct ShowList : Hashable, Identifiable {
     var id: String
     var name: String
     var description: String
-    var shows: [Show]
+    var shows: [String]
     var ordered: Bool
     var priv: Bool
     var profile: Profile
@@ -42,7 +42,7 @@ func convertListToDict(list: ShowList) -> [String:Any] {
     out["likeCount"] = list.likeCount
     out["priv"] = list.priv
     out["ordered"] = list.ordered
-    out["shows"] = list.shows.map { $0.id }
+    out["shows"] = list.shows
     out["profileId"] = list.profile.id
     return out
 }

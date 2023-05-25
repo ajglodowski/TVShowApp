@@ -21,9 +21,19 @@ struct ShowListDetail: View {
     @State var listObj: ShowList? = nil
     
     func reloadData() async {
-        listVm.fillInLoadedShows(shows: modelData.shows)
-        await listVm.loadList(id: listId)
+        await listVm.loadList(modelData: modelData, id: listId)
         self.listObj = listVm.showListObj
+    }
+    
+    var listShows: [Show] {
+        var output = [Show]()
+        if (listObj == nil) { return output }
+        listObj!.shows.forEach { show in
+            if (modelData.showDict[show] != nil) {
+                output.append(modelData.showDict[show]!)
+            }
+        }
+        return output
     }
     
     var likedByCurrentUser: Bool {
@@ -50,16 +60,11 @@ struct ShowListDetail: View {
     @State var searchText: String = ""
     
     var displayedShows: [Show] {
-        let listObj = listVm.showListObj
-        if (listObj != nil) {
-            let out = listObj!.shows
-            if (!searchText.isEmpty) {
-                return out.filter { $0.name.contains(searchText) }
-            } else {
-                return out
-            }
+        if (listShows.isEmpty) { return listShows }
+        if (!searchText.isEmpty) {
+            return listShows.filter { $0.name.contains(searchText) }
         } else {
-            return [Show]()
+            return listShows
         }
     }
     
@@ -288,7 +293,7 @@ struct ShowListDetail: View {
                 if (!editing) {
                     Button(action: {
                         editing = true
-                        editingShows = listObj!.shows
+                        editingShows = listShows
                         editingOrdered = listObj!.ordered
                     }) {
                         Text("Edit List")
@@ -298,7 +303,7 @@ struct ShowListDetail: View {
                     HStack {
                         Button(action: {
                             editing = false
-                            editingShows = listObj!.shows
+                            editingShows = listShows
                             editingOrdered = listObj!.ordered
                         }) {
                             Text("Cancel Edits")
@@ -307,7 +312,7 @@ struct ShowListDetail: View {
                         Button(action: {
                             editing = false
                             // Update Firestore shows and ordered
-                            if (editingShows != listObj!.shows) {
+                            if (editingShows != listShows) {
                                 updateListShows(listId: listObj!.id, showsAr: editingShows)
                                 Task {
                                     await reloadData()

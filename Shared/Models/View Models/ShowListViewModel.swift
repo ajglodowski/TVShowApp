@@ -14,19 +14,11 @@ class ShowListViewModel: ObservableObject {
     
     @Published var showListObj: ShowList? = nil
     
-    var loadedShows = [String:Show]()
-    
     //private var ref: DatabaseReference = Database.database().reference()
     private var fireStore = Firebase.Firestore.firestore()
-    
-    func fillInLoadedShows(shows: [Show]) {
-        shows.forEach { show in
-            loadedShows[show.id] = show
-        }
-    }
 
     @MainActor
-    func loadList(id: String, showLimit: Int? = nil) async {
+    func loadList(modelData: ModelData, id: String, showLimit: Int? = nil) async {
         //fireStore.clearPersistence()
         let show = fireStore.collection("lists").document("\(id)")
         let snapshot = try! await show.getDocument()
@@ -49,19 +41,17 @@ class ShowListViewModel: ObservableObject {
         if (showLimit != nil) {
             showIds = showIds.prefix(showLimit!).map{String($0)}
         }
-        // TODO Handle show loading to use memory better
-        var shows = [Show]()
+        // Load shows into memory if not already
         let showsCol = fireStore.collection("shows")
         for showId in showIds {
-            if (loadedShows[showId] != nil) { shows.append(loadedShows[showId]!) }
-            else {
+            if (modelData.showDict[showId] == nil) {
                 let snapshot = try! await showsCol.document(showId).getDocument()
                 let data = snapshot.data()!
-                var add = convertShowDictToShow(showId: showId, data: data)
-                shows.append(add)
+                let add = convertShowDictToShow(showId: showId, data: data)
+                modelData.showDict[showId] = add
             }
         }
-        let add = ShowList(id: id, name: name, description: description, shows: shows, ordered: ordered, priv: priv, profile: profile, likeCount: likeCount)
+        let add = ShowList(id: id, name: name, description: description, shows: showIds, ordered: ordered, priv: priv, profile: profile, likeCount: likeCount)
         self.showListObj = add
     }
     

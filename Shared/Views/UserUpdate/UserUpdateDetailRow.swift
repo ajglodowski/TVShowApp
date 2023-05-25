@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SkeletonUI
 
 struct UserUpdateDetailRow: View {
     
@@ -31,18 +32,13 @@ struct UserUpdateDetailRow: View {
         VStack {
             HStack (alignment: .center, spacing: 0) {
                 VStack {
-                    if (vm.showImage != nil) {
-                        Image(uiImage: vm.showImage!)
+                        Image(uiImage: vm.showImage)
                             .resizable()
+                            .skeleton(with: vm.showImage == nil)
+                            .shape(type: .rectangle)
                             .scaledToFit()
                             .cornerRadius(15)
                             .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    } else {
-                        LoadingView()
-                            .scaledToFit()
-                            .cornerRadius(15)
-                            .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    }
                 }
                 .padding(.horizontal, 2)
                 VStack (alignment: .leading, spacing: 0) {

@@ -127,6 +127,15 @@
       }
     },
     {
+      "identity" : "skeletonui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CSolanaM/SkeletonUI.git",
+      "state" : {
+        "revision" : "e3cf87cb96a10562bc660c9d48418a395d8385ed",
+        "version" : "1.0.11"
+      }
+    },
+    {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser",
@@ -151,6 +160,15 @@
       "state" : {
         "revision" : "fa0fcd43f272a260e7f734f23e6dc55e16fcae0a",
         "version" : "1.19.1"
+      }
+    },
+    {
+      "identity" : "swift-snapshot-testing",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
+      "state" : {
+        "revision" : "cef5b3f6f11781dd4591bdd1dd0a3d22bd609334",
+        "version" : "1.11.0"
       }
     }
   ],

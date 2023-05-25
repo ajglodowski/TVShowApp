@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SkeletonUI
 
 struct ShowTile: View {
     
@@ -15,16 +16,11 @@ struct ShowTile: View {
     var body: some View {
         VStack {
             VStack(alignment:.center) {
-                if (vm.showImage != nil) {
-                    Image(uiImage: vm.showImage!)
-                        .resizable()
-                        .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                        .scaledToFit()
-                } else {
-                    LoadingView()
-                        .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                        .scaledToFit()
-                }
+                Image(uiImage: vm.showImage)
+                    .resizable()
+                    .skeleton(with: vm.showImage == nil)
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .scaledToFit()
             }
             .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             Text(showName)

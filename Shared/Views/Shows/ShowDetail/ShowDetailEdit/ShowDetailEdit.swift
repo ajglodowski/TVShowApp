@@ -55,88 +55,7 @@ struct ShowDetailEdit: View {
                 }
             }
             //.padding()
-            
-            // Shouldn't be used anymore due to functions that edit db
-            /*
-            Section(header: Text("Your Details:")) {
-                if (show.addedToUserShows) {
-                    // Rating
-                    HStack {
-                        if (show.rating != nil) {
-                            Picker("Change Rating:", selection: $show.rating) {
-                                ForEach(Rating.allCases) { rating in
-                                    Text(rating.rawValue).tag(rating as Rating?)
-                                }
-                            }
-                            //.pickerStyle(SegmentedPickerStyle())
-                            .pickerStyle(MenuPickerStyle())
-                            .buttonStyle(.bordered)
-                        } else {
-                            Button(action: {
-                                show.rating = Rating.Meh
-                            }) {
-                                Text("Add a rating")
-                            }
-                            .buttonStyle(.bordered)
-                        }
-                    }
-                    
-                    HStack {
-                        Text("Current Season: ")
-                        Spacer()
-                        TextField("Current Season", value: $show.currentSeason, formatter: NumberFormatter())
-                            .keyboardType(UIKeyboardType.decimalPad)
-                    }
-                    
-                    // Status
-                    VStack (alignment: .leading) {
-                        Text("Choose a Status:")
-                        ScrollView(.horizontal) {
-                            HStack (alignment: .top) {
-                                ForEach(Status.allCases) { status in
-                                    VStack {
-                                        Button(action: {
-                                            switch status {
-                                            case Status.ShowEnded:
-                                                show.running = false
-                                            case Status.CurrentlyAiring:
-                                                if (show.airdate == nil) {
-                                                    show.airdate = AirDate.Other
-                                                }
-                                            case Status.ComingSoon:
-                                                if (show.releaseDate == nil) {
-                                                    show.releaseDate = Date()
-                                                }
-                                            default:
-                                                break
-                                            }
-                                            show.status = status
-                                        }) {
-                                            Text(status.rawValue)
-                                                .foregroundColor(.blue)
-                                        }
-                                        .buttonStyle(.bordered)
-                                        .tint(status == show.status ? .blue : .gray)
-                                        if (status == show.status) {
-                                            Text("Current Status")
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                } else {
-                    Button(action: {
-                        show.status = Status.NeedsWatched
-                        show.currentSeason = 1
-                    }) {
-                        Text("Add to Watchlist")
-                    }
-                    .buttonStyle(.bordered)
-                }
-            }
-             */
+        
             
             Section(header: Text("Show Details:")) {
                 
@@ -171,6 +90,32 @@ struct ShowDetailEdit: View {
                     }
                     .pickerStyle(MenuPickerStyle())
                     .buttonStyle(.bordered)
+                }
+                
+                // Services
+                HStack {
+                    Text("Select Services:")
+                    Spacer()
+                    Menu { // Service Filter
+                        ForEach(Service.allCases) { service in
+                            Button(action: {
+                                if (show.services.contains(service)) {
+                                    show.services = show.services.filter { $0 != service}
+                                } else {
+                                    show.services.append(service)
+                                }
+                            }) {
+                                Label(service.rawValue, systemImage: show.services.contains(service) ? "checkmark" : "")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                        Text("Services")
+                    }
+                    .padding(5)
+                    .background(Color.blue)
+                    .foregroundColor(Color.white)
+                    .cornerRadius(5)
                 }
                 //.padding()
             }

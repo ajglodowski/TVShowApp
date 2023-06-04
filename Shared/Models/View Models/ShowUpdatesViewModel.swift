@@ -32,12 +32,16 @@ class ShowUpdatesViewModel: ObservableObject {
                 return
             }
             if let snapshot = snapshot {
+                var updates = [UserUpdate]()
                 for document in snapshot.documents {
                     let updateId = document.documentID
                     let data = document.data()
                     let update = convertDataDictToUserUpdate(updateId: updateId, data: data)
                     modelData.updateDict[updateId] = update
+                    updates.append(update)
                 }
+                if (modelData.showDict[showId] != nil) { modelData.showDict[showId]!.currentUserUpdates = updates }
+                
             }
         }
     }

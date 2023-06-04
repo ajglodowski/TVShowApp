@@ -14,6 +14,7 @@ enum Service: String, CaseIterable, Codable, Identifiable {
     case Amazon
     case Apple = "Apple TV+"
     case HBO
+    case Max
     case CW
     case Disney = "Disney+"
     case FX
@@ -34,8 +35,8 @@ enum Service: String, CaseIterable, Codable, Identifiable {
             return .gray
         case Service.Amazon:
             return Color(red: 0/255, green: 168/255, blue: 225/255)
-        case Service.HBO:
-            return Color(red: 102/255, green: 51/255, blue: 153/255)
+        case Service.Max:
+            return Color(red: 0/255, green: 43/255, blue: 231/255)
         case Service.CW:
             return .green
         case Service.Disney:

@@ -195,7 +195,7 @@ struct Home: View {
             
             // Sync Button
             Button(action: {
-                //updateFirestoreActorObjects(actors: modelData.actors)
+                updateServices()
             }, label: {
                 Text("Sync Data")
                     //.font(.title)

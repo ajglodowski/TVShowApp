@@ -16,6 +16,7 @@ struct Show : Hashable, Identifiable {
     var id : String // Needed for Actors
     var name: String // Needed for Actors
     var service: Service // Needed for Actors
+    var services: [Service]
     var running: Bool
     var tags: [Tag]?
     var totalSeasons: Int
@@ -47,7 +48,7 @@ struct Show : Hashable, Identifiable {
     var rating: Rating?
     var currentUserUpdates: [UserUpdate]?
     var lastUpdateDate: Date? {
-        currentUserUpdates?.max { $0.updateDate > $1.updateDate }?.updateDate
+        currentUserUpdates?.max { $0.updateDate < $1.updateDate }?.updateDate
     }
     
     // Show Detail
@@ -67,6 +68,7 @@ struct Show : Hashable, Identifiable {
         self.id = id
         self.name = "New Show"
         self.service = Service.Other
+        self.services = [Service.Other]
         self.length = ShowLength.min
         //self.status = Status.Other
         //self.airdate = AirDate.Other
@@ -101,6 +103,7 @@ func convertShowToDictionary(show: Show) -> [String:Any] {
     //output["id"] = show.id
     output["name"] = show.name
     output["service"] = show.service.rawValue
+    output["services"] = show.services.map { $0.rawValue }
     output["running"] = show.running
     output["totalSeasons"] = show.totalSeasons
     output["limitedSeries"] = show.limitedSeries
@@ -148,6 +151,7 @@ func convertShowDictToShow(showId: String, data: [String:Any]) -> Show {
     let tags = data["tags"] as? [String] ?? [String]()
     let currentlyAiring = data["currentlyAiring"] as? Bool ?? false
     let service = data["service"] as! String
+    let services = data["services"] as? [String] ?? [String] ()
     let limitedSeries = data["limitedSeries"] as! Bool
     let length = data["length"] as! String
     
@@ -170,6 +174,7 @@ func convertShowDictToShow(showId: String, data: [String:Any]) -> Show {
     out.tags = tagArray
     out.currentlyAiring = currentlyAiring
     out.service = Service(rawValue: service)!
+    out.services = services.map { Service(rawValue: $0)! }
     out.limitedSeries = limitedSeries
     out.length = ShowLength(rawValue: length)!
     if (airdate != nil) { out.airdate = AirDate(rawValue: airdate!) }
@@ -190,6 +195,7 @@ func mergeShowTypes(userData: Show, showData: Show) -> Show {
     combined.status = userData.status
     combined.currentSeason = userData.currentSeason
     combined.rating = userData.rating
+    combined.currentUserUpdates = userData.currentUserUpdates
     return combined
 }
 

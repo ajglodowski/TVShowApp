@@ -54,11 +54,16 @@ func applyRatingFilters(ratingFilters: [Rating?], shows:[Show]) -> [Show] {
 
 func applyAllFilters(serviceFilters: [Service], statusFilters: [Status]?, ratingFilters: [Rating?], tagFilters: [Tag], showLengthFilter: ShowLength, shows: [Show], selectedLimited: Int, selectedRunning: Int, selectedAiring: Int, appliedAirdateFilters: [AirDate?]) -> [Show] {
     var filtered = [Show]()
+    
+    var statusFiltered = Set<Show>()
     if (!serviceFilters.isEmpty) {
         for service in serviceFilters {
-            let add = shows.filter { $0.service == service}
-            filtered.append(contentsOf: add)
+            let add = shows.filter { $0.services.contains(service) }
+            for show in add {
+                statusFiltered.insert(show)
+            }
         }
+        filtered = Array(statusFiltered)
     } else {
         filtered = shows
     }

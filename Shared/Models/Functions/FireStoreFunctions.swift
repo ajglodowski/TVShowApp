@@ -236,6 +236,26 @@ func refreshAgolia() {
     }
 }
 
+func updateServices() {
+    let db = Firestore.firestore()
+    db.collection("shows").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    var services = document.data()["services"] as! [String]
+                    if (services.contains("HBO")) {
+                        services.append("Max")
+                        Firestore.firestore().collection("shows").document(document.documentID).updateData([
+                            "services": services
+                        ])
+                    }
+                }
+                print("Done syncing")
+            }
+    }
+}
+
 func updateFirestoreActorObjects(actors: [Actor]) {
     print("Starting refresh")
     let db = Firestore.firestore()
@@ -264,3 +284,4 @@ func updateFirestoreActorObjects(actors: [Actor]) {
     }
     print("Refresh Done")
 }
+

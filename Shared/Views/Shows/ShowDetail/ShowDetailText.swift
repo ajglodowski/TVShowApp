@@ -23,8 +23,11 @@ struct ShowDetailText: View {
             Text("Show Length: " + show.length.rawValue + " minutes")
                 .font(.subheadline)
             Spacer()
-            Text(show.service.rawValue)
-                .font(.subheadline)
+            HStack {
+                ForEach(show.services) { service in
+                    ServiceBubble(service: service)
+                }
+            }
         }
         HStack {
             if (show.status != nil) {

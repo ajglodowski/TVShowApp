@@ -20,7 +20,7 @@ struct ShowSquareTile: View {
     var titleShown: Bool
     
     var ratingShown: Bool?
-    var hasRating: Bool { show.rating != nil }
+    var hasRating: Bool { show.addedToUserShows && show.userSpecificValues!.rating != nil }
     
     var aboveExtraText: [String]? // Text below the tile
     var aboveFontType: Font?
@@ -56,7 +56,7 @@ struct ShowSquareTile: View {
                 .shape(type: .rectangle)
                 .scaledToFit()
                 .cornerRadius(15)
-                .if(show.status == Status.NewSeason) {
+                .if(show.addedToUserShows && show.userSpecificValues!.status == Status.NewSeason) {
                     $0.overlay(TileBanner(text: "New\nSeason"),alignment: .bottomLeading)
                 }
                 .shadow(radius: 5)
@@ -79,9 +79,9 @@ struct ShowSquareTile: View {
                         .skeleton(with: show.partiallyLoaded)
                         .font(.subheadline)
                         .scaledToFit()
-                    if (ratingShown != nil && ratingShown! && hasRating) {
-                        Image(systemName: "\(show.rating!.ratingSymbol).fill")
-                            .foregroundColor(show.rating!.color)
+                    if (hasRating && ratingShown != nil && ratingShown!) {
+                        Image(systemName: "\(show.userSpecificValues!.rating!.ratingSymbol).fill")
+                            .foregroundColor(show.userSpecificValues!.rating!.color)
                     }
                 }
             }

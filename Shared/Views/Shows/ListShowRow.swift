@@ -56,8 +56,8 @@ struct ListShowRow: View {
                          .background(Capsule().fill(.quaternary))
                          }
                          */
-                        if (show.currentSeason != nil) {
-                            Text("\(show.currentSeason!)/\(show.totalSeasons) \(show.totalSeasons > 1 ? "Seasons" : "Season")")
+                        if (show.addedToUserShows && show.userSpecificValues!.currentSeason != nil) {
+                            Text("\(show.userSpecificValues!.currentSeason!)/\(show.totalSeasons) \(show.totalSeasons > 1 ? "Seasons" : "Season")")
                                 .font(.callout)
                                 .padding(6)
                                 .background(Capsule().fill(.quaternary))
@@ -74,9 +74,9 @@ struct ListShowRow: View {
                 //}
             }
             Spacer()
-            if (show.rating != nil) {
-                Image(systemName: "\(show.rating!.ratingSymbol).fill")
-                    .foregroundColor(show.rating!.color)
+            if (show.addedToUserShows && show.userSpecificValues!.rating != nil) {
+                Image(systemName: "\(show.userSpecificValues!.rating!.ratingSymbol).fill")
+                    .foregroundColor(show.userSpecificValues!.rating!.color)
             }
         }
         .padding(.vertical, 4)

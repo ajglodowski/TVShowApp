@@ -26,23 +26,23 @@ struct Home: View {
     @State private var newShow = Show(id:"1")
     
     var shows: [Show] {
-        modelData.shows.filter { $0.status != nil }
+        modelData.shows.filter { $0.addedToUserShows }
     }
     
     var unwatchedShows: [Show] {
-        shows.filter { $0.status! == Status.NeedsWatched }
-        .sorted { $0.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
+        shows.filter { $0.userSpecificValues!.status == Status.NeedsWatched }
+            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
     }
     
     var currentlyWatching: [Show] {
         shows
-            .filter { $0.status! == Status.CurrentlyAiring || $0.status! == Status.NewSeason || $0.status! == Status.CatchingUp }
+            .filter { $0.userSpecificValues!.status == Status.CurrentlyAiring || $0.userSpecificValues!.status == Status.NewSeason || $0.userSpecificValues!.status == Status.CatchingUp }
             .sorted { $0.name < $1.name }
     }
     
     var comingSoon: [Show] {
         shows
-            .filter { $0.status == Status.ComingSoon }
+            .filter { $0.userSpecificValues!.status == Status.ComingSoon }
             .filter { $0.releaseDate != nil }
             .sorted { $0.releaseDate! < $1.releaseDate! }
     }

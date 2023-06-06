@@ -30,11 +30,9 @@ struct ShowDetailText: View {
             }
         }
         HStack {
-            if (show.status != nil) {
-                Text("Status: " + show.status!.rawValue)
+            if (show.addedToUserShows && show.userSpecificValues!.status != nil) {
+                Text("Status: " + show.userSpecificValues!.status.rawValue)
                     .font(.subheadline)
-            } else {
-                
             }
             Spacer()
             if (show.limitedSeries) {
@@ -44,7 +42,7 @@ struct ShowDetailText: View {
             }
         }
         
-        if (show.status != nil && show.currentlyAiring && show.status == Status.CurrentlyAiring) {
+        if (show.addedToUserShows && show.currentlyAiring && show.userSpecificValues!.status == Status.CurrentlyAiring) {
             Text("Airdate: " + show.airdate!.rawValue)
                 .font(.subheadline)
         }

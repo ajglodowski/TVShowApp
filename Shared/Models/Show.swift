@@ -10,6 +10,16 @@ import SwiftUI
 import Combine
 import Firebase
 
+struct ShowUserSpecificValues: Hashable {
+    var status: Status
+    var currentSeason: Int?
+    var rating: Rating?
+    var currentUserUpdates: [UserUpdate]?
+    var lastUpdateDate: Date? {
+        currentUserUpdates?.max { $0.updateDate < $1.updateDate }?.updateDate
+    }
+}
+
 struct Show : Hashable, Identifiable {
     
     // Both
@@ -39,17 +49,14 @@ struct Show : Hashable, Identifiable {
     var partiallyLoaded: Bool // Used for initial load where user details are loaded before show details
     
     // User Specific
+    var userSpecificValues: ShowUserSpecificValues?
     var addedToUserShows: Bool {
-        if self.status != nil { return true }
+        if self.userSpecificValues != nil { return true }
         else { return false }
     }
-    var status: Status?
-    var currentSeason: Int?
-    var rating: Rating?
-    var currentUserUpdates: [UserUpdate]?
-    var lastUpdateDate: Date? {
-        currentUserUpdates?.max { $0.updateDate < $1.updateDate }?.updateDate
-    }
+    
+    
+    
     
     // Show Detail
     var actors: [String: String]? // Added var, key is id and value is name
@@ -192,10 +199,7 @@ func convertShowDictToShow(showId: String, data: [String:Any]) -> Show {
 
 func mergeShowTypes(userData: Show, showData: Show) -> Show {
     var combined = showData
-    combined.status = userData.status
-    combined.currentSeason = userData.currentSeason
-    combined.rating = userData.rating
-    combined.currentUserUpdates = userData.currentUserUpdates
+    combined.userSpecificValues = userData.userSpecificValues
     return combined
 }
 

@@ -67,7 +67,7 @@ struct ShowDetail: View {
                                 VStack (alignment: .leading) {
                                     
                                     HStack {
-                                        if (show!.addedToUserShows && show!.rating != nil) { RatingRow(curRating: show!.rating!, show: show!)
+                                        if (show!.addedToUserShows && show!.userSpecificValues!.rating != nil) { RatingRow(curRating: show!.userSpecificValues!.rating!, show: show!)
                                         } else if (show!.addedToUserShows) {
                                             Button(action: {
                                                 updateRating(rating: Rating.Meh, showId: show!.id)
@@ -86,7 +86,7 @@ struct ShowDetail: View {
                                     
                                     UpdateStatusButtons(show: show!)
                                     
-                                    ShowSeasonsRow(totalSeasons: show!.totalSeasons, currentSeason: show!.currentSeason, backgroundColor: backgroundColor, showId: show!.id)
+                                    ShowSeasonsRow(totalSeasons: show!.totalSeasons, currentSeason: show!.userSpecificValues?.currentSeason ?? nil, backgroundColor: backgroundColor, showId: show!.id)
                                     ShowDetailText(show: show!)
                                     if (show!.addedToUserShows) {
                                         Button(action: {

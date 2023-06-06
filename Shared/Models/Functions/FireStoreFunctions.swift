@@ -19,9 +19,10 @@ func convertActorToDictionary(actor: Actor) -> [String:Any] {
 func convertUserShowToDictionary(show: Show) -> [String: Any] {
     var output = [String:Any]()
     output["showId"] = show.id
-    output["status"] = show.status!.rawValue
-    output["currentSeason"] = show.currentSeason!
-    if (show.rating != nil) { output["rating"] = show.rating!.rawValue }
+    if (show.userSpecificValues == nil) { return output }
+    output["status"] = show.userSpecificValues!.status.rawValue
+    output["currentSeason"] = show.userSpecificValues!.currentSeason!
+    if (show.userSpecificValues!.rating != nil) { output["rating"] = show.userSpecificValues!.rating!.rawValue }
     return output
 }
 
@@ -33,7 +34,7 @@ func addToUserShows(show: Show) {
             print("Error writing document: \(err)")
         }
     }
-    incrementStatusCount(showId: show.id, status: show.status!)
+    incrementStatusCount(showId: show.id, status: show.userSpecificValues!.status)
 }
 
 // Updating show properties in the current user's show collection
@@ -189,7 +190,7 @@ func incrementStatusCount(showId: String, status: Status) {
 func syncRatingCounts(showList: [Show]) {
     for show in showList {
         for rating in Rating.allCases {
-            if (show.rating != nil && show.rating == rating) {
+            if (show.userSpecificValues != nil && show.userSpecificValues!.rating != nil && show.userSpecificValues!.rating == rating) {
                 Firestore.firestore().collection("shows").document(show.id).updateData([
                     "ratingCounts.\(rating.rawValue)": 1
                 ])
@@ -205,7 +206,7 @@ func syncRatingCounts(showList: [Show]) {
 func syncStatusCounts(showList: [Show]) {
     for show in showList {
         for status in Status.allCases {
-            if (show.status != nil && show.status == status) {
+            if (show.addedToUserShows && show.userSpecificValues!.status != nil && show.userSpecificValues!.status == status) {
                 Firestore.firestore().collection("shows").document(show.id).updateData([
                     "statusCounts.\(status.rawValue)": 1
                 ])

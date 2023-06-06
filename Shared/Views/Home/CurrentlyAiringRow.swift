@@ -18,7 +18,7 @@ struct CurrentlyAiringRow: View {
     var currentlyAiring: [Show] {
         shows
             .filter { $0.currentlyAiring }
-            .filter { $0.status! == Status.CurrentlyAiring }
+            .filter { $0.addedToUserShows && $0.userSpecificValues!.status == Status.CurrentlyAiring }
             .sorted { $0.airdate!.id < $1.airdate!.id }
     }
     

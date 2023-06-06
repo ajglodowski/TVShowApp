@@ -40,7 +40,7 @@ class ShowUpdatesViewModel: ObservableObject {
                     modelData.updateDict[updateId] = update
                     updates.append(update)
                 }
-                if (modelData.showDict[showId] != nil) { modelData.showDict[showId]!.currentUserUpdates = updates }
+                if (modelData.showDict[showId] != nil && modelData.showDict[showId]!.addedToUserShows) { modelData.showDict[showId]!.userSpecificValues!.currentUserUpdates = updates }
                 
             }
         }
@@ -80,8 +80,8 @@ class ShowUpdatesViewModel: ObservableObject {
                 let updateId = document.documentID
                 let update = convertDataDictToUserUpdate(updateId: updateId, data: data)
                 let showId = update.showId
-                if (modelData.showDict[showId]!.currentUserUpdates != nil) { modelData.showDict[showId]!.currentUserUpdates!.append(update) }
-                else { modelData.showDict[showId]!.currentUserUpdates = [update] }
+                if (modelData.showDict[showId]!.userSpecificValues!.currentUserUpdates != nil) { modelData.showDict[showId]!.userSpecificValues!.currentUserUpdates!.append(update) }
+                else { modelData.showDict[showId]!.userSpecificValues!.currentUserUpdates = [update] }
                 
                 modelData.updateDict[updateId] = update
             }

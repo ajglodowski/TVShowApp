@@ -29,12 +29,12 @@ struct UpdateStatusButtons: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            if (show.status == nil) { AddToWatchlistButton }
+            if (!show.addedToUserShows) { AddToWatchlistButton }
             else {
                 ScrollView(.horizontal) {
                     HStack(alignment:.top) {
                         if (!showingAllStatus) {
-                            ForEach(getStatusOptions(curStatus: show.status!)) { statusOption in
+                            ForEach(getStatusOptions(curStatus: show.userSpecificValues!.status)) { statusOption in
                                 Button(action: {
                                     changeShowStatus(show: show, status: statusOption)
                                 }) {
@@ -51,7 +51,7 @@ struct UpdateStatusButtons: View {
                                         Text(statusOption.rawValue)
                                     }
                                     .buttonStyle(.bordered)
-                                    if (statusOption == show.status) {
+                                    if (statusOption == show.userSpecificValues!.status) {
                                         Text("Current Status")
                                     }
                                 }
@@ -83,10 +83,8 @@ struct UpdateStatusButtons: View {
     var AddToWatchlistButton: some View {
         Button(action: {
             var addingShow = show
-            addingShow.status = Status.NeedsWatched
-            addingShow.currentSeason = 1
-            //addingShow.lastUpdateDate = Date()
-            //addingShow.lastUpdateMessage = "Added to your shows"
+            let userSpecificValues = ShowUserSpecificValues(status: Status.NeedsWatched, currentSeason: 1)
+            addingShow.userSpecificValues = userSpecificValues
             addUserUpdateWatchlist(userId: Auth.auth().currentUser!.uid, show: addingShow)
             addToUserShows(show: addingShow)
             incrementShowCount(userId: Auth.auth().currentUser!.uid)

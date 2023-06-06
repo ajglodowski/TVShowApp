@@ -17,7 +17,7 @@ struct SquareTileScrollRow: View {
     var scrollType: Int
     
     func isOutNow(s: Show) -> Bool {
-        if (s.status == Status.ComingSoon) {
+        if (s.addedToUserShows && s.userSpecificValues!.status == Status.ComingSoon) {
             if ((s.releaseDate != nil) && (s.releaseDate! < Date.now)) {
                 return true
             }
@@ -110,7 +110,7 @@ struct SquareTileScrollRow_Previews: PreviewProvider {
             VStack {
                 SquareTileScrollRow(items: shows, scrollType: 0)
                 SquareTileScrollRow(items: shows, scrollType: 1)
-                SquareTileScrollRow(items: shows.filter {$0.status == Status.ComingSoon}, scrollType: 2)
+                SquareTileScrollRow(items: shows.filter {$0.addedToUserShows && $0.userSpecificValues!.status == Status.ComingSoon}, scrollType: 2)
             }
         }
     }

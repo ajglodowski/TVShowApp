@@ -31,7 +31,7 @@ struct StatsPage: View {
         List {
             
             VStack {
-                Text("You've logged \(modelData.shows.filter{ $0.status != nil }.count) shows")
+                Text("You've logged \(modelData.shows.filter{ $0.addedToUserShows }.count) shows")
                     .font(.headline)
             }
             
@@ -181,7 +181,7 @@ struct NewCharts: View {
         var statusAr: [StatusCount] = []
         for status in Status.allCases {
             for service in Service.allCases {
-                let count = modelData.shows.filter{ $0.status == status && $0.service == service}.count
+                let count = modelData.shows.filter{ $0.addedToUserShows && $0.userSpecificValues!.status == status && $0.service == service}.count
                 let adding = StatusCount(status: status, count: count, service: service)
                 statusAr.append(adding)
             }
@@ -190,7 +190,7 @@ struct NewCharts: View {
     }
     
     func getStatusCount(status: Status) -> Int {
-        modelData.shows.filter{ $0.status == status }.count
+        modelData.shows.filter{ $0.addedToUserShows && $0.userSpecificValues!.status == status }.count
     }
     
     var serviceCounts: [ServiceCount] {

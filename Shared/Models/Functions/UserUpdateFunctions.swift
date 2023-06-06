@@ -19,7 +19,7 @@ func addUserUpdateRemove(userId: String, show: Show) {
 }
 
 func addUserUpdateStatusChange(userId: String, show: Show) {
-    let update = UserUpdate(id: "1", userId: userId, showId: show.id, updateType: UserUpdateCategory.UpdatedStatus, updateDate: Date(), statusChange: show.status)
+    let update = UserUpdate(id: "1", userId: userId, showId: show.id, updateType: UserUpdateCategory.UpdatedStatus, updateDate: Date(), statusChange: show.userSpecificValues!.status)
     _ = pushUserUpdateToFireStore(update: update)
 }
 

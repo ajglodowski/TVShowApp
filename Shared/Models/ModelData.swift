@@ -167,14 +167,14 @@ final class ModelData : ObservableObject {
                     let currentSeason = data["currentSeason"] as! Int
                     let rating = data["rating"] as? String // No rating is allowed
                     
-                    personalizedShow.status = Status(rawValue: status)
-                    personalizedShow.currentSeason = currentSeason
-                    if (rating != nil) { personalizedShow.rating = Rating(rawValue: rating!) }
-                    else { personalizedShow.rating = nil }
+                    var userSpecificValues = ShowUserSpecificValues(status: Status(rawValue: status)!, currentSeason: currentSeason)
+                    if (rating != nil) { userSpecificValues.rating = Rating(rawValue: rating!) }
+                    else { userSpecificValues.rating = nil }
                     
                     let updates = self.currentUserUpdates.filter { $0.showId == personalizedShow.id }
-                    personalizedShow.currentUserUpdates = updates
+                    userSpecificValues.currentUserUpdates = updates
                     
+                    personalizedShow.userSpecificValues = userSpecificValues
                     personalizedShow.partiallyLoaded = true
                     
                     self.showDict[showId] = personalizedShow
@@ -242,8 +242,8 @@ final class ModelData : ObservableObject {
                     let updateId = document.documentID
                     let update = convertDataDictToUserUpdate(updateId: updateId, data: data)
                     let showId = update.showId
-                    if (self.showDict[showId]!.currentUserUpdates != nil) { self.showDict[showId]!.currentUserUpdates!.append(update) }
-                    else { self.showDict[showId]!.currentUserUpdates = [update] }
+                    if (self.showDict[showId]!.userSpecificValues!.currentUserUpdates != nil) { self.showDict[showId]!.userSpecificValues!.currentUserUpdates!.append(update) }
+                    else { self.showDict[showId]!.userSpecificValues!.currentUserUpdates = [update] }
                     
                     self.updateDict[updateId] = update
                     

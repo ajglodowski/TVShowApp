@@ -10,25 +10,27 @@ import SwiftUI
 struct HomeNewRows: View {
     @EnvironmentObject var modelData : ModelData
     
+    var shows: [Show] { modelData.shows.filter { $0.addedToUserShows } }
+    
     var newSeasons: [Show] {
-        modelData.shows
-            .filter { $0.status == Status.NewSeason }
+        shows
+            .filter { $0.userSpecificValues!.status == Status.NewSeason }
             .sorted { $0.name < $1.name }
-            .sorted { $0.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
+            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
     }
     
     var newReleases: [Show] {
-        modelData.shows
-            .filter { $0.status == Status.NewRelease }
+        shows
+            .filter { $0.userSpecificValues!.status == Status.NewRelease }
             .sorted { $0.name < $1.name }
-            .sorted { $0.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
+            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
     }
     
     var catchingUp: [Show] {
-        modelData.shows
-            .filter { $0.status == Status.CatchingUp }
+        shows
+            .filter { $0.userSpecificValues!.status == Status.CatchingUp }
             .sorted { $0.name < $1.name }
-            .sorted { $0.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
+            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
     }
     
     var body: some View {

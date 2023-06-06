@@ -16,7 +16,7 @@ struct AddToComingSoon: View {
     }
     
     var outOfSync: [Show] {
-        shows.filter({ $0.status != Status.ComingSoon && $0.status != Status.SeenEnough && $0.releaseDate != nil})
+        shows.filter({ $0.userSpecificValues!.status != Status.ComingSoon && $0.userSpecificValues!.status != Status.SeenEnough && $0.releaseDate != nil})
     }
     
     var body: some View {

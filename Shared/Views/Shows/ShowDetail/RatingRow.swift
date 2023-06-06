@@ -19,7 +19,7 @@ struct RatingRow: View {
             HStack (alignment:.top) {
                 ForEach(Rating.allCases) { rating in
                     Button(action: {
-                        decrementRatingCount(showId: show.id, rating: show.rating!)
+                        decrementRatingCount(showId: show.id, rating: show.userSpecificValues!.rating!)
                         updateRating(rating: rating, showId: show.id)
                         addUserUpdateRatingChange(userId: Auth.auth().currentUser!.uid, show: show, rating: rating)
                         incrementRatingCount(showId: show.id, rating: rating)
@@ -39,7 +39,7 @@ struct RatingRow: View {
             }
             .foregroundColor(Color.white)
             Button(action: {
-                decrementRatingCount(showId: show.id, rating: show.rating!)
+                decrementRatingCount(showId: show.id, rating: show.userSpecificValues!.rating!)
                 deleteRatingFromUserShows(showId: show.id)
                 addUserUpdateRatingRemoval(userId: Auth.auth().currentUser!.uid, show: show)
             }) {

@@ -14,8 +14,8 @@ struct HomeStatusFiltered: View {
     var shows: [Show]
     
     var displayedShows: [Show] {
-        var output = shows.sorted { $0.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
-        if (selectedStatus != nil) { output = output.filter { $0.status == selectedStatus } }
+        var output = shows.sorted { $0.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
+        if (selectedStatus != nil) { output = output.filter { $0.userSpecificValues!.status == selectedStatus } }
         return Array(output.prefix(10))
     }
     

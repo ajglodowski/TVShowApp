@@ -49,7 +49,7 @@ func applyTagFilters(tagFilters: [Tag], shows: [Show]) -> [Show] {
 }
 
 func applyRatingFilters(ratingFilters: [Rating?], shows:[Show]) -> [Show] {
-    return !ratingFilters.isEmpty ? shows.filter { ratingFilters.contains($0.rating ?? nil) } : shows
+    return !ratingFilters.isEmpty ? shows.filter { ratingFilters.contains($0.userSpecificValues?.rating ?? nil) } : shows
 }
 
 func applyAllFilters(serviceFilters: [Service], statusFilters: [Status]?, ratingFilters: [Rating?], tagFilters: [Tag], showLengthFilter: ShowLength, shows: [Show], selectedLimited: Int, selectedRunning: Int, selectedAiring: Int, appliedAirdateFilters: [AirDate?]) -> [Show] {
@@ -68,7 +68,7 @@ func applyAllFilters(serviceFilters: [Service], statusFilters: [Status]?, rating
         filtered = shows
     }
     
-    if (statusFilters != nil && !statusFilters!.isEmpty) { filtered = filtered.filter { statusFilters!.contains($0.status!) } }
+    if (statusFilters != nil && !statusFilters!.isEmpty) { filtered = filtered.filter { statusFilters!.contains($0.userSpecificValues!.status) } }
     
     if (!appliedAirdateFilters.isEmpty) { filtered = filtered.filter { appliedAirdateFilters.contains($0.airdate ?? nil) } }
     
@@ -153,11 +153,11 @@ func changeShowStatus(show: Show, status: Status) {
         break
     }
     //updateShowStatus(showId: show.id, status: status)
-    updatedShow.status = status
+    updatedShow.userSpecificValues!.status = status
     //updatedShow.lastUpdateDate = Date()
     //updatedShow.lastUpdateMessage = "Updated status to \(status.rawValue)"
     addUserUpdateStatusChange(userId: Auth.auth().currentUser!.uid, show: updatedShow)
     updateUserShow(show: updatedShow)
-    decrementStatusCount(showId: show.id, status: show.status!)
+    decrementStatusCount(showId: show.id, status: show.userSpecificValues!.status)
     incrementStatusCount(showId: show.id, status: status)
 }

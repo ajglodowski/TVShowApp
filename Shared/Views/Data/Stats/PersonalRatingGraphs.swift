@@ -12,7 +12,7 @@ struct PersonalRatingGraphs: View {
     
     @EnvironmentObject var modelData: ModelData
     
-    var ratedShows: [Show] { modelData.shows.filter { $0.rating != nil } }
+    var ratedShows: [Show] { modelData.shows.filter { $0.addedToUserShows && $0.userSpecificValues!.rating != nil } }
     
     var ratingsCounts: [Rating:Int] {
         var out = [Rating:Int]()
@@ -20,7 +20,7 @@ struct PersonalRatingGraphs: View {
             out[r] = 0
         }
         for show in ratedShows {
-            out[show.rating!]! += 1
+            out[show.userSpecificValues!.rating!]! += 1
         }
         return out
     }
@@ -36,7 +36,7 @@ struct PersonalRatingGraphs: View {
         var output = [TagRatingCount]()
         for tag in Tag.allCases {
             for rating in Rating.allCases {
-                let count = ratedShows.filter { $0.tags != nil && $0.tags!.contains(tag) && $0.rating == rating}.count
+                let count = ratedShows.filter { $0.tags != nil && $0.tags!.contains(tag) && $0.userSpecificValues!.rating == rating}.count
                 let add = TagRatingCount(tag: tag, rating: rating, count: count)
                 output.append(add)
             }
@@ -53,7 +53,7 @@ struct PersonalRatingGraphs: View {
             if (!tagged.isEmpty) {
                 var sum = 0
                 for show in tagged {
-                    sum += (show.rating!.pointValue)
+                    sum += (show.userSpecificValues!.rating!.pointValue)
                 }
                 //if (totalRatings == 0 || sum == 0) { return 0 }
                 output[tag] = Double(sum) / Double(tagged.count)
@@ -66,7 +66,7 @@ struct PersonalRatingGraphs: View {
         let tagged = ratedShows.filter { $0.tags != nil && $0.tags!.contains(tag) }
         var sum = 0
         for show in tagged {
-            sum += (show.rating!.pointValue)
+            sum += (show.userSpecificValues!.rating!.pointValue)
         }
         return Double(sum) / Double(tagged.count)
     }
@@ -121,30 +121,28 @@ struct PersonalRatingGraphs: View {
         VStack {
             Text("Tags by Rating:")
                 .font(.headline)
-            ScrollView(.horizontal) {
-                Chart {
-                    ForEach(tagRatingCounts.sorted { avgTagRating(tag: $0.tag) > avgTagRating(tag: $1.tag) } ) { obj in
-                        BarMark(
-                            x: .value("Rating", obj.tag.rawValue),
-                            y: .value("Count", obj.count)
-                        )
-                        /*
-                         .annotation(position: .top) {
-                             Text("Average Rating value: \(avgTagRating[obj.tag]!)")
-                             Text("From \(numShowsFromTag(tag:obj.tag)) shows")
-                         }
-                         */
-                        .foregroundStyle(by: .value("Rating", obj.rating.rawValue))
-                        //.foregroundStyle(rating.color)
-                    }
+            Chart {
+                ForEach(tagRatingCounts.sorted { avgTagRating(tag: $0.tag) > avgTagRating(tag: $1.tag) } ) { obj in
+                    BarMark(
+                        x: .value("Rating", obj.tag.rawValue),
+                        y: .value("Count", obj.count)
+                    )
+                    /*
+                     .annotation(position: .top) {
+                         Text("Average Rating value: \(avgTagRating[obj.tag]!)")
+                         Text("From \(numShowsFromTag(tag:obj.tag)) shows")
+                     }
+                     */
+                    .foregroundStyle(by: .value("Rating", obj.rating.rawValue))
+                    //.foregroundStyle(rating.color)
                 }
-                
-                .chartForegroundStyleScale([
-                    "Disliked": Rating.Disliked.color, "Meh": Rating.Meh.color, "Liked": Rating.Liked.color, "Loved": Rating.Loved.color
-                ])
-                .chartPlotStyle { plotArea in
-                    plotArea.frame(width: (CGFloat(Tag.allCases.count) * 50),height:250)
-                }
+            }
+            .chartScrollableAxes(.horizontal)
+            .chartForegroundStyleScale([
+                "Disliked": Rating.Disliked.color, "Meh": Rating.Meh.color, "Liked": Rating.Liked.color, "Loved": Rating.Loved.color
+            ])
+            .chartPlotStyle { plotArea in
+                plotArea.frame(width: (CGFloat(Tag.allCases.count) * 50),height:250)
             }
         }
     }

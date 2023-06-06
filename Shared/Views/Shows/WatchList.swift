@@ -45,9 +45,9 @@ struct WatchList: View {
                 }
             } else {
                 if (selectedRatingOrder == 1) {
-                    out = out.sorted { $0.rating?.pointValue ?? 0 > $1.rating?.pointValue ?? 0 }
+                    out = out.sorted { $0.userSpecificValues!.rating?.pointValue ?? 0 > $1.userSpecificValues!.rating?.pointValue ?? 0 }
                 } else if (selectedRatingOrder == 2) {
-                    out = out.sorted { $0.rating?.pointValue ?? 0 < $1.rating?.pointValue ?? 0 }
+                    out = out.sorted { $0.userSpecificValues!.rating?.pointValue ?? 0 < $1.userSpecificValues!.rating?.pointValue ?? 0 }
                 }
             }
         }

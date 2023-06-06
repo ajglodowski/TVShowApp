@@ -181,7 +181,6 @@ struct ShowDetailEdit: View {
             }
             
             // Seasons
-            //if (show.releaseDate != nil || show.status == Status.ComingSoon) {
             Section(header: Text("Release Date:")) {
                 if (show.releaseDate != nil) {
                     DatePicker(
@@ -189,18 +188,8 @@ struct ShowDetailEdit: View {
                         selection: $show.releaseDate.toUnwrapped(defaultValue: Date()),
                         displayedComponents: [.date]
                     )
-                    if (show.status != Status.ComingSoon) {
-                        Button(action: {
-                            show.releaseDate = nil
-                        }, label: {
-                            Text("Remove Release Date")
-                                .bold()
-                        })
-                        .buttonStyle(.bordered)
-                    }
                 } else {
                     Button(action: {
-                        show.status = Status.ComingSoon
                         show.releaseDate = Date()
                     }, label: {
                         Text("Add a Release Date")

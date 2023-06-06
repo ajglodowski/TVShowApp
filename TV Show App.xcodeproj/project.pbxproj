@@ -177,6 +177,8 @@
 		1AF396AF2638FF4C000C4996 /* WatchList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF396AC2638FF4C000C4996 /* WatchList.swift */; };
 		1AF396B22639004A000C4996 /* landmarkData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AF396B12639004A000C4996 /* landmarkData.json */; };
 		1AF396B42639004A000C4996 /* landmarkData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AF396B12639004A000C4996 /* landmarkData.json */; };
+		1AFE459E2A2CE35D007E4640 /* AlgoliaUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE459D2A2CE35D007E4640 /* AlgoliaUpdate.swift */; };
+		1AFE45A02A2E9E40007E4640 /* PopularShowsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE459F2A2E9E40007E4640 /* PopularShowsViewModel.swift */; };
 		1AFFAC7728F85E2E00EE7F25 /* ShowStatusGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFFAC7628F85E2E00EE7F25 /* ShowStatusGraph.swift */; };
 		1AFFAC7828F85E2E00EE7F25 /* ShowStatusGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFFAC7628F85E2E00EE7F25 /* ShowStatusGraph.swift */; };
 /* End PBXBuildFile section */
@@ -304,6 +306,8 @@
 		1AF396A52638F977000C4996 /* ListShowRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListShowRow.swift; sourceTree = "<group>"; };
 		1AF396AC2638FF4C000C4996 /* WatchList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchList.swift; sourceTree = "<group>"; };
 		1AF396B12639004A000C4996 /* landmarkData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = landmarkData.json; sourceTree = "<group>"; };
+		1AFE459D2A2CE35D007E4640 /* AlgoliaUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgoliaUpdate.swift; sourceTree = "<group>"; };
+		1AFE459F2A2E9E40007E4640 /* PopularShowsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularShowsViewModel.swift; sourceTree = "<group>"; };
 		1AFFAC7628F85E2E00EE7F25 /* ShowStatusGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowStatusGraph.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -430,6 +434,7 @@
 				1A193020296280DE0090EE72 /* UserUpdate.swift */,
 				1A1930432964D82E0090EE72 /* AlgoliaController.swift */,
 				1A1930492964E0C50090EE72 /* AlgoliaShow.swift */,
+				1AFE459D2A2CE35D007E4640 /* AlgoliaUpdate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -505,6 +510,7 @@
 				1AD941D528DBFFC100710B75 /* ShowListViewModel.swift */,
 				1AD8B5B82970C0F10072083A /* ShowUpdatesViewModel.swift */,
 				1A0BDBC0298ADD1600DDC82F /* ActorDetailViewModel.swift */,
+				1AFE459F2A2E9E40007E4640 /* PopularShowsViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -870,6 +876,7 @@
 				1A19303F2964D7090090EE72 /* ShowSearch.swift in Sources */,
 				1A88BF7E28C52A24005F7683 /* ProfileViewModel.swift in Sources */,
 				1A6E07E628C54B9600BE4898 /* ShowTileViewModel.swift in Sources */,
+				1AFE459E2A2CE35D007E4640 /* AlgoliaUpdate.swift in Sources */,
 				1A4B4CF0282F2DA70095324A /* StatsPage.swift in Sources */,
 				1A6E07ED28C56A8200BE4898 /* ProfileFunctions.swift in Sources */,
 				1A193021296280DE0090EE72 /* UserUpdate.swift in Sources */,
@@ -899,6 +906,7 @@
 				1A81CC03288E159D003F6EC3 /* TagsSection.swift in Sources */,
 				1AF396AD2638FF4C000C4996 /* WatchList.swift in Sources */,
 				1A19304A2964E0C50090EE72 /* AlgoliaShow.swift in Sources */,
+				1AFE45A02A2E9E40007E4640 /* PopularShowsViewModel.swift in Sources */,
 				1A99FF0726CC3796009485ED /* Status.swift in Sources */,
 				1A90DFDB284813A500AD48BA /* CurrentlyAiringRow.swift in Sources */,
 				1A1A51D3268EBD1B00138859 /* UIImage+Extension.swift in Sources */,

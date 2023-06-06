@@ -11,6 +11,8 @@ struct DiscoverTab: View {
     
     @ObservedObject var profileSearchVM = ProfileSearchViewModel()
     
+    @ObservedObject var popularShowsVm = PopularShowsViewModel()
+    
     @State var profileSearchText = ""
     
     var body: some View {
@@ -37,9 +39,12 @@ struct DiscoverTab: View {
                         destination: ShowSearch()) {
                             EmptyView()
                     }
+                    
                 //.listRowInsets(EdgeInsets())
                 }
                 .ignoresSafeArea()
+                
+                PopularShows()
              
                 userSearch
                 
@@ -92,6 +97,29 @@ struct DiscoverTab: View {
                 }
             }
             //.listStyle(.automatic)
+        }
+    }
+    
+}
+
+struct PopularShows: View {
+    @ObservedObject var showsVm = PopularShowsViewModel()
+    
+    @EnvironmentObject var modelData : ModelData
+    
+    var body: some View {
+        var showDict = showsVm.totalMostPopularShows
+        let shows = showDict
+            
+        VStack {
+            ForEach(shows) { show in
+                VStack{
+                    Text(show.id)
+                }
+            }
+        }
+        .task {
+            //showsVm.getPopularShowsFromAll(modelData: modelData)
         }
     }
 }

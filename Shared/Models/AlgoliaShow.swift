@@ -14,6 +14,7 @@ struct AlgoliaShow : Codable {
     // Both
     var name: String // Needed for Actors
     var service: Service // Needed for Actors
+    var services: [Service]
     var running: Bool
     var tags: [Tag]?
     var totalSeasons: Int

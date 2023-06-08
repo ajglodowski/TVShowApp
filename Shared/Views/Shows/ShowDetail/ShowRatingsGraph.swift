@@ -55,3 +55,11 @@ struct ShowRatingsGraph: View {
         .foregroundColor(.white)
     }
 }
+
+#Preview {
+    ScrollView {
+        VStack {
+            ShowRatingsGraph(show: SampleShow, backgroundColor: .white)
+        }
+    }
+}

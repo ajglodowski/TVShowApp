@@ -20,6 +20,19 @@ struct ShowUserSpecificValues: Hashable {
     }
 }
 
+var SampleShow: Show {
+    var show = Show(id: "0")
+    show.name = "Sample Show"
+    show.airdate = AirDate.Sunday
+    show.totalSeasons = 3
+    show.service = Service.Netflix
+    show.statusCounts = [Status.CatchingUp: 0, Status.ComingSoon: 0, Status.CurrentlyAiring: 0, Status.NeedsWatched: 0,
+                         Status.NewRelease: 0, Status.NewSeason: 10, Status.Other: 0, Status.SeenEnough: 0,
+                         Status.ShowEnded: 0, Status.UpToDate: 25]
+    show.ratingCounts = [Rating.Disliked: 0, Rating.Meh: 10, Rating.Liked: 5, Rating.Loved: 1]
+    return show
+}
+
 struct Show : Hashable, Identifiable {
     
     // Both

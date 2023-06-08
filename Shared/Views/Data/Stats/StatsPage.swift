@@ -234,6 +234,7 @@ struct NewCharts: View {
          */
         
         VStack {
+            /*
             Text("Shows by Service")
                 .font(.title)
             ScrollView(.horizontal) {
@@ -264,11 +265,13 @@ struct NewCharts: View {
                 //.frame(height: 400)
             //.padding()
             }
+             */
         }
          
          
         
         VStack {
+            /*
             VStack {
                 Text("Shows by Status")
                     .font(.title)
@@ -332,6 +335,7 @@ struct NewCharts: View {
             }
             .padding()
             //.chartLegend(position: .top)
+             */
         }
         
     }

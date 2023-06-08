@@ -57,9 +57,9 @@ struct TagsGraphs: View {
     
     var body: some View {
         VStack {
-            Text("Shows by Tags")
-                .font(.title)
-            ScrollView(.horizontal) {
+            VStack {
+                Text("Shows by Tags")
+                    .font(.title)
                 Chart {
                     ForEach(tagsCounts.sorted(by: {$0.count > $1.count})) { tag in
                         BarMark(
@@ -76,10 +76,12 @@ struct TagsGraphs: View {
                         .foregroundStyle(by: .value("Tag", tag.tag.rawValue))
                     }
                 }
+                .chartScrollableAxes(.horizontal)
                 .chartPlotStyle { plotArea in
                     plotArea.frame(height:250)
                 }
             }
+            .frame(minHeight: 600)
             
             Text("Tags per show")
                 .font(.title)
@@ -99,7 +101,7 @@ struct TagsGraphs: View {
                     .foregroundStyle(by: .value("Tag Count", showTag.tagCount))
                 }
             }
-            
+            .chartScrollableAxes(.horizontal)
             .chartPlotStyle { plotArea in
                 plotArea.frame(height:350)
             }

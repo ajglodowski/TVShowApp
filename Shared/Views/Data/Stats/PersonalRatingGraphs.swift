@@ -83,8 +83,6 @@ struct PersonalRatingGraphs: View {
              
             tagsByRating
             
-            AverageRatingsGraphs()
-            
         }
     }
     
@@ -107,6 +105,7 @@ struct PersonalRatingGraphs: View {
                     //.foregroundStyle(rating.color)
                 }
             }
+            .chartScrollableAxes(.horizontal)
             .chartPlotStyle { plotArea in
                 plotArea.frame(height:250)
             }
@@ -115,6 +114,7 @@ struct PersonalRatingGraphs: View {
             ])
             .padding(.top, 25)
         }
+        .frame(minHeight: 500)
     }
     
     var tagsByRating: some View {
@@ -142,9 +142,10 @@ struct PersonalRatingGraphs: View {
                 "Disliked": Rating.Disliked.color, "Meh": Rating.Meh.color, "Liked": Rating.Liked.color, "Loved": Rating.Loved.color
             ])
             .chartPlotStyle { plotArea in
-                plotArea.frame(width: (CGFloat(Tag.allCases.count) * 50),height:250)
+                plotArea.frame(height:250)
             }
         }
+        .frame(minHeight: 500)
     }
 }
 

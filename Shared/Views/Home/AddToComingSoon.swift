@@ -37,14 +37,14 @@ struct AddToComingSoon: View {
                                 }
                                 .foregroundColor(.primary)
                                 Button(action:{
-                                    updateShowStatus(showId: s.id, status: Status.ComingSoon)
+                                    changeShowStatus(show: s, status: Status.ComingSoon)
                                 }) {
                                     Text("Add to Coming Soon")
                                 }
                                 .buttonStyle(.bordered)
                                 .tint(.green)
                                 Button(action:{
-                                    updateShowStatus(showId: s.id, status: Status.SeenEnough)
+                                    changeShowStatus(show: s, status: Status.SeenEnough)
                                 }) {
                                     Text("Seen Enough")
                                 }

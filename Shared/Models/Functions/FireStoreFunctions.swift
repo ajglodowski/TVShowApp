@@ -20,9 +20,7 @@ func convertUserShowToDictionary(show: Show) -> [String: Any] {
     var output = [String:Any]()
     output["showId"] = show.id
     if (show.userSpecificValues == nil) { return output }
-    output["status"] = show.userSpecificValues!.status.rawValue
-    output["currentSeason"] = show.userSpecificValues!.currentSeason!
-    if (show.userSpecificValues!.rating != nil) { output["rating"] = show.userSpecificValues!.rating!.rawValue }
+    output = convertUserSpecificDetailsToDictionary(details: show.userSpecificValues!)
     return output
 }
 
@@ -87,13 +85,6 @@ func updateActor(act: Actor, actorNameEdited: Bool) {
     Firestore.firestore().collection("actors").document(act.id).setData(showData)
 }
 
-func updateShowStatus(showId: String, status: Status) {
-    let uid = Auth.auth().currentUser!.uid
-    Firestore.firestore().collection("users/\(uid)/shows").document("\(showId)").setData([
-        "status": status.rawValue
-    ], merge: true)
-}
-
 func addTagToShow(showId: String, tag: Tag) {
     Firestore.firestore().collection("shows").document("\(showId)").updateData([
         "tags": FieldValue.arrayUnion([tag.rawValue])
@@ -109,6 +100,7 @@ func removeTagFromShow(showId: String, tag: Tag) {
 func updateCurrentSeason(newSeason: Int, showId: String) {
     let uid = Auth.auth().currentUser!.uid
     Firestore.firestore().collection("users/\(uid)/shows").document("\(showId)").setData([
+        "updated": Date(),
         "currentSeason": newSeason
     ], merge: true)
 }
@@ -116,14 +108,9 @@ func updateCurrentSeason(newSeason: Int, showId: String) {
 func updateRating(rating: Rating, showId: String) {
     let uid = Auth.auth().currentUser!.uid
     Firestore.firestore().collection("users/\(uid)/shows").document("\(showId)").setData([
+        "updated": Date(),
         "rating": rating.rawValue
     ], merge: true)
-}
-
-func updateShowCurrentlyAiring(currentlyAiringCurrentValue: Bool, showId: String) {
-    Firestore.firestore().collection("shows").document("\(showId)").updateData([
-        "currentlyAiring": !currentlyAiringCurrentValue
-    ])
 }
 
 func deleteShowFromUserShows(showId: String) {
@@ -134,6 +121,7 @@ func deleteShowFromUserShows(showId: String) {
 func deleteRatingFromUserShows(showId: String) {
     let uid = Auth.auth().currentUser!.uid
     Firestore.firestore().collection("users/\(uid)/shows").document("\(showId)").updateData([
+        "updated": Date(),
         "rating": FieldValue.delete()
     ])
 }
@@ -233,26 +221,6 @@ func refreshAgolia() {
                         "statusCounts.Catching Up": FieldValue.increment(Int64(-1))
                     ])
                 }
-            }
-    }
-}
-
-func updateServices() {
-    let db = Firestore.firestore()
-    db.collection("shows").getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    var services = document.data()["services"] as! [String]
-                    if (services.contains("HBO")) {
-                        services.append("Max")
-                        Firestore.firestore().collection("shows").document(document.documentID).updateData([
-                            "services": services
-                        ])
-                    }
-                }
-                print("Done syncing")
             }
     }
 }

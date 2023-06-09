@@ -42,6 +42,10 @@ struct ShowDetailText: View {
             }
         }
         
+        HStack {
+            Text("Show last updated: \(ShowDetailText.formatter.string(from: show.lastUpdated))")
+        }
+        
         if (show.addedToUserShows && show.currentlyAiring && show.userSpecificValues!.status == Status.CurrentlyAiring) {
             Text("Airdate: " + show.airdate!.rawValue)
                 .font(.subheadline)

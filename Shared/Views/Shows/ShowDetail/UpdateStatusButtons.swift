@@ -83,11 +83,12 @@ struct UpdateStatusButtons: View {
     var AddToWatchlistButton: some View {
         Button(action: {
             var addingShow = show
-            let userSpecificValues = ShowUserSpecificValues(status: Status.NeedsWatched, currentSeason: 1)
+            let uid = Auth.auth().currentUser!.uid
+            let userSpecificValues = ShowUserSpecificDetails(userId: uid, showId: show.id, status: Status.NeedsWatched, updated: Date(), currentSeason: 1)
             addingShow.userSpecificValues = userSpecificValues
-            addUserUpdateWatchlist(userId: Auth.auth().currentUser!.uid, show: addingShow)
+            addUserUpdateWatchlist(userId: uid, show: addingShow)
             addToUserShows(show: addingShow)
-            incrementShowCount(userId: Auth.auth().currentUser!.uid)
+            incrementShowCount(userId: uid)
         }) {
             Text("Add to Watchlist")
         }

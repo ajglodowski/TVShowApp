@@ -81,11 +81,8 @@ struct SquareTileScrollRow: View {
                                     var edited = show
                                     edited.airdate = AirDate(rawValue: day.string(from: show.releaseDate!))
                                     edited.releaseDate = nil
-                                    updateShowStatus(showId: show.id, status: Status.CurrentlyAiring)
+                                    changeShowStatus(show: show, status: Status.CurrentlyAiring)
                                     updateToShows(show: show, showNameEdited: false)
-                                    //modelData.shows[showIndex(show: show)].status = Status.CurrentlyAiring
-                                    //modelData.shows[showIndex(show: show)].airdate = AirDate(rawValue: day.string(from: show.releaseDate!))
-                                    //modelData.shows[showIndex(show: show)].releaseDate = nil
                                 }) {
                                     Text("Add to \n Currently Airing")
                                 }

@@ -164,7 +164,7 @@ struct ShowDetail: View {
                         isPresented = false
                     }, trailing: Button("Done") {
                         if (showEdited != show) {
-                            //addOrUpdateToUserShows(show: showEdited)
+                            showEdited.lastUpdated = Date()
                             if (showEdited.name != show!.name) {
                                 updateToShows(show: showEdited, showNameEdited: true)
                             } else {

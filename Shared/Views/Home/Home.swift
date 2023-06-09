@@ -195,7 +195,7 @@ struct Home: View {
             
             // Sync Button
             Button(action: {
-                updateServices()
+                //updateUserInfoDates()
             }, label: {
                 Text("Sync Data")
                     //.font(.title)
@@ -270,7 +270,7 @@ struct outsidePages: View {
                 label: {
                     Text("Delete Page")
                 })
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(.bordered)
         }
         HStack {
             // Stats Page
@@ -279,7 +279,7 @@ struct outsidePages: View {
                 label: {
                     Text("Stats Page")
                 })
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(.bordered)
         }
         
         HStack {
@@ -289,7 +289,7 @@ struct outsidePages: View {
                 label: {
                     Text("Actor Game")
                 })
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(.bordered)
         }
         
         

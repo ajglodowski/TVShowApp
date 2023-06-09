@@ -152,10 +152,8 @@ func changeShowStatus(show: Show, status: Status) {
     default:
         break
     }
-    //updateShowStatus(showId: show.id, status: status)
     updatedShow.userSpecificValues!.status = status
-    //updatedShow.lastUpdateDate = Date()
-    //updatedShow.lastUpdateMessage = "Updated status to \(status.rawValue)"
+    updatedShow.userSpecificValues!.updated = Date()
     addUserUpdateStatusChange(userId: Auth.auth().currentUser!.uid, show: updatedShow)
     updateUserShow(show: updatedShow)
     decrementStatusCount(showId: show.id, status: show.userSpecificValues!.status)

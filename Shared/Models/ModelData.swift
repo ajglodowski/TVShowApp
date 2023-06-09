@@ -158,18 +158,15 @@ final class ModelData : ObservableObject {
             }
             if let snapshot = snapshot {
                 for document in snapshot.documents {
-                    let data = document.data()
+                    var data = document.data()
                     
                     let showId = document.documentID
                     var personalizedShow = Show(id: showId)
                 
-                    let status = data["status"] as! String
-                    let currentSeason = data["currentSeason"] as! Int
-                    let rating = data["rating"] as? String // No rating is allowed
+                    data["userId"] = uid
+                    data["showId"] = showId
                     
-                    var userSpecificValues = ShowUserSpecificValues(status: Status(rawValue: status)!, currentSeason: currentSeason)
-                    if (rating != nil) { userSpecificValues.rating = Rating(rawValue: rating!) }
-                    else { userSpecificValues.rating = nil }
+                    var userSpecificValues = convertUserSpecificDetailsDictToObj(data: data)
                     
                     let updates = self.currentUserUpdates.filter { $0.showId == personalizedShow.id }
                     userSpecificValues.currentUserUpdates = updates

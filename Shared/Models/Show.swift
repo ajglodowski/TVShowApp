@@ -10,16 +10,6 @@ import SwiftUI
 import Combine
 import Firebase
 
-struct ShowUserSpecificValues: Hashable {
-    var status: Status
-    var currentSeason: Int?
-    var rating: Rating?
-    var currentUserUpdates: [UserUpdate]?
-    var lastUpdateDate: Date? {
-        currentUserUpdates?.max { $0.updateDate < $1.updateDate }?.updateDate
-    }
-}
-
 var SampleShow: Show {
     var show = Show(id: "0")
     show.name = "Sample Show"
@@ -36,9 +26,10 @@ var SampleShow: Show {
 struct Show : Hashable, Identifiable {
     
     // Both
-    var id : String // Needed for Actors
-    var name: String // Needed for Actors
-    var service: Service // Needed for Actors
+    var id : String
+    var name: String
+    var lastUpdated: Date // Date the show was last updated
+    var service: Service
     var services: [Service]
     var running: Bool
     var tags: [Tag]?
@@ -62,7 +53,7 @@ struct Show : Hashable, Identifiable {
     var partiallyLoaded: Bool // Used for initial load where user details are loaded before show details
     
     // User Specific
-    var userSpecificValues: ShowUserSpecificValues?
+    var userSpecificValues: ShowUserSpecificDetails?
     var addedToUserShows: Bool {
         if self.userSpecificValues != nil { return true }
         else { return false }
@@ -87,6 +78,7 @@ struct Show : Hashable, Identifiable {
     init(id: String) {
         self.id = id
         self.name = "New Show"
+        self.lastUpdated = Date()
         self.service = Service.Other
         self.services = [Service.Other]
         self.length = ShowLength.min
@@ -122,6 +114,7 @@ func convertShowToDictionary(show: Show) -> [String:Any] {
     
     //output["id"] = show.id
     output["name"] = show.name
+    output["lastUpdated"] = show.lastUpdated
     output["service"] = show.service.rawValue
     output["services"] = show.services.map { $0.rawValue }
     output["running"] = show.running
@@ -152,20 +145,12 @@ func convertShowToDictionary(show: Show) -> [String:Any] {
     }
     output["ratingCounts"] = stringRatingCounts
     
-    /*
-    // User Specific
-    var status: Status?
-    var currentSeason: Int?
-    var rating: Rating?
-     */
-    
-    //var tags: [Tag]
-    
     return output
 }
 
 func convertShowDictToShow(showId: String, data: [String:Any]) -> Show {
     let name = data["name"] as! String
+    let lastUpdated = data["lastUpdated"] as! Timestamp
     let running = data["running"] as! Bool
     let totalSeasons = data["totalSeasons"] as! Int
     let tags = data["tags"] as? [String] ?? [String]()
@@ -189,6 +174,7 @@ func convertShowDictToShow(showId: String, data: [String:Any]) -> Show {
     
     var out = Show(id: showId)
     out.name = name
+    out.lastUpdated = lastUpdated.dateValue()
     out.running = running
     out.totalSeasons = totalSeasons
     out.tags = tagArray

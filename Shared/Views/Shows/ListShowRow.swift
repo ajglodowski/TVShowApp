@@ -56,8 +56,8 @@ struct ListShowRow: View {
                          .background(Capsule().fill(.quaternary))
                          }
                          */
-                        if (show.addedToUserShows && show.userSpecificValues!.currentSeason != nil) {
-                            Text("\(show.userSpecificValues!.currentSeason!)/\(show.totalSeasons) \(show.totalSeasons > 1 ? "Seasons" : "Season")")
+                        if (show.addedToUserShows) {
+                            Text("\(show.userSpecificValues!.currentSeason)/\(show.totalSeasons) \(show.totalSeasons > 1 ? "Seasons" : "Season")")
                                 .font(.callout)
                                 .padding(6)
                                 .background(Capsule().fill(.quaternary))

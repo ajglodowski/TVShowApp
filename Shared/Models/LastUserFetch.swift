@@ -6,19 +6,17 @@
 //
 
 import Foundation
-import SwiftData
+//import SwiftData
 
-@Model
-class LastUserFetch: Hashable {
+//@Model
+struct LastUserFetch: Hashable {
     var fetchDate: Date
     init(fetchDate: Date) {
         self.fetchDate = fetchDate
     }
 }
-
-@MainActor func updateFetchDate(newFetch: Date)  {
-    let container = try! ModelContainer(for: LastUserFetch.self)
-    let context = container.mainContext
+/*
+@MainActor func updateFetchDate(context: ModelContext, newFetch: Date)  {
     let previousData = try! context.fetch(FetchDescriptor<LastUserFetch>())
     if previousData.contains(where: { $0.fetchDate >= newFetch}) {
         print("Tried updating latest fetch but found later fetch date in memory.")
@@ -30,3 +28,4 @@ class LastUserFetch: Hashable {
     context.insert(LastUserFetch(fetchDate: newFetch))
     try! context.save()
 }
+*/

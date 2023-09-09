@@ -45,6 +45,8 @@ struct DiscoverTab: View {
                 .ignoresSafeArea()
                 
                 PopularShows()
+                
+                NewData()
              
                 userSearch
                 

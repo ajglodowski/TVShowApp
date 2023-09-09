@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseCore
 import Firebase
 import InstantSearchSwiftUI
-import SwiftData
+//import SwiftData
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
@@ -30,10 +30,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         WindowGroup {
             ContentView()
                 .environmentObject(modelData)
+            /*
                 .modelContainer(for: [
-                    ShowUserSpecificDetails.self,
+                    //ShowUserSpecificDetails.self,
                     LastUserFetch.self
                 ])
+             */
+             
             //.preferredColorScheme(.dark)
         }
     }

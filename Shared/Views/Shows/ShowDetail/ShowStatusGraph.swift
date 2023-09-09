@@ -17,12 +17,13 @@ struct ShowStatusGraph: View {
         VStack(alignment: .leading) {
             Text("Show Status Counts:")
                 .font(.headline)
+            /*
             Chart {
                 ForEach(Status.allCases.sorted {
                     show.statusCounts[$0] ?? 0 > show.statusCounts[$1] ?? 0
                 }) { status in
                     BarMark(
-                        x: .value("Status", status.rawValue),
+                        x: .value("Status", status.rawValue)
                         y: .value("Count", show.statusCounts[status]!)
                     )
                     .annotation(position: .top) {
@@ -38,6 +39,7 @@ struct ShowStatusGraph: View {
             }
             .chartScrollableAxes(.horizontal)
             .padding(.top, 25)
+             */
         }
         .frame(minHeight: 400)
         .padding()

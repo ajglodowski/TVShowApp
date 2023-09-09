@@ -12,6 +12,8 @@ struct ContentView: View {
     
     @EnvironmentObject var modelData : ModelData
     
+    //@Environment(\.modelContext) private var modelContext
+    
     var body: some View {
         if (modelData.entered && Auth.auth().currentUser != nil) {
             TabView {
@@ -28,6 +30,16 @@ struct ContentView: View {
                         Label("Profile", systemImage: "person.fill")
                     }
             }
+            .task {
+                //updateFetchDate(context: modelContext, newFetch: Date())
+            }
+            /*
+            .task(id: modelData.shows) {
+                let toConvert = modelData.shows.filter { $0.addedToUserShows }.map { $0.userSpecificValues! }
+                print(toConvert)
+                syncUserSpecificDetailsToData(context: modelContext, data: toConvert)
+            }
+             */
         } else {
             Login(loggedIn: $modelData.entered)
         }

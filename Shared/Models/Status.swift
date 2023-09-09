@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Status: String, CaseIterable, Codable, Identifiable {
+enum Status: String, CaseIterable, Codable, Identifiable, Hashable {
     case UpToDate = "Up to Date"
     case NeedsWatched = "Needs Watched"
     case SeenEnough = "Seen Enough"
@@ -17,6 +17,7 @@ enum Status: String, CaseIterable, Codable, Identifiable {
     case NewSeason = "New Season"
     case CatchingUp = "Catching Up"
     case ComingSoon = "Coming Soon"
+    case Rewatching = "Rewatching"
     
     case Other
     
@@ -30,18 +31,20 @@ enum Status: String, CaseIterable, Codable, Identifiable {
             return 2
         case Status.NewSeason:
             return 3
-        case Status.ComingSoon:
+        case Status.Rewatching:
             return 4
-        case Status.NeedsWatched:
+        case Status.ComingSoon:
             return 5
-        case Status.UpToDate:
+        case Status.NeedsWatched:
             return 6
-        case Status.ShowEnded:
+        case Status.UpToDate:
             return 7
-        case Status.SeenEnough:
+        case Status.ShowEnded:
             return 8
-        case Status.Other:
+        case Status.SeenEnough:
             return 9
+        case Status.Other:
+            return 10
         default:
             return -1
         }

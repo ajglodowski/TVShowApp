@@ -62,9 +62,3 @@ enum Rating: String, CaseIterable, Codable, Identifiable {
     }
     
 }
-
-func getRatingSymbol(rating: Rating) -> String {
-    let colors = [Rating.Disliked: "hand.thumbsdown", Rating.Meh: "minus.circle", Rating.Liked: "hand.thumbsup", Rating.Loved: "heart"
-    ]
-    return colors[rating] ?? "exclamationmark.circle"
-}

@@ -7,25 +7,32 @@
 
 import Foundation
 import Firebase
-import SwiftData
+//import SwiftData
 
 // Stored in Firestore at {userID}/shows where the documentId is the show's id.
 // The"PK" is a combination of userId and showId, no specific details id.
 
-@Model
-class ShowUserSpecificDetails: Hashable {
+//@Model
+struct ShowUserSpecificDetails: Hashable {
+    
+    static func == (lhs: ShowUserSpecificDetails, rhs: ShowUserSpecificDetails) -> Bool {
+        return lhs.userId == rhs.userId && lhs.showId == rhs.showId && lhs.updated == rhs.updated
+    }
+    
+    
     var userId: String
     var showId: String
     var status: Status
     var updated: Date // Date these details were last updated
-    
+
     var currentSeason: Int
     var rating: Rating?
     
-    @Transient var currentUserUpdates: [UserUpdate]?
+    var currentUserUpdates: [UserUpdate]?
     var lastUpdateDate: Date? {
         currentUserUpdates?.max { $0.updateDate < $1.updateDate }?.updateDate
     }
+    
     
     init (userId: String, showId: String, status: Status,
           updated: Date, currentSeason: Int, rating: Rating? = nil, currentUserUpdates: [UserUpdate]? = nil) {
@@ -38,6 +45,10 @@ class ShowUserSpecificDetails: Hashable {
         self.currentUserUpdates = currentUserUpdates
     }
     
+}
+
+var SampleUserDetails: ShowUserSpecificDetails {
+    return ShowUserSpecificDetails(userId: "123", showId: "456", status: Status.NeedsWatched, updated: Date(), currentSeason: 2, rating: Rating.Meh, currentUserUpdates: nil)
 }
 
 func convertUserSpecificDetailsToDictionary(details: ShowUserSpecificDetails) -> [String:Any] {
@@ -54,7 +65,7 @@ func convertUserSpecificDetailsToDictionary(details: ShowUserSpecificDetails) ->
 func convertUserSpecificDetailsDictToObj(data: [String:Any]) -> ShowUserSpecificDetails {
 
     // Not fields
-    let userId = data["showId"] as! String
+    let userId = data["userId"] as! String
     let showId = data["showId"] as! String
     //Fields
     let status = data["status"] as! String
@@ -72,9 +83,8 @@ func convertUserSpecificDetailsDictToObj(data: [String:Any]) -> ShowUserSpecific
     return out
 }
 
-@MainActor func loadUserSpecificDetailsFromData(showId: String, userId: String) -> ShowUserSpecificDetails? {
-    let container = try! ModelContainer(for: ShowUserSpecificDetails.self)
-    let context = container.mainContext
+/*
+@MainActor func loadUserSpecificDetailsFromData(context: ModelContext, showId: String, userId: String) -> ShowUserSpecificDetails? {
     let details = FetchDescriptor<ShowUserSpecificDetails>(
         predicate: #Predicate { $0.showId == showId && $0.userId == userId }
     )
@@ -82,11 +92,18 @@ func convertUserSpecificDetailsDictToObj(data: [String:Any]) -> ShowUserSpecific
     return results.first
 }
 
-@MainActor func saveUserSpecificDetailsToData(detailsObj: ShowUserSpecificDetails)  {
-    let previousCopy = loadUserSpecificDetailsFromData(showId: detailsObj.showId, userId: detailsObj.userId)
+@MainActor func saveUserSpecificDetailsToData(context: ModelContext, detailsObj: ShowUserSpecificDetails)  {
+    let previousCopy = loadUserSpecificDetailsFromData(context: context, showId: detailsObj.showId, userId: detailsObj.userId)
     if (previousCopy != nil && detailsObj.updated <= previousCopy!.updated) { return } // Minor error checking
-    let container = try! ModelContainer(for: ShowUserSpecificDetails.self)
-    let context = container.mainContext
     context.insert(detailsObj)
     try! context.save()
+    print("Saved something")
 }
+
+@MainActor func syncUserSpecificDetailsToData(context: ModelContext, data: [ShowUserSpecificDetails]) {
+    print("Starting sync")
+    for show in data {
+        saveUserSpecificDetailsToData(context: context, detailsObj: show)
+    }
+}
+*/

@@ -127,7 +127,6 @@ struct ShowDetailEdit: View {
                     })
                     .toggleStyle(SwitchToggleStyle(tint: .blue))
                 }
-                //if (show.currentlyAiring) {
                 // Airdate
                 if (show.airdate != nil) {
                     HStack {
@@ -157,7 +156,6 @@ struct ShowDetailEdit: View {
                     }
                     .buttonStyle(.bordered)
                 }
-                //}
             }
             
             // Limited Series
@@ -188,6 +186,13 @@ struct ShowDetailEdit: View {
                         selection: $show.releaseDate.toUnwrapped(defaultValue: Date()),
                         displayedComponents: [.date]
                     )
+                    Button(action: {
+                        show.releaseDate = nil
+                    }) {
+                       Text("Remove airdate")
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.red)
                 } else {
                     Button(action: {
                         show.releaseDate = Date()

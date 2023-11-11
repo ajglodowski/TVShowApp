@@ -67,9 +67,9 @@ struct ShowSquareTile: View {
                     Text(show.name)
                         .skeleton(with: show.partiallyLoaded)
                         .font(.headline)
-                        .scaledToFit()
+                        .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.center)
                 }
-                .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
                 
                 HStack {
                     Text(show.length.rawValue + "m")
@@ -78,7 +78,7 @@ struct ShowSquareTile: View {
                     Text(show.service.rawValue)
                         .skeleton(with: show.partiallyLoaded)
                         .font(.subheadline)
-                        .scaledToFit()
+                        .fixedSize(horizontal: false, vertical: true)
                     if (hasRating && ratingShown != nil && ratingShown!) {
                         Image(systemName: "\(show.userSpecificValues!.rating!.ratingSymbol).fill")
                             .foregroundColor(show.userSpecificValues!.rating!.color)

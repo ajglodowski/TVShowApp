@@ -14,7 +14,7 @@ struct HomeStatusFiltered: View {
     var shows: [Show]
     
     var displayedShows: [Show] {
-        var output = shows.sorted { $0.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
+        var output = shows.sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
         if (selectedStatus != nil) { output = output.filter { $0.userSpecificValues!.status == selectedStatus } }
         return Array(output.prefix(10))
     }
@@ -38,7 +38,7 @@ struct HomeStatusFiltered: View {
                 .foregroundColor(.white)
             }
             if (displayedShows.isEmpty) { Text("No shows with this status 😞") }
-            else { VStack { SquareTileScrollRow(items: displayedShows, scrollType: 0) } }
+            else { VStack { SquareTileScrollRow(items: displayedShows, scrollType: ScrollRowType.NoExtraText) } }
         }
     }
 }

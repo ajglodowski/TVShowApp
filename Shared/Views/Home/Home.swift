@@ -31,7 +31,7 @@ struct Home: View {
     
     var unwatchedShows: [Show] {
         shows.filter { $0.userSpecificValues!.status == Status.NeedsWatched }
-            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
+            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
     }
     
     var currentlyWatching: [Show] {
@@ -169,22 +169,8 @@ struct Home: View {
             
             Divider()
             
-            /*
-            if (!currentlyWatching.isEmpty) {
-                VStack(alignment: .leading) {
-                    VStack(alignment: .leading) {
-                        Text("Currently Watching")
-                            .font(.title)
-                        Text("Either currently airing, new season, or catching up")
-                            .font(.subheadline)
-                    }
-                    .padding(.horizontal, 2)
-                    SquareTileScrollRow(items: currentlyWatching, scrollType: 0)
-                        
-                }
-                Divider()
-            }
-             */
+            WatchingRow(shows: shows)
+            
         }
     }
     
@@ -247,7 +233,7 @@ struct Home: View {
                             .font(.subheadline)
                     }
                     .padding(.horizontal, 2)
-                    SquareTileScrollRow(items: comingSoon, scrollType: 2)
+                    SquareTileScrollRow(items: comingSoon, scrollType: ScrollRowType.ComingSoon)
                     
                 }
                 Divider()

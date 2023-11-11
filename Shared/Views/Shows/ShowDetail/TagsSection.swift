@@ -12,6 +12,7 @@ struct TagsSection: View {
     var showId: String
     var activeTags: [Tag]
     
+    @State var editingTags = false
     var otherTags: [Tag] {
         return Tag.allCases.filter { !activeTags.contains($0) }
     }
@@ -19,16 +20,26 @@ struct TagsSection: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Tags:")
+            HStack {
+                Text("Tags:")
+                Spacer()
+                Button(action: {
+                    editingTags.toggle()
+                }) {
+                    if (editingTags) { Text("Stop Editing") }
+                    else { Text("Edit Tags") }
+                }
+                .buttonStyle(.bordered)
+            }
             if (!activeTags.isEmpty) {
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(activeTags) { tag in
                             Button(action: {
-                                removeTagFromShow(showId: showId, tag: tag)
+                                if (editingTags) { removeTagFromShow(showId: showId, tag: tag) }
                             }) {
                                 Text(tag.rawValue)
-                                Image(systemName:"xmark")
+                                if (editingTags) { Image(systemName:"xmark") }
                             }
                             .buttonStyle(.bordered)
                             .buttonBorderShape(.capsule)
@@ -39,23 +50,33 @@ struct TagsSection: View {
                 Text("None")
             }
             
-            Text("Add tags:")
-            ForEach(TagCategory.allCases) { category in
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(otherTags.filter { $0.category == category} ) { tag in
-                            Button(action: {
-                                addTagToShow(showId: showId, tag: tag)
-                            }) {
-                                Text(tag.rawValue)
-                                Image(systemName:"plus")
+            if (editingTags) {
+                Text("Add tags:")
+                ForEach(TagCategory.allCases) { category in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(otherTags.filter { $0.category == category} ) { tag in
+                                Button(action: {
+                                    if (editingTags) { addTagToShow(showId: showId, tag: tag) }
+                                }) {
+                                    Text(tag.rawValue)
+                                    if (editingTags) { Image(systemName:"plus") }
+                                }
+                                .buttonStyle(.bordered)
+                                .buttonBorderShape(.capsule)
                             }
-                            .buttonStyle(.bordered)
-                            .buttonBorderShape(.capsule)
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+#Preview {
+    ScrollView {
+        VStack {
+            TagsSection(showId: SampleShow.id, activeTags: [Tag.Animated])
         }
     }
 }

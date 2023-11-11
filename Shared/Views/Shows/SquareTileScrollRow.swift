@@ -8,39 +8,38 @@
 import Foundation
 import SwiftUI
 
+enum ScrollRowType {
+    case NoExtraText
+    case Airdate
+    case ComingSoon
+    case StatusDisplayed
+}
+
+
 struct SquareTileScrollRow: View {
     
     @EnvironmentObject var modelData : ModelData
     
     var items: [Show]
     
-    var scrollType: Int
+    var scrollType: ScrollRowType
     
     func isOutNow(s: Show) -> Bool {
         if (s.addedToUserShows && s.userSpecificValues!.status == Status.ComingSoon) {
-            if ((s.releaseDate != nil) && (s.releaseDate! < Date.now)) {
-                return true
-            }
+            if ((s.releaseDate != nil) && (s.releaseDate! < Date.now)) { return true }
         }
         return false
     }
-    /*
-    func showIndex(show: Show) -> Int {
-        modelData.shows.firstIndex(where: { $0.id == show.id})!
-    }
-     */
     
     func getAboveExtraText(s: Show) -> [String]? {
         switch scrollType {
-        case 1:
+        case ScrollRowType.Airdate:
             return [s.airdate!.rawValue]
-        case 2:
-            if (!isOutNow(s: s)) {
-                //print(s)
+        case ScrollRowType.ComingSoon:
+            if (isOutNow(s: s)) { return ["Out Now"] }
+            else {
                 let daysTil = Calendar.current.dateComponents([.day], from: Date.now, to: s.releaseDate!).day!
                 return ["\(daysTil < 1 ? "Within the day" : "In \(daysTil) days" )"]
-            } else {
-                return ["Out Now"]
             }
         default:
             return nil
@@ -49,12 +48,14 @@ struct SquareTileScrollRow: View {
     
     func getBelowExtraText(s: Show) -> [String]? {
         switch scrollType {
-        case 2:
+        case ScrollRowType.ComingSoon:
             let day = DateFormatter()
             day.dateFormat = "EEEE"
             let cal = DateFormatter()
             cal.dateFormat = "MMM d"
             return ["\(day.string(from: s.releaseDate!))  \(cal.string(from: s.releaseDate!))"]
+        case ScrollRowType.StatusDisplayed:
+            return ["\(s.userSpecificValues!.status.rawValue)"]
         default:
             return nil
         }
@@ -73,7 +74,7 @@ struct SquareTileScrollRow: View {
                                 ShowSquareTile(show: show, titleShown: true, aboveExtraText: getAboveExtraText(s: show), belowExtraText: getBelowExtraText(s: show))
                             }
                             .foregroundColor(.primary)
-                            if (scrollType == 2 && isOutNow(s: show) ) {
+                            if (scrollType == ScrollRowType.ComingSoon && isOutNow(s: show) ) {
                                 Button(action: {
                                     let day = DateFormatter()
                                     day.dateFormat = "EEEE"
@@ -105,9 +106,9 @@ struct SquareTileScrollRow_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
             VStack {
-                SquareTileScrollRow(items: shows, scrollType: 0)
-                SquareTileScrollRow(items: shows, scrollType: 1)
-                SquareTileScrollRow(items: shows.filter {$0.addedToUserShows && $0.userSpecificValues!.status == Status.ComingSoon}, scrollType: 2)
+                SquareTileScrollRow(items: shows, scrollType: ScrollRowType.NoExtraText)
+                SquareTileScrollRow(items: shows, scrollType: ScrollRowType.Airdate)
+                SquareTileScrollRow(items: shows.filter {$0.addedToUserShows && $0.userSpecificValues!.status == Status.ComingSoon}, scrollType: ScrollRowType.ComingSoon)
             }
         }
     }

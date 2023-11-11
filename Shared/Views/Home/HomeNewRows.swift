@@ -16,21 +16,21 @@ struct HomeNewRows: View {
         shows
             .filter { $0.userSpecificValues!.status == Status.NewSeason }
             .sorted { $0.name < $1.name }
-            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
+            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
     }
     
     var newReleases: [Show] {
         shows
             .filter { $0.userSpecificValues!.status == Status.NewRelease }
             .sorted { $0.name < $1.name }
-            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
+            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
     }
     
     var catchingUp: [Show] {
         shows
             .filter { $0.userSpecificValues!.status == Status.CatchingUp }
             .sorted { $0.name < $1.name }
-            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) > $1.userSpecificValues!.lastUpdateDate ?? Date(timeIntervalSince1970: 0) }
+            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
     }
     
     var body: some View {
@@ -54,7 +54,7 @@ struct HomeNewRows: View {
                         .font(.subheadline)
                 }
                 .padding(.horizontal, 2)
-                SquareTileScrollRow(items: newReleases, scrollType: 0)
+                SquareTileScrollRow(items: newReleases, scrollType: ScrollRowType.NoExtraText)
             }
             Divider()
         }
@@ -69,7 +69,7 @@ struct HomeNewRows: View {
                         .font(.subheadline)
                 }
                 .padding(.horizontal, 2)
-                SquareTileScrollRow(items: catchingUp, scrollType: 0)
+                SquareTileScrollRow(items: catchingUp, scrollType: ScrollRowType.NoExtraText)
             }
             Divider()
         }

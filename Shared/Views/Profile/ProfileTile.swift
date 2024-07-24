@@ -42,7 +42,7 @@ struct ProfileTile: View {
             }
         }
         .task {
-            prof.loadProfile(modelData: modelData, id: profileId)
+            await prof.loadProfile(modelData: modelData, id: profileId)
         }
     }
 }

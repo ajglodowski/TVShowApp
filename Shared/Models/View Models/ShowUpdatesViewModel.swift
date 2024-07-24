@@ -13,7 +13,7 @@ import SwiftUI
 import Firebase
 
 class ShowUpdatesViewModel: ObservableObject {
-    
+    /*
     private var fireStore = Firebase.Firestore.firestore()
     
     private let currentUser = Auth.auth().currentUser?.uid
@@ -88,6 +88,7 @@ class ShowUpdatesViewModel: ObservableObject {
         }
         
     }
+     */
         
     
 }

@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct ActorReferenceGame: View {
-    
+    var body: some View {
+        Text("TODO")
+    }
+    /*
     @EnvironmentObject var modelData : ModelData
     
     @State var actorList = [Actor]()
@@ -272,6 +275,7 @@ struct ActorReferenceGame: View {
         }
         .navigationTitle("Actor Reference Game")
     }
+     */
 }
 
 struct ActorReferenceGame_Previews: PreviewProvider {

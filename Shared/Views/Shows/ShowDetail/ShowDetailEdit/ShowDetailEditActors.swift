@@ -9,6 +9,11 @@ import SwiftUI
 
 struct ShowDetailEditActors: View {
     
+    var body: some View {
+        Text("TODO")
+    }
+    
+    /*
     @EnvironmentObject var modelData : ModelData
     
     @Binding var show : Show
@@ -33,7 +38,7 @@ struct ShowDetailEditActors: View {
                         Button(action: {
                             // Remove actor from show
                             show.actors![actorId] = nil
-                            removeActorFromShow(actorId: actorId, showId: show.id)
+                            //removeActorFromShow(actorId: actorId, showId: show.id)
                         }, label: {
                             Text("Remove from Show")
                             //.font(.title)
@@ -66,7 +71,7 @@ struct ShowDetailEditActors: View {
             ForEach(searchActors) { act in
                 Button(action: {
                     show.actors![act.id] = act.name
-                    addActorToShow(act: act, showId: show.id, showName: show.name)
+                    //addActorToShow(act: act, showId: show.id, showName: show.name)
                 }, label: {
                     Text(act.name)
                 })
@@ -77,11 +82,11 @@ struct ShowDetailEditActors: View {
         // Add a new actor
         Section(header: Text("Add a new actor")) {
             Button(action: {
-                var new = Actor(id: "1")
-                new.shows[show.id] = show.name
-                let newActId = addActorToActors(act: new)
-                new.id = newActId
-                addActorToShow(act: new, showId: show.id, showName: show.name)
+                //var new = Actor(id: "1")
+                //new.shows[show.id] = show.name
+                //let newActId = addActorToActors(act: new)
+                //new.id = newActId
+                //addActorToShow(act: new, showId: show.id, showName: show.name)
             }, label: {
                 Text("Add a new Actor")
                     //.font(.title)
@@ -90,6 +95,7 @@ struct ShowDetailEditActors: View {
             //ActorEditList(show: modelData.shows[showIndex])
         }
     }
+     */
 
 }
 /*

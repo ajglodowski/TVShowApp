@@ -46,69 +46,53 @@ class ShowTileViewModel: ObservableObject {
     
     let cacheManager = ShowTileCacheManager.instance
     
-    //private var ref: DatabaseReference = Database.database().reference()
-    private var fireStore = Firebase.Firestore.firestore()
     private var store = Storage.storage().reference()
+        
+    @MainActor
+    func setShowImage(image: UIImage?) {
+        self.showImage = image
+    }
     
-    //@MainActor
-    func loadImage(showName: String) {
-        //fireStore.clearPersistence()
-        self.getFromCache(showName: showName)
+    @MainActor
+    func setCachedShowImage(image: UIImage?) {
+        self.cachedShowImage = image
+    }
+
+    func loadImage(showName: String) async {
+        await self.getFromCache(showName: showName)
         if (cachedShowImage == nil) {
-            DispatchQueue.global().async {
-                let picRef = self.store.child("showImages/resizedImages/\(showName)_200x200.jpeg")
-                picRef.getData(maxSize: 1 * 512 * 1024) { data, error in // 0.5 MB Max
-                    if let error = error {
-                        if (!error.localizedDescription.contains("does not exist.")) {
-                            print(error.localizedDescription)
-                        }
-                    } else {
-                        let profImage = UIImage(data: data!)!
-                        DispatchQueue.main.async { [self] in
-                            self.showImage = profImage
-                            self.saveToCache(showName: showName)
-                        }
-                    }
+            do {
+                let fetchedImage = try await fetchFromFirebase(showName: showName)
+                if (fetchedImage != nil) {
+                    await setShowImage(image: fetchedImage)
+                    self.saveToCache(showName: showName)
                 }
+            } catch {
+                //dump(error)
             }
         } else {
-            //print("Using cache")
-            self.showImage = self.cachedShowImage
+            await setShowImage(image: self.cachedShowImage)
         }
     }
     
-    func loadImage(modelData: ModelData, showId: String, showName: String) {
-        //fireStore.clearPersistence()
-        if (modelData.showDict[showId]?.tileImage != nil) {
-            self.showImage = modelData.showDict[showId]?.tileImage
-            return
-        }
-        self.getFromCache(showName: showName)
-        if (cachedShowImage == nil) {
-            DispatchQueue.global().async {
-                let picRef = self.store.child("showImages/resizedImages/\(showName)_200x200.jpeg")
-                picRef.getData(maxSize: 1 * 512 * 1024) { data, error in // 0.5 MB Max
-                    if let error = error {
-                        if (!error.localizedDescription.contains("does not exist.")) {
-                            print(error.localizedDescription)
-                        }
-                    } else {
-                        let profImage = UIImage(data: data!)!
-                        DispatchQueue.main.async { [self] in
-                            modelData.showDict[showId]?.tileImage = profImage
-                            self.showImage = profImage
-                            self.saveToCache(showName: showName)
-                        }
+    func fetchFromFirebase(showName: String) async throws -> UIImage? {
+        return try await withCheckedThrowingContinuation { continuation in
+            let picRef = self.store.child("showImages/resizedImages/\(showName)_200x200.jpeg")
+            picRef.getData(maxSize: 1 * 512 * 1024) { data, error in // 0.5 MB Max
+                if let error = error {
+                    if !error.localizedDescription.contains("does not exist.") {
+                        //print(error.localizedDescription)
                     }
+                    continuation.resume(throwing: error)
+                } else if let data = data, let image = UIImage(data: data) {
+                    continuation.resume(returning: image)
+                } else {
+                    let unknownError = NSError(domain: "FirebaseStorageService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
+                    continuation.resume(throwing: unknownError)
                 }
             }
-        } else {
-            if (modelData.showDict[showId] != nil) { modelData.showDict[showId]!.tileImage = self.cachedShowImage }
-            self.showImage = self.cachedShowImage
         }
     }
-    
-    
     
     func saveToCache(showName: String) {
         guard let image = self.showImage else { return }
@@ -119,8 +103,8 @@ class ShowTileViewModel: ObservableObject {
         cacheManager.remove(name: showName)
     }
     
-    func getFromCache(showName: String) {
-        self.cachedShowImage = cacheManager.get(name: showName)
+    func getFromCache(showName: String) async {
+        await setShowImage(image: cacheManager.get(name: showName))
     }
     
 }

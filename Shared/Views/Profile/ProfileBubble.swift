@@ -43,7 +43,12 @@ struct ProfileBubble: View {
             }
         }
         .task {
-            prof.loadProfile(modelData: modelData, id: profileId)
+            await prof.loadProfile(modelData: modelData, id: profileId)
         }
     }
+}
+
+#Preview {
+    return ProfileBubble(profileId: MockSupabaseProfile.id)
+        .environmentObject(ModelData())
 }

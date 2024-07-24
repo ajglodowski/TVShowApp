@@ -7,7 +7,7 @@
 
 import Foundation
 import Firebase
-
+/*
 func incrementListLikeCount(listId: String) {
     Firestore.firestore().collection("lists").document(listId).updateData([
         "likeCount": FieldValue.increment(Int64(1))
@@ -91,3 +91,4 @@ func addList(list: ShowList, userId: String) {
         "showLists": FieldValue.arrayUnion([listId])
     ])
 }
+*/

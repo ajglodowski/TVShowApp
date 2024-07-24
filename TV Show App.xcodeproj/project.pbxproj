@@ -25,6 +25,14 @@
 		1A1930442964D82E0090EE72 /* AlgoliaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1930432964D82E0090EE72 /* AlgoliaController.swift */; };
 		1A19304A2964E0C50090EE72 /* AlgoliaShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1930492964E0C50090EE72 /* AlgoliaShow.swift */; };
 		1A1A51D3268EBD1B00138859 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1A51D2268EBD1B00138859 /* UIImage+Extension.swift */; };
+		1A2D319B2C17F2C900D50689 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 1A2D319A2C17F2C900D50689 /* Auth */; };
+		1A2D319D2C17F2C900D50689 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 1A2D319C2C17F2C900D50689 /* Functions */; };
+		1A2D319F2C17F2C900D50689 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 1A2D319E2C17F2C900D50689 /* PostgREST */; };
+		1A2D31A12C17F2C900D50689 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 1A2D31A02C17F2C900D50689 /* Realtime */; };
+		1A2D31A32C17F2ED00D50689 /* Supabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2D31A22C17F2ED00D50689 /* Supabase.swift */; };
+		1A2D31A52C1CAF6000D50689 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 1A2D31A42C1CAF6000D50689 /* Supabase */; };
+		1A2D31A72C1CB0F400D50689 /* SupabaseModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2D31A62C1CB0F400D50689 /* SupabaseModelData.swift */; };
+		1A2D31A92C1CC29600D50689 /* MigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2D31A82C1CC29600D50689 /* MigrationView.swift */; };
 		1A2FE96F263F8B0700B11F73 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FE96E263F8B0700B11F73 /* Home.swift */; };
 		1A2FE974263F8CAB00B11F73 /* ScrollShowRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FE973263F8CAB00B11F73 /* ScrollShowRow.swift */; };
 		1A2FE979263F8EC600B11F73 /* ShowTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FE978263F8EC600B11F73 /* ShowTile.swift */; };
@@ -40,6 +48,10 @@
 		1A4A323E28C2B5BF00E76BF1 /* RatingGraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A323D28C2B5BF00E76BF1 /* RatingGraphs.swift */; };
 		1A4B4CEB282D9CDB0095324A /* ActorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B4CEA282D9CDB0095324A /* ActorList.swift */; };
 		1A4B4CF0282F2DA70095324A /* StatsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B4CEF282F2DA70095324A /* StatsPage.swift */; };
+		1A5282C02C28A1A500265CC0 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5282BF2C28A1A500265CC0 /* SupabaseService.swift */; };
+		1A5282C22C2CA30C00265CC0 /* SupbaseShowTagRelationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5282C12C2CA30C00265CC0 /* SupbaseShowTagRelationship.swift */; };
+		1A5282C62C2DEC2B00265CC0 /* SupabaseUserUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5282C52C2DEC2B00265CC0 /* SupabaseUserUpdate.swift */; };
+		1A5282C82C2DFAEC00265CC0 /* SupabaseProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5282C72C2DFAEC00265CC0 /* SupabaseProfile.swift */; };
 		1A5406712812594900A78AC0 /* Hidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5406702812594900A78AC0 /* Hidden.swift */; };
 		1A550D5526CC3E3F000F4919 /* csvjson.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A550D5426CC3E3F000F4919 /* csvjson.json */; };
 		1A5ADB0B298E1A2800A96C4C /* HomeStatusFiltered.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5ADB0A298E1A2800A96C4C /* HomeStatusFiltered.swift */; };
@@ -72,6 +84,20 @@
 		1A6E07ED28C56A8200BE4898 /* ProfileFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E07EC28C56A8200BE4898 /* ProfileFunctions.swift */; };
 		1A7498D22A0A00470070CC13 /* UserUpdateDetailRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7498D12A0A00470070CC13 /* UserUpdateDetailRow.swift */; };
 		1A7498D42A0A00FB0070CC13 /* AllUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7498D32A0A00FB0070CC13 /* AllUpdates.swift */; };
+		1A7C9DBE2C373CF1008F4B5A /* UserDetailsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DBD2C373CF1008F4B5A /* UserDetailsService.swift */; };
+		1A7C9DC02C404CA8008F4B5A /* ShowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DBF2C404CA8008F4B5A /* ShowService.swift */; };
+		1A7C9DC22C422726008F4B5A /* ShowRatingCountDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DC12C422726008F4B5A /* ShowRatingCountDto.swift */; };
+		1A7C9DC42C4228B9008F4B5A /* ShowRatingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DC32C4228B9008F4B5A /* ShowRatingsViewModel.swift */; };
+		1A7C9DC82C46DBB2008F4B5A /* ShowDetailActorsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DC72C46DBB2008F4B5A /* ShowDetailActorsViewModel.swift */; };
+		1A7C9DCA2C46E4B0008F4B5A /* ActorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DC92C46E4B0008F4B5A /* ActorService.swift */; };
+		1A7C9DCD2C46F1BD008F4B5A /* ActorDetailTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DCC2C46F1BD008F4B5A /* ActorDetailTags.swift */; };
+		1A7C9DD12C46F21D008F4B5A /* ActorDetailTagsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DD02C46F21D008F4B5A /* ActorDetailTagsViewModel.swift */; };
+		1A7C9DD32C470139008F4B5A /* ShowSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DD22C470139008F4B5A /* ShowSearchViewModel.swift */; };
+		1A7C9DD52C501576008F4B5A /* SupabaseShowList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DD42C501576008F4B5A /* SupabaseShowList.swift */; };
+		1A7C9DD72C5016E2008F4B5A /* SupabaseShowListEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DD62C5016E2008F4B5A /* SupabaseShowListEntry.swift */; };
+		1A7C9DD92C5018D8008F4B5A /* ShowListEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DD82C5018D8008F4B5A /* ShowListEntry.swift */; };
+		1A7C9DDB2C502720008F4B5A /* OwnedLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DDA2C502720008F4B5A /* OwnedLists.swift */; };
+		1A7C9DDE2C5027F1008F4B5A /* OwnedListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C9DDD2C5027F1008F4B5A /* OwnedListsViewModel.swift */; };
 		1A7DA8A028768AE000A26E7B /* Home_recording.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1A7DA89F28768AE000A26E7B /* Home_recording.gif */; };
 		1A818B28289A1D34002866B2 /* ActorReferenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A818B27289A1D34002866B2 /* ActorReferenceHelper.swift */; };
 		1A81CBE62882417F003F6EC3 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A81CBE52882417F003F6EC3 /* data.json */; };
@@ -93,6 +119,11 @@
 		1AC420D528C66F9E0034E9EA /* DiscoverTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC420D428C66F9E0034E9EA /* DiscoverTab.swift */; };
 		1AC420D728C675530034E9EA /* ProfileSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC420D628C675530034E9EA /* ProfileSearchViewModel.swift */; };
 		1AC953B126896D5C00B293FB /* ShowDetailEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */; };
+		1AC98B6C2B2D4DAA002FE100 /* SupabaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC98B6B2B2D4DAA002FE100 /* SupabaseFunctions.swift */; };
+		1AC98B6E2B2D4E2F002FE100 /* SupabaseShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC98B6D2B2D4E2F002FE100 /* SupabaseShow.swift */; };
+		1AC98B702B2D4FDE002FE100 /* SupabaseShowUserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC98B6F2B2D4FDE002FE100 /* SupabaseShowUserDetails.swift */; };
+		1AC98B722B2D539F002FE100 /* SupabaseActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC98B712B2D539F002FE100 /* SupabaseActor.swift */; };
+		1AC98B742B2D5653002FE100 /* SupabaseActorShowRelationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC98B732B2D5653002FE100 /* SupabaseActorShowRelationship.swift */; };
 		1ACA81FE289F25D10021336B /* UpdateStatusButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA81FD289F25D10021336B /* UpdateStatusButtons.swift */; };
 		1ACFA77D26DDA49F00CB2E16 /* Home.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA77426DDA49E00CB2E16 /* Home.png */; };
 		1ACFA78A26DDA58100CB2E16 /* Watchlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA78926DDA58100CB2E16 /* Watchlist.png */; };
@@ -151,6 +182,9 @@
 		1A1930432964D82E0090EE72 /* AlgoliaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgoliaController.swift; sourceTree = "<group>"; };
 		1A1930492964E0C50090EE72 /* AlgoliaShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgoliaShow.swift; sourceTree = "<group>"; };
 		1A1A51D2268EBD1B00138859 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		1A2D31A22C17F2ED00D50689 /* Supabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supabase.swift; sourceTree = "<group>"; };
+		1A2D31A62C1CB0F400D50689 /* SupabaseModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseModelData.swift; sourceTree = "<group>"; };
+		1A2D31A82C1CC29600D50689 /* MigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationView.swift; sourceTree = "<group>"; };
 		1A2FE96E263F8B0700B11F73 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		1A2FE973263F8CAB00B11F73 /* ScrollShowRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollShowRow.swift; sourceTree = "<group>"; };
 		1A2FE978263F8EC600B11F73 /* ShowTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTile.swift; sourceTree = "<group>"; };
@@ -166,6 +200,10 @@
 		1A4A323D28C2B5BF00E76BF1 /* RatingGraphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingGraphs.swift; sourceTree = "<group>"; };
 		1A4B4CEA282D9CDB0095324A /* ActorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorList.swift; sourceTree = "<group>"; };
 		1A4B4CEF282F2DA70095324A /* StatsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsPage.swift; sourceTree = "<group>"; };
+		1A5282BF2C28A1A500265CC0 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
+		1A5282C12C2CA30C00265CC0 /* SupbaseShowTagRelationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupbaseShowTagRelationship.swift; sourceTree = "<group>"; };
+		1A5282C52C2DEC2B00265CC0 /* SupabaseUserUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseUserUpdate.swift; sourceTree = "<group>"; };
+		1A5282C72C2DFAEC00265CC0 /* SupabaseProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseProfile.swift; sourceTree = "<group>"; };
 		1A5406702812594900A78AC0 /* Hidden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hidden.swift; sourceTree = "<group>"; };
 		1A550D5426CC3E3F000F4919 /* csvjson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = csvjson.json; sourceTree = "<group>"; };
 		1A5ADB0A298E1A2800A96C4C /* HomeStatusFiltered.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStatusFiltered.swift; sourceTree = "<group>"; };
@@ -185,6 +223,20 @@
 		1A6E07EC28C56A8200BE4898 /* ProfileFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFunctions.swift; sourceTree = "<group>"; };
 		1A7498D12A0A00470070CC13 /* UserUpdateDetailRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdateDetailRow.swift; sourceTree = "<group>"; };
 		1A7498D32A0A00FB0070CC13 /* AllUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllUpdates.swift; sourceTree = "<group>"; };
+		1A7C9DBD2C373CF1008F4B5A /* UserDetailsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsService.swift; sourceTree = "<group>"; };
+		1A7C9DBF2C404CA8008F4B5A /* ShowService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowService.swift; sourceTree = "<group>"; };
+		1A7C9DC12C422726008F4B5A /* ShowRatingCountDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowRatingCountDto.swift; sourceTree = "<group>"; };
+		1A7C9DC32C4228B9008F4B5A /* ShowRatingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowRatingsViewModel.swift; sourceTree = "<group>"; };
+		1A7C9DC72C46DBB2008F4B5A /* ShowDetailActorsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailActorsViewModel.swift; sourceTree = "<group>"; };
+		1A7C9DC92C46E4B0008F4B5A /* ActorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorService.swift; sourceTree = "<group>"; };
+		1A7C9DCC2C46F1BD008F4B5A /* ActorDetailTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorDetailTags.swift; sourceTree = "<group>"; };
+		1A7C9DD02C46F21D008F4B5A /* ActorDetailTagsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorDetailTagsViewModel.swift; sourceTree = "<group>"; };
+		1A7C9DD22C470139008F4B5A /* ShowSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSearchViewModel.swift; sourceTree = "<group>"; };
+		1A7C9DD42C501576008F4B5A /* SupabaseShowList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseShowList.swift; sourceTree = "<group>"; };
+		1A7C9DD62C5016E2008F4B5A /* SupabaseShowListEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseShowListEntry.swift; sourceTree = "<group>"; };
+		1A7C9DD82C5018D8008F4B5A /* ShowListEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowListEntry.swift; sourceTree = "<group>"; };
+		1A7C9DDA2C502720008F4B5A /* OwnedLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnedLists.swift; sourceTree = "<group>"; };
+		1A7C9DDD2C5027F1008F4B5A /* OwnedListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnedListsViewModel.swift; sourceTree = "<group>"; };
 		1A7DA89F28768AE000A26E7B /* Home_recording.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Home_recording.gif; sourceTree = "<group>"; };
 		1A818B27289A1D34002866B2 /* ActorReferenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorReferenceHelper.swift; sourceTree = "<group>"; };
 		1A81CBE52882417F003F6EC3 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
@@ -206,6 +258,11 @@
 		1AC420D428C66F9E0034E9EA /* DiscoverTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverTab.swift; sourceTree = "<group>"; };
 		1AC420D628C675530034E9EA /* ProfileSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSearchViewModel.swift; sourceTree = "<group>"; };
 		1AC953B026896D5C00B293FB /* ShowDetailEdit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowDetailEdit.swift; sourceTree = "<group>"; };
+		1AC98B6B2B2D4DAA002FE100 /* SupabaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseFunctions.swift; sourceTree = "<group>"; };
+		1AC98B6D2B2D4E2F002FE100 /* SupabaseShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseShow.swift; sourceTree = "<group>"; };
+		1AC98B6F2B2D4FDE002FE100 /* SupabaseShowUserDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseShowUserDetails.swift; sourceTree = "<group>"; };
+		1AC98B712B2D539F002FE100 /* SupabaseActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseActor.swift; sourceTree = "<group>"; };
+		1AC98B732B2D5653002FE100 /* SupabaseActorShowRelationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseActorShowRelationship.swift; sourceTree = "<group>"; };
 		1ACA81FD289F25D10021336B /* UpdateStatusButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateStatusButtons.swift; sourceTree = "<group>"; };
 		1ACFA77426DDA49E00CB2E16 /* Home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home.png; sourceTree = "<group>"; };
 		1ACFA78926DDA58100CB2E16 /* Watchlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Watchlist.png; sourceTree = "<group>"; };
@@ -254,16 +311,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2D319D2C17F2C900D50689 /* Functions in Frameworks */,
 				1A64A75E2A2FF56100173B97 /* FirebaseDatabaseSwift in Frameworks */,
 				1A64A76B2A2FF58D00173B97 /* SkeletonUI in Frameworks */,
 				1A64A75C2A2FF56100173B97 /* FirebaseDatabase in Frameworks */,
+				1A2D319F2C17F2C900D50689 /* PostgREST in Frameworks */,
 				1A64A7622A2FF56100173B97 /* FirebaseFirestoreCombine-Community in Frameworks */,
+				1A2D31A12C17F2C900D50689 /* Realtime in Frameworks */,
 				1A64A7642A2FF56100173B97 /* FirebaseFirestoreSwift in Frameworks */,
 				1A64A7602A2FF56100173B97 /* FirebaseFirestore in Frameworks */,
 				1A64A76E2A2FF5D000173B97 /* InstantSearch in Frameworks */,
 				1A64A7662A2FF56100173B97 /* FirebaseStorage in Frameworks */,
 				1A64A7582A2FF56100173B97 /* FirebaseAuth in Frameworks */,
 				1A64A7702A2FF5D000173B97 /* InstantSearchCore in Frameworks */,
+				1A2D319B2C17F2C900D50689 /* Auth in Frameworks */,
+				1A2D31A52C1CAF6000D50689 /* Supabase in Frameworks */,
 				1A64A7722A2FF5D000173B97 /* InstantSearchSwiftUI in Frameworks */,
 				1A64A7682A2FF56100173B97 /* FirebaseStorageCombine-Community in Frameworks */,
 				1A64A75A2A2FF56100173B97 /* FirebaseAuthCombine-Community in Frameworks */,
@@ -303,11 +365,33 @@
 			path = UpdateLog;
 			sourceTree = "<group>";
 		};
+		1A5282BC2C28976400265CC0 /* Supabase Models */ = {
+			isa = PBXGroup;
+			children = (
+				1A2D31A22C17F2ED00D50689 /* Supabase.swift */,
+				1AC98B6D2B2D4E2F002FE100 /* SupabaseShow.swift */,
+				1A5B81B72A32224500F9B8A3 /* ShowUserSpecificDetails.swift */,
+				1A2D31A62C1CB0F400D50689 /* SupabaseModelData.swift */,
+				1AC98B732B2D5653002FE100 /* SupabaseActorShowRelationship.swift */,
+				1AC98B712B2D539F002FE100 /* SupabaseActor.swift */,
+				1AC98B6F2B2D4FDE002FE100 /* SupabaseShowUserDetails.swift */,
+				1A5282BF2C28A1A500265CC0 /* SupabaseService.swift */,
+				1A5282C12C2CA30C00265CC0 /* SupbaseShowTagRelationship.swift */,
+				1A5282C52C2DEC2B00265CC0 /* SupabaseUserUpdate.swift */,
+				1A5282C72C2DFAEC00265CC0 /* SupabaseProfile.swift */,
+				1A7C9DC12C422726008F4B5A /* ShowRatingCountDto.swift */,
+				1A7C9DD42C501576008F4B5A /* SupabaseShowList.swift */,
+				1A7C9DD62C5016E2008F4B5A /* SupabaseShowListEntry.swift */,
+			);
+			path = "Supabase Models";
+			sourceTree = "<group>";
+		};
 		1A65A1012A1E99BD00621BC0 /* ProfileDetail */ = {
 			isa = PBXGroup;
 			children = (
 				1A88BF7A28C52A0D005F7683 /* ProfileDetail.swift */,
 				1A65A1022A1E99D800621BC0 /* PinnedShowsSection.swift */,
+				1A7C9DDA2C502720008F4B5A /* OwnedLists.swift */,
 			);
 			path = ProfileDetail;
 			sourceTree = "<group>";
@@ -327,6 +411,7 @@
 				1A66E10B263A060F00B47B88 /* Shows */,
 				1AD246B0289C57A400E42452 /* Login.swift */,
 				1AF0B69F2A33858A004B847E /* NewData.swift */,
+				1A2D31A82C1CC29600D50689 /* MigrationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -348,6 +433,8 @@
 		1A66E10C263A065600B47B88 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1A7C9DBC2C373CD5008F4B5A /* Service */,
+				1A5282BC2C28976400265CC0 /* Supabase Models */,
 				1A6E07EB28C56A7300BE4898 /* Functions */,
 				1A6E07E228C548CF00BE4898 /* Deprecated */,
 				1A88BF7C28C52A11005F7683 /* View Models */,
@@ -367,8 +454,8 @@
 				1A1930432964D82E0090EE72 /* AlgoliaController.swift */,
 				1A1930492964E0C50090EE72 /* AlgoliaShow.swift */,
 				1AFE459D2A2CE35D007E4640 /* AlgoliaUpdate.swift */,
-				1A5B81B72A32224500F9B8A3 /* ShowUserSpecificDetails.swift */,
 				1A5B81B92A327B7B00F9B8A3 /* LastUserFetch.swift */,
+				1A7C9DD82C5018D8008F4B5A /* ShowListEntry.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -417,8 +504,57 @@
 				1AD246BF289C94EA00E42452 /* FireStoreFunctions.swift */,
 				1ADB3FDE28DE838000B08EBB /* ShowListFunctions.swift */,
 				1A1930222962830E0090EE72 /* UserUpdateFunctions.swift */,
+				1AC98B6B2B2D4DAA002FE100 /* SupabaseFunctions.swift */,
 			);
 			path = Functions;
+			sourceTree = "<group>";
+		};
+		1A7C9DBC2C373CD5008F4B5A /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				1A7C9DBD2C373CF1008F4B5A /* UserDetailsService.swift */,
+				1A7C9DBF2C404CA8008F4B5A /* ShowService.swift */,
+				1A7C9DC92C46E4B0008F4B5A /* ActorService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		1A7C9DCB2C46F19F008F4B5A /* ActorDetail */ = {
+			isa = PBXGroup;
+			children = (
+				1A1515CC282B69CF00DB8948 /* ActorDetailEdit.swift */,
+				1AE03C862824B2D4005FF4FA /* ActorDetail.swift */,
+				1A7C9DCC2C46F1BD008F4B5A /* ActorDetailTags.swift */,
+			);
+			path = ActorDetail;
+			sourceTree = "<group>";
+		};
+		1A7C9DCE2C46F1E0008F4B5A /* ShowDetail */ = {
+			isa = PBXGroup;
+			children = (
+				1A6E07DE28C5456F00BE4898 /* ShowDetailViewModel.swift */,
+				1A7C9DC72C46DBB2008F4B5A /* ShowDetailActorsViewModel.swift */,
+				1AA8F30B28D1423100866E46 /* ShowDetailPhotoViewModel.swift */,
+			);
+			path = ShowDetail;
+			sourceTree = "<group>";
+		};
+		1A7C9DCF2C46F202008F4B5A /* ActorDetail */ = {
+			isa = PBXGroup;
+			children = (
+				1A0BDBC0298ADD1600DDC82F /* ActorDetailViewModel.swift */,
+				1A7C9DD02C46F21D008F4B5A /* ActorDetailTagsViewModel.swift */,
+			);
+			path = ActorDetail;
+			sourceTree = "<group>";
+		};
+		1A7C9DDC2C5027D8008F4B5A /* ProfileDetail */ = {
+			isa = PBXGroup;
+			children = (
+				1A88BF7D28C52A24005F7683 /* ProfileViewModel.swift */,
+				1A7C9DDD2C5027F1008F4B5A /* OwnedListsViewModel.swift */,
+			);
+			path = ProfileDetail;
 			sourceTree = "<group>";
 		};
 		1A88BF7928C529F1005F7683 /* Profile */ = {
@@ -436,15 +572,16 @@
 		1A88BF7C28C52A11005F7683 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
-				1A88BF7D28C52A24005F7683 /* ProfileViewModel.swift */,
-				1A6E07DE28C5456F00BE4898 /* ShowDetailViewModel.swift */,
+				1A7C9DDC2C5027D8008F4B5A /* ProfileDetail */,
+				1A7C9DCF2C46F202008F4B5A /* ActorDetail */,
+				1A7C9DCE2C46F1E0008F4B5A /* ShowDetail */,
 				1A6E07E528C54B9600BE4898 /* ShowTileViewModel.swift */,
 				1AC420D628C675530034E9EA /* ProfileSearchViewModel.swift */,
-				1AA8F30B28D1423100866E46 /* ShowDetailPhotoViewModel.swift */,
 				1AD941D528DBFFC100710B75 /* ShowListViewModel.swift */,
 				1AD8B5B82970C0F10072083A /* ShowUpdatesViewModel.swift */,
-				1A0BDBC0298ADD1600DDC82F /* ActorDetailViewModel.swift */,
 				1AFE459F2A2E9E40007E4640 /* PopularShowsViewModel.swift */,
+				1A7C9DC32C4228B9008F4B5A /* ShowRatingsViewModel.swift */,
+				1A7C9DD22C470139008F4B5A /* ShowSearchViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -503,9 +640,8 @@
 		1AE03C852824B2BC005FF4FA /* Actors */ = {
 			isa = PBXGroup;
 			children = (
-				1AE03C862824B2D4005FF4FA /* ActorDetail.swift */,
+				1A7C9DCB2C46F19F008F4B5A /* ActorDetail */,
 				1AE03C8B2824B34B005FF4FA /* ListActorRow.swift */,
-				1A1515CC282B69CF00DB8948 /* ActorDetailEdit.swift */,
 				1A4B4CEA282D9CDB0095324A /* ActorList.swift */,
 			);
 			path = Actors;
@@ -633,6 +769,11 @@
 				1A64A76D2A2FF5D000173B97 /* InstantSearch */,
 				1A64A76F2A2FF5D000173B97 /* InstantSearchCore */,
 				1A64A7712A2FF5D000173B97 /* InstantSearchSwiftUI */,
+				1A2D319A2C17F2C900D50689 /* Auth */,
+				1A2D319C2C17F2C900D50689 /* Functions */,
+				1A2D319E2C17F2C900D50689 /* PostgREST */,
+				1A2D31A02C17F2C900D50689 /* Realtime */,
+				1A2D31A42C1CAF6000D50689 /* Supabase */,
 			);
 			productName = "TV Show App (iOS)";
 			productReference = 1AF396522638F54E000C4996 /* TV Show App.app */;
@@ -665,6 +806,7 @@
 				1A64A7562A2FF56100173B97 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				1A64A7692A2FF58D00173B97 /* XCRemoteSwiftPackageReference "SkeletonUI" */,
 				1A64A76C2A2FF5D000173B97 /* XCRemoteSwiftPackageReference "instantsearch-ios" */,
+				1A2D31992C17F2C900D50689 /* XCRemoteSwiftPackageReference "supabase-swift" */,
 			);
 			productRefGroup = 1AF396532638F54E000C4996 /* Products */;
 			projectDirPath = "";
@@ -707,25 +849,33 @@
 				1A429F0E28BC3E7900AC3C09 /* AddToComingSoon.swift in Sources */,
 				1AF2C8912670188000463718 /* ShowHelpers.swift in Sources */,
 				1A6E07E128C5488B00BE4898 /* OldFirebaseDBFunctions.swift in Sources */,
+				1A5282C82C2DFAEC00265CC0 /* SupabaseProfile.swift in Sources */,
 				1A3B8B402671D82C0033C433 /* Service.swift in Sources */,
 				1A19303B29638D4E0090EE72 /* FollowingUpdatesRow.swift in Sources */,
 				1AE79A87284C44A6008BB19A /* HomeNewRows.swift in Sources */,
 				1A6D246C28C130A60027DF9D /* ShowRatingsGraph.swift in Sources */,
+				1A7C9DD52C501576008F4B5A /* SupabaseShowList.swift in Sources */,
 				1A4A323B28C2B55E00E76BF1 /* PersonalRatingGraphs.swift in Sources */,
 				1A65A1032A1E99D800621BC0 /* PinnedShowsSection.swift in Sources */,
 				1A5B81BA2A327B7B00F9B8A3 /* LastUserFetch.swift in Sources */,
+				1A5282C62C2DEC2B00265CC0 /* SupabaseUserUpdate.swift in Sources */,
 				1AFFAC7728F85E2E00EE7F25 /* ShowStatusGraph.swift in Sources */,
 				1A4B4CEB282D9CDB0095324A /* ActorList.swift in Sources */,
+				1A7C9DC02C404CA8008F4B5A /* ShowService.swift in Sources */,
 				1AF20DE7267473930021A08F /* ShowSquareTile.swift in Sources */,
+				1A7C9DD92C5018D8008F4B5A /* ShowListEntry.swift in Sources */,
+				1A7C9DDE2C5027F1008F4B5A /* OwnedListsViewModel.swift in Sources */,
 				1A3A33F12672AAD300B2F459 /* ShowLength.swift in Sources */,
 				1AC11B972890426A00A8FA10 /* TagsGraphs.swift in Sources */,
 				1A463F8428C6431200DB2553 /* CurrentUserProfileDetail.swift in Sources */,
 				1A19303D2963B5CC0090EE72 /* ShowDetail.swift in Sources */,
+				1AC98B702B2D4FDE002FE100 /* SupabaseShowUserDetails.swift in Sources */,
 				1AE79A8D284C543A008BB19A /* ShowDetailEditActors.swift in Sources */,
 				1AA8F30C28D1423100866E46 /* ShowDetailPhotoViewModel.swift in Sources */,
 				1A2FE979263F8EC600B11F73 /* ShowTile.swift in Sources */,
 				1AF3968E2638F635000C4996 /* Show.swift in Sources */,
 				1AF396932638F6E9000C4996 /* ModelData.swift in Sources */,
+				1A7C9DC22C422726008F4B5A /* ShowRatingCountDto.swift in Sources */,
 				1AD941CF28DBF28A00710B75 /* ProfileTile.swift in Sources */,
 				1AD941D228DBF2BB00710B75 /* ShowListDetail.swift in Sources */,
 				1A88BF8028C52BE9005F7683 /* Profile.swift in Sources */,
@@ -738,9 +888,11 @@
 				1AD8B5B92970C0F10072083A /* ShowUpdatesViewModel.swift in Sources */,
 				1A0BDBC1298ADD1600DDC82F /* ActorDetailViewModel.swift in Sources */,
 				1A81CBFE288E111C003F6EC3 /* Tag.swift in Sources */,
+				1AC98B722B2D539F002FE100 /* SupabaseActor.swift in Sources */,
 				1A7498D22A0A00470070CC13 /* UserUpdateDetailRow.swift in Sources */,
 				1AC420D528C66F9E0034E9EA /* DiscoverTab.swift in Sources */,
 				1AE03C872824B2D4005FF4FA /* ActorDetail.swift in Sources */,
+				1A7C9DCD2C46F1BD008F4B5A /* ActorDetailTags.swift in Sources */,
 				1AD246B1289C57A400E42452 /* Login.swift in Sources */,
 				1ADB3FDF28DE838000B08EBB /* ShowListFunctions.swift in Sources */,
 				1A6E07DF28C5456F00BE4898 /* ShowDetailViewModel.swift in Sources */,
@@ -749,29 +901,41 @@
 				1A1930442964D82E0090EE72 /* AlgoliaController.swift in Sources */,
 				1A88BF7B28C52A0D005F7683 /* ProfileDetail.swift in Sources */,
 				1AF396762638F54E000C4996 /* ContentView.swift in Sources */,
+				1A5282C02C28A1A500265CC0 /* SupabaseService.swift in Sources */,
 				1A4A323E28C2B5BF00E76BF1 /* RatingGraphs.swift in Sources */,
 				1AC953B126896D5C00B293FB /* ShowDetailEdit.swift in Sources */,
 				1A19303F2964D7090090EE72 /* ShowSearch.swift in Sources */,
+				1AC98B6C2B2D4DAA002FE100 /* SupabaseFunctions.swift in Sources */,
 				1A88BF7E28C52A24005F7683 /* ProfileViewModel.swift in Sources */,
 				1A6E07E628C54B9600BE4898 /* ShowTileViewModel.swift in Sources */,
+				1A7C9DDB2C502720008F4B5A /* OwnedLists.swift in Sources */,
 				1AFE459E2A2CE35D007E4640 /* AlgoliaUpdate.swift in Sources */,
 				1A4B4CF0282F2DA70095324A /* StatsPage.swift in Sources */,
 				1A6E07ED28C56A8200BE4898 /* ProfileFunctions.swift in Sources */,
+				1A7C9DD32C470139008F4B5A /* ShowSearchViewModel.swift in Sources */,
 				1A193021296280DE0090EE72 /* UserUpdate.swift in Sources */,
 				1AD246C0289C94EA00E42452 /* FireStoreFunctions.swift in Sources */,
 				1A19302B29633BC20090EE72 /* UpdateLog.swift in Sources */,
+				1A5282C22C2CA30C00265CC0 /* SupbaseShowTagRelationship.swift in Sources */,
+				1A2D31A32C17F2ED00D50689 /* Supabase.swift in Sources */,
 				1AE79A79284C4064008BB19A /* ShowDetailText.swift in Sources */,
+				1A7C9DD12C46F21D008F4B5A /* ActorDetailTagsViewModel.swift in Sources */,
 				1AD941D428DBF30700710B75 /* ShowList.swift in Sources */,
 				1A5ADB0B298E1A2800A96C4C /* HomeStatusFiltered.swift in Sources */,
+				1A7C9DCA2C46E4B0008F4B5A /* ActorService.swift in Sources */,
 				1ACA81FE289F25D10021336B /* UpdateStatusButtons.swift in Sources */,
 				1AC11B91288F920800A8FA10 /* ActorReferenceGame.swift in Sources */,
 				1A19302629628D610090EE72 /* UserUpdateCard.swift in Sources */,
 				1AF0B6A02A33858A004B847E /* NewData.swift in Sources */,
+				1A7C9DBE2C373CF1008F4B5A /* UserDetailsService.swift in Sources */,
 				1A5B81B82A32224500F9B8A3 /* ShowUserSpecificDetails.swift in Sources */,
 				1A5ADB0E298E253E00A96C4C /* ServiceBubble.swift in Sources */,
 				1A2FE96F263F8B0700B11F73 /* Home.swift in Sources */,
+				1A7C9DC82C46DBB2008F4B5A /* ShowDetailActorsViewModel.swift in Sources */,
 				1A5406712812594900A78AC0 /* Hidden.swift in Sources */,
+				1A7C9DC42C4228B9008F4B5A /* ShowRatingsViewModel.swift in Sources */,
 				1A6E07E428C548E900BE4898 /* OldFileIOFunctions.swift in Sources */,
+				1A7C9DD72C5016E2008F4B5A /* SupabaseShowListEntry.swift in Sources */,
 				1AF396A62638F977000C4996 /* ListShowRow.swift in Sources */,
 				1A3232F826756F6E009A9F23 /* DiscoverPage.swift in Sources */,
 				1A2FE974263F8CAB00B11F73 /* ScrollShowRow.swift in Sources */,
@@ -779,9 +943,11 @@
 				1A19303529633CB10090EE72 /* UpdateLogNode.swift in Sources */,
 				1A19302829628DCF0090EE72 /* CurrentUserUpdatesRow.swift in Sources */,
 				1A99FF0226CC25DE009485ED /* AirDate.swift in Sources */,
+				1AC98B742B2D5653002FE100 /* SupabaseActorShowRelationship.swift in Sources */,
 				1A1930232962830E0090EE72 /* UserUpdateFunctions.swift in Sources */,
 				1AF396742638F54E000C4996 /* TV_Show_AppApp.swift in Sources */,
 				1AE79A81284C42F9008BB19A /* ShowDetailActors.swift in Sources */,
+				1A2D31A92C1CC29600D50689 /* MigrationView.swift in Sources */,
 				1AE79A74284C3E7B008BB19A /* ShowSeasonsRow.swift in Sources */,
 				1A81CC03288E159D003F6EC3 /* TagsSection.swift in Sources */,
 				1AF396AD2638FF4C000C4996 /* WatchList.swift in Sources */,
@@ -795,10 +961,12 @@
 				1AA1AAE326A0CE070029FFD6 /* DeletePage.swift in Sources */,
 				1A818B28289A1D34002866B2 /* ActorReferenceHelper.swift in Sources */,
 				1A6E07EA28C561C300BE4898 /* FollowerList.swift in Sources */,
+				1AC98B6E2B2D4E2F002FE100 /* SupabaseShow.swift in Sources */,
 				1A3232F326750BAF009A9F23 /* SquareTileScrollRow.swift in Sources */,
 				1A316A3B268FE91A00C97699 /* TileBanner.swift in Sources */,
 				1AE03C812824ABB3005FF4FA /* Actor.swift in Sources */,
 				1A65A0FD2A172E2600621BC0 /* LoadingView.swift in Sources */,
+				1A2D31A72C1CB0F400D50689 /* SupabaseModelData.swift in Sources */,
 				1AD8B5BB2970CC6F0072083A /* ProfileBubble.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1041,6 +1209,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		1A2D31992C17F2C900D50689 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
 		1A64A7562A2FF56100173B97 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1077,6 +1253,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1A02E1F2289824A90026E4CF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseDatabaseSwift;
+		};
+		1A2D319A2C17F2C900D50689 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A2D31992C17F2C900D50689 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		1A2D319C2C17F2C900D50689 /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A2D31992C17F2C900D50689 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		1A2D319E2C17F2C900D50689 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A2D31992C17F2C900D50689 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		1A2D31A02C17F2C900D50689 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A2D31992C17F2C900D50689 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		1A2D31A42C1CAF6000D50689 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A2D31992C17F2C900D50689 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
 		};
 		1A64A7572A2FF56100173B97 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

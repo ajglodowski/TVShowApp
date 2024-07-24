@@ -27,7 +27,7 @@ struct ShowTile: View {
                 .font(.subheadline)
         }
         .task(id: showName) {
-            vm.loadImage(showName: showName)
+            await vm.loadImage(showName: showName)
         }
     }
 }

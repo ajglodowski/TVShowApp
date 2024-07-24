@@ -13,16 +13,17 @@ struct Profile : Hashable, Identifiable, Codable {
     
     var id: String
     var username: String
+    var created_at: Date
     var profilePhotoURL: String?
     var bio: String?
     var pinnedShows: [String:String]?
-    var pinnedShowCount: Int
-    var showCount: Int
-    var followingCount: Int
-    var followerCount: Int
+    var pinnedShowCount: Int?
+    var showCount: Int?
+    var followingCount: Int?
+    var followerCount: Int?
     var followers: [String:String]? // ID: Username
     var following: [String:String]?
-    var showLists: [String]? // Array of ids
+    var showLists: [Int]? // Array of ids
     var likedShowLists: [String]? // Array of ids
     //var shows: [String: String]
     
@@ -36,25 +37,21 @@ struct Profile : Hashable, Identifiable, Codable {
         //self.shows = [Show]()
     }
      */
+    init(from: SupabaseProfile) {
+        self.id = from.id
+        self.username = from.username
+        self.profilePhotoURL = from.profilePhotoURL
+        self.created_at = from.created_at
+    }
+    
+    init(id: String, username: String, created_at: Date, profilePhotoURL: String?) {
+        self.id = id
+        self.username = username
+        self.created_at = created_at
+        self.profilePhotoURL = profilePhotoURL
+    }
 
 }
 
-func convertProfileDictToProfile(profileId: String, data: [String:Any]) -> Profile {
-    let username = data["username"] as! String
-    var profilePhotoURL = data["profilePhotoURL"] as? String
-    let bio = data["bio"] as? String
-    let showCount = data["showCount"] as! Int
-    
-    let followingCount = data["followingCount"] as! Int
-    let followerCount = data["followerCount"] as! Int
-    let followers = data["followers"] as? [String:String]
-    let following = data["following"] as? [String:String]
-    
-    let showLists = data["showLists"] as? [String]
-    let likedShowLists = data["likedShowLists"] as? [String]
-    
-    let pinnedShows =  data["pinnedShows"] as? [String:String]
-    let pinnedShowCount = data["pinnedShowCount"] as? Int ?? 0
-    let add = Profile(id: profileId, username: username, profilePhotoURL: profilePhotoURL, bio: bio, pinnedShows: pinnedShows, pinnedShowCount: pinnedShowCount, showCount: showCount, followingCount: followingCount, followerCount: followerCount, followers: followers, following: following, showLists: showLists, likedShowLists: likedShowLists)
-    return add
-}
+var MockProfile = Profile(id: "c52a052a-4944-4257-ad77-34f2f002104c", username: "ajglodo", created_at: Date(), profilePhotoURL: "ajglodo")
+

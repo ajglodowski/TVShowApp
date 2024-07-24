@@ -47,7 +47,7 @@ struct FollowerList: View {
                                     .tint(.green)
                                     .confirmationDialog("Are you sure you want to unfollow \(username)?", isPresented: $unfollowConfirmation) {
                                         Button("Unfollow \(username)", role: .destructive) {
-                                            unfollowUser(userToUnfollow: (id, username), currentUser: (curUser.id, curUser.username))
+                                            //unfollowUser(userToUnfollow: (id, username), currentUser: (curUser.id, curUser.username))
                                         }
                                     } message: {
                                         Text("Are you sure you want to unfollow \(username)?")
@@ -55,7 +55,7 @@ struct FollowerList: View {
                                 } else {
                                     Button(action: {
                                         // Follow User
-                                        followUser(userToFollow: (id, username), currentUser: (curUser.id, curUser.username))
+                                        //followUser(userToFollow: (id, username), currentUser: (curUser.id, curUser.username))
                                     }) {
                                         Text("+ Follow \(username)")
                                     }

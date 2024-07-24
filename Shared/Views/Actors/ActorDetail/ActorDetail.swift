@@ -11,21 +11,26 @@ import Charts
 struct ActorDetail: View {
     
     @EnvironmentObject var modelData: ModelData
-    @ObservedObject var vm = ActorDetailViewModel()
+    @StateObject var vm = ActorDetailViewModel()
         
-    var actorId: String
-    var actor: Actor? { modelData.actorDict[actorId] }
+    var actorId: Int
+    var actor: Actor? { vm.actor }
+    var shows: [Show]? { vm.shows }
+    var showIds: [Int]? { vm.shows?.map { $0.id }}
     
-    @State var actorEdited: Actor = Actor(id: "1")
+    @State var actorEdited: Actor = Actor(id: -1)
     
     @State private var isPresented = false // Edit menu var
     
-    var loggedShows: [String: String] {
-        if (actor == nil) { return [String:String]() }
-        else { return actor!.shows.filter { modelData.showDict[$0.key] != nil && modelData.showDict[$0.key]!.addedToUserShows } }
+    var loggedShows: [Show] {
+        if (shows == nil) { return [] }
+        else { return shows!.filter { modelData.showDict[$0.id] != nil && modelData.showDict[$0.id]!.addedToUserShows } }
     }
     
-    var newShows: [String: String] { actor!.shows.filter { loggedShows[$0.key] == nil } }
+    var newShows: [Show] { 
+        if (shows == nil) { return [] }
+        else { return shows!.filter { !loggedShows.contains($0) } }
+    }
     
     var body: some View {
         
@@ -43,11 +48,10 @@ struct ActorDetail: View {
                             Text("Logged Shows \(loadedActor.name) has appeared in:")
                                 .padding()
                             
-                            ForEach(loggedShows.sorted(by: >), id:\.key) { showId, showName in
-                                NavigationLink(destination: ShowDetail(showId: showId)) {
-                                    HStack {
-                                        Text(showName)
-                                    }
+                            ForEach(loggedShows.sorted { $0.name < $1.name }) { show in
+                                NavigationLink(destination: ShowDetail(showId: show.id)) {
+                                    ListShowRow(show: show)
+                                    Divider()
                                 }
                                 .padding()
                             }
@@ -57,17 +61,16 @@ struct ActorDetail: View {
                             Text("Other Shows \(loadedActor.name) has appeared in:")
                                 .padding()
                             
-                            ForEach(newShows.sorted(by: >), id:\.key) { showId, showName in
-                                NavigationLink(destination: ShowDetail(showId: showId)) {
-                                    HStack {
-                                        Text(showName)
-                                    }
+                            ForEach(newShows.sorted { $0.name < $1.name }) { show in
+                                NavigationLink(destination: ShowDetail(showId: show.id)) {
+                                    ListShowRow(show: show)
+                                    Divider()
                                 }
                                 .padding()
                             }
                         }
                         
-                        //actorTagsGraph
+                        ActorDetailTags(showList: showIds)
                         
                         //actorRatingsGraph
                         
@@ -79,17 +82,16 @@ struct ActorDetail: View {
                 }
             }
             .refreshable {
-                vm.loadActor(modelData: modelData, id: actorId)
+                await vm.fetchAllActorData(actorId: actorId)
             }
             .task {
-                vm.loadActor(modelData: modelData, id: actorId)
+                await vm.fetchAllActorData(actorId: actorId)
             }
+            .foregroundColor(.white)
         }
         
         .navigationTitle(actor?.name ?? "Loading Actor")
         .navigationBarTitleDisplayMode(.inline)
-        //.navigationBarBackButtonHidden(false)
-        
         .navigationBarItems(trailing: Button("Edit") {
             if (actor != nil) {
                 actorEdited = actor!
@@ -100,18 +102,17 @@ struct ActorDetail: View {
         .sheet(isPresented: $isPresented) {
             NavigationView {
                 ActorDetailEdit(isPresented: self.$isPresented, actor: $actorEdited)
-                //ShowDetailEdit(isPresented: self.$isPresented)
                     .navigationTitle(actor!.name)
                     .navigationBarItems(leading: Button("Cancel") {
                         actorEdited = actor!
                         isPresented = false
                     }, trailing: Button("Done") {
-                        //print(showEdited)
                         if (actorEdited != actor) {
-                            if (actorEdited.name != actor!.name) {
-                                updateActor(act: actorEdited, actorNameEdited: true)
-                            } else {
-                                updateActor(act: actorEdited, actorNameEdited: false)
+                            Task {
+                                let success = await updateActor(actor: actorEdited)
+                                if (success) {
+                                    await vm.fetchAllActorData(actorId: actorId)
+                                }
                             }
                         }
                         isPresented = false
@@ -119,50 +120,8 @@ struct ActorDetail: View {
             }
         }
     }
+
     /*
-    var tagCounts: [Tag: Int] {
-        var output = [Tag: Int]()
-        for tag in Tag.allCases {
-            output[tag] = 0
-        }
-        for (showId, showName) in actor.shows {
-            //let showFound = modelData.shows.first(where: { $0.id == showId })
-            let showFound = modelData.showDict[showId]
-            if (showFound != nil && showFound!.tags != nil) {
-                for showTag in showFound!.tags! {
-                    output[showTag]! += 1
-                }
-            }
-        }
-        return output
-    }
-    
-    var actorTagsGraph: some View {
-        VStack {
-            Text("Tags")
-            ScrollView(.horizontal) {
-                Chart {
-                    ForEach(Tag.allCases.sorted {
-                        tagCounts[$0] ?? 0 > tagCounts[$1] ?? 0
-                    }) { tag in
-                        BarMark(
-                            x: .value("Tag", tag.rawValue),
-                            y: .value("Count", tagCounts[tag]!)
-                        )
-                        .annotation(position: .top) {
-                            Text(String(tagCounts[tag]!))
-                        }
-                        .foregroundStyle(by: .value("Tag", tag.rawValue))
-                    }
-                }
-                .chartPlotStyle { plotArea in
-                    plotArea.frame(height:250)
-                }
-                .padding(.top, 25)
-            }
-        }
-    }
-    
     var ratingsCounts: [Rating: Int] {
         var output = [Rating: Int]()
         for tag in Rating.allCases {
@@ -224,6 +183,7 @@ struct ActorDetail: View {
     
 }
 
+/*
 struct ActorDetail_Previews: PreviewProvider {
     
     static let modelData = ModelData()
@@ -235,3 +195,4 @@ struct ActorDetail_Previews: PreviewProvider {
         }
     }
 }
+*/

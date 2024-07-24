@@ -23,26 +23,26 @@ struct Home: View {
     
     // Used for adding show button
     @State private var isPresented = false
-    @State private var newShow = Show(id:"1")
+    @State private var newShow = Show(id:1)
     
     var shows: [Show] {
         modelData.shows.filter { $0.addedToUserShows }
     }
     
     var unwatchedShows: [Show] {
-        shows.filter { $0.userSpecificValues!.status == Status.NeedsWatched }
+        shows.filter { $0.userSpecificValues!.status.id == NeedsWatchedStatusId }
             .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
     }
     
     var currentlyWatching: [Show] {
         shows
-            .filter { $0.userSpecificValues!.status == Status.CurrentlyAiring || $0.userSpecificValues!.status == Status.NewSeason || $0.userSpecificValues!.status == Status.CatchingUp }
+            .filter { $0.userSpecificValues!.status.id == CurrentlyAiringStatusId || $0.userSpecificValues!.status.id == NewSeasonStatusId || $0.userSpecificValues!.status.id == CatchingUpStatusId }
             .sorted { $0.name < $1.name }
     }
     
     var comingSoon: [Show] {
         shows
-            .filter { $0.userSpecificValues!.status == Status.ComingSoon }
+            .filter { $0.userSpecificValues!.status.id == ComingSoonStatusId }
             .filter { $0.releaseDate != nil }
             .sorted { $0.releaseDate! < $1.releaseDate! }
     }
@@ -128,12 +128,14 @@ struct Home: View {
                 
             }
             
+        
             
-            /*
             .refreshable {
-                modelData.refreshData()
+                Task {
+                    await modelData.loadEverything()
+                }
             }
-             */
+             
             
             
             .sheet(isPresented: $isPresented) {
@@ -144,7 +146,7 @@ struct Home: View {
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
                         }, trailing: Button("Done") {
-                            let _ = addToShows(show: newShow)
+                            //let _ = addToShows(show: newShow)
                             isPresented = false
                         })
                 }
@@ -169,7 +171,7 @@ struct Home: View {
             
             Divider()
             
-            WatchingRow(shows: shows)
+            //WatchingRow(shows: shows)
             
         }
     }
@@ -203,7 +205,9 @@ struct Home: View {
             // Reload Button
             Spacer()
             Button(action: {
-                modelData.refreshData()
+                Task {
+                    await modelData.loadEverything()
+                }
             }, label: {
                 Text("Reload Data")
             })
@@ -212,7 +216,7 @@ struct Home: View {
             Spacer()
             // New Show Button
             Button(action: {
-                newShow = Show(id: "1")
+                newShow = Show(id: 1)
                 isPresented = true
             }, label: {
                 Text("New Show")
@@ -283,10 +287,7 @@ struct outsidePages: View {
     }
 }
 
-
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        Home()
-            .environmentObject(ModelData())
-    }
+#Preview {
+    return Home()
+        .environmentObject(ModelData())
 }

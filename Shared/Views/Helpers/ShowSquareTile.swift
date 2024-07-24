@@ -29,7 +29,7 @@ struct ShowSquareTile: View {
     var belowFontType: Font?
     
     private var backgroundColor: Color {
-        if (show.tileImage != nil) { return Color(vm.showImage?.averageColor ?? .black) }
+        if (vm.showImage != nil) { return Color(vm.showImage?.averageColor ?? .black) }
         else { return Color.black }
     }
     
@@ -50,13 +50,13 @@ struct ShowSquareTile: View {
                 }
             }
             
-            Image(uiImage: show.tileImage)
+            Image(uiImage: vm.showImage)
                 .resizable()
-                .skeleton(with: show.tileImage == nil)
+                .skeleton(with: vm.showImage == nil)
                 .shape(type: .rectangle)
                 .scaledToFit()
                 .cornerRadius(15)
-                .if(show.addedToUserShows && show.userSpecificValues!.status == Status.NewSeason) {
+                .if(show.addedToUserShows && show.userSpecificValues!.status.id == NewSeasonStatusId) {
                     $0.overlay(TileBanner(text: "New\nSeason"),alignment: .bottomLeading)
                 }
                 .shadow(radius: 5)
@@ -65,7 +65,7 @@ struct ShowSquareTile: View {
             if (titleShown) {
                 HStack {
                     Text(show.name)
-                        .skeleton(with: show.partiallyLoaded)
+                        //.skeleton(with: show.partiallyLoaded)
                         .font(.headline)
                         .fixedSize(horizontal: false, vertical: true)
                         .multilineTextAlignment(.center)
@@ -73,10 +73,10 @@ struct ShowSquareTile: View {
                 
                 HStack {
                     Text(show.length.rawValue + "m")
-                        .skeleton(with: show.partiallyLoaded)
+                        //.skeleton(with: show.partiallyLoaded)
                         .font(.subheadline)
                     Text(show.service.rawValue)
-                        .skeleton(with: show.partiallyLoaded)
+                        //.skeleton(with: show.partiallyLoaded)
                         .font(.subheadline)
                         .fixedSize(horizontal: false, vertical: true)
                     if (hasRating && ratingShown != nil && ratingShown!) {
@@ -108,12 +108,21 @@ struct ShowSquareTile: View {
         .padding(.horizontal, 5)
         
         .task(id: show.name){
-            vm.loadImage(modelData: modelData, showId: show.id, showName: show.name)
+            await vm.loadImage(showName: show.name)
         }
         
     }
 }
+/*
+#Preview {
+    let modelData = ModelData()
+    let displayed = modelData.showDict[100]!
+    return ShowSquareTile(show: displayed, titleShown: true)
+        .environmentObject(modelData)
+}
+ */
 
+/*
 struct ShowSquareTile_Previews: PreviewProvider {
     
     static var shows = ModelData().shows
@@ -134,3 +143,4 @@ struct ShowSquareTile_Previews: PreviewProvider {
         }
     }
 }
+*/

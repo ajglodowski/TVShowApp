@@ -17,9 +17,7 @@ struct UpdateLogSection: View {
     @StateObject var updatesVm = ShowUpdatesViewModel()
     
     var userUpdates: [UserUpdate] { modelData.currentUserUpdates.filter { $0.showId == show.id } }
-    var friendUpdates: [UserUpdate] {
-        Array(modelData.updateDict.values).filter { $0.userId != Auth.auth().currentUser!.uid && $0.showId ==  show.id }
-    }
+    var friendUpdates: [UserUpdate] = []
     var friends: [String] { Array(Set(friendUpdates.map { $0.userId })) }
     
     var body: some View {
@@ -49,10 +47,16 @@ struct UpdateLogSection: View {
         .task {
             if (modelData.currentUser != nil) {
                 if (modelData.currentUser!.following != nil && !friendUpdates.isEmpty) {
-                    updatesVm.loadUpdates(modelData: modelData, showId: show.id, friends: Array(modelData.currentUser!.following!.keys))
+                    //updatesVm.loadUpdates(modelData: modelData, showId: show.id, friends: Array(modelData.currentUser!.following!.keys))
                 }
-                else { updatesVm.loadUpdates(modelData: modelData,showId: show.id, friends: []) }
+                //else { updatesVm.loadUpdates(modelData: modelData,showId: show.id, friends: []) }
             }
         }
     }
+}
+
+#Preview {
+    let show = Show(from: MockSupabaseShow)
+    return UpdateLogSection(show: show)
+        .environmentObject(ModelData())
 }

@@ -37,7 +37,7 @@ struct AllUpdates: View {
             }
         }
         .task {
-            vm.loadMostRecent20Updates(modelData: modelData, userId:user)
+            //vm.loadMostRecent20Updates(modelData: modelData, userId:user)
         }
     }
 }

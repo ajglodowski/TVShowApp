@@ -28,6 +28,8 @@ struct StatsPage: View {
      */
     
     var body: some View {
+        Text("TODO")
+        /*
         List {
             
             VStack {
@@ -67,9 +69,7 @@ struct StatsPage: View {
             NewCharts()
             
             TagsGraphs()
-            
-            
-            /*
+
             VStack {
                 Text("Status counts:")
                     .font(.headline)
@@ -90,10 +90,10 @@ struct StatsPage: View {
                     }
                 }
             }
-             */
             
         }
         .navigationTitle("Stats Page")
+         */
     }
 }
 
@@ -177,9 +177,11 @@ struct NewCharts: View {
         var id: UUID = UUID()
     }
     
+    var statuses: [Status] { modelData.statuses }
+    
     var statusCounts: [StatusCount] {
         var statusAr: [StatusCount] = []
-        for status in Status.allCases {
+        for status in statuses {
             for service in Service.allCases {
                 let count = modelData.shows.filter{ $0.addedToUserShows && $0.userSpecificValues!.status == status && $0.service == service}.count
                 let adding = StatusCount(status: status, count: count, service: service)
@@ -211,14 +213,17 @@ struct NewCharts: View {
         return output
     }
     
-    @State var selectedStatus: Status = Status.NeedsWatched
+    @State var selectedStatus: Status? = nil
     
     func getTotalStatusCount(status: Status) -> Int {
-        let objs = statusCounts.filter({
-            $0.status == selectedStatus
-        })
-        let count = objs.reduce(0) { $0 + $1.count }
-        return count
+        if (selectedStatus == nil) { return 0 }
+        else {
+            let objs = statusCounts.filter({
+                $0.status.id == selectedStatus!.id
+            })
+            let count = objs.reduce(0) { $0 + $1.count }
+            return count
+        }
     }
     
     var body: some View {

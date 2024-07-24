@@ -17,7 +17,7 @@ struct ShowCountResult: Identifiable {
 }
 
 class PopularShowsViewModel: ObservableObject {
-    
+    /*
     @Published var totalMostPopularShows = [Show]()
     
     @MainActor
@@ -48,5 +48,6 @@ class PopularShowsViewModel: ObservableObject {
             }
         }
     }
+     */
     
 }

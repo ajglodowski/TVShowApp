@@ -36,7 +36,7 @@ func applyTagFilters(tagFilters: [Tag], shows: [Show]) -> [Show] {
     if (!tagFilters.isEmpty) {
         var output: [Show] = []
         for tag in tagFilters {
-            if (tag == Tag.None) {
+            if (tag.name == "None") {
                 output.append(contentsOf: shows.filter { ($0.tags ?? []).isEmpty })
             } else {
                 output.append(contentsOf: shows.filter { ($0.tags ?? []).contains(tag)})
@@ -58,7 +58,7 @@ func applyAllFilters(serviceFilters: [Service], statusFilters: [Status]?, rating
     var statusFiltered = Set<Show>()
     if (!serviceFilters.isEmpty) {
         for service in serviceFilters {
-            let add = shows.filter { $0.services.contains(service) }
+            let add = shows.filter { $0.service == service }
             for show in add {
                 statusFiltered.insert(show)
             }
@@ -134,7 +134,7 @@ func printShowList(input: [Show]) {
         print("\(show.name) ->")
     }
 }
-
+/*
 // Calls all the firebase functions needed to update a status
 func changeShowStatus(show: Show, status: Status) {
     var updatedShow = show
@@ -159,3 +159,4 @@ func changeShowStatus(show: Show, status: Status) {
     decrementStatusCount(showId: show.id, status: show.userSpecificValues!.status)
     incrementStatusCount(showId: show.id, status: status)
 }
+*/

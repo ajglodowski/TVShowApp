@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 struct TagsGraphs: View {
-    
+    /*
     @EnvironmentObject var modelData: ModelData
     
     struct TagsCount: Identifiable {
@@ -54,8 +54,11 @@ struct TagsGraphs: View {
         }
         return tagAr
     }
+     */
     
     var body: some View {
+        Text("TODO")
+        /*
         VStack {
             VStack {
                 Text("Shows by Tags")
@@ -110,6 +113,7 @@ struct TagsGraphs: View {
             .padding()
             
         }
+         */
     }
 }
 

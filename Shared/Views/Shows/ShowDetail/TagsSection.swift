@@ -9,12 +9,17 @@ import SwiftUI
 
 struct TagsSection: View {
     
-    var showId: String
-    var activeTags: [Tag]
+    @EnvironmentObject var modelData : ModelData
+    
+    var showId: Int
+    
+    var activeTags: [Tag] { modelData.showDict[showId]?.tags ?? [] }
+    var allTags: [Tag] { modelData.tags }
+    var tagCategories: [TagCategory] { modelData.tagCategories }
     
     @State var editingTags = false
     var otherTags: [Tag] {
-        return Tag.allCases.filter { !activeTags.contains($0) }
+        allTags.filter { !activeTags.contains($0) }
     }
     
     
@@ -36,9 +41,16 @@ struct TagsSection: View {
                     HStack {
                         ForEach(activeTags) { tag in
                             Button(action: {
-                                if (editingTags) { removeTagFromShow(showId: showId, tag: tag) }
+                                if (editingTags) { 
+                                    Task {
+                                        let response = await removeTagFromShow(showId:showId, tagId:tag.id)
+                                        if (response) {
+                                            modelData.showDict[showId]?.tags = modelData.showDict[showId]?.tags?.filter { $0.id != tag.id }
+                                        }
+                                    }
+                                }
                             }) {
-                                Text(tag.rawValue)
+                                Text(tag.name)
                                 if (editingTags) { Image(systemName:"xmark") }
                             }
                             .buttonStyle(.bordered)
@@ -52,14 +64,21 @@ struct TagsSection: View {
             
             if (editingTags) {
                 Text("Add tags:")
-                ForEach(TagCategory.allCases) { category in
+                ForEach(tagCategories) { category in
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(otherTags.filter { $0.category == category} ) { tag in
                                 Button(action: {
-                                    if (editingTags) { addTagToShow(showId: showId, tag: tag) }
+                                    if (editingTags) {
+                                        Task {
+                                            let response = await addTagToShow(showId: showId, tagId: tag.id)
+                                            if (response) {
+                                                modelData.showDict[showId]?.tags?.append(tag)
+                                            }
+                                        }
+                                    }
                                 }) {
-                                    Text(tag.rawValue)
+                                    Text(tag.name)
                                     if (editingTags) { Image(systemName:"plus") }
                                 }
                                 .buttonStyle(.bordered)
@@ -74,9 +93,6 @@ struct TagsSection: View {
 }
 
 #Preview {
-    ScrollView {
-        VStack {
-            TagsSection(showId: SampleShow.id, activeTags: [Tag.Animated])
-        }
-    }
+    TagsSection(showId: MockSupabaseShow.id)
+        .environmentObject(ModelData())
 }

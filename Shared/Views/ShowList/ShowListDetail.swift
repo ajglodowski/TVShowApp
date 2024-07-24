@@ -9,7 +9,13 @@ import SwiftUI
 
 struct ShowListDetail: View {
     
-    var listId: String
+    var listId: Int
+    
+    var body: some View {
+        Text("Todo")
+    }
+    
+    /*
     
     @EnvironmentObject var modelData : ModelData
     @StateObject var listVm = ShowListViewModel()
@@ -147,7 +153,7 @@ struct ShowListDetail: View {
                     }, trailing: Button("Done") {
                         if (listEdited != listObj!) {
                             // Update firebase
-                            updateList(list: listEdited)
+                            //updateList(list: listEdited)
                             Task {
                                 await reloadData()
                             }
@@ -170,7 +176,7 @@ struct ShowListDetail: View {
                         if (ownedList) {
                             if (listObj!.priv) {
                                 Button(action: {
-                                    makeListPublic(listId: listObj!.id)
+                                    //makeListPublic(listId: listObj!.id)
                                     Task {
                                         await reloadData()
                                     }
@@ -180,7 +186,7 @@ struct ShowListDetail: View {
                                 .buttonStyle(.bordered)
                             } else {
                                 Button(action: {
-                                    makeListPrivate(listId: listObj!.id)
+                                    //makeListPrivate(listId: listObj!.id)
                                     Task {
                                         await reloadData()
                                     }
@@ -207,12 +213,12 @@ struct ShowListDetail: View {
                         Text("\(listObj!.likeCount) likes")
                         Button(action: {
                             if (likedByCurrentUser) {
-                                dislikeList(listId: listObj!.id)
+                                //dislikeList(listId: listObj!.id)
                                 Task {
                                     await reloadData()
                                 }
                             } else {
-                                likeList(listId: listObj!.id)
+                                //likeList(listId: listObj!.id)
                                 Task {
                                     await reloadData()
                                 }
@@ -313,13 +319,13 @@ struct ShowListDetail: View {
                             editing = false
                             // Update Firestore shows and ordered
                             if (editingShows != listShows) {
-                                updateListShows(listId: listObj!.id, showsAr: editingShows)
+                                //updateListShows(listId: listObj!.id, showsAr: editingShows)
                                 Task {
                                     await reloadData()
                                 }
                             }
                             if (editingOrdered != listObj!.ordered) {
-                                updateListOrdered(listId: listObj!.id, listOrdered: editingOrdered)
+                                //updateListOrdered(listId: listObj!.id, listOrdered: editingOrdered)
                                 Task {
                                     await reloadData()
                                 }
@@ -379,5 +385,6 @@ struct ShowListDetail: View {
         .background(.quaternary)
         .cornerRadius(5.0)
     }
+     */
     
 }

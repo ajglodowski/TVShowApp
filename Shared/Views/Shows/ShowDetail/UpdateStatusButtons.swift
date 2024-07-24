@@ -11,21 +11,29 @@ import Firebase
 struct UpdateStatusButtons: View {
     
     @State var showingAllStatus = false
+    @EnvironmentObject var modelData : ModelData
+    
+    var uid: String { modelData.currentUser!.id }
+    
+    var statuses: [Status] { modelData.statuses }
     
     func getStatusOptions(curStatus: Status) -> [Status] {
-        switch curStatus {
-        case Status.NeedsWatched:
-            return [Status.CurrentlyAiring, Status.NewRelease, Status.CatchingUp]
-        case Status.CurrentlyAiring, Status.NewSeason, Status.NewRelease:
-            return [Status.UpToDate,Status.ShowEnded]
-        case Status.UpToDate:
-            return [Status.CurrentlyAiring,Status.ComingSoon,Status.NewSeason]
+        var statusIds: [Int] = []
+        switch curStatus.id {
+        case NeedsWatchedStatusId:
+            statusIds = [CurrentlyAiringStatusId, NewReleaseStatusId, CatchingUpStatusId]
+        case CurrentlyAiringStatusId, NewSeasonStatusId, NewReleaseStatusId:
+            statusIds = [UpToDateStatusId,ShowEndedStatusId]
+        case UpToDateStatusId:
+            statusIds = [CurrentlyAiringStatusId,ComingSoonStatusId,NewSeasonStatusId]
         default:
             return [Status]()
         }
+        return statuses.filter { statusIds.contains($0.id) }
     }
     
-    var show: Show
+    var showId: Int
+    var show: Show { modelData.showDict[showId]! }
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -36,19 +44,29 @@ struct UpdateStatusButtons: View {
                         if (!showingAllStatus) {
                             ForEach(getStatusOptions(curStatus: show.userSpecificValues!.status)) { statusOption in
                                 Button(action: {
-                                    changeShowStatus(show: show, status: statusOption)
+                                    Task {
+                                        let success = await updateUserShowData(updateType: UserUpdateCategory.UpdatedStatus, userId: uid, showId: show.id, seasonChange: nil, ratingChange: nil, statusChange: statusOption)
+                                        if (success) {
+                                            await modelData.reloadAllShowData(showId: show.id, userId: uid)
+                                        }
+                                    }
                                 }) {
-                                    Text(statusOption.rawValue)
+                                    Text(statusOption.name)
                                 }
                                 .buttonStyle(.bordered)
                             }
                         } else {
-                            ForEach(Status.allCases) { statusOption in
+                            ForEach(statuses) { statusOption in
                                 VStack {
                                     Button(action: {
-                                        changeShowStatus(show: show, status: statusOption)
+                                        Task {
+                                            let success = await updateUserShowData(updateType: UserUpdateCategory.UpdatedStatus, userId: uid, showId: show.id, seasonChange: nil, ratingChange: nil, statusChange: statusOption)
+                                            if (success) {
+                                                await modelData.reloadAllShowData(showId: show.id, userId: uid)
+                                            }
+                                        }
                                     }) {
-                                        Text(statusOption.rawValue)
+                                        Text(statusOption.name)
                                     }
                                     .buttonStyle(.bordered)
                                     if (statusOption == show.userSpecificValues!.status) {
@@ -83,12 +101,12 @@ struct UpdateStatusButtons: View {
     var AddToWatchlistButton: some View {
         Button(action: {
             var addingShow = show
-            let uid = Auth.auth().currentUser!.uid
-            let userSpecificValues = ShowUserSpecificDetails(userId: uid, showId: show.id, status: Status.NeedsWatched, updated: Date(), currentSeason: 1)
-            addingShow.userSpecificValues = userSpecificValues
-            addUserUpdateWatchlist(userId: uid, show: addingShow)
-            addToUserShows(show: addingShow)
-            incrementShowCount(userId: uid)
+            Task {
+                let success = await updateUserShowData(updateType: UserUpdateCategory.AddedToWatchlist, userId: uid, showId: show.id, seasonChange: nil, ratingChange: nil, statusChange: nil)
+                if (success) {
+                    await modelData.reloadAllShowData(showId: show.id, userId: uid)
+                }
+            }
         }) {
             Text("Add to Watchlist")
         }

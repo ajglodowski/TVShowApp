@@ -20,12 +20,14 @@ struct SquareTileScrollRow: View {
     
     @EnvironmentObject var modelData : ModelData
     
+    var uid: String? { modelData.currentUser?.id }
+    
     var items: [Show]
     
     var scrollType: ScrollRowType
     
     func isOutNow(s: Show) -> Bool {
-        if (s.addedToUserShows && s.userSpecificValues!.status == Status.ComingSoon) {
+        if (s.addedToUserShows && s.userSpecificValues!.status.id == ComingSoonStatusId) {
             if ((s.releaseDate != nil) && (s.releaseDate! < Date.now)) { return true }
         }
         return false
@@ -44,6 +46,7 @@ struct SquareTileScrollRow: View {
         default:
             return nil
         }
+        return nil
     }
     
     func getBelowExtraText(s: Show) -> [String]? {
@@ -55,10 +58,11 @@ struct SquareTileScrollRow: View {
             cal.dateFormat = "MMM d"
             return ["\(day.string(from: s.releaseDate!))  \(cal.string(from: s.releaseDate!))"]
         case ScrollRowType.StatusDisplayed:
-            return ["\(s.userSpecificValues!.status.rawValue)"]
+            return ["\(s.userSpecificValues!.status.name)"]
         default:
             return nil
         }
+        return nil
     }
     
     var body: some View {
@@ -69,21 +73,20 @@ struct SquareTileScrollRow: View {
                 HStack(alignment: .top, spacing: 0) {
                     ForEach(items) { show in
                         VStack {
-                            //NavigationLink(destination: ShowDetail(showId: show.id, show: show)) {
                             NavigationLink(destination: ShowDetail(showId: show.id)) {
                                 ShowSquareTile(show: show, titleShown: true, aboveExtraText: getAboveExtraText(s: show), belowExtraText: getBelowExtraText(s: show))
                             }
                             .foregroundColor(.primary)
                             if (scrollType == ScrollRowType.ComingSoon && isOutNow(s: show) ) {
                                 Button(action: {
-                                    let day = DateFormatter()
-                                    day.dateFormat = "EEEE"
-                                    //print(showIndex(show: show))
-                                    var edited = show
-                                    edited.airdate = AirDate(rawValue: day.string(from: show.releaseDate!))
-                                    edited.releaseDate = nil
-                                    changeShowStatus(show: show, status: Status.CurrentlyAiring)
-                                    updateToShows(show: show, showNameEdited: false)
+                                    Task {
+                                        if (uid != nil) {
+                                            let success = await updateUserShowData(updateType: UserUpdateCategory.UpdatedStatus, userId: uid!, showId: show.id, seasonChange: nil, ratingChange: nil, statusChange: Status.init(id: CurrentlyAiringStatusId, name: "Currently Airing", created_at: Date(), update_at: Date()))
+                                            if (success) {
+                                                await modelData.reloadAllShowData(showId: show.id, userId: uid)
+                                            }
+                                        }
+                                    }
                                 }) {
                                     Text("Add to \n Currently Airing")
                                 }
@@ -108,7 +111,7 @@ struct SquareTileScrollRow_Previews: PreviewProvider {
             VStack {
                 SquareTileScrollRow(items: shows, scrollType: ScrollRowType.NoExtraText)
                 SquareTileScrollRow(items: shows, scrollType: ScrollRowType.Airdate)
-                SquareTileScrollRow(items: shows.filter {$0.addedToUserShows && $0.userSpecificValues!.status == Status.ComingSoon}, scrollType: ScrollRowType.ComingSoon)
+                SquareTileScrollRow(items: shows.filter {$0.addedToUserShows && $0.userSpecificValues!.status.id == ComingSoonStatusId}, scrollType: ScrollRowType.ComingSoon)
             }
         }
     }

@@ -16,24 +16,10 @@ struct ShowDetailEdit: View {
     @State private var showName: String = ""
     
     @Binding var isPresented: Bool
-    
-    /*
-    
-    var show : Show
-    
-     */
-    
+        
     @Binding var show: Show
         
-    /*
-    var showIndex: Int {
-        modelData.shows.firstIndex(where: { $0.id == show.id })!
-    }
-    
-    func actorIndex(actor: Actor) -> Int {
-        modelData.actors.firstIndex(where: { $0.id == actor.id }) ?? (modelData.actors.firstIndex(where: { $0.name == actor.name }) ?? -1)
-    }
-    */
+    var services: [SupabaseService] { modelData.services }
     
     var body: some View {
         
@@ -81,31 +67,28 @@ struct ShowDetailEdit: View {
                 
                 // Service
                 HStack {
-                    //Text("Service: " + show.service.rawValue)
-                    //Spacer()
-                    Picker("Change Service", selection: $show.service) {
-                        ForEach(Service.allCases) { service in
-                            Text(service.rawValue).tag(service)
+                    Picker("Change Service", selection: $show.supabaseService) {
+                        ForEach(services) { service in
+                            Text(service.name).tag(service)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
                     .buttonStyle(.bordered)
                 }
                 
+                /*
                 // Services
-                HStack {
+                 HStack {
                     Text("Select Services:")
                     Spacer()
                     Menu { // Service Filter
                         ForEach(Service.allCases) { service in
                             Button(action: {
-                                if (show.services.contains(service)) {
-                                    show.services = show.services.filter { $0 != service}
-                                } else {
-                                    show.services.append(service)
+                                if (show.service != service) {
+                                    show.service = service
                                 }
                             }) {
-                                Label(service.rawValue, systemImage: show.services.contains(service) ? "checkmark" : "")
+                                Label(service.rawValue, systemImage: show.service == service ? "checkmark" : "")
                             }
                         }
                     } label: {
@@ -118,6 +101,7 @@ struct ShowDetailEdit: View {
                     .cornerRadius(5)
                 }
                 //.padding()
+                 */
             }
             
             Section(header: Text("Currently Airng")) {
@@ -130,8 +114,6 @@ struct ShowDetailEdit: View {
                 // Airdate
                 if (show.airdate != nil) {
                     HStack {
-                        //Text("Airdate: " + show.airdate.rawValue)
-                        //Spacer()
                         Picker("Change Airdate", selection: $show.airdate) {
                             ForEach(AirDate.allCases) { airdate in
                                 Text(airdate.rawValue).tag(airdate as AirDate?)
@@ -182,14 +164,14 @@ struct ShowDetailEdit: View {
             Section(header: Text("Release Date:")) {
                 if (show.releaseDate != nil) {
                     DatePicker(
-                        "Start Date",
+                        "Release Date",
                         selection: $show.releaseDate.toUnwrapped(defaultValue: Date()),
                         displayedComponents: [.date]
                     )
                     Button(action: {
                         show.releaseDate = nil
                     }) {
-                       Text("Remove airdate")
+                       Text("Remove release date")
                     }
                     .buttonStyle(.bordered)
                     .tint(.red)
@@ -205,50 +187,24 @@ struct ShowDetailEdit: View {
             }
             //}
             
-            ShowDetailEditActors(show: $show)
+            //ShowDetailEditActors(show: $show)
+            ShowDetailEditActors()
             
             
             // ID
             Section(header: Text("Internal ID:")) {
-                //TextField("ID", value: $show.id, formatter: NumberFormatter())
-                    //.keyboardType(.numberPad)
-                Text("ID: "+show.id)
+                Text("ID: \(show.id)")
             }
-            
-            
-            
-             
-            //TODO
-            /*
-            Button(action: {
-                //modelData.shows.remove(at: showIndex)
-                self.isPresented = false
-                modelData.shows.remove(at: showIndex)
-            }, label: {
-                Text("Delete Show")
-                    .font(.title)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            })
- */
              
         }
         .listStyle(InsetGroupedListStyle())
          
     }
 }
-/*
-struct ShowDetailEdit_Previews: PreviewProvider {
-    
-    static let modelData = ModelData()
-    
-    static var previews: some View {
-        Group {
-            ShowDetailEdit(isPresented: true, show: modelData.shows[30])
-                .environmentObject(modelData)
-        }
-    }
+
+#Preview {
+    @State var show = Show(from: MockSupabaseShow)
+    @State var isPresented = true
+    return ShowDetailEdit(isPresented: $isPresented, show: $show)
+        .environmentObject(ModelData())
 }
-*/

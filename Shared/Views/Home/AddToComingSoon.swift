@@ -16,7 +16,7 @@ struct AddToComingSoon: View {
     }
     
     var outOfSync: [Show] {
-        shows.filter({ $0.userSpecificValues!.status != Status.ComingSoon && $0.userSpecificValues!.status != Status.SeenEnough && $0.releaseDate != nil})
+        shows.filter({ $0.userSpecificValues!.status.id != ComingSoonStatusId && $0.userSpecificValues!.status.id != SeenEnoughStatusId && $0.releaseDate != nil})
     }
     
     var body: some View {
@@ -37,14 +37,14 @@ struct AddToComingSoon: View {
                                 }
                                 .foregroundColor(.primary)
                                 Button(action:{
-                                    changeShowStatus(show: s, status: Status.ComingSoon)
+                                    //changeShowStatus(show: s, status: Status.ComingSoon)
                                 }) {
                                     Text("Add to Coming Soon")
                                 }
                                 .buttonStyle(.bordered)
                                 .tint(.green)
                                 Button(action:{
-                                    changeShowStatus(show: s, status: Status.SeenEnough)
+                                    //changeShowStatus(show: s, status: Status.SeenEnough)
                                 }) {
                                     Text("Seen Enough")
                                 }

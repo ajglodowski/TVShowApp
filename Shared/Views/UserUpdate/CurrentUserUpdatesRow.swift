@@ -10,15 +10,12 @@ import SwiftUI
 struct CurrentUserUpdatesRow: View {
     
     @EnvironmentObject var modelData : ModelData
-    
-    
-    
+
     var updates: [UserUpdate] {
         Array(modelData.currentUserUpdates.sorted { $0.updateDate > $1.updateDate}.prefix(10))
     }
     
     func getShowFromUpdate(update: UserUpdate) -> Show? {
-        //modelData.shows.first(where: { $0.id == update.showId})
         modelData.showDict[update.showId]
     }
     
@@ -34,7 +31,6 @@ struct CurrentUserUpdatesRow: View {
                 ScrollView (.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach (updates) { update in
-                            //NavigationLink(destination: ShowDetail(showId: update.showId, show: getShowFromUpdate(update: update))) {
                             NavigationLink(destination: ShowDetail(showId: update.showId)) {
                                 UserUpdateCard(update: update)
                                     .foregroundColor(.white)
@@ -49,8 +45,8 @@ struct CurrentUserUpdatesRow: View {
     }
 }
 
-struct CurrentUserUpdatesRow_Previews: PreviewProvider {
-    static var previews: some View {
-        CurrentUserUpdatesRow()
-    }
+#Preview {
+    return CurrentUserUpdatesRow()
+        .environmentObject(ModelData())
 }
+

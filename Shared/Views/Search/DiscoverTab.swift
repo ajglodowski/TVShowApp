@@ -110,19 +110,22 @@ struct PopularShows: View {
     @EnvironmentObject var modelData : ModelData
     
     var body: some View {
+        Text("TODO")
+        /*
         var showDict = showsVm.totalMostPopularShows
         let shows = showDict
             
         VStack {
             ForEach(shows) { show in
                 VStack{
-                    Text(show.id)
+                    Text(String(show.id))
                 }
             }
         }
         .task {
             //showsVm.getPopularShowsFromAll(modelData: modelData)
         }
+         */
     }
 }
 

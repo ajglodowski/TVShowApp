@@ -12,16 +12,30 @@ struct CurrentUserProfileDetail: View {
     
     @EnvironmentObject var modelData : ModelData
     
+    var currentUserId: String? { modelData.currentUser?.id }
+    
+    func signOut() async {
+        do {
+            try await supabase.auth.signOut()
+        } catch {
+            dump(error)
+        }
+    }
+    
     var body: some View {
         NavigationView {
-            VStack {
-                ProfileDetail(id: Auth.auth().currentUser!.uid)
-                Button(action: {
-                    try! Auth.auth().signOut()
-                }) {
-                    Text("Sign Out")
+            if (currentUserId != nil) {
+                VStack {
+                    ProfileDetail(id: currentUserId!)
+                    Button(action: {
+                        Task {
+                            await signOut()
+                        }
+                    }) {
+                        Text("Sign Out")
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.bordered)
             }
         }
         .navigationViewStyle(.stack)

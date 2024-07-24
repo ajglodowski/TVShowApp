@@ -16,11 +16,11 @@ class ProfileSearchViewModel: ObservableObject {
     @Published var profilesReturned: [(Image, Profile)] = [(Image, Profile)]()
     
     //private var ref: DatabaseReference = Database.database().reference()
-    private var fireStore = Firebase.Firestore.firestore()
+    //private var fireStore = Firebase.Firestore.firestore()
     private var store = Storage.storage().reference()
     
     @MainActor
-    func searchForUser(username: String) {
+    func searchForUser(username: String) {/*
         self.profilesReturned = [(Image, Profile)]()
         //var output = [(Image, Profile)]()
         let ref = fireStore.collection("users")
@@ -54,8 +54,6 @@ class ProfileSearchViewModel: ObservableObject {
                         }
                     }
             }
-        /*
-            
          */
     }
     

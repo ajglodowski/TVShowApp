@@ -49,13 +49,13 @@ struct UserUpdateCard: View {
                 }
                 VStack (alignment: .leading, spacing: 0) {
                     Text(show?.name)
-                        .skeleton(with: (show == nil || show!.partiallyLoaded))
+                        .skeleton(with: (show == nil))
                         .bold()
                     Text(update.updateMessage)
-                        .skeleton(with: (show == nil || show!.partiallyLoaded))
+                        .skeleton(with: (show == nil))
                         .font(.callout.leading(.tight))
                     Text(dateString)
-                        .skeleton(with: (show == nil || show!.partiallyLoaded))
+                        .skeleton(with: (show == nil))
                         .font(.footnote)
                     ProfileBubble(profileId: update.userId)
                 }
@@ -71,8 +71,16 @@ struct UserUpdateCard: View {
             if (show == nil) { showVm.loadShow(modelData: modelData, id: update.showId) }
         }
         .task(id: show?.name ?? nil) {
-            if (show != nil) { vm.loadImage(showName: show!.name) }
+            if (show != nil) { await vm.loadImage(showName: show!.name) }
         }
     }
     
 }
+
+#Preview {
+    let update = UserUpdate(from: MockSupabasUserUpdate)
+    return UserUpdateCard(update: update)
+        .environmentObject(ModelData())
+}
+
+

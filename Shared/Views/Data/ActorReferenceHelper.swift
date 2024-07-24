@@ -7,6 +7,7 @@
 
 import Foundation
 
+/*
 func findShortestPath(showList: [Show],actorList: [Actor], startActor: Actor, destinationActor: Actor) -> [Actor] {
     //let returned = actorBfs(actorList: actorList, src: startActor, dest: destinationActor, actorHistory: [startActor], showHistory: [Show](), shortestLength: 100000)
     let returned = actorBfs(showList: showList, actorList: actorList, src: startActor, dest: destinationActor)
@@ -31,6 +32,7 @@ func findShortestPath(showList: [Show],actorList: [Actor], startActor: Actor, de
         return [Actor]()
     }
 }
+ */
 /*
 func actorDfs(actorList: [Actor], src: Actor, dest: Actor, actorHistory: [Actor], showHistory: [Show], shortestLength: Int) -> [Actor] {
     
@@ -60,6 +62,7 @@ func actorDfs(actorList: [Actor], src: Actor, dest: Actor, actorHistory: [Actor]
     
 }
 */
+/*
 func actorBfs(showList: [Show],actorList: [Actor], src: Actor, dest: Actor) -> [Actor:Actor] {
     
     var queue = [Actor]()
@@ -105,3 +108,4 @@ func actorBfs(showList: [Show],actorList: [Actor], src: Actor, dest: Actor) -> [
     
     
 }
+*/

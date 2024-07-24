@@ -12,6 +12,8 @@ struct WatchList: View {
     
     @EnvironmentObject var modelData : ModelData
     
+    var statuses: [Status] { modelData.statuses }
+    
     @State private var searchText = ""
     
     var shows: [Show] {
@@ -34,7 +36,7 @@ struct WatchList: View {
          */
         var out = applyAllFilters(serviceFilters: appliedServiceFilters, statusFilters: appliedStatusFilters, ratingFilters: appliedRatingFilters, tagFilters: appliedTagFilters, showLengthFilter: selectedLength, shows: shows, selectedLimited: selectedLimited, selectedRunning: selectedRunning, selectedAiring: selectedAiring, appliedAirdateFilters: appliedAirdateFilters)
             .sorted { $0.name < $1.name }
-        
+        /*
         if (selectedRatingOrder != 0) {
             out = out.filter { !$0.avgRating.isNaN }
             if (selectedRatingCategory == 1) {
@@ -51,6 +53,7 @@ struct WatchList: View {
                 }
             }
         }
+         */
 
         return out
         
@@ -74,13 +77,14 @@ struct WatchList: View {
         if (!selectedCategories.isEmpty) {
             var tags = [Tag]()
             for cat in selectedCategories {
-                tags.append(contentsOf: Tag.allCases.filter { $0.category == cat})
+                tags.append(contentsOf: modelData.tags.filter { $0.category == cat})
             }
             return tags
         } else {
-            return Tag.allCases
+            return modelData.tags
         }
     }
+    var tagCategories: [TagCategory] { modelData.tagCategories }
     
     @State var displayOptions: Bool = false
     
@@ -189,7 +193,7 @@ struct WatchList: View {
                 .cornerRadius(5)
                 
                 Menu { // Status Filter
-                    ForEach(Status.allCases) { status in
+                    ForEach(statuses) { status in
                         Button(action: {
                             if (appliedStatusFilters.contains(status)) {
                                 appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
@@ -197,7 +201,7 @@ struct WatchList: View {
                                 appliedStatusFilters.append(status)
                             }
                         }) {
-                            Label(status.rawValue, systemImage: appliedStatusFilters.contains(status) ?
+                            Label(status.name, systemImage: appliedStatusFilters.contains(status) ?
                                   "checkmark" : "")
                         }
                     }
@@ -286,7 +290,7 @@ struct WatchList: View {
                     Menu { // Status Filter
                         HStack {
                             Section {
-                                ForEach(TagCategory.allCases) { category in
+                                ForEach(tagCategories) { category in
                                     Button (action: {
                                         if (selectedCategories.contains(category)) {
                                             selectedCategories = selectedCategories.filter { $0 != category}
@@ -294,7 +298,7 @@ struct WatchList: View {
                                             selectedCategories.append(category)
                                         }
                                     }) {
-                                        Label(category.rawValue, systemImage: selectedCategories.contains(category) ?
+                                        Label(category.name, systemImage: selectedCategories.contains(category) ?
                                               "checkmark" : "")
                                     }
                                 }
@@ -308,7 +312,7 @@ struct WatchList: View {
                                             appliedTagFilters.append(tag)
                                         }
                                     }) {
-                                        Label(tag.rawValue, systemImage: appliedTagFilters.contains(tag) ?
+                                        Label(tag.name, systemImage: appliedTagFilters.contains(tag) ?
                                               "checkmark" : "")
                                     }
                                 }
@@ -382,7 +386,7 @@ struct WatchList: View {
                                     appliedStatusFilters = appliedStatusFilters.filter { $0 != status}
                                 }, label: {
                                     HStack {
-                                        Text(status.rawValue)
+                                        Text(status.name)
                                         Image(systemName: "xmark")
                                     }
                                     
@@ -422,7 +426,7 @@ struct WatchList: View {
                                     appliedTagFilters = appliedTagFilters.filter { $0 != tag}
                                 }, label: {
                                     HStack {
-                                        Text(tag.rawValue)
+                                        Text(tag.name)
                                         Image(systemName: "xmark")
                                     }
                                     
@@ -466,14 +470,7 @@ struct WatchList: View {
     
 }
 
-
-
-struct WatchList_Previews: PreviewProvider {
-    
-    //.environmentObject(UserData())
-    
-    static var previews: some View {
-        WatchList()
-            .environmentObject(ModelData())
-    }
+#Preview {
+    return WatchList()
+        .environmentObject(ModelData())
 }

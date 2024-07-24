@@ -11,38 +11,26 @@ import Combine
 
 struct ShowList : Hashable, Identifiable {
     
-    var id: String
+    var id: Int
     var name: String
     var description: String
-    var shows: [String]
+    var shows: [ShowListEntry]
     var ordered: Bool
     var priv: Bool
-    var profile: Profile
-    var likeCount: Int
+    var creator: String
+    // var likeCount: Int // TODO Later
     
-    //let id : String = UUID().uuidString
-    /*
-    init(id: String) {
-        self.id = id
-        self.name = "New List"
-        self.description = ""
-        self.shows = [Show]()
-        self.ordered = false
-        self.priv = false
-        self.profile = Profile(id: "1", username: "TempUser", pinnedShowCount: 0, showCount: 0, followingCount: 0, followerCount: 0)
+    
+    init(list: SupabaseShowList, entries: [SupabaseShowListEntry]) {
+        self.id = list.id
+        self.name = list.name
+        self.description = list.description
+        let mapped = entries.map { ShowListEntry(from: $0) }
+        self.shows = mapped
+        self.ordered = list.ordered
+        self.priv = list.private
+        self.creator = list.creator
     }
-     */
+     
 
-}
-
-func convertListToDict(list: ShowList) -> [String:Any] {
-    var out = [String:Any]()
-    out["name"] = list.name
-    out["description"] = list.description
-    out["likeCount"] = list.likeCount
-    out["priv"] = list.priv
-    out["ordered"] = list.ordered
-    out["shows"] = list.shows
-    out["profileId"] = list.profile.id
-    return out
 }

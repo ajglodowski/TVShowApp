@@ -9,12 +9,17 @@ import SwiftUI
 
 struct HomeStatusFiltered: View {
     
+    @EnvironmentObject var modelData: ModelData
+    
+    var statuses: [Status] { modelData.statuses }
+    
     @State var selectedStatus: Status? = nil
     
     var shows: [Show]
     
     var displayedShows: [Show] {
-        var output = shows.sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
+        let userShows = shows.filter { $0.addedToUserShows }
+        var output = userShows.sorted { $0.userSpecificValues!.updated > $1.userSpecificValues!.updated }
         if (selectedStatus != nil) { output = output.filter { $0.userSpecificValues!.status == selectedStatus } }
         return Array(output.prefix(10))
     }
@@ -23,12 +28,12 @@ struct HomeStatusFiltered: View {
         VStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(Status.allCases.sorted { $0.order < $1.order }) { status in
+                    ForEach(statuses) { status in
                         Button(action: {
                             if (selectedStatus != status) { selectedStatus = status }
                             else { selectedStatus = nil }
                         }) {
-                            Text(status.rawValue)
+                            Text(status.name)
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(status == selectedStatus ? .blue : .secondary)

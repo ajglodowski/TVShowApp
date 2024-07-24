@@ -11,7 +11,7 @@ import Charts
 struct PersonalRatingGraphs: View {
     
     @EnvironmentObject var modelData: ModelData
-    
+    /*
     var ratedShows: [Show] { modelData.shows.filter { $0.addedToUserShows && $0.userSpecificValues!.rating != nil } }
     
     var ratingsCounts: [Rating:Int] {
@@ -76,16 +76,20 @@ struct PersonalRatingGraphs: View {
             .filter { $0.tags != nil && $0.tags!.contains(tag) }
             .count
     }
+     */
     
     var body: some View {
+        Text("Todo")
+        /*
         List {
              yourRatings
              
             tagsByRating
             
         }
+         */
     }
-    
+    /*
     var yourRatings: some View {
         VStack(alignment: .leading) {
             Text("Your Rating Counts:")
@@ -147,6 +151,7 @@ struct PersonalRatingGraphs: View {
         }
         .frame(minHeight: 500)
     }
+     */
 }
 
 struct PersonalRatingGraphs_Previews: PreviewProvider {

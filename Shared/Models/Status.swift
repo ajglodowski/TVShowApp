@@ -7,50 +7,24 @@
 
 import Foundation
 
-enum Status: String, CaseIterable, Codable, Identifiable, Hashable {
-    case UpToDate = "Up to Date"
-    case NeedsWatched = "Needs Watched"
-    case SeenEnough = "Seen Enough"
-    case ShowEnded = "Show Ended"
-    case CurrentlyAiring = "Currently Airing"
-    case NewRelease = "New Release"
-    case NewSeason = "New Season"
-    case CatchingUp = "Catching Up"
-    case ComingSoon = "Coming Soon"
-    case Rewatching = "Rewatching"
-    
-    case Other
-    
-    var order: Int {
-        switch(self) {
-        case Status.CurrentlyAiring:
-            return 0
-        case Status.CatchingUp:
-            return 1
-        case Status.NewRelease:
-            return 2
-        case Status.NewSeason:
-            return 3
-        case Status.Rewatching:
-            return 4
-        case Status.ComingSoon:
-            return 5
-        case Status.NeedsWatched:
-            return 6
-        case Status.UpToDate:
-            return 7
-        case Status.ShowEnded:
-            return 8
-        case Status.SeenEnough:
-            return 9
-        case Status.Other:
-            return 10
-        default:
-            return -1
-        }
-    }
-    
-    var id: String { self.rawValue }
+import Foundation
+
+struct Status : Hashable, Codable, Identifiable {
+    var id: Int
+    var name: String
+    var created_at: Date
+    var update_at: Date
 }
 
+let StatusProperties = "id, created_at, update_at, name"
+let ShowEndedStatusId = 1
+let UpToDateStatusId = 2
+let NeedsWatchedStatusId = 3
+let SeenEnoughStatusId = 4
+let CurrentlyAiringStatusId = 5
+let NewReleaseStatusId = 6
+let NewSeasonStatusId = 7
+let CatchingUpStatusId = 8
+let ComingSoonStatusId = 9
+var MockStatus = Status(id: 1, name: "Needs Watched", created_at: Date(), update_at: Date())
 

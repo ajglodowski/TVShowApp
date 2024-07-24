@@ -25,11 +25,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     @StateObject private var modelData = ModelData()
+    @StateObject private var supabaseModelData = SupbaseModelData()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(modelData)
+                .environmentObject(supabaseModelData)
             /*
                 .modelContainer(for: [
                     //ShowUserSpecificDetails.self,

@@ -11,19 +11,34 @@ struct ShowDetailActors: View {
     
     @EnvironmentObject var modelData: ModelData
     
+    @StateObject var actorsVm = ShowDetailActorsViewModel()
+    
     var show: Show
     var backgroundColor: Color
+    
+    var actors: [Actor]? { actorsVm.actors }
     
     var body: some View {
         
         VStack {
-            if (show.actors != nil) {
-                VStack(alignment: .leading){
+            VStack(alignment: .leading){
+                HStack {
                     Text("Actors")
                         .font(.title)
-                    ForEach(show.actors!.sorted(by: >), id:\.key) { actorId, actorName in
-                        NavigationLink(destination: ActorDetail(actorId: actorId)) {
-                            ListActorRow(actorName: actorName)
+                    Spacer()
+                    Button(action: {
+                        Task {
+                            await actorsVm.fetchActors(showId: show.id)
+                        }
+                    }) {
+                        Text("Refresh Actors")
+                    }
+                    .buttonStyle(.bordered)
+                }
+                if (actors != nil) {
+                    ForEach(actors!) { actor in
+                        NavigationLink(destination: ActorDetail(actorId: actor.id)) {
+                            ListActorRow(actorName: actor.name)
                                 .background(backgroundColor.blendMode(.softLight))
                                 .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
                         }
@@ -33,15 +48,21 @@ struct ShowDetailActors: View {
             Divider()
             // Add a new actor
             Button(action: {
-                var new = Actor(id: "1")
-                let newActId = addActorToActors(act: new)
-                new.id = newActId
-                addActorToShow(act: new, showId: show.id, showName: show.name)
+                Task {
+                    let new = Actor(id: -1)
+                    let success = await insertActor(actor: new, showId: show.id)
+                    if (success) {
+                        await actorsVm.fetchActors(showId: show.id)
+                    }
+                }
             }, label: {
                 Text("Add a new Actor")
                 //.font(.title)
             })
             .buttonStyle(.bordered)
+        }
+        .task {
+            await actorsVm.fetchActors(showId: show.id)
         }
         .padding()
         // Darker, possible use in future
@@ -53,7 +74,7 @@ struct ShowDetailActors: View {
         .foregroundColor(.white)
     }
 }
-
+/*
 struct ShowDetailActors_Previews: PreviewProvider {
     static let modelData = ModelData()
     static var previews: some View {
@@ -62,3 +83,4 @@ struct ShowDetailActors_Previews: PreviewProvider {
         }
     }
 }
+*/

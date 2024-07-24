@@ -10,8 +10,6 @@ import SkeletonUI
 
 struct ListShowRow: View {
     
-    @EnvironmentObject var modelData : ModelData
-    
     @ObservedObject var vm = ShowTileViewModel()
     
     var show: Show
@@ -22,9 +20,9 @@ struct ListShowRow: View {
         HStack {
             
             VStack { // Show Image
-                Image(uiImage: show.tileImage)
+                Image(uiImage: vm.showImage)
                     .resizable()
-                    .skeleton(with: show.tileImage == nil)
+                    .skeleton(with: vm.showImage == nil)
                     .shape(type: .rectangle)
                     .scaledToFit()
                     .cornerRadius(5)
@@ -82,20 +80,15 @@ struct ListShowRow: View {
         .padding(.vertical, 4)
         .padding(.horizontal, 4)
         .task(id: show.name) {
-            vm.loadImage(modelData: modelData, showId: show.id, showName: show.name)
-            //vm.loadImage(showName: show.name)
+            await vm.loadImage(showName: show.name)
         }
     }
 }
 
-struct ListShowRow_Previews: PreviewProvider {
-
-    static var shows = ModelData().shows
+#Preview {
+    var mockShow = Show(from: MockSupabaseShow)
+    mockShow.name = "House of the Dragon"
+    return ListShowRow(show: mockShow)
     
-    //@ObservedObject var showStore = ShowStore()
-    static var previews: some View {
-        //Grid() {
-            ListShowRow(show: shows[0])
-        //}
-    }
 }
+

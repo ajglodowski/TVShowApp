@@ -21,7 +21,7 @@ struct ShowUserSpecificDetails: Hashable {
     
     
     var userId: String
-    var showId: String
+    var showId: Int
     var status: Status
     var updated: Date // Date these details were last updated
 
@@ -34,7 +34,7 @@ struct ShowUserSpecificDetails: Hashable {
     }
     
     
-    init (userId: String, showId: String, status: Status,
+    init (userId: String, showId: Int, status: Status,
           updated: Date, currentSeason: Int, rating: Rating? = nil, currentUserUpdates: [UserUpdate]? = nil) {
         self.userId = userId
         self.showId = showId
@@ -45,12 +45,21 @@ struct ShowUserSpecificDetails: Hashable {
         self.currentUserUpdates = currentUserUpdates
     }
     
+    init (from: SupabaseShowUserDetails) {
+        self.userId = from.userId
+        self.showId = from.showId
+        self.status = from.status
+        self.updated = from.updated
+        self.currentSeason = from.currentSeason
+        self.rating = from.rating
+    }
+    
 }
 
 var SampleUserDetails: ShowUserSpecificDetails {
-    return ShowUserSpecificDetails(userId: "123", showId: "456", status: Status.NeedsWatched, updated: Date(), currentSeason: 2, rating: Rating.Meh, currentUserUpdates: nil)
+    return ShowUserSpecificDetails(userId: "123", showId: 456, status: MockStatus, updated: Date(), currentSeason: 2, rating: Rating.Meh, currentUserUpdates: nil)
 }
-
+/*
 func convertUserSpecificDetailsToDictionary(details: ShowUserSpecificDetails) -> [String:Any] {
     var output = [String:Any]()
     
@@ -82,6 +91,7 @@ func convertUserSpecificDetailsDictToObj(data: [String:Any]) -> ShowUserSpecific
     
     return out
 }
+ */
 
 /*
 @MainActor func loadUserSpecificDetailsFromData(context: ModelContext, showId: String, userId: String) -> ShowUserSpecificDetails? {

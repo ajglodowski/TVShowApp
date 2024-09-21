@@ -11,9 +11,11 @@ struct TagsSection: View {
     
     @EnvironmentObject var modelData : ModelData
     
+    @StateObject var tagVm = TagViewModel()
+    
     var showId: Int
     
-    var activeTags: [Tag] { modelData.showDict[showId]?.tags ?? [] }
+    var activeTags: [Tag] { tagVm.tags ?? [] }
     var allTags: [Tag] { modelData.tags }
     var tagCategories: [TagCategory] { modelData.tagCategories }
     
@@ -31,7 +33,12 @@ struct TagsSection: View {
                 Button(action: {
                     editingTags.toggle()
                 }) {
-                    if (editingTags) { Text("Stop Editing") }
+                    if (editingTags) {
+                        HStack {
+                            Text("Done")
+                            Image(systemName:"checkmark")
+                        }
+                    }
                     else { Text("Edit Tags") }
                 }
                 .buttonStyle(.bordered)
@@ -45,7 +52,7 @@ struct TagsSection: View {
                                     Task {
                                         let response = await removeTagFromShow(showId:showId, tagId:tag.id)
                                         if (response) {
-                                            modelData.showDict[showId]?.tags = modelData.showDict[showId]?.tags?.filter { $0.id != tag.id }
+                                            await tagVm.loadTags(showId: showId)
                                         }
                                     }
                                 }
@@ -73,7 +80,7 @@ struct TagsSection: View {
                                         Task {
                                             let response = await addTagToShow(showId: showId, tagId: tag.id)
                                             if (response) {
-                                                modelData.showDict[showId]?.tags?.append(tag)
+                                                await tagVm.loadTags(showId: showId)
                                             }
                                         }
                                     }
@@ -88,6 +95,9 @@ struct TagsSection: View {
                     }
                 }
             }
+        }
+        .task {
+            await tagVm.loadTags(showId: showId)
         }
     }
 }

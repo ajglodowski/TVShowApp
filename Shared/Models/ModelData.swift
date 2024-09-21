@@ -174,7 +174,6 @@ final class ModelData : ObservableObject {
     func loadShowInfo() async {
         await loadFromSupabase()
         await fillInTagsForShows()
-        //await fillInActorsForShows()
     }
     
     func loadBaseData() async {
@@ -212,16 +211,8 @@ final class ModelData : ObservableObject {
     }
     
     func loadStatuses() async {
-        do {
-            let fetchedStatuses: [Status] = try await supabase
-                .from("status")
-                .select(StatusProperties)
-                .execute()
-                .value
-            await setStatuses(statuses: fetchedStatuses)
-        } catch {
-            dump(error)
-        }
+        let fetchedStatuses = await fetchAllStatuses()
+        await setStatuses(statuses: fetchedStatuses)
     }
     
     func loadServices() async {
@@ -328,21 +319,6 @@ final class ModelData : ObservableObject {
     }
     
     @MainActor
-    func updateShowActors(showDict: [Int:[Actor]]) {
-        for (key,value) in showDict {
-            if (self.showDict[key] != nil) {
-                if (self.showDict[key]!.actors == nil) {
-                    self.showDict[key]!.actors = [Int:Actor]()
-                }
-                for act in value {
-                    self.showDict[key]!.actors![act.id] = act
-                }
-            }
-        }
-    }
-    
-    
-    @MainActor
     func updateSingleShowsTags(showId: Int, tags: [Tag]) {
         if (self.showDict[showId] != nil) {
             self.showDict[showId]!.tags = tags
@@ -358,12 +334,6 @@ final class ModelData : ObservableObject {
         let tagDict = await fetchAllTagsForShows(showList: Array(self.showDict.keys))
         await updateShowTags(showDict: tagDict)
     }
-    
-    func fillInActorsForShows() async {
-        let actorDict = await fetchAllActorsForShows(showList: Array(self.showDict.keys))
-        await updateShowActors(showDict: actorDict)
-    }
-        
     
     func loadUsersShows() async {
         if (currentUser != nil) {

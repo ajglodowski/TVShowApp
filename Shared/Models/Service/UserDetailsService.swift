@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import PostgREST
 
 func getUserShowData(showId: Int, userId: String?) async -> ShowUserSpecificDetails? {
     if (userId == nil) { return nil }
@@ -201,3 +202,29 @@ func insertUpdate(update: SupabaseUserUpdate) async -> Bool {
     }
 }
 
+struct ShowsByStatusDto: Codable {
+    var show: SupabaseShow
+}
+
+func getShowsForUserByStatus(statusId: Int? = nil, limit: Int? = nil, userId: String) async -> [Show] {
+    do {
+        var query = supabase
+            .from("UserShowDetails")
+            .select("show (\(SupabaseShowProperties))")
+            .eq("userId", value: userId)
+        if (statusId != nil) {
+            query = query.eq("status", value: statusId!)
+        }
+        if (limit != nil) {
+            query = query.limit(limit!) as! PostgrestFilterBuilder
+        }
+        query = query.order("updated", ascending: false) as! PostgrestFilterBuilder
+        let fetchedDtos: [ShowsByStatusDto] = try await query
+            .execute()
+            .value
+        return fetchedDtos.map { Show(from: $0.show) }
+    } catch {
+        dump(error)
+        return []
+    }
+}

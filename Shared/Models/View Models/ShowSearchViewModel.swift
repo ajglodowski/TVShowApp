@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ShowSearchViewModel: ObservableObject {
+class SearchShowViewModel: ObservableObject {
     
     @Published var searchResults: [Show]? = nil
     

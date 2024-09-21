@@ -14,25 +14,56 @@ class ShowListViewModel: ObservableObject {
     
     @Published var showListObj: ShowList? = nil
     
-    //private var ref: DatabaseReference = Database.database().reference()
-    //private var fireStore = Firebase.Firestore.firestore()
-
-    func fetchList(id: Int, showLimit: Int? = nil) async -> SupabaseShowList {
+    @MainActor
+    func setShowList(showList: ShowList) {
+        self.showListObj = showList
+    }
+    
+    func fetchList(id: Int) async -> SupabaseShowList? {
         do {
-            let fetchedList = try await supabase
+            let fetchedList: SupabaseShowList = try await supabase
                 .from("showList")
                 .select(SupabaseShowListProperties)
                 .match(["id": id])
                 .single()
                 .execute()
                 .value
+            return fetchedList
         } catch {
-            
+            dump(error)
+            return nil
+        }
+    }
+    
+    func fetchEntries(id: Int, showLimit: Int? = nil) async -> [SupabaseShowListEntry]? {
+        do {
+            var fetchQuery = supabase
+                .from("ShowListRelationship")
+                .select(SupabaseShowListEntryProperties)
+                .match(["listId": id])
+                .order("position")
+            if (showLimit != nil) {
+                fetchQuery = fetchQuery.limit(showLimit!)
+            }
+            let results: [SupabaseShowListEntry]? = try await fetchQuery
+                .execute()
+                .value
+            return results
+        } catch {
+            dump(error)
+            return nil
         }
     }
     
     @MainActor
     func loadList(id: Int, showLimit: Int? = nil) async {
+        async let listFetch = fetchList(id: id)
+        async let entriesFetch = fetchEntries(id: id, showLimit: showLimit)
+        let (list, entries) = await (listFetch, entriesFetch)
+        if (list != nil && entries != nil) {
+            let listObj = ShowList(list: list!, entries: entries!)
+            await setShowList(showList: listObj)
+        }
         
     }
 }

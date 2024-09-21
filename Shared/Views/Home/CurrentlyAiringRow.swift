@@ -11,14 +11,13 @@ struct CurrentlyAiringRow: View {
     
     @EnvironmentObject var modelData : ModelData
     
-    var shows: [Show] {
-        modelData.shows.filter { $0.addedToUserShows }
-    }
+    @StateObject var vm = ShowsByStatusViewModel()
+    
+    var shows: [Show] { vm.shows ?? [] }
     
     var currentlyAiring: [Show] {
         shows
-            .filter { $0.currentlyAiring }
-            .filter { $0.addedToUserShows && $0.userSpecificValues!.status.id == CurrentlyAiringStatusId }
+            .filter { $0.airdate != nil }
             .sorted { $0.airdate!.id < $1.airdate!.id }
     }
     
@@ -37,21 +36,28 @@ struct CurrentlyAiringRow: View {
     }
     
     var body: some View {
-        if (!currentlyAiring.isEmpty) {
-            VStack(alignment: .leading) {
-                Text("Currently Airing")
-                    .font(.title)
-                    .padding(.horizontal, 2)
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack (alignment: .top) { // Put days next to each other
-                        ForEach(AirDate.allCases) { day in
-                            if (currentlyAiringGroups[day] != nil) {
-                                DayTile(today: day == today, currentlyAiringGroups: currentlyAiringGroups, day: day)
+        VStack {
+            if (!currentlyAiring.isEmpty) {
+                VStack(alignment: .leading) {
+                    Text("Currently Airing")
+                        .font(.title)
+                        .padding(.horizontal, 2)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack (alignment: .top) { // Put days next to each other
+                            ForEach(AirDate.allCases) { day in
+                                if (currentlyAiringGroups[day] != nil) {
+                                    DayTile(today: day == today, currentlyAiringGroups: currentlyAiringGroups, day: day)
+                                }
                             }
                         }
+                        .padding(.horizontal, 2)
                     }
-                    .padding(.horizontal, 2)
                 }
+            }
+        }
+        .task(id: modelData.currentUser) {
+            if (modelData.currentUser != nil) {
+                await vm.loadShowsByStatus(userId: modelData.currentUser!.id, statusId: CurrentlyAiringStatusId)
             }
         }
     }

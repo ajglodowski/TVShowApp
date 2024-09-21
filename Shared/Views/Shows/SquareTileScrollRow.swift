@@ -33,36 +33,9 @@ struct SquareTileScrollRow: View {
         return false
     }
     
-    func getAboveExtraText(s: Show) -> [String]? {
-        switch scrollType {
-        case ScrollRowType.Airdate:
-            return [s.airdate!.rawValue]
-        case ScrollRowType.ComingSoon:
-            if (isOutNow(s: s)) { return ["Out Now"] }
-            else {
-                let daysTil = Calendar.current.dateComponents([.day], from: Date.now, to: s.releaseDate!).day!
-                return ["\(daysTil < 1 ? "Within the day" : "In \(daysTil) days" )"]
-            }
-        default:
-            return nil
-        }
-        return nil
-    }
-    
-    func getBelowExtraText(s: Show) -> [String]? {
-        switch scrollType {
-        case ScrollRowType.ComingSoon:
-            let day = DateFormatter()
-            day.dateFormat = "EEEE"
-            let cal = DateFormatter()
-            cal.dateFormat = "MMM d"
-            return ["\(day.string(from: s.releaseDate!))  \(cal.string(from: s.releaseDate!))"]
-        case ScrollRowType.StatusDisplayed:
-            return ["\(s.userSpecificValues!.status.name)"]
-        default:
-            return nil
-        }
-        return nil
+    var tileType: ShowTileType {
+        if (scrollType == .ComingSoon) { return .ComingSoon }
+        return .Default
     }
     
     var body: some View {
@@ -74,7 +47,7 @@ struct SquareTileScrollRow: View {
                     ForEach(items) { show in
                         VStack {
                             NavigationLink(destination: ShowDetail(showId: show.id)) {
-                                ShowSquareTile(show: show, titleShown: true, aboveExtraText: getAboveExtraText(s: show), belowExtraText: getBelowExtraText(s: show))
+                                ShowSquareTile(show: show, titleShown: true, tileType: tileType)
                             }
                             .foregroundColor(.primary)
                             if (scrollType == ScrollRowType.ComingSoon && isOutNow(s: show) ) {

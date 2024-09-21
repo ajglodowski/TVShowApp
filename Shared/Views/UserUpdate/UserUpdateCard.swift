@@ -29,7 +29,7 @@ struct UserUpdateCard: View {
     
     private var backgroundColor: Color {
         if (vm.showImage != nil) { return Color(vm.showImage?.averageColor ?? .black) }
-        else { return Color.black }
+        else { return Color(.quaternaryLabel) }
     }
     
     var imageLoaded: Bool { vm.showImage != nil }
@@ -40,8 +40,7 @@ struct UserUpdateCard: View {
                 VStack {
                     Image(uiImage: vm.showImage)
                         .resizable()
-                        .skeleton(with: !imageLoaded)
-                        .shape(type: .rectangle)
+                        .skeleton(with: !imageLoaded, shape: .rectangle)
                         .scaledToFit()
                         .cornerRadius(15)
                         .shadow(radius: 5)

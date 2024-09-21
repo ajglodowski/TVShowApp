@@ -14,62 +14,38 @@ struct ListShowRow: View {
     
     var show: Show
     
-    @State private var scrollOffset = 0
+    var seasonsText: String {
+        let seasons = show.totalSeasons > 1 ? "Seasons" : "Season"
+        let currentSeason = show.addedToUserShows ? "\(show.userSpecificValues!.currentSeason)/" : ""
+        return "\(currentSeason)\(show.totalSeasons) \(seasons)"
+    }
     
     var body: some View {
         HStack {
-            
             VStack { // Show Image
                 Image(uiImage: vm.showImage)
                     .resizable()
-                    .skeleton(with: vm.showImage == nil)
-                    .shape(type: .rectangle)
+                    .skeleton(with: vm.showImage == nil, shape: .rectangle)
                     .scaledToFit()
                     .cornerRadius(5)
                     .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
-            
-            
             VStack(alignment: .leading, spacing: 0) {
                 Text(show.name)
                     .font(.headline)
-                //ScrollView(.horizontal) {
+                ScrollView(.horizontal) {
                     HStack {
-                        
                         Text("\(show.length.rawValue)m")
                             .font(.callout)
                         ServiceBubble(service: show.service)
                         if (show.limitedSeries) {
-                            Text("Limited")
-                                .font(.callout)
-                                .padding(6)
-                                .foregroundColor(.white)
-                                .background(Capsule().fill(.black))
+                            ShowRowBubble(text: "Limited", backgroundColor: Color(.black))
                         }
-                        /*
-                         if (show.status != nil) {
-                         Text("\(show.status!.rawValue)")
-                         .font(.callout)
-                         .padding(6)
-                         .background(Capsule().fill(.quaternary))
-                         }
-                         */
-                        if (show.addedToUserShows) {
-                            Text("\(show.userSpecificValues!.currentSeason)/\(show.totalSeasons) \(show.totalSeasons > 1 ? "Seasons" : "Season")")
-                                .font(.callout)
-                                .padding(6)
-                                .background(Capsule().fill(.quaternary))
-                        } else {
-                            Text("\(show.totalSeasons) \(show.totalSeasons > 1 ? "Seasons" : "Season")")
-                                .font(.callout)
-                                .padding(6)
-                                .background(Capsule().fill(.quaternary))
-                        }
+                        ShowRowBubble(text: seasonsText, backgroundColor: Color(.quaternaryLabel))
                     }
                     .fixedSize()
-                    .offset(x: CGFloat(scrollOffset))
-                    .animation(.linear(duration: 10).repeatForever(autoreverses: true), value: scrollOffset)
-                //}
+                }
+                .scrollIndicators(.hidden)
             }
             Spacer()
             if (show.addedToUserShows && show.userSpecificValues!.rating != nil) {
@@ -82,6 +58,17 @@ struct ListShowRow: View {
         .task(id: show.name) {
             await vm.loadImage(showName: show.name)
         }
+    }
+}
+
+struct ShowRowBubble: View {
+    var text: String
+    var backgroundColor: Color
+    var body: some View {
+        Text(text)
+            .font(.callout)
+            .padding(6)
+            .background(Capsule().fill(backgroundColor))
     }
 }
 

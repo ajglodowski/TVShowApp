@@ -16,6 +16,8 @@ struct WatchList: View {
     
     @State private var searchText = ""
     
+    @State var filtersPresented = false
+    
     var shows: [Show] {
         modelData.shows.filter { $0.addedToUserShows }
     }
@@ -110,6 +112,12 @@ struct WatchList: View {
             if (searchText.isEmpty) {
                 
                 HStack {
+                    Button(action: {
+                        filtersPresented = true
+                    } ) {
+                        Text("Show new filters")
+                    }
+                    .buttonStyle(.bordered)
                     Toggle(isOn: $displayOptions, label: {
                         Text("Show options?")
                     })
@@ -153,6 +161,10 @@ struct WatchList: View {
         .navigationTitle("Watchlist")
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         .disableAutocorrection(true)
+        .sheet(isPresented: $filtersPresented) {
+            ShowSearch()
+        }
+        
     }
     
     var toolBar: some View {

@@ -9,12 +9,6 @@ import SwiftUI
 
 struct DiscoverTab: View {
     
-    @ObservedObject var profileSearchVM = ProfileSearchViewModel()
-    
-    @ObservedObject var popularShowsVm = PopularShowsViewModel()
-    
-    @State var profileSearchText = ""
-    
     var body: some View {
         
         NavigationView {
@@ -36,7 +30,7 @@ struct DiscoverTab: View {
                         .overlay(TextOverlay(text: "Discover New Shows"),alignment: .bottomLeading)
                         .shadow(color: .black, radius: 10)
                     NavigationLink(
-                        destination: ShowSearch()) {
+                        destination: SearchShows()) {
                             EmptyView()
                     }
                     
@@ -48,7 +42,7 @@ struct DiscoverTab: View {
                 
                 NewData()
              
-                userSearch
+                UserSearch()
                 
             }
             .listStyle(.plain)
@@ -57,55 +51,10 @@ struct DiscoverTab: View {
         .navigationViewStyle(.stack)
     }
     
-    var userSearch: some View {
-        VStack (alignment: .leading) {
-            Text("Search for Users")
-                .font(.title)
-            Text("Unfortunately at this point you have to enter in the exact username 😔")
-            HStack { // Search Bar
-                Image(systemName: "magnifyingglass")
-                TextField("Search for a user", text: $profileSearchText)
-                    .onChange(of: profileSearchText) {
-                        profileSearchVM.searchForUser(username: $0)
-                    }
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                /*
-                if (!profileSearchText.isEmpty) {
-                    Button(action: {
-                        profileSearchText = ""
-                    }) {
-                        Image(systemName: "xmark")
-                    }
-                    .buttonStyle(.plain)
-                }
-                 */
-                /*
-                if (!profileSearchText.isEmpty) {
-                    Button(action: {
-                        profileSearchVM.searchForUser(username: profileSearchText)
-                        print(profileSearchVM.profilesReturned)
-                    }) {
-                        Text("Search")
-                    }
-                    .buttonStyle(.bordered)
-                }
-                 */
-            }
-            .padding()
-            VStack (alignment: .leading) {
-                ForEach(profileSearchVM.profilesReturned, id:\.1) { profile in
-                    ProfileTile(profileId: profile.1.id)
-                }
-            }
-            //.listStyle(.automatic)
-        }
-    }
-    
 }
 
 struct PopularShows: View {
-    @ObservedObject var showsVm = PopularShowsViewModel()
+    //@ObservedObject var showsVm = PopularShowsViewModel()
     
     @EnvironmentObject var modelData : ModelData
     

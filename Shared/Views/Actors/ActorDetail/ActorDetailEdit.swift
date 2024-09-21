@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ActorDetailEdit: View {
     
-    @StateObject var showSearchVm = ShowSearchViewModel()
+    @StateObject var showSearchVm = SearchShowViewModel()
     @StateObject var vm = ActorDetailViewModel()
     
     var currentShows: [Show]? { vm.shows }

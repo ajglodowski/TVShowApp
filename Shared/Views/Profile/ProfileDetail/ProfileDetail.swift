@@ -13,6 +13,9 @@ struct ProfileDetail: View {
     @EnvironmentObject var modelData : ModelData
     
     @StateObject var prof = ProfileViewModel()
+    @StateObject var imageVm = ProfilePictureViewModel()
+    
+    var profilePic: UIImage? { imageVm.profilePicture }
     
     let id: String
     var curUserId: String? { modelData.currentUser?.id }
@@ -46,7 +49,7 @@ struct ProfileDetail: View {
                 }
             }
             .task {
-                await prof.loadProfile(modelData: modelData, id: id)
+                await prof.loadProfile(id: id)
             }
         }
     }
@@ -56,16 +59,15 @@ struct ProfileDetail: View {
         VStack {
             
             let optProfile: Profile? = prof.profile
-            let profilePic: Image? = prof.profilePic
-            
             let profile = optProfile!
             
             HStack {
                 VStack {
                     if (profilePic != nil) {
                         VStack {
-                            profilePic!
+                            Image(uiImage: profilePic)
                                 .resizable()
+                                .skeleton(with: profilePic == nil, shape: .rectangle)
                                 .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                                 .scaledToFit()
                                 .shadow(radius: 5)

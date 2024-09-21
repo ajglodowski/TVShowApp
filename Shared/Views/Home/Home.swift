@@ -31,7 +31,7 @@ struct Home: View {
     
     var unwatchedShows: [Show] {
         shows.filter { $0.userSpecificValues!.status.id == NeedsWatchedStatusId }
-            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
+            .sorted { $0.userSpecificValues!.updated > $1.userSpecificValues!.updated }
     }
     
     var currentlyWatching: [Show] {
@@ -79,9 +79,9 @@ struct Home: View {
                 
                 //Divider()
                 
-                userSpecificRows
+                HomeUpdatesRows()
                 
-                HomeStatusFiltered(shows: shows)
+                HomeStatusFiltered()
                 
                 CurrentlyAiringRow()
                 
@@ -112,7 +112,7 @@ struct Home: View {
                 
                 Divider()
                 
-                ComingSoonRows
+                ComingSoonRow()
                 
                 if (!unwatchedShows.isEmpty) {
                     VStack {
@@ -158,22 +158,6 @@ struct Home: View {
         .listRowInsets(EdgeInsets())
         .navigationViewStyle(.stack)
         .listStyle(PlainListStyle())
-    }
-    
-    var userSpecificRows: some View {
-        VStack {
-            
-            FollowingUpdatesRow()
-            
-            Divider()
-            
-            CurrentUserUpdatesRow()
-            
-            Divider()
-            
-            //WatchingRow(shows: shows)
-            
-        }
     }
     
     
@@ -223,26 +207,6 @@ struct Home: View {
                     //.font(.title)
             })
             .buttonStyle(.bordered)
-        }
-    }
-    
-    var ComingSoonRows: some View {
-        VStack {
-            if (!comingSoon.isEmpty) {
-                VStack(alignment: .leading) {
-                    VStack(alignment: .leading) {
-                        Text("Coming Soon")
-                            .font(.title)
-                        Text("Watch for these to come out soon!")
-                            .font(.subheadline)
-                    }
-                    .padding(.horizontal, 2)
-                    SquareTileScrollRow(items: comingSoon, scrollType: ScrollRowType.ComingSoon)
-                    
-                }
-                Divider()
-            }
-            AddToComingSoon()
         }
     }
     

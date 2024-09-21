@@ -102,6 +102,29 @@ func getRatingCountsForShow(showId: Int) async -> [Rating:Int] {
     return output
 }
 
+func getStatusCountsForShow(showId: Int) async -> [Status:Int] {
+    var allStatuses = await fetchAllStatuses()
+    var output = [Status:Int]()
+    for status in allStatuses { output[status] = 0 }
+    do {
+        let fetchedDtos: [ShowStatusCountDto] = try await supabase
+            .from("showstatuscounts")
+            .select(ShowStatusCountDtoProperties)
+            .eq("showId", value: showId)
+            .execute()
+            .value
+        for dto in fetchedDtos {
+            let foundStatus = allStatuses.first(where: { $0.id == dto.status })
+            if (foundStatus != nil) {
+                output[foundStatus!] = dto.count
+            }
+        }
+    } catch {
+        dump(error)
+    }
+    return output
+}
+
 func updateShow(show: SupabaseShow) async -> Bool {
     let updateDto = SupabaseShowUpdateDTO(from: show)
     do {
@@ -123,7 +146,7 @@ func findShowByName(searchText: String) async -> [Show] {
             .from("show")
             .select(SupabaseShowProperties)
             .ilike("name", pattern: "%\(searchText)%")
-            .limit(10)
+            .limit(5)
             .execute()
             .value
         let converted = foundShows.map { Show(from: $0) }

@@ -54,25 +54,7 @@ struct ShowDetail: View {
                                 // Main Portion
                                 VStack (alignment: .leading) {
                                     
-                                    HStack {
-                                        if (show!.addedToUserShows && show!.userSpecificValues!.rating != nil) { RatingRow(curRating: show!.userSpecificValues!.rating!, showId: show!.id)
-                                        } else if (show!.addedToUserShows) {
-                                            Button(action: {
-                                                Task {
-                                                    if (uid != nil) {
-                                                        let success = await updateUserShowData(updateType: UserUpdateCategory.ChangedRating, userId: uid!, showId: showId, seasonChange: nil, ratingChange: Rating.Meh, statusChange: nil)
-                                                        if (success) {
-                                                            await modelData.reloadAllShowData(showId: showId, userId: uid)
-                                                        }
-                                                    }
-                                                }
-                                            }) {
-                                                Text("Add a rating")
-                                            }
-                                            //.background(.white)
-                                            .buttonStyle(.bordered)
-                                        }
-                                    }
+                                    RatingSection(show: show!)
                                     
                                     UpdateStatusButtons(showId: show!.id)
                                     
@@ -107,7 +89,7 @@ struct ShowDetail: View {
                                 .foregroundColor(.white)
                                 
                                 ShowRatingsGraph(backgroundColor: backgroundColor, showId: show!.id)
-                                ShowStatusGraph(show: show!, backgroundColor: backgroundColor)
+                                ShowStatusGraph(backgroundColor: backgroundColor, showId: show!.id)
                                 
                                 // Actors Section
                                 ShowDetailActors(show: show!, backgroundColor: backgroundColor)
@@ -183,8 +165,7 @@ struct ShowDetailImage: View {
         VStack {
             Image(uiImage: photo)
                 .resizable()
-                .skeleton(with: photo == nil)
-                .shape(type: .rectangle)
+                .skeleton(with: photo == nil, shape: .rectangle)
                 .scaledToFit()
                 .clipped()
                 .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8)
@@ -194,6 +175,7 @@ struct ShowDetailImage: View {
                 .overlay(alignment: .bottom) {
                     Text(showName)
                         .font(.system(size: UIFont.textStyleSize(.largeTitle) * 1.5, weight: .heavy))
+                        .lineLimit(3)
                         .multilineTextAlignment(.center)
                         .offset(y: 50)
                 }

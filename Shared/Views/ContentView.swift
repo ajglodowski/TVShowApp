@@ -19,12 +19,12 @@ struct ContentView: View {
                     .tabItem {
                         Label("Home", systemImage: "house.fill")
                     }
-                /*
+                
                 DiscoverTab()
                     .tabItem {
                         Label("Discover", systemImage: "sparkles")
                     }
-                 */
+        
                 CurrentUserProfileDetail()
                     .tabItem {
                         Label("Profile", systemImage: "person.fill")

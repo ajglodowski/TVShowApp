@@ -21,7 +21,7 @@ struct ShowListTile: View {
     
     var visable: Bool {
         var out = true
-        if (showListObj != nil && (!showListObj!.priv || showListObj!.creator == currentUserId)) {
+        if (showListObj != nil && (showListObj!.priv && showListObj!.creator == currentUserId)) {
             out = false
         }
         return out
@@ -93,16 +93,16 @@ struct ShowListTile: View {
                             }
                             .padding(.vertical, 5)
                             .padding(.horizontal, 10)
-                            .frame(width: 250, height: 150)
+                            .frame(width: 250, height: 100)
                         }
                     }
                     .skeleton(with: !listLoaded)
-                    .frame(width: 250, height: 300)
+                    .frame(width: 250, height: 250)
                 }
             }
         }
         .task {
-            await listVm.loadList(modelData: modelData, id: showListId, showLimit: 5)
+            await listVm.loadList(id: showListId, showLimit: 5)
         }
         .background(.quaternary)
         .cornerRadius(20)

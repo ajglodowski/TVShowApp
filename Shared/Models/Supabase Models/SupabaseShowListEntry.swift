@@ -15,4 +15,12 @@ struct SupabaseShowListEntry : Hashable, Codable, Identifiable {
     var position: Int
 }
 
-let SupabaseShowListEntryProperties = "id, created_at, listId, showId, position"
+struct SupabaseShowListEntryInsertDto : Hashable, Codable {
+    var created_at: Date
+    var listId: Int
+    var showId: Int
+    var position: Int
+}
+
+
+let SupabaseShowListEntryProperties = "id, created_at, listId, show (\(SupabaseShowProperties)), position"

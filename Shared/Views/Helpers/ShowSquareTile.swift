@@ -9,9 +9,13 @@ import Foundation
 import SwiftUI
 import SkeletonUI
 
+enum ShowTileType {
+    case Default
+    case ComingSoon
+    case StatusDisplayed
+}
+
 struct ShowSquareTile: View {
-    
-    @EnvironmentObject var modelData : ModelData
     
     @StateObject var vm = ShowTileViewModel()
     
@@ -19,41 +23,43 @@ struct ShowSquareTile: View {
     
     var titleShown: Bool
     
+    var tileType: ShowTileType
+    
     var ratingShown: Bool?
     var hasRating: Bool { show.addedToUserShows && show.userSpecificValues!.rating != nil }
     
-    var aboveExtraText: [String]? // Text below the tile
-    var aboveFontType: Font?
+    init(show: Show, titleShown: Bool, belowExtraText: [String]? = nil, belowFontType: Font? = nil, tileType: ShowTileType = .Default) {
+        self.show = show
+        self.titleShown = titleShown
+        self.belowExtraText = belowExtraText
+        self.belowFontType = belowFontType
+        self.tileType = tileType
+    }
     
     var belowExtraText: [String]? // Text below the tile
     var belowFontType: Font?
     
+    var showImage: UIImage? { vm.showImage }
+    
     private var backgroundColor: Color {
-        if (vm.showImage != nil) { return Color(vm.showImage?.averageColor ?? .black) }
-        else { return Color.black }
+        if (showImage != nil) { return Color(showImage?.averageColor ?? .black) }
+        else { return Color(.quaternaryLabel) }
     }
     
     var body: some View {
         
-        VStack {
+        VStack(alignment:.leading, spacing:0) {
             
-            if (aboveExtraText != nil) {
-                VStack {
-                    ForEach(aboveExtraText!, id: \.self) { line in
-                        if (aboveFontType == nil) {
-                            Text(line)
-                        } else {
-                            Text(line)
-                                .font(aboveFontType)
-                        }
-                    }
-                }
+            HStack {
+                Spacer()
+                ShowSquareTileTextAbove(tileType: tileType, show: show)
+                Spacer()
             }
+            .padding(.horizontal, 10)
             
-            Image(uiImage: vm.showImage)
+            Image(uiImage: showImage)
                 .resizable()
-                .skeleton(with: vm.showImage == nil)
-                .shape(type: .rectangle)
+                .skeleton(with: showImage == nil, shape: .rectangle)
                 .scaledToFit()
                 .cornerRadius(15)
                 .if(show.addedToUserShows && show.userSpecificValues!.status.id == NewSeasonStatusId) {
@@ -62,45 +68,51 @@ struct ShowSquareTile: View {
                 .shadow(radius: 5)
                 .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 
-            if (titleShown) {
-                HStack {
-                    Text(show.name)
-                        //.skeleton(with: show.partiallyLoaded)
-                        .font(.headline)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .multilineTextAlignment(.center)
-                }
-                
-                HStack {
-                    Text(show.length.rawValue + "m")
-                        //.skeleton(with: show.partiallyLoaded)
-                        .font(.subheadline)
-                    Text(show.service.rawValue)
-                        //.skeleton(with: show.partiallyLoaded)
-                        .font(.subheadline)
-                        .fixedSize(horizontal: false, vertical: true)
-                    if (hasRating && ratingShown != nil && ratingShown!) {
-                        Image(systemName: "\(show.userSpecificValues!.rating!.ratingSymbol).fill")
-                            .foregroundColor(show.userSpecificValues!.rating!.color)
+            VStack(alignment: .leading, spacing: 0) {
+                if (titleShown) {
+                    HStack {
+                        Text(show.name)
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .multilineTextAlignment(.leading)
+                            .lineLimit(3)
+                    }
+                    
+                    HStack {
+                        Text("\(show.length.rawValue)m • \(show.service.rawValue)")
+                            .font(.subheadline)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .multilineTextAlignment(.leading)
+                        if (hasRating && ratingShown != nil && ratingShown!) {
+                            Image(systemName: "\(show.userSpecificValues!.rating!.ratingSymbol).fill")
+                                .foregroundColor(show.userSpecificValues!.rating!.color)
+                        }
                     }
                 }
-            }
-            
-            if (belowExtraText != nil) {
-                VStack {
-                    ForEach(belowExtraText!, id:  \.self) { belowLine in
-                        if (belowFontType == nil) {
-                            Text(belowLine)
-                        } else {
-                            Text(belowLine)
-                                .font(belowFontType)
+                
+                ShowSquareTileTextBelow(tileType: tileType, show: show)
+                
+                if (belowExtraText != nil) {
+                    HStack {
+                        VStack {
+                            ForEach(belowExtraText!, id:  \.self) { belowLine in
+                                if (belowFontType == nil) {
+                                    Text(belowLine)
+                                        .multilineTextAlignment(.leading)
+                                } else {
+                                    Text(belowLine)
+                                        .font(belowFontType)
+                                        .multilineTextAlignment(.leading)
+                                }
+                            }
                         }
                     }
                 }
             }
+            .padding(.horizontal, 10)
             
         }
-        .frame(width: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        .frame(width: 150, alignment: .center)
         .foregroundColor(.white)
         .background(backgroundColor)
         .cornerRadius(15)
@@ -113,34 +125,118 @@ struct ShowSquareTile: View {
         
     }
 }
-/*
-#Preview {
-    let modelData = ModelData()
-    let displayed = modelData.showDict[100]!
-    return ShowSquareTile(show: displayed, titleShown: true)
-        .environmentObject(modelData)
-}
- */
 
-/*
-struct ShowSquareTile_Previews: PreviewProvider {
+struct ShowSquareTileTextAbove: View {
     
-    static var shows = ModelData().shows
+    var tileType: ShowTileType
+    var show: Show
     
-    static var previews: some View {
-        VStack {
-            HStack {
-                ShowSquareTile(show: shows[4], titleShown: true)
-                ShowSquareTile(show: shows[4], titleShown: true, belowExtraText: ["Below"])
+    func isOutNow(s: Show) -> Bool {
+        if (s.addedToUserShows && s.userSpecificValues!.status.id == ComingSoonStatusId) {
+            if ((s.releaseDate != nil) && (s.releaseDate! < Date.now)) { return true }
+        }
+        return false
+    }
+    
+    func getComingSoonText(s: Show) -> String {
+        if (isOutNow(s: s)) { return "Out Now" }
+        else {
+            let daysTil = Calendar.current.dateComponents([.day], from: Date.now, to: s.releaseDate!).day!
+            let daysTilString = "\(daysTil < 1 ? "Within the day" : "\(daysTil) days away" )"
+            return  daysTilString
+        }
+    }
+    
+    var ComingSoonText: some View {
+        let text = getComingSoonText(s: show)
+        return (
+            VStack (alignment: .center, spacing: 0) {
+                Text(text)
+                    .font(.headline)
+                    .bold()
             }
-            HStack {
-                ShowSquareTile(show: shows[4], titleShown: true, aboveExtraText: ["Above"])
-                ShowSquareTile(show: shows[4], titleShown: true, aboveExtraText: ["Above"], aboveFontType: .headline, belowExtraText: ["Below"])
-            }
-            HStack {
-                ShowSquareTile(show: shows[4], titleShown: true)
-            }
+        )
+    }
+    
+    var body: some View {
+        switch tileType {
+        case .ComingSoon:
+            ComingSoonText
+        default:
+            EmptyView()
         }
     }
 }
-*/
+
+struct ShowSquareTileTextBelow: View {
+    
+    var tileType: ShowTileType
+    var show: Show
+    
+    func isOutNow(s: Show) -> Bool {
+        if (s.addedToUserShows && s.userSpecificValues!.status.id == ComingSoonStatusId) {
+            if ((s.releaseDate != nil) && (s.releaseDate! < Date.now)) { return true }
+        }
+        return false
+    }
+    
+    func getComingSoonText(s: Show) -> String? {
+        if (!isOutNow(s: s)) {
+            let day = DateFormatter()
+            day.dateFormat = "EEE"
+            let cal = DateFormatter()
+            cal.dateFormat = "MMM d"
+            let dateString = "\(day.string(from: s.releaseDate!)) \(cal.string(from: s.releaseDate!))"
+            return "Coming \(dateString)"
+        }
+        return nil
+    }
+    
+    var ComingSoonText: some View {
+        let text = getComingSoonText(s: show)
+        return (
+            VStack (alignment: .leading, spacing: 0) {
+                if (text != nil) {
+                    Text(text)
+                        .multilineTextAlignment(.leading)
+                        .font(.footnote)
+                }
+            }
+        )
+    }
+    
+    var body: some View {
+        switch tileType {
+        case .ComingSoon:
+            ComingSoonText
+        default:
+            EmptyView()
+        }
+    }
+}
+
+
+
+#Preview {
+    var mockShow = Show(from: MockSupabaseShow)
+    mockShow.releaseDate = Date() + 100000
+    mockShow.name = "The Lord of the Rings The Rings of Power"
+    
+    let otherMockShow = Show(from: MockSupabaseShow)
+    return (
+        VStack {
+            HStack {
+                ShowSquareTile(show: mockShow, titleShown: true)
+                ShowSquareTile(show: mockShow, titleShown: true, belowExtraText: ["Below"])
+            }
+            HStack {
+                ShowSquareTile(show: mockShow, titleShown: true, tileType: .ComingSoon)
+                ShowSquareTile(show: otherMockShow, titleShown: true, belowExtraText: ["Below"])
+            }
+            HStack {
+                ShowSquareTile(show: mockShow, titleShown: true)
+            }
+        }
+    )
+        
+}

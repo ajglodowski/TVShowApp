@@ -12,21 +12,19 @@ struct ProfileTile: View {
     var profileId: String
     @EnvironmentObject var modelData: ModelData
     @StateObject var prof = ProfileViewModel()
+    @StateObject var profPicVm = ProfilePictureViewModel()
     
-    var profile: Profile? {
-        prof.profile
-    }
-    var profilePic: Image? {
-        prof.profilePic
-    }
+    var profile: Profile? { prof.profile }
+    var profilePic: UIImage? { profPicVm.profilePicture }
     
     var body: some View {
         HStack {
             if (profile != nil && profilePic != nil) {
                 let loadedProfile = profile!
                 NavigationLink(destination: ProfileDetail(id: profileId)) {
-                    profilePic!
+                    Image(uiImage: profilePic!)
                         .resizable()
+                        .skeleton(with: profilePic == nil, shape: .rectangle)
                         .scaledToFit()
                         .frame(width: 100, height: 100)
                         .clipShape(Circle())
@@ -42,7 +40,8 @@ struct ProfileTile: View {
             }
         }
         .task {
-            await prof.loadProfile(modelData: modelData, id: profileId)
+            await prof.loadProfile(id: profileId)
+            await profPicVm.loadImage(userId: profileId)
         }
     }
 }

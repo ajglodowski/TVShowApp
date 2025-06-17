@@ -8,7 +8,7 @@
 import Foundation
 import Swift
 import Firebase
-import AlgoliaSearchClient
+//import AlgoliaSearchClient
 
 struct ShowCountResult: Identifiable {
     let showId:  String

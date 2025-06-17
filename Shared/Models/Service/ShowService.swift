@@ -156,3 +156,26 @@ func findShowByName(searchText: String) async -> [Show] {
         return []
     }
 }
+
+func getSimilarShows(showId: Int, limit: Int = 10) async -> [Int] {
+    do {
+        struct SimilarShowResponse: Codable {
+            let similar_show_id: Int
+        }
+        
+        let response: [SimilarShowResponse] = try await supabase
+            .rpc("get_similar_show_ids", params: [
+                "input_show_id": showId,
+                "limit_count": limit
+            ])
+            .execute()
+            .value
+        
+        let showIds = response.map { $0.similar_show_id }
+        
+        return showIds
+    } catch {
+        dump(error)
+        return []
+    }
+}

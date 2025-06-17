@@ -22,9 +22,9 @@ class ShowTileViewModel: ObservableObject {
         self.showImage = image
     }
 
-    func loadImage(showName: String) async {
+    func loadImage(pictureUrl: String) async {
         do {
-            let fetchedImage = try await fetcherInstance.fetchImage(showName: showName)
+            let fetchedImage = try await fetcherInstance.fetchImage(pictureUrl: pictureUrl)
             await setShowImage(image: fetchedImage)
         } catch {
             //dump(error)

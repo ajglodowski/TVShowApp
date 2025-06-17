@@ -30,10 +30,16 @@ struct CurrentUserUpdatesRow: View {
                     .foregroundColor(.primary)
                 ScrollView (.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach (updates) { update in
-                            NavigationLink(destination: ShowDetail(showId: update.showId)) {
-                                UserUpdateCard(update: update)
-                                    .foregroundColor(.white)
+                        if (updates.isEmpty) {
+                            ForEach (0..<5) { _ in
+                                UserUpdateCardLoading()
+                            }
+                        } else {
+                            ForEach (updates) { update in
+                                NavigationLink(destination: ShowDetail(showId: update.showId)) {
+                                    UserUpdateCard(update: update)
+                                        .foregroundColor(.white)
+                                }
                             }
                         }
                     }

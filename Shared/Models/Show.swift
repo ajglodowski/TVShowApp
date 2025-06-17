@@ -43,6 +43,7 @@ struct Show : Hashable, Identifiable {
     var statusCounts: [Status:Int]? // Handled differently than firebase
     var ratingCounts: [Rating:Int]? // Handled differently than firebase
     var currentlyAiring: Bool
+    var pictureUrl: String?
     var avgRating: Double? {
         if (ratingCounts == nil) { return 0 }
         var sum = 0
@@ -128,6 +129,7 @@ struct Show : Hashable, Identifiable {
             let someDateTime = formatter.date(from: from.releaseDate!)
             if (someDateTime != nil) { self.releaseDate = someDateTime! }
         }
+        self.pictureUrl = from.pictureUrl
     }
     
     

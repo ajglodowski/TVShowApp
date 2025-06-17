@@ -38,6 +38,27 @@ struct DiscoverTab: View {
                 }
                 .ignoresSafeArea()
                 
+                NavigationLink(destination: ActorList()) {
+                    ZStack {
+                        // Use for actual use
+                        //let picShow = getRandPic(shows: unwatchedShows)
+                        
+                        // Use because picture fits well
+                        let picShow = "Scenes from a Marriage"
+                        
+                        Image(picShow)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: 250)
+                            .clipped()
+                            .cornerRadius(50)
+                            .overlay(TextOverlay(text: "Actors List"),alignment: .bottomLeading)
+                            .shadow(color: .black, radius: 2)
+                    }
+                }
+                .padding(.horizontal, 4)
+                .padding(2)
+                
                 PopularShows()
                 
                 NewData()

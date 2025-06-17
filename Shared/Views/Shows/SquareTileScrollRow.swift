@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import SkeletonUI
 
 enum ScrollRowType {
     case NoExtraText
@@ -75,17 +76,35 @@ struct SquareTileScrollRow: View {
     }
 }
 
-struct SquareTileScrollRow_Previews: PreviewProvider {
-    
-    static var shows = ModelData().shows
-    
-    static var previews: some View {
-        ScrollView {
-            VStack {
-                SquareTileScrollRow(items: shows, scrollType: ScrollRowType.NoExtraText)
-                SquareTileScrollRow(items: shows, scrollType: ScrollRowType.Airdate)
-                SquareTileScrollRow(items: shows.filter {$0.addedToUserShows && $0.userSpecificValues!.status.id == ComingSoonStatusId}, scrollType: ScrollRowType.ComingSoon)
+struct SquareTileScrollRowLoading: View {
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 0) {
+                ForEach(0..<4) { _ in
+                    ShowSquareTileLoading()
+                }
             }
         }
     }
 }
+
+#Preview("Loading View") {
+    SquareTileScrollRowLoading()
+}
+
+//
+//struct SquareTileScrollRow_Previews: PreviewProvider {
+//    
+//    static var shows = ModelData().shows
+//    
+//    static var previews: some View {
+//        ScrollView {
+//            VStack {
+//                SquareTileScrollRow(items: shows, scrollType: ScrollRowType.NoExtraText)
+//                SquareTileScrollRow(items: shows, scrollType: ScrollRowType.Airdate)
+//                SquareTileScrollRow(items: shows.filter {$0.addedToUserShows && $0.userSpecificValues!.status.id == ComingSoonStatusId}, scrollType: ScrollRowType.ComingSoon)
+//                SquareTileScrollRowLoading()
+//            }
+//        }
+//    }
+//}

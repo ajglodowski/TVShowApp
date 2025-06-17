@@ -27,26 +27,58 @@ struct HomeStatusFiltered: View {
         }
     }
     
+    var LinkDestination: some View {
+        ShowSearch(
+            searchType: ShowSearchType.watchlist,
+            currentUserId: modelData.currentUser?.id,
+            includeNavigation: false
+        )
+    }
+    
+    var isLoading: Bool { vm.isLoading }
+    
     var body: some View {
-        VStack {
-            if (shows != nil) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(statuses) { status in
-                            Button(action: {
-                                if (selectedStatus != status) { selectedStatus = status }
-                                else { selectedStatus = nil }
-                            }) {
-                                Text(status.name)
-                            }
-                            .buttonStyle(.borderedProminent)
-                            .tint(status == selectedStatus ? .blue : Color(.quaternaryLabel))
-                            .buttonBorderShape(.capsule)
+        VStack(alignment: .leading) {
+            NavigationLink(destination: LinkDestination) {
+                HStack {
+                    VStack(alignment: .leading) {
+                        HStack(alignment: .center) {
+                            Image(systemName: "inset.filled.tv")
+                            Text("Your Shows")
+                                .font(.headline)
                         }
+                        
+                        Text("Select some statuses to filter your shows")
+                            .font(.subheadline)
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                }
+                .foregroundStyle(.white)
+            }
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(statuses) { status in
+                        Button(action: {
+                            if (selectedStatus != status) { selectedStatus = status }
+                            else { selectedStatus = nil }
+                        }) {
+                            Image(systemName: status.icon)
+                            Text(status.name)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(status == selectedStatus ? .blue : Color(.quaternaryLabel))
+                        .buttonBorderShape(.capsule)
                     }
                 }
-                if (displayedShows.isEmpty) { Text("No shows with this status 😞") }
-                else { VStack { SquareTileScrollRow(items: displayedShows, scrollType: ScrollRowType.NoExtraText) } }
+            }
+            if (isLoading) {
+                SquareTileScrollRowLoading()
+            } else if (!displayedShows.isEmpty) {
+                SquareTileScrollRow(items: displayedShows, scrollType: ScrollRowType.NoExtraText)
+            } else {
+                Text("No shows with this status 😞")
             }
         }
         .task(id: modelData.currentUser) {
@@ -56,6 +88,11 @@ struct HomeStatusFiltered: View {
             await fetchShows()
         }
     }
+}
+
+#Preview {
+    HomeStatusFiltered()
+        .environmentObject(ModelData())
 }
 
 

@@ -11,16 +11,16 @@ import UIKit
 actor ShowTileImageFetchTaskManager {
     private var fetchTasks: [String: Task<UIImage?, Error>] = [:]
 
-    func get(showName: String) -> Task<UIImage?, Error>? {
-        return self.fetchTasks[showName]
+    func get(pictureUrl: String) -> Task<UIImage?, Error>? {
+        return self.fetchTasks[pictureUrl]
     }
 
-    func add(_ task: Task<UIImage?, Error>, showName: String) {
-        self.fetchTasks[showName] = task
+    func add(_ task: Task<UIImage?, Error>, pictureUrl: String) {
+        self.fetchTasks[pictureUrl] = task
     }
 
-    func remove(showName: String) {
-        self.fetchTasks[showName] = nil
+    func remove(pictureUrl: String) {
+        self.fetchTasks[pictureUrl] = nil
     }
 }
 
@@ -34,24 +34,24 @@ class ShowTileImageFetcher {
     
     private let taskManager = ShowTileImageFetchTaskManager()
     
-    func fetchImage(showName: String) async throws -> UIImage? {
-        let cachedImage = cache.get(name: showName)
+    func fetchImage(pictureUrl: String) async throws -> UIImage? {
+        let cachedImage = cache.get(name: pictureUrl)
         if (cachedImage != nil) { return cachedImage }
 
-        let existingTask = await taskManager.get(showName: showName)
+        let existingTask = await taskManager.get(pictureUrl: pictureUrl)
         if (existingTask != nil) { return try await existingTask!.value }
 
         let task = Task { () -> UIImage? in
             defer {
                 Task {
-                    await self.taskManager.remove(showName: showName)
+                    await self.taskManager.remove(pictureUrl: pictureUrl)
                 }
             }
-            let image = try await fetchShowTileImage(showName:showName)
-            if (image != nil) { self.cache.add(image: image!, name: showName) }
+            let image = try await fetchShowTileImage(pictureUrl:pictureUrl)
+            if (image != nil) { self.cache.add(image: image!, name: pictureUrl) }
             return image
         }
-        await taskManager.add(task, showName: showName)
+        await taskManager.add(task, pictureUrl: pictureUrl)
 
         return try await task.value
     }

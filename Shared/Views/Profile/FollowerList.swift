@@ -12,64 +12,63 @@ struct FollowerList: View {
     
     @EnvironmentObject var modelData : ModelData
     
-    var followerList: [String: String] // ID: Username
-    var type: String
+    let userId: String
+    let listType: FollowListType
+    let profileUsername: String // Pass the username for the title
     
-    @State var unfollowConfirmation = false;
+    @StateObject var viewModel = FollowerListViewModel()
+    
+    //@State var unfollowConfirmation = false; // Move follow logic if needed
     
     var body: some View {
         List {
-            ForEach(followerList.sorted(by: >), id:\.key) { id, username in
-                NavigationLink(destination: ProfileDetail(id: id)) {
-                    HStack {
-                        Text(username)
-                        Spacer()
-                        // Follow buttons
-                        let curUserOpt = modelData.currentUser
-                        if (curUserOpt != nil) {
-                            let curUser = curUserOpt!
+            if viewModel.isLoading {
+                ProgressView("Loading...")
+            } else if let users = viewModel.users {
+                if users.isEmpty {
+                    Text("No users found.")
+                        .foregroundColor(.secondary)
+                } else {
+                    ForEach(users) { user in
+                        NavigationLink(destination: ProfileDetail(id: user.id)) {
                             HStack {
-                                if (id == curUser.id) {
-                                    Button(action: {
-                                        // Nothing
-                                    }) {
-                                        Text("You")
-                                    }
-                                    .buttonStyle(.bordered)
-                                    .tint(.blue)
-                                } else if (curUser.following != nil && curUser.following![id] != nil) {
-                                    Button(action: {
-                                        unfollowConfirmation = true
-                                    }) {
-                                        Text("Following")
-                                    }
-                                    .buttonStyle(.bordered)
-                                    .tint(.green)
-                                    .confirmationDialog("Are you sure you want to unfollow \(username)?", isPresented: $unfollowConfirmation) {
-                                        Button("Unfollow \(username)", role: .destructive) {
-                                            //unfollowUser(userToUnfollow: (id, username), currentUser: (curUser.id, curUser.username))
-                                        }
-                                    } message: {
-                                        Text("Are you sure you want to unfollow \(username)?")
-                                    }
-                                } else {
-                                    Button(action: {
-                                        // Follow User
-                                        //followUser(userToFollow: (id, username), currentUser: (curUser.id, curUser.username))
-                                    }) {
-                                        Text("+ Follow \(username)")
-                                    }
-                                    .buttonStyle(.bordered)
-                                }
+                                // TODO: Add Profile Picture Here (using user.profilePhotoURL)
+                                Text(user.username)
+                                Spacer()
+                                // TODO: Re-implement Follow/Unfollow buttons if necessary
+                                // This might require fetching the current user's following status
+                                // or passing it down.
                             }
                         }
-                        
                     }
                 }
+            } else if let errorMsg = viewModel.errorMessage {
+                Text("Error: \(errorMsg)")
+                    .foregroundColor(.red)
             }
         }
-        .navigationTitle(type)
-        .listStyle(.automatic)
+        .navigationTitle(navigationTitleText)
+        .task {
+            await viewModel.loadList(userId: userId, type: listType)
+        }
+    }
+    
+    var navigationTitleText: String {
+        switch listType {
+        case .followers:
+            return "\(profileUsername)'s Followers"
+        case .following:
+            return "\(profileUsername) Following"
+        }
     }
 }
+
+// Preview might need adjustment if it relied on the old structure
+/*
+#Preview {
+    // Example preview setup (replace with actual data or mocks)
+    FollowerList(userId: "some_user_id", listType: .followers, profileUsername: "ExampleUser")
+        .environmentObject(ModelData())
+}
+*/
 

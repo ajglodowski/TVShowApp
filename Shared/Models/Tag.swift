@@ -11,6 +11,26 @@ struct TagCategory:  Hashable, Codable, Identifiable {
     var id : Int
     var created_at: Date
     var name: String
+    
+    var icon: String? {
+        switch name {
+        case "None":
+            return "minus.circle"
+        case "Genre":
+            return "theatermasks"
+        case "Theme":
+            return "lightbulb"
+        case "Producer":
+            return "person.3"
+        case "Collection":
+            return "folder"
+        case "Attribute":
+            return "tag"
+        default:
+            return nil
+        }
+    }
+    
 }
 let TagCategoryProperties = "id, created_at, name"
 

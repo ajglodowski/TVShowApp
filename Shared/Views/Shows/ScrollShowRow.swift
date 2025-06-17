@@ -25,7 +25,8 @@ struct ScrollShowRow: View {
                     ForEach(items) { show in
                         //NavigationLink(destination: ShowDetail(showId: show.id, show: show)) {
                         NavigationLink(destination: ShowDetail(showId: show.id)) {
-                            ShowTile(showName: show.name)
+                            //ShowTile(showName: show.name)
+                            ShowTile(show: show)
                         }
                         .accentColor(.primary)
                     }

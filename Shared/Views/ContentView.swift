@@ -15,21 +15,21 @@ struct ContentView: View {
     var body: some View {
         if (!notAuthenticated) {
             TabView {
-                Home()
-                    .tabItem {
-                        Label("Home", systemImage: "house.fill")
-                    }
+                Tab("Home", systemImage: "house.fill") {
+                    Home()
+                }
                 
-                DiscoverTab()
-                    .tabItem {
-                        Label("Discover", systemImage: "sparkles")
-                    }
+                Tab("Discover", systemImage: "magnifyingglass", role: .search) {
+                    DiscoverTab()
+                }
+                
         
-                CurrentUserProfileDetail()
-                    .tabItem {
-                        Label("Profile", systemImage: "person.fill")
-                    }
+//                Tab("Profile", systemImage: "person.fill") {
+//                    CurrentUserProfileDetail()
+//                }
             }
+            .defaultAdaptableTabBarPlacement(.sidebar)
+            .tabBarMinimizeBehavior(.onScrollDown)
         } else {
             Text("Not Logged In")
                 .sheet(isPresented: $notAuthenticated) {

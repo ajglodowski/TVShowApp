@@ -19,34 +19,22 @@ struct ShowDetailActors: View {
     var actors: [Actor]? { actorsVm.actors }
     
     var body: some View {
-        
-        VStack {
-            VStack(alignment: .leading){
-                HStack {
-                    Text("Actors")
-                        .font(.title)
-                    Spacer()
-                    Button(action: {
-                        Task {
-                            await actorsVm.fetchActors(showId: show.id)
-                        }
-                    }) {
-                        Text("Refresh Actors")
+        VStack(alignment: .leading, spacing: 8) {
+            if let actors = actors, !actors.isEmpty {
+                ForEach(actors) { actor in
+                    NavigationLink(destination: ActorDetail(actorId: actor.id)) {
+                        ListActorRow(actorName: actor.name)
                     }
-                    .buttonStyle(.bordered)
+                    .buttonStyle(PlainButtonStyle())
                 }
-                if (actors != nil) {
-                    ForEach(actors!) { actor in
-                        NavigationLink(destination: ActorDetail(actorId: actor.id)) {
-                            ListActorRow(actorName: actor.name)
-                                .background(backgroundColor.blendMode(.softLight))
-                                .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-                        }
-                    }
-                }
+            } else {
+                Text("No actors found")
+                    .foregroundColor(.white.opacity(0.7))
+                    .italic()
+                    .padding(.vertical, 20)
             }
-            Divider()
-            // Add a new actor
+            
+            // Simple add button at the bottom
             Button(action: {
                 Task {
                     let new = Actor(id: -1)
@@ -55,23 +43,19 @@ struct ShowDetailActors: View {
                         await actorsVm.fetchActors(showId: show.id)
                     }
                 }
-            }, label: {
-                Text("Add a new Actor")
-                //.font(.title)
-            })
-            .buttonStyle(.bordered)
+            }) {
+                HStack {
+                    Image(systemName: "plus.circle")
+                    Text("Add Actor")
+                }
+                .foregroundColor(.white.opacity(0.8))
+                .padding(.vertical, 8)
+            }
+            .buttonStyle(PlainButtonStyle())
         }
         .task {
             await actorsVm.fetchActors(showId: show.id)
         }
-        .padding()
-        // Darker, possible use in future
-        //.background(Color.secondary)
-        .background(backgroundColor.blendMode(.softLight))
-        .cornerRadius(20)
-        .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-        .padding()
-        .foregroundColor(.white)
     }
 }
 /*

@@ -22,8 +22,9 @@ struct SupabaseShow : Hashable, Codable, Identifiable {
     var currentlyAiring: Bool
     var length: ShowLength
     var firebaseShowId: String?
+    var pictureUrl: String?
     
-    init(id: Int, created_at: Date, lastUpdated: Date, name: String, service: SupabaseService, running: Bool, limitedSeries: Bool, totalSeasons: Int, releaseDate: String?, airdate: AirDate?, currentlyAiring: Bool, length: ShowLength, firebaseShowId: String?) {
+    init(id: Int, created_at: Date, lastUpdated: Date, name: String, service: SupabaseService, running: Bool, limitedSeries: Bool, totalSeasons: Int, releaseDate: String?, airdate: AirDate?, currentlyAiring: Bool, length: ShowLength, firebaseShowId: String?, pictureUrl: String?) {
         self.id = id
         self.created_at = created_at
         self.lastUpdated = lastUpdated
@@ -37,6 +38,7 @@ struct SupabaseShow : Hashable, Codable, Identifiable {
         self.currentlyAiring = currentlyAiring
         self.length = length
         self.firebaseShowId = firebaseShowId
+        self.pictureUrl = pictureUrl
     }
 
     init(from: Show) {
@@ -76,6 +78,7 @@ struct SupabaseShowUpdateDTO : Hashable, Codable, Identifiable {
     var currentlyAiring: Bool
     var length: String
     var firebaseShowId: String?
+    var pictureUrl: String?
     
     init(from: SupabaseShow) {
         self.id = from.id
@@ -90,11 +93,12 @@ struct SupabaseShowUpdateDTO : Hashable, Codable, Identifiable {
         self.airdate = from.airdate?.rawValue
         self.currentlyAiring = from.currentlyAiring
         self.length = from.length.rawValue
-        self.firebaseShowId = from.firebaseShowId   
+        self.firebaseShowId = from.firebaseShowId
+        self.pictureUrl = from.pictureUrl
     }
     
 }
 
-var MockSupabaseShow = SupabaseShow(id: 100, created_at: Date(), lastUpdated: Date(), name: "Silicon Valley", service: MockSupabaseService, running: false, limitedSeries: false, totalSeasons: 7, releaseDate: nil, airdate: nil, currentlyAiring: false, length: ShowLength.thirty, firebaseShowId: nil)
+var MockSupabaseShow = SupabaseShow(id: 100, created_at: Date(), lastUpdated: Date(), name: "Silicon Valley", service: MockSupabaseService, running: false, limitedSeries: false, totalSeasons: 7, releaseDate: nil, airdate: nil, currentlyAiring: false, length: ShowLength.thirty, firebaseShowId: nil, pictureUrl: "Silicon Valley")
 
-var SupabaseShowProperties = "id, created_at, lastUpdated, name, service (id, createdAt, name, color), running, limitedSeries, totalSeasons, releaseDate, airdate, currentlyAiring, length, firebaseShowId"
+var SupabaseShowProperties = "id, created_at, lastUpdated, name, service (id, createdAt, name, color), running, limitedSeries, totalSeasons, releaseDate, airdate, currentlyAiring, length, firebaseShowId, pictureUrl"

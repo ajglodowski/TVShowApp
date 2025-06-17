@@ -10,9 +10,12 @@ import SkeletonUI
 
 struct ListShowRow: View {
     
-    @ObservedObject var vm = ShowTileViewModel()
+    @StateObject var vm = ShowTileViewModel()
     
     var show: Show
+    
+    var loadUserData: Bool?
+    var alreadyLoadedMultiUserData: ShowMultiUserData?
     
     var seasonsText: String {
         let seasons = show.totalSeasons > 1 ? "Seasons" : "Season"
@@ -48,15 +51,16 @@ struct ListShowRow: View {
                 .scrollIndicators(.hidden)
             }
             Spacer()
-            if (show.addedToUserShows && show.userSpecificValues!.rating != nil) {
-                Image(systemName: "\(show.userSpecificValues!.rating!.ratingSymbol).fill")
-                    .foregroundColor(show.userSpecificValues!.rating!.color)
-            }
+            
+            UserDetailsDropdown(showId: show.id, loadUserData: loadUserData, alreadyLoadedMultiUserData: alreadyLoadedMultiUserData)
+//            UserDetailsDropdownLoading()
         }
         .padding(.vertical, 4)
         .padding(.horizontal, 4)
-        .task(id: show.name) {
-            await vm.loadImage(showName: show.name)
+        .task(id: show.pictureUrl) {
+            if (show.pictureUrl != nil) {
+                await vm.loadImage(pictureUrl: show.pictureUrl!)
+            }
         }
     }
 }
@@ -76,6 +80,7 @@ struct ShowRowBubble: View {
     var mockShow = Show(from: MockSupabaseShow)
     mockShow.name = "House of the Dragon"
     return ListShowRow(show: mockShow)
+        .environmentObject(ModelData())
     
 }
 

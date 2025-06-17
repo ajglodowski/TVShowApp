@@ -18,11 +18,8 @@ struct Profile : Hashable, Identifiable, Codable {
     var bio: String?
     var pinnedShows: [String:String]?
     var pinnedShowCount: Int?
-    var showCount: Int?
     var followingCount: Int?
     var followerCount: Int?
-    var followers: [String:String]? // ID: Username
-    var following: [String:String]?
     var showLists: [Int]? // Array of ids
     var likedShowLists: [String]? // Array of ids
     //var shows: [String: String]

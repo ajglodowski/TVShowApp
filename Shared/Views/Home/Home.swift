@@ -89,26 +89,7 @@ struct Home: View {
                 
                 //ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
                 
-                NavigationLink(destination: ActorList()) {
-                    ZStack {
-                        // Use for actual use
-                        //let picShow = getRandPic(shows: unwatchedShows)
-                        
-                        // Use because picture fits well
-                        let picShow = "Scenes from a Marriage"
-                        
-                        Image(picShow)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(height: 250)
-                            .clipped()
-                            .cornerRadius(50)
-                            .overlay(TextOverlay(text: "Actors List"),alignment: .bottomLeading)
-                            .shadow(color: .black, radius: 2)
-                    }
-                }
-                .padding(.horizontal, 4)
-                .padding(2)
+                
                 
                 Divider()
                 
@@ -122,7 +103,7 @@ struct Home: View {
                     Divider()
                 }
                 
-                bottomButtons
+                //bottomButtons
                 
                 outsidePages()
                 
@@ -152,9 +133,13 @@ struct Home: View {
                 }
             }
             .navigationTitle("Home")
+            .toolbar {
+                NavigationLink(destination: CurrentUserProfileDetail()) {
+                    Image(systemName: "person.fill")
+                }
+            }
             
         }
-        
         .listRowInsets(EdgeInsets())
         .navigationViewStyle(.stack)
         .listStyle(PlainListStyle())
@@ -218,32 +203,34 @@ struct outsidePages: View {
     
     var body: some View {
         HStack {
-            // Delete Page
-            NavigationLink(
-                destination: DeletePage(),
-                label: {
-                    Text("Delete Page")
-                })
-            .buttonStyle(.bordered)
-        }
-        HStack {
-            // Stats Page
-            NavigationLink(
-                destination: StatsPage(),
-                label: {
-                    Text("Stats Page")
-                })
-            .buttonStyle(.bordered)
-        }
-        
-        HStack {
-            // Actor Game
-            NavigationLink(
-                destination: ActorReferenceGame(),
-                label: {
-                    Text("Actor Game")
-                })
-            .buttonStyle(.bordered)
+//            HStack {
+//                // Delete Page
+//                NavigationLink(
+//                    destination: DeletePage(),
+//                    label: {
+//                        Text("Delete Page")
+//                    })
+//                .buttonStyle(.bordered)
+//            }
+            HStack {
+                // Stats Page
+                NavigationLink(
+                    destination: StatsPage(),
+                    label: {
+                        Text("Stats Page")
+                    })
+                .buttonStyle(.bordered)
+            }
+            
+            HStack {
+                // Actor Game
+                NavigationLink(
+                    destination: ActorReferenceGame(),
+                    label: {
+                        Text("Actor Game")
+                    })
+                .buttonStyle(.bordered)
+            }
         }
         
         

@@ -11,7 +11,7 @@ import SkeletonUI
 struct ShowTile: View {
     
     @StateObject var vm = ShowTileViewModel()
-    var showName: String
+    var show: Show
     
     var body: some View {
         VStack {
@@ -23,11 +23,13 @@ struct ShowTile: View {
                     .scaledToFit()
             }
             .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            Text(showName)
+            Text(show.name)
                 .font(.subheadline)
         }
-        .task(id: showName) {
-            await vm.loadImage(showName: showName)
+        .task(id: show.id) {
+            if let url = show.pictureUrl {
+                await vm.loadImage(pictureUrl: url)
+            }
         }
     }
 }
@@ -37,6 +39,6 @@ struct ShowTile_Previews: PreviewProvider {
     static var shows = ModelData().shows
     
     static var previews: some View {
-        ShowTile(showName: shows[30].name)
+        ShowTile(show: shows[30])
     }
 }

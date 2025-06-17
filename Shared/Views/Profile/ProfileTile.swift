@@ -18,30 +18,65 @@ struct ProfileTile: View {
     var profilePic: UIImage? { profPicVm.profilePicture }
     
     var body: some View {
-        HStack {
-            if (profile != nil && profilePic != nil) {
-                let loadedProfile = profile!
-                NavigationLink(destination: ProfileDetail(id: profileId)) {
-                    Image(uiImage: profilePic!)
-                        .resizable()
-                        .skeleton(with: profilePic == nil, shape: .rectangle)
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .clipShape(Circle())
-                    VStack(alignment: .leading) {
-                        Text(loadedProfile.username)
-                            .font(.title)
-                            .bold()
-                        Text("\(loadedProfile.showCount) shows logged")
-                            .italic()
-                        Text("\(loadedProfile.followerCount) followers")
+        NavigationLink(destination: ProfileDetail(id: profileId)) {
+            HStack {
+                VStack {
+                    if (profilePic != nil) {
+                        Image(uiImage: profilePic!)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 75, height: 75)
+                            .clipShape(Circle())
+                    } else {
+                        Circle()
+                            .fill(Color.secondary.opacity(0.3))
+                            .frame(width: 75, height: 75)
+                            .overlay(Image(systemName: "person.fill").resizable().scaledToFit().padding(20).foregroundColor(.white))
                     }
                 }
+                
+                profileInfoView
+                
+                Spacer()
             }
         }
         .task {
-            await prof.loadProfile(id: profileId)
+            await prof.loadProfileData(id: profileId)
             await profPicVm.loadImage(userId: profileId)
+        }
+    }
+    
+    @ViewBuilder
+    private var profileInfoView: some View {
+        VStack(alignment: .leading) {
+            if let username = prof.profile?.username {
+                Text(username)
+                    .font(.headline)
+                    .bold()
+            } else {
+                Text("Loading...")
+                    .font(.headline)
+                    .redacted(reason: .placeholder)
+            }
+            
+            if prof.isLoadingShowCount {
+                Text("-")
+                    .font(.subheadline)
+                    .redacted(reason: .placeholder)
+            } else {
+                Text("\(prof.showsLoggedCount ?? 0) shows")
+                    .font(.subheadline)
+                    .italic()
+            }
+            
+            if prof.isLoadingProfile {
+                Text("-")
+                    .font(.subheadline)
+                    .redacted(reason: .placeholder)
+            } else {
+                Text("\(prof.profile?.followerCount ?? 0) followers")
+                    .font(.subheadline)
+            }
         }
     }
 }

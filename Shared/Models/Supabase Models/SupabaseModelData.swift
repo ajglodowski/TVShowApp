@@ -46,7 +46,7 @@ import PostgREST
     
     func dumpInfo() async {
         print("Dumping")
-        dump(shows)
+        //dump(shows)
     }
     
     func convertIds(input: [Int]) -> String {

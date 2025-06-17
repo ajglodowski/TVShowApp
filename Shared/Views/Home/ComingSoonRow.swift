@@ -21,22 +21,48 @@ struct ComingSoonRow: View {
             .sorted { $0.releaseDate! < $1.releaseDate! }
     }
     
+    var isLoading: Bool { vm.isLoading }
+    
+    var LinkDestination: some View {
+        var filters = ShowFilters()
+        let ComingSoonStatus = Status(id: ComingSoonStatusId, name: "Coming soon", created_at: Date(), update_at: Date())
+        filters.userStatuses = [ComingSoonStatus]
+        return ShowSearch(
+            searchType: ShowSearchType.watchlist,
+            currentUserId: modelData.currentUser?.id,
+            initialFilters: filters,
+            includeNavigation: false
+        )
+    }
+    
     var body: some View {
         VStack {
-            if (!comingSoon.isEmpty) {
                 VStack(alignment: .leading) {
-                    VStack(alignment: .leading) {
-                        Text("Coming Soon")
-                            .font(.title)
-                        Text("Watch for these to come out soon!")
-                            .font(.subheadline)
+                    NavigationLink(destination: LinkDestination) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                HStack(alignment: .center) {
+                                    Image(systemName: "calendar.badge.clock")
+                                    Text("Coming Soon")
+                                        .font(.headline)
+                                }
+                                Text("Watch for these to come out soon!")
+                                    .font(.subheadline)
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                        }
+                        .padding(.horizontal, 2)
+                        .foregroundStyle(.white)
                     }
-                    .padding(.horizontal, 2)
-                    SquareTileScrollRow(items: comingSoon, scrollType: ScrollRowType.ComingSoon)
+                    if (isLoading) {
+                        SquareTileScrollRowLoading()
+                    } else {
+                        SquareTileScrollRow(items: comingSoon, scrollType: ScrollRowType.ComingSoon)
+                    }
                     
                 }
                 Divider()
-            }
             //AddToComingSoon()
         }
         .task(id: modelData.currentUser) {
@@ -49,4 +75,5 @@ struct ComingSoonRow: View {
 
 #Preview {
     ComingSoonRow()
+        .environmentObject(ModelData())
 }

@@ -16,4 +16,18 @@ enum ShowLength: String, CaseIterable, Codable, Identifiable {
     case max = "60+"
     
     var id: String { self.rawValue }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        
+        // Try to initialize with the raw value
+        if let value = ShowLength(rawValue: rawValue) {
+            self = value
+        } else {
+            // If decoding fails, print debug info and default to .none
+            print("ShowLength decoding failed for value: '\(rawValue)'. Defaulting to .none")
+            self = .none
+        }
+    }
 }

@@ -22,17 +22,33 @@ struct HomeUpdatesRows: View {
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
-                Text("Your friend's most recent updates")
-                    .font(.title)
-                UserUpdateRow(updates: friendUpdates)
+                HStack(alignment: .center) {
+                    Image(systemName: "person.3.sequence.fill")
+                    Text("Your friend's most recent updates")
+                        .font(.headline)
+                }
+                if (friendUpdates.isEmpty) {
+                    UserUpdateRowLoading()
+                } else {
+                    UserUpdateRow(updates: friendUpdates)
+                }
             }
             Divider()
             NavigationLink(destination: AllUpdates(user: curUserId)) {
                 VStack(alignment: .leading) {
-                    Text("Your most recent updates")
-                        .font(.title)
-                        .foregroundColor(.white)
-                    UserUpdateRow(updates: currentUserUpdates)
+                    HStack(alignment: .center) {
+                        Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
+                        Text("Your most recent updates")
+                            .font(.headline)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundStyle(.white)
+                    if (currentUserUpdates.isEmpty) {
+                        UserUpdateRowLoading()
+                    } else {
+                        UserUpdateRow(updates: currentUserUpdates)
+                    }
                 }
             }
             Divider()
@@ -45,4 +61,5 @@ struct HomeUpdatesRows: View {
 
 #Preview {
     HomeUpdatesRows()
+        .environmentObject(ModelData())
 }

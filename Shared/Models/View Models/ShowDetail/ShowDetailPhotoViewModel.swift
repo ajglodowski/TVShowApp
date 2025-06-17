@@ -24,16 +24,16 @@ class ShowDetailPhotoCacheManager {
     
     var imagesLoading = Set<String>()
     
-    func add(image: UIImage, name: String) {
-        imageCache.setObject(image, forKey: name as NSString)
+    func add(image: UIImage, pictureUrl: String) {
+        imageCache.setObject(image, forKey: pictureUrl as NSString)
     }
     
-    func remove(name: String) {
-        imageCache.removeObject(forKey: name as NSString)
+    func remove(pictureUrl: String) {
+        imageCache.removeObject(forKey: pictureUrl as NSString)
     }
     
-    func get(name: String) -> UIImage? {
-        return imageCache.object(forKey: name as NSString)
+    func get(pictureUrl: String) -> UIImage? {
+        return imageCache.object(forKey: pictureUrl as NSString)
     }
     
 }
@@ -57,14 +57,15 @@ class ShowDetailPhotoViewModel: ObservableObject {
         self.cachedShowImage = image
     }
 
-    func loadImage(showName: String) async {
-        await self.getFromCache(showName: showName)
+    func loadImage(pictureUrl: String) async {
+        await self.getFromCache(pictureUrl: pictureUrl)
         if (cachedShowImage == nil) {
             do {
-                let fetchedImage = try await fetchFromFirebase(showName: showName)
+//                let fetchedImage = try await fetchFromFirebase(showName: showName)
+                let fetchedImage = try await fetchShowDetailImage(pictureUrl: pictureUrl)
                 if (fetchedImage != nil) {
                     await setShowImage(image: fetchedImage)
-                    self.saveToCache(showName: showName)
+                    self.saveToCache(pictureUrl: pictureUrl)
                 }
             } catch {
                 //dump(error)
@@ -93,17 +94,17 @@ class ShowDetailPhotoViewModel: ObservableObject {
         }
     }
     
-    func saveToCache(showName: String) {
+    func saveToCache(pictureUrl: String) {
         guard let image = self.showImage else { return }
-        cacheManager.add(image: image, name: showName)
+        cacheManager.add(image: image, pictureUrl: pictureUrl)
     }
     
-    func removeFromCache(showName: String) {
-        cacheManager.remove(name: showName)
+    func removeFromCache(pictureUrl: String) {
+        cacheManager.remove(pictureUrl: pictureUrl)
     }
     
-    func getFromCache(showName: String) async {
-        await setShowImage(image: cacheManager.get(name: showName))
+    func getFromCache(pictureUrl: String) async {
+        await setShowImage(image: cacheManager.get(pictureUrl: pictureUrl))
     }
     
 }

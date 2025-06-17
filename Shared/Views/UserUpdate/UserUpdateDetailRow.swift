@@ -59,8 +59,8 @@ struct UserUpdateDetailRow: View {
         .task {
             if (show == nil) { showVm.loadShow(modelData: modelData, id: update.showId) }
         }
-        .task(id: show?.name ?? nil) {
-            if (show != nil) { await vm.loadImage(showName: show!.name) }
+        .task(id: show?.pictureUrl ?? nil) {
+            if (show?.pictureUrl != nil) { await vm.loadImage(pictureUrl: show!.pictureUrl!) }
         }
     }
 }

@@ -14,4 +14,4 @@ struct SupabaseProfile: Hashable, Codable, Identifiable {
 }
 
 var SupabaseProfileProperties = "id, username, created_at, profilePhotoURL"
-var MockSupabaseProfile = SupabaseProfile(id: "c52a052a-4944-4257-ad77-34f2f002104c", username: "ajglodo", created_at: Date(), profilePhotoURL: "ajglodo")
+var MockSupabaseProfile = SupabaseProfile(id: "c52a052a-4944-4257-ad77-34f2f002104c", username: "ajglodo", created_at: Date(), profilePhotoURL: "ajglodo.jpg")

@@ -31,10 +31,29 @@ func fetchProfilePicture(userId: String, imageUrl: String? = nil) async throws -
     }
 }
 
-func fetchShowTileImage(showName: String) async throws -> UIImage? {
+func fetchShowTileImage(pictureUrl: String) async throws -> UIImage? {
     return try await withCheckedThrowingContinuation { continuation in
-        let picRef = store.child("showImages/resizedImages/\(showName)_200x200.jpeg")
+        let picRef = store.child("showImages/resizedImages/\(pictureUrl)_200x200.jpeg")
         picRef.getData(maxSize: 1 * 512 * 1024) { data, error in // 0.5 MB Max
+            if let error = error {
+                if !error.localizedDescription.contains("does not exist.") {
+                    //print(error.localizedDescription)
+                }
+                continuation.resume(throwing: error)
+            } else if let data = data, let image = UIImage(data: data) {
+                continuation.resume(returning: image)
+            } else {
+                let unknownError = NSError(domain: "FirebaseStorageService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
+                continuation.resume(throwing: unknownError)
+            }
+        }
+    }
+}
+
+func fetchShowDetailImage(pictureUrl: String) async throws -> UIImage? {
+    return try await withCheckedThrowingContinuation { continuation in
+        let picRef = store.child("showImages/resizedImages/\(pictureUrl)_640x640.jpeg")
+        picRef.getData(maxSize: 1 * 1024 * 1024) { data, error in // 1.0 MB Max
             if let error = error {
                 if !error.localizedDescription.contains("does not exist.") {
                     //print(error.localizedDescription)

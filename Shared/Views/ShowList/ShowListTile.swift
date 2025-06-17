@@ -99,6 +99,7 @@ struct ShowListTile: View {
                     .skeleton(with: !listLoaded)
                     .frame(width: 250, height: 250)
                 }
+                .buttonStyle(PlainButtonStyle())
             }
         }
         .task {

@@ -29,8 +29,9 @@ class RecentUpdatesViewModel: ObservableObject {
     
     func loadUpdates() async {
         if (currentUserId == nil) { return }
+        let friendIds = await getFriendIds(userId: currentUserId!)
         async let currentUserTask = self.loadUserUpdates()
-        async let friendUpdatesTask = self.loadFriendUpdates(friends: [])
+        async let friendUpdatesTask = self.loadFriendUpdates(friends: friendIds ?? [])
         await (currentUserTask, friendUpdatesTask)
     }
     

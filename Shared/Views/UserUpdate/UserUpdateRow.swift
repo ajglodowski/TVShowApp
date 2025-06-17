@@ -24,6 +24,23 @@ struct UserUpdateRow: View {
     }
 }
 
+struct UserUpdateRowLoading: View {
+    var body: some View {
+        ScrollView (.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach (0..<5) { _ in
+                    UserUpdateCardLoading()
+                }
+            }
+            .padding(.horizontal, 2)
+        }
+    }
+}
+
+#Preview("Loading") {
+    UserUpdateRowLoading()
+}
+
 #Preview {
     UserUpdateRow(updates: [])
 }

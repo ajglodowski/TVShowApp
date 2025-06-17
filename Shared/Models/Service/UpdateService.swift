@@ -41,3 +41,22 @@ func getMostRecentUpdates(userIds: [String]) async -> [UserUpdate]? {
         return nil
     }
 }
+
+struct UserFollowRelationshipId: Codable {
+    let followingUserId: String
+}
+
+func getFriendIds(userId: String) async -> [String]? {
+    do {
+        let fetchedDetails: [UserFollowRelationshipId] = try await supabase
+            .from("UserFollowRelationship")
+            .select("followingUserId")
+            .match(["followerUser": userId, "pending": false])
+            .execute()
+            .value
+        return fetchedDetails.map { $0.followingUserId }
+    } catch {
+        dump(error)
+        return nil
+    }
+}

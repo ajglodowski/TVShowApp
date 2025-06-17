@@ -18,9 +18,7 @@ func getUserShowData(showId: Int, userId: String?) async -> ShowUserSpecificDeta
             .single()
             .execute()
             .value
-        dump(fetchedDetails)
         let converted = ShowUserSpecificDetails(from: fetchedDetails)
-        dump(converted)
         return converted
     } catch {
         dump(error)
@@ -206,14 +204,14 @@ struct ShowsByStatusDto: Codable {
     var show: SupabaseShow
 }
 
-func getShowsForUserByStatus(statusId: Int? = nil, limit: Int? = nil, userId: String) async -> [Show] {
+func getShowsForUserByStatuses(statusIds: [Int]? = nil, limit: Int? = nil, userId: String) async -> [Show] {
     do {
         var query = supabase
             .from("UserShowDetails")
             .select("show (\(SupabaseShowProperties))")
             .eq("userId", value: userId)
-        if (statusId != nil) {
-            query = query.eq("status", value: statusId!)
+        if (statusIds != nil) {
+            query = query.in("status", values: statusIds!)
         }
         if (limit != nil) {
             query = query.limit(limit!) as! PostgrestFilterBuilder

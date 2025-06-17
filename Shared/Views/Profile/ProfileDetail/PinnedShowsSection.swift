@@ -9,6 +9,11 @@ import SwiftUI
 
 struct PinnedShowsSection: View {
     
+    var body: some View {
+        Text("TODO")
+    }
+    
+    /*
     @EnvironmentObject var modelData : ModelData
     
     var profile: Profile
@@ -57,7 +62,7 @@ struct PinnedShowsSection: View {
                 }
                 ForEach(pinnedShowSearchList) { show in
                     Button(action: {
-                        pinShow(showId: show.id, showName: show.name)
+                        //pinShow(showId: show.id, showName: show.name)
                     }, label: {
                         Text(show.name)
                     })
@@ -84,7 +89,7 @@ struct PinnedShowsSection: View {
                                 }
                                 if (editingPinnedShows) {
                                     Button(action: {
-                                        unpinShow(showId: showId, showName: showName)
+                                        //unpinShow(showId: showId, showName: showName)
                                     }) {
                                         HStack {
                                             Text("Remove Pinned Show")
@@ -114,6 +119,7 @@ struct PinnedShowsSection: View {
             
         }
     }
+     */
 }
 
 struct PinnedShowsSection_Previews: PreviewProvider {

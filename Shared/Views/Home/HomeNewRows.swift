@@ -14,21 +14,21 @@ struct HomeNewRows: View {
     
     var newSeasons: [Show] {
         shows
-            .filter { $0.userSpecificValues!.status == Status.NewSeason }
+            .filter { $0.userSpecificValues!.status.id == NewSeasonStatusId }
             .sorted { $0.name < $1.name }
             .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
     }
     
     var newReleases: [Show] {
         shows
-            .filter { $0.userSpecificValues!.status == Status.NewRelease }
+            .filter { $0.userSpecificValues!.status.id == NewReleaseStatusId }
             .sorted { $0.name < $1.name }
             .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
     }
     
     var catchingUp: [Show] {
         shows
-            .filter { $0.userSpecificValues!.status == Status.CatchingUp }
+            .filter { $0.userSpecificValues!.status.id == CatchingUpStatusId }
             .sorted { $0.name < $1.name }
             .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
     }

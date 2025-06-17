@@ -23,26 +23,26 @@ struct Home: View {
     
     // Used for adding show button
     @State private var isPresented = false
-    @State private var newShow = Show(id:"1")
+    @State private var newShow = Show(id:1)
     
     var shows: [Show] {
         modelData.shows.filter { $0.addedToUserShows }
     }
     
     var unwatchedShows: [Show] {
-        shows.filter { $0.userSpecificValues!.status == Status.NeedsWatched }
-            .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
+        shows.filter { $0.userSpecificValues!.status.id == NeedsWatchedStatusId }
+            .sorted { $0.userSpecificValues!.updated > $1.userSpecificValues!.updated }
     }
     
     var currentlyWatching: [Show] {
         shows
-            .filter { $0.userSpecificValues!.status == Status.CurrentlyAiring || $0.userSpecificValues!.status == Status.NewSeason || $0.userSpecificValues!.status == Status.CatchingUp }
+            .filter { $0.userSpecificValues!.status.id == CurrentlyAiringStatusId || $0.userSpecificValues!.status.id == NewSeasonStatusId || $0.userSpecificValues!.status.id == CatchingUpStatusId }
             .sorted { $0.name < $1.name }
     }
     
     var comingSoon: [Show] {
         shows
-            .filter { $0.userSpecificValues!.status == Status.ComingSoon }
+            .filter { $0.userSpecificValues!.status.id == ComingSoonStatusId }
             .filter { $0.releaseDate != nil }
             .sorted { $0.releaseDate! < $1.releaseDate! }
     }
@@ -79,9 +79,9 @@ struct Home: View {
                 
                 //Divider()
                 
-                userSpecificRows
+                HomeUpdatesRows()
                 
-                HomeStatusFiltered(shows: shows)
+                HomeStatusFiltered()
                 
                 CurrentlyAiringRow()
                 
@@ -89,30 +89,11 @@ struct Home: View {
                 
                 //ScrollShowRow(items: currentlyWatching, scrollName: "Currently Watching")
                 
-                NavigationLink(destination: ActorList()) {
-                    ZStack {
-                        // Use for actual use
-                        //let picShow = getRandPic(shows: unwatchedShows)
-                        
-                        // Use because picture fits well
-                        let picShow = "Scenes from a Marriage"
-                        
-                        Image(picShow)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(height: 250)
-                            .clipped()
-                            .cornerRadius(50)
-                            .overlay(TextOverlay(text: "Actors List"),alignment: .bottomLeading)
-                            .shadow(color: .black, radius: 2)
-                    }
-                }
-                .padding(.horizontal, 4)
-                .padding(2)
+                
                 
                 Divider()
                 
-                ComingSoonRows
+                ComingSoonRow()
                 
                 if (!unwatchedShows.isEmpty) {
                     VStack {
@@ -122,18 +103,20 @@ struct Home: View {
                     Divider()
                 }
                 
-                bottomButtons
+                //bottomButtons
                 
                 outsidePages()
                 
             }
             
+        
             
-            /*
             .refreshable {
-                modelData.refreshData()
+                Task {
+                    await modelData.loadEverything()
+                }
             }
-             */
+             
             
             
             .sheet(isPresented: $isPresented) {
@@ -144,34 +127,22 @@ struct Home: View {
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
                         }, trailing: Button("Done") {
-                            let _ = addToShows(show: newShow)
+                            //let _ = addToShows(show: newShow)
                             isPresented = false
                         })
                 }
             }
             .navigationTitle("Home")
+            .toolbar {
+                NavigationLink(destination: CurrentUserProfileDetail()) {
+                    Image(systemName: "person.fill")
+                }
+            }
             
         }
-        
         .listRowInsets(EdgeInsets())
         .navigationViewStyle(.stack)
         .listStyle(PlainListStyle())
-    }
-    
-    var userSpecificRows: some View {
-        VStack {
-            
-            FollowingUpdatesRow()
-            
-            Divider()
-            
-            CurrentUserUpdatesRow()
-            
-            Divider()
-            
-            WatchingRow(shows: shows)
-            
-        }
     }
     
     
@@ -203,7 +174,9 @@ struct Home: View {
             // Reload Button
             Spacer()
             Button(action: {
-                modelData.refreshData()
+                Task {
+                    await modelData.loadEverything()
+                }
             }, label: {
                 Text("Reload Data")
             })
@@ -212,33 +185,13 @@ struct Home: View {
             Spacer()
             // New Show Button
             Button(action: {
-                newShow = Show(id: "1")
+                newShow = Show(id: 1)
                 isPresented = true
             }, label: {
                 Text("New Show")
                     //.font(.title)
             })
             .buttonStyle(.bordered)
-        }
-    }
-    
-    var ComingSoonRows: some View {
-        VStack {
-            if (!comingSoon.isEmpty) {
-                VStack(alignment: .leading) {
-                    VStack(alignment: .leading) {
-                        Text("Coming Soon")
-                            .font(.title)
-                        Text("Watch for these to come out soon!")
-                            .font(.subheadline)
-                    }
-                    .padding(.horizontal, 2)
-                    SquareTileScrollRow(items: comingSoon, scrollType: ScrollRowType.ComingSoon)
-                    
-                }
-                Divider()
-            }
-            AddToComingSoon()
         }
     }
     
@@ -250,32 +203,34 @@ struct outsidePages: View {
     
     var body: some View {
         HStack {
-            // Delete Page
-            NavigationLink(
-                destination: DeletePage(),
-                label: {
-                    Text("Delete Page")
-                })
-            .buttonStyle(.bordered)
-        }
-        HStack {
-            // Stats Page
-            NavigationLink(
-                destination: StatsPage(),
-                label: {
-                    Text("Stats Page")
-                })
-            .buttonStyle(.bordered)
-        }
-        
-        HStack {
-            // Actor Game
-            NavigationLink(
-                destination: ActorReferenceGame(),
-                label: {
-                    Text("Actor Game")
-                })
-            .buttonStyle(.bordered)
+//            HStack {
+//                // Delete Page
+//                NavigationLink(
+//                    destination: DeletePage(),
+//                    label: {
+//                        Text("Delete Page")
+//                    })
+//                .buttonStyle(.bordered)
+//            }
+            HStack {
+                // Stats Page
+                NavigationLink(
+                    destination: StatsPage(),
+                    label: {
+                        Text("Stats Page")
+                    })
+                .buttonStyle(.bordered)
+            }
+            
+            HStack {
+                // Actor Game
+                NavigationLink(
+                    destination: ActorReferenceGame(),
+                    label: {
+                        Text("Actor Game")
+                    })
+                .buttonStyle(.bordered)
+            }
         }
         
         
@@ -283,10 +238,7 @@ struct outsidePages: View {
     }
 }
 
-
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        Home()
-            .environmentObject(ModelData())
-    }
+#Preview {
+    return Home()
+        .environmentObject(ModelData())
 }

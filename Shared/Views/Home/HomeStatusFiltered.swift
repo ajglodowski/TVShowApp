@@ -9,38 +9,90 @@ import SwiftUI
 
 struct HomeStatusFiltered: View {
     
+    @EnvironmentObject var modelData: ModelData
+    
+    @StateObject var vm = ShowsByStatusViewModel()
+    
+    var statuses: [Status] { modelData.statuses }
+    
     @State var selectedStatus: Status? = nil
     
-    var shows: [Show]
+    var shows: [Show]? { vm.shows }
     
-    var displayedShows: [Show] {
-        var output = shows.sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast }
-        if (selectedStatus != nil) { output = output.filter { $0.userSpecificValues!.status == selectedStatus } }
-        return Array(output.prefix(10))
+    var displayedShows: [Show] { shows ?? [] }
+    
+    func fetchShows() async {
+        if (modelData.currentUser != nil) {
+            await vm.loadShowsByStatus(userId: modelData.currentUser!.id, statusId: selectedStatus?.id, limit: 10)
+        }
     }
     
+    var LinkDestination: some View {
+        ShowSearch(
+            searchType: ShowSearchType.watchlist,
+            currentUserId: modelData.currentUser?.id,
+            includeNavigation: false
+        )
+    }
+    
+    var isLoading: Bool { vm.isLoading }
+    
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
+            NavigationLink(destination: LinkDestination) {
+                HStack {
+                    VStack(alignment: .leading) {
+                        HStack(alignment: .center) {
+                            Image(systemName: "inset.filled.tv")
+                            Text("Your Shows")
+                                .font(.headline)
+                        }
+                        
+                        Text("Select some statuses to filter your shows")
+                            .font(.subheadline)
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                }
+                .foregroundStyle(.white)
+            }
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(Status.allCases.sorted { $0.order < $1.order }) { status in
+                    ForEach(statuses) { status in
                         Button(action: {
                             if (selectedStatus != status) { selectedStatus = status }
                             else { selectedStatus = nil }
                         }) {
-                            Text(status.rawValue)
+                            Image(systemName: status.icon)
+                            Text(status.name)
                         }
                         .buttonStyle(.borderedProminent)
-                        .tint(status == selectedStatus ? .blue : .secondary)
+                        .tint(status == selectedStatus ? .blue : Color(.quaternaryLabel))
                         .buttonBorderShape(.capsule)
                     }
                 }
-                .foregroundColor(.white)
             }
-            if (displayedShows.isEmpty) { Text("No shows with this status 😞") }
-            else { VStack { SquareTileScrollRow(items: displayedShows, scrollType: ScrollRowType.NoExtraText) } }
+            if (isLoading) {
+                SquareTileScrollRowLoading()
+            } else if (!displayedShows.isEmpty) {
+                SquareTileScrollRow(items: displayedShows, scrollType: ScrollRowType.NoExtraText)
+            } else {
+                Text("No shows with this status 😞")
+            }
+        }
+        .task(id: modelData.currentUser) {
+            await fetchShows()
+        }
+        .task(id: selectedStatus) {
+            await fetchShows()
         }
     }
+}
+
+#Preview {
+    HomeStatusFiltered()
+        .environmentObject(ModelData())
 }
 
 

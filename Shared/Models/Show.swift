@@ -11,14 +11,14 @@ import Combine
 import Firebase
 
 var SampleShow: Show {
-    var show = Show(id: "0")
+    var show = Show(id: -1)
     show.name = "Sample Show"
     show.airdate = AirDate.Sunday
     show.totalSeasons = 3
     show.service = Service.Netflix
-    show.statusCounts = [Status.CatchingUp: 0, Status.ComingSoon: 0, Status.CurrentlyAiring: 0, Status.NeedsWatched: 0,
+    /*show.statusCounts = [Status.CatchingUp: 0, Status.ComingSoon: 0, Status.CurrentlyAiring: 0, Status.NeedsWatched: 0,
                          Status.NewRelease: 0, Status.NewSeason: 10, Status.Other: 0, Status.SeenEnough: 0,
-                         Status.ShowEnded: 0, Status.UpToDate: 25]
+                         Status.ShowEnded: 0, Status.UpToDate: 25] */
     show.ratingCounts = [Rating.Disliked: 0, Rating.Meh: 10, Rating.Liked: 5, Rating.Loved: 1]
     return show
 }
@@ -26,31 +26,36 @@ var SampleShow: Show {
 struct Show : Hashable, Identifiable {
     
     // Both
-    var id : String
+    var id : Int
     var name: String
     var lastUpdated: Date // Date the show was last updated
+    var created: Date
+    var supabaseService: SupabaseService
     var service: Service
-    var services: [Service]
+    var services: [Service]? // Handled differently than firebase
     var running: Bool
-    var tags: [Tag]?
+    var tags: [Tag]? // Handled differently than firebase
     var totalSeasons: Int
     var limitedSeries: Bool
     var length: ShowLength
     var releaseDate: Date?
     var airdate: AirDate?
-    var statusCounts: [Status:Int]
-    var ratingCounts: [Rating:Int]
-    var avgRating: Double {
+    var statusCounts: [Status:Int]? // Handled differently than firebase
+    var ratingCounts: [Rating:Int]? // Handled differently than firebase
+    var currentlyAiring: Bool
+    var pictureUrl: String?
+    var avgRating: Double? {
+        if (ratingCounts == nil) { return 0 }
         var sum = 0
         var totalRatings = 0
-        for (key, value) in ratingCounts {
+        for (key, value) in ratingCounts! {
             totalRatings += value
             sum += (key.pointValue * value)
         }
         //if (totalRatings == 0 || sum == 0) { return 0 }
         return Double(sum) / Double(totalRatings)
     }
-    var partiallyLoaded: Bool // Used for initial load where user details are loaded before show details
+    var partiallyLoaded: Bool? // deprecated with firebase deprecation
     
     // User Specific
     var userSpecificValues: ShowUserSpecificDetails?
@@ -63,9 +68,8 @@ struct Show : Hashable, Identifiable {
     
     
     // Show Detail
-    var actors: [String: String]? // Added var, key is id and value is name
-    var currentlyAiring: Bool
-    
+    var actors: [Int : Actor]?
+  
     // Images
     var tileImage: UIImage?
     var fullImage: UIImage?
@@ -75,12 +79,14 @@ struct Show : Hashable, Identifiable {
     var discovered: Bool?
     var watched: Bool?
     
-    init(id: String) {
+    init(id: Int) {
         self.id = id
         self.name = "New Show"
         self.lastUpdated = Date()
+        self.created = Date()
+        self.supabaseService = MockSupabaseService
         self.service = Service.Other
-        self.services = [Service.Other]
+        //self.services = [Service.Other]
         self.length = ShowLength.min
         //self.status = Status.Other
         //self.airdate = AirDate.Other
@@ -89,13 +95,41 @@ struct Show : Hashable, Identifiable {
         self.totalSeasons = 1
         //self.currentSeason = 1
         self.limitedSeries = false
-        self.tags = [Tag]()
+        //self.tags = [Tag]()
         self.currentlyAiring = false
+        /*
         self.statusCounts = [Status.CatchingUp: 0, Status.ComingSoon: 0, Status.CurrentlyAiring: 0, Status.NeedsWatched: 0,
                              Status.NewRelease: 0, Status.NewSeason: 0, Status.Other: 0, Status.SeenEnough: 0,
                              Status.ShowEnded: 0, Status.UpToDate: 0]
+         
         self.ratingCounts = [Rating.Disliked: 0, Rating.Meh: 0, Rating.Liked: 0, Rating.Loved: 0]
-        self.partiallyLoaded = false
+         */
+        //self.partiallyLoaded = false
+    }
+    
+    init(from: SupabaseShow) {
+        self.id = from.id
+        self.name = from.name
+        self.lastUpdated =  from.lastUpdated
+        self.created = from.created_at
+        self.running = from.running
+        self.totalSeasons = from.totalSeasons
+        self.currentlyAiring = from.currentlyAiring
+        self.supabaseService = from.service
+        var service = Service(rawValue: from.service.name)
+        if (service == nil) { service = Service.Other }
+        self.service = service!
+        self.limitedSeries = from.limitedSeries
+        self.length = from.length
+        self.airdate = from.airdate
+        self.releaseDate = nil
+        if (from.releaseDate != nil) {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy/MM/dd"
+            let someDateTime = formatter.date(from: from.releaseDate!)
+            if (someDateTime != nil) { self.releaseDate = someDateTime! }
+        }
+        self.pictureUrl = from.pictureUrl
     }
     
     
@@ -109,6 +143,7 @@ struct Show : Hashable, Identifiable {
     
 }
 
+/*
 func convertShowToDictionary(show: Show) -> [String:Any] {
     var output = [String:Any]()
     
@@ -195,7 +230,7 @@ func convertShowDictToShow(showId: String, data: [String:Any]) -> Show {
     
     return out
 }
-
+*/
 func mergeShowTypes(userData: Show, showData: Show) -> Show {
     var combined = showData
     combined.userSpecificValues = userData.userSpecificValues

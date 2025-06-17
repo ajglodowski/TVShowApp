@@ -12,17 +12,22 @@ struct RatingRow: View {
     
     var curRating: Rating
     @EnvironmentObject var modelData: ModelData
-    var show: Show
+    var showId: Int
+    var uid: String? { modelData.currentUser?.id }
     
     var body: some View {
         VStack {
             HStack (alignment:.top) {
                 ForEach(Rating.allCases) { rating in
                     Button(action: {
-                        decrementRatingCount(showId: show.id, rating: show.userSpecificValues!.rating!)
-                        updateRating(rating: rating, showId: show.id)
-                        addUserUpdateRatingChange(userId: Auth.auth().currentUser!.uid, show: show, rating: rating)
-                        incrementRatingCount(showId: show.id, rating: rating)
+                        Task {
+                            if (uid != nil) {
+                                let success = await updateUserShowData(updateType: UserUpdateCategory.ChangedRating, userId: uid!, showId: showId, seasonChange: nil, ratingChange: rating, statusChange: nil)
+                                if (success) {
+                                    await modelData.reloadAllShowData(showId: showId, userId: uid)
+                                }
+                            }
+                        }
                     }) {
                         VStack() {
                             Image(systemName: (curRating == rating) ? (rating.ratingSymbol+".fill") : rating.ratingSymbol)
@@ -39,9 +44,14 @@ struct RatingRow: View {
             }
             .foregroundColor(Color.white)
             Button(action: {
-                decrementRatingCount(showId: show.id, rating: show.userSpecificValues!.rating!)
-                deleteRatingFromUserShows(showId: show.id)
-                addUserUpdateRatingRemoval(userId: Auth.auth().currentUser!.uid, show: show)
+                Task {
+                    if (uid != nil) {
+                        let success = await updateUserShowData(updateType: UserUpdateCategory.RemovedRating, userId: uid!, showId: showId, seasonChange: nil, ratingChange: nil, statusChange: nil)
+                        if (success) {
+                            await modelData.reloadAllShowData(showId: showId, userId: uid)
+                        }
+                    }
+                }
             }) {
                 Text("Remove Rating")
             }

@@ -7,7 +7,7 @@
 
 import Foundation
 import Firebase
-
+/*
 func convertActorToDictionary(actor: Actor) -> [String:Any] {
     var output = [String:Any]()
     //output["id"] = actor.id
@@ -253,4 +253,13 @@ func updateFirestoreActorObjects(actors: [Actor]) {
     }
     print("Refresh Done")
 }
-
+*/
+/*
+func dumpShowJson(shows: [Show]) {
+    var data : Data
+    let encoder = JSONEncoder()
+    encoder.dateEncodingStrategy = .iso8601
+    guard var d = try? encoder.encode(shows) else { fatalError("Error encoding data") }
+    data = d
+}
+*/

@@ -12,10 +12,16 @@ struct ShowSeasonsRow: View {
     
     @EnvironmentObject var modelData: ModelData
     
-    var totalSeasons: Int
-    var currentSeason: Int?
+    var userId: String? { modelData.currentUser?.id }
+    
     var backgroundColor: Color
-    var showId: String
+    var showId: Int
+    
+    var userData: ShowUserSpecificDetails? {
+        modelData.showDict[showId]?.userSpecificValues
+    }
+    var totalSeasons: Int { modelData.showDict[showId]?.totalSeasons ?? 0 }
+    var currentSeason: Int? { userData?.currentSeason }
     
     var body: some View {
         VStack (alignment: .leading) {
@@ -25,12 +31,17 @@ struct ShowSeasonsRow: View {
             ScrollView(.horizontal) {
                 HStack (alignment: .top) {
                     ForEach(1..<totalSeasons+1, id:\.self) { num in
-                        if (num != currentSeason) {
+                        if (num != currentSeason ?? -1) {
                             VStack (alignment: .center) {
                                 Button(action: {
-                                    //currentSeason = num
-                                    updateCurrentSeason(newSeason: num, showId: showId)
-                                    addUserUpdateSeasonChange(userId: Auth.auth().currentUser!.uid, showId: showId, seasonUpdate: num)
+                                    if (userId != nil) {
+                                        Task {
+                                            let success = await updateUserShowData(updateType: UserUpdateCategory.ChangedSeason, userId: userId!, showId: showId, seasonChange: num, ratingChange: nil, statusChange: nil)
+                                            if (success) {
+                                                modelData.showDict[showId]?.userSpecificValues?.currentSeason = num
+                                            }
+                                        }
+                                    }
                                 }, label: {
                                     Text((String(num)))
                                         .font(.title)
@@ -63,7 +74,7 @@ struct ShowSeasonsRow: View {
                     // Plus button
                     VStack {
                         Button(action: {
-                            incrementTotalSeasons(showId: showId)
+                            //incrementTotalSeasons(showId: showId)
                         }) {
                             Image(systemName: "plus")
                         }

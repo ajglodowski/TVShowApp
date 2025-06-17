@@ -7,7 +7,7 @@
 
 import Foundation
 import Firebase
-
+/*
 func addUserUpdateWatchlist(userId: String, show: Show) {
     let update = UserUpdate(id: "1", userId: userId, showId: show.id, updateType: UserUpdateCategory.AddedToWatchlist, updateDate: Date())
     _ = pushUserUpdateToFireStore(update: update)
@@ -44,3 +44,4 @@ func pushUserUpdateToFireStore(update: UserUpdate) -> String {
     docRef.setData(updateData)
     return docRef.documentID
 }
+*/

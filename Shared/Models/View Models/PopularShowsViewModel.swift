@@ -8,7 +8,7 @@
 import Foundation
 import Swift
 import Firebase
-import AlgoliaSearchClient
+//import AlgoliaSearchClient
 
 struct ShowCountResult: Identifiable {
     let showId:  String
@@ -17,7 +17,7 @@ struct ShowCountResult: Identifiable {
 }
 
 class PopularShowsViewModel: ObservableObject {
-    
+    /*
     @Published var totalMostPopularShows = [Show]()
     
     @MainActor
@@ -48,5 +48,6 @@ class PopularShowsViewModel: ObservableObject {
             }
         }
     }
+     */
     
 }

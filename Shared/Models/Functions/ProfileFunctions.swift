@@ -4,7 +4,7 @@
 //
 //  Created by AJ Glodowski on 9/4/22.
 //
-
+/*
 import Foundation
 import Firebase
 
@@ -116,4 +116,4 @@ func createNewUser(username: String) {
     print(docRef)
     docRef.setData(profileData)
 }
-
+*/

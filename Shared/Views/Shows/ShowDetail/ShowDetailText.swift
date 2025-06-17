@@ -24,14 +24,12 @@ struct ShowDetailText: View {
                 .font(.subheadline)
             Spacer()
             HStack {
-                ForEach(show.services) { service in
-                    ServiceBubble(service: service)
-                }
+                ServiceBubble(service: show.service)
             }
         }
         HStack {
             if (show.addedToUserShows && show.userSpecificValues!.status != nil) {
-                Text("Status: " + show.userSpecificValues!.status.rawValue)
+                Text("Status: " + show.userSpecificValues!.status.name)
                     .font(.subheadline)
             }
             Spacer()
@@ -46,7 +44,7 @@ struct ShowDetailText: View {
             Text("Show last updated: \(ShowDetailText.formatter.string(from: show.lastUpdated))")
         }
         
-        if (show.addedToUserShows && show.currentlyAiring && show.userSpecificValues!.status == Status.CurrentlyAiring) {
+        if (show.addedToUserShows && show.currentlyAiring && show.userSpecificValues!.status.id == CurrentlyAiringStatusId) {
             Text("Airdate: " + show.airdate!.rawValue)
                 .font(.subheadline)
         }

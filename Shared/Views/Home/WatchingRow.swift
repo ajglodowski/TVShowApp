@@ -11,13 +11,12 @@ struct WatchingRow: View {
     
     var shows: [Show]
     
-    var displayedStatuses: [Status] = [
-        Status.NewSeason, Status.CatchingUp, Status.CatchingUp, Status.CurrentlyAiring, Status.NewRelease,
-        Status.Rewatching
+    var displayedStatusIds: [Int] = [
+        CurrentlyAiringStatusId, NewReleaseStatusId, NewSeasonStatusId, CatchingUpStatusId
     ]
     
     var shownShows: [Show] {
-        shows.filter { $0.userSpecificValues != nil && displayedStatuses.contains($0.userSpecificValues!.status) }
+        shows.filter { $0.userSpecificValues != nil && displayedStatusIds.contains($0.userSpecificValues!.status.id) }
             .sorted { $0.userSpecificValues!.lastUpdateDate ?? Date.distantPast > $1.userSpecificValues!.lastUpdateDate ?? Date.distantPast}
     }
     
@@ -28,7 +27,7 @@ struct WatchingRow: View {
 
 #Preview {
     var show1 = SampleShow
-    show1.userSpecificValues?.status = Status.NewSeason
+    show1.userSpecificValues?.status = MockStatus
     var previewShows = [show1]
     return WatchingRow(shows: previewShows)
 }

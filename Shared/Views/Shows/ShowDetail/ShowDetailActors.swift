@@ -11,49 +11,54 @@ struct ShowDetailActors: View {
     
     @EnvironmentObject var modelData: ModelData
     
+    @StateObject var actorsVm = ShowDetailActorsViewModel()
+    
     var show: Show
     var backgroundColor: Color
     
+    var actors: [Actor]? { actorsVm.actors }
+    
     var body: some View {
-        
-        VStack {
-            if (show.actors != nil) {
-                VStack(alignment: .leading){
-                    Text("Actors")
-                        .font(.title)
-                    ForEach(show.actors!.sorted(by: >), id:\.key) { actorId, actorName in
-                        NavigationLink(destination: ActorDetail(actorId: actorId)) {
-                            ListActorRow(actorName: actorName)
-                                .background(backgroundColor.blendMode(.softLight))
-                                .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-                        }
+        VStack(alignment: .leading, spacing: 8) {
+            if let actors = actors, !actors.isEmpty {
+                ForEach(actors) { actor in
+                    NavigationLink(destination: ActorDetail(actorId: actor.id)) {
+                        ListActorRow(actorName: actor.name)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+            } else {
+                Text("No actors found")
+                    .foregroundColor(.white.opacity(0.7))
+                    .italic()
+                    .padding(.vertical, 20)
+            }
+            
+            // Simple add button at the bottom
+            Button(action: {
+                Task {
+                    let new = Actor(id: -1)
+                    let success = await insertActor(actor: new, showId: show.id)
+                    if (success) {
+                        await actorsVm.fetchActors(showId: show.id)
                     }
                 }
+            }) {
+                HStack {
+                    Image(systemName: "plus.circle")
+                    Text("Add Actor")
+                }
+                .foregroundColor(.white.opacity(0.8))
+                .padding(.vertical, 8)
             }
-            Divider()
-            // Add a new actor
-            Button(action: {
-                var new = Actor(id: "1")
-                let newActId = addActorToActors(act: new)
-                new.id = newActId
-                addActorToShow(act: new, showId: show.id, showName: show.name)
-            }, label: {
-                Text("Add a new Actor")
-                //.font(.title)
-            })
-            .buttonStyle(.bordered)
+            .buttonStyle(PlainButtonStyle())
         }
-        .padding()
-        // Darker, possible use in future
-        //.background(Color.secondary)
-        .background(backgroundColor.blendMode(.softLight))
-        .cornerRadius(20)
-        .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-        .padding()
-        .foregroundColor(.white)
+        .task {
+            await actorsVm.fetchActors(showId: show.id)
+        }
     }
 }
-
+/*
 struct ShowDetailActors_Previews: PreviewProvider {
     static let modelData = ModelData()
     static var previews: some View {
@@ -62,3 +67,4 @@ struct ShowDetailActors_Previews: PreviewProvider {
         }
     }
 }
+*/

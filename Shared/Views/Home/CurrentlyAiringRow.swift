@@ -11,14 +11,15 @@ struct CurrentlyAiringRow: View {
     
     @EnvironmentObject var modelData : ModelData
     
-    var shows: [Show] {
-        modelData.shows.filter { $0.addedToUserShows }
-    }
+    @StateObject var vm = ShowsByStatusViewModel()
+    
+    var isLoading: Bool { vm.isLoading }
+    
+    var shows: [Show] { vm.shows ?? [] }
     
     var currentlyAiring: [Show] {
         shows
-            .filter { $0.currentlyAiring }
-            .filter { $0.addedToUserShows && $0.userSpecificValues!.status == Status.CurrentlyAiring }
+            .filter { $0.airdate != nil }
             .sorted { $0.airdate!.id < $1.airdate!.id }
     }
     
@@ -36,27 +37,126 @@ struct CurrentlyAiringRow: View {
         return AirDate.allCases.first(where: { $0.id+1 == weekday}) ?? AirDate.Other
     }
     
+    var sortedDaysWithShows: [AirDate] {
+        AirDate.allCases.filter { currentlyAiringGroups[$0] != nil }
+    }
+    
+    var initialTab: AirDate {
+        // If today has shows, start with today, otherwise start with first available day
+        if currentlyAiringGroups[today] != nil {
+            return today
+        } else if let firstDay = sortedDaysWithShows.first {
+            return firstDay
+        } else {
+            return AirDate.Other
+        }
+    }
+    
+    func airdateText(day: AirDate) -> String {
+        if (day == today) {
+            return "\(day.rawValue) (Today)"
+        } else {
+            return day.rawValue
+        }
+    }
+    
+    @State private var selectedDay: AirDate = AirDate.Other
+    
+    
+    
+    var LinkDestination: some View {
+        var filters = ShowFilters()
+        let status = Status(id: CurrentlyAiringStatusId, name: "Currently Airing", created_at: Date(), update_at: Date())
+        filters.userStatuses = [status]
+        return ShowSearch(
+            searchType: ShowSearchType.watchlist,
+            currentUserId: modelData.currentUser?.id,
+            initialFilters: filters,
+            includeNavigation: false
+        )
+    }
+
     var body: some View {
-        if (!currentlyAiring.isEmpty) {
+        VStack {
             VStack(alignment: .leading) {
-                Text("Currently Airing")
-                    .font(.title)
-                    .padding(.horizontal, 2)
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack (alignment: .top) { // Put days next to each other
-                        ForEach(AirDate.allCases) { day in
-                            if (currentlyAiringGroups[day] != nil) {
-                                DayTile(today: day == today, currentlyAiringGroups: currentlyAiringGroups, day: day)
+                NavigationLink(destination: LinkDestination) {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            HStack(alignment: .center) {
+                                Image(systemName: "dot.radiowaves.left.and.right")
+                                Text("Currently Airing")
+                                    .font(.headline)
+                                    .padding(.horizontal, 2)
                             }
+                            Text("Shows you've got marked as currently airing, grouped by their airdate.")
+                                .font(.subheadline)
+                                .padding(.horizontal, 2)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundStyle(.white)
+                    .multilineTextAlignment(.leading)
+                }
+                if (isLoading) {
+                        Picker("Airdate", selection: $selectedDay) {
+                            Text("Loading...")
+                                .font(.subheadline)
+                        }
+                        .pickerStyle(.segmented)
+                        SquareTileScrollRowLoading()
+                }
+                else if (!currentlyAiring.isEmpty) {
+                    // Day picker
+                    Picker("Airdate", selection: $selectedDay) {
+                        ForEach(sortedDaysWithShows) { day in
+                            Text(airdateText(day: day)).tag(day)
                         }
                     }
-                    .padding(.horizontal, 2)
+                    .pickerStyle(.segmented)
+                    
+                    // Content for selected day
+                    DayContent(
+                        shows: currentlyAiringGroups[selectedDay] ?? [],
+                        day: selectedDay,
+                        isToday: selectedDay == today
+                    )
                 }
+            }
+        }
+        .onAppear {
+            selectedDay = initialTab
+        }
+        .task(id: modelData.currentUser) {
+            if (modelData.currentUser != nil) {
+                await vm.loadShowsByStatus(userId: modelData.currentUser!.id, statusId: CurrentlyAiringStatusId)
+                selectedDay = initialTab
             }
         }
     }
 }
 
+struct DayContent: View {
+    var shows: [Show]
+    var day: AirDate
+    var isToday: Bool
+    
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .top) {
+                ForEach(shows) { show in
+                    NavigationLink(destination: ShowDetail(showId: show.id)) {
+                        ShowSquareTile(show: show, titleShown: true)
+                    }
+                    .foregroundColor(Color.primary)
+                }
+            }
+            .padding(.horizontal, 5)
+        }
+    }
+}
+
+// Keep the old DayTile for reference but it's no longer used
 struct DayTile: View {
     var today: Bool
     var currentlyAiringGroups: [AirDate:[Show]]
@@ -67,17 +167,19 @@ struct DayTile: View {
                 Text(day.rawValue)
                     .padding(.top, 5)
                     .bold()
-                HStack(spacing: 0) {
-                    ForEach(currentlyAiringGroups[day]!) { s in
-                        //NavigationLink(destination: ShowDetail(showId: s.id, show: s)) {
-                        NavigationLink(destination: ShowDetail(showId: s.id)) {
-                            ShowSquareTile(show: s, titleShown: true)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 0) {
+                        ForEach(currentlyAiringGroups[day]!) { s in
+                            //NavigationLink(destination: ShowDetail(showId: s.id, show: s)) {
+                            NavigationLink(destination: ShowDetail(showId: s.id)) {
+                                ShowSquareTile(show: s, titleShown: true)
+                            }
+                            .foregroundColor(Color.primary)
+                            //.padding(.horizontal, 1)
                         }
-                        .foregroundColor(Color.primary)
-                        //.padding(.horizontal, 1)
                     }
+                    .padding(.vertical, 5)
                 }
-                .padding(.vertical, 5)
             }
             if (today) {
                 Text("Today")
@@ -92,9 +194,7 @@ struct DayTile: View {
     }
 }
 
-struct CurrentlyAiring_Previews: PreviewProvider {
-    static var previews: some View {
-        CurrentlyAiringRow()
-            .environmentObject(ModelData())
-    }
+#Preview {
+    CurrentlyAiringRow()
+        .environmentObject(ModelData())
 }

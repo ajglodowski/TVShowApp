@@ -34,8 +34,7 @@ struct UserUpdateDetailRow: View {
                 VStack {
                         Image(uiImage: vm.showImage)
                             .resizable()
-                            .skeleton(with: vm.showImage == nil)
-                            .shape(type: .rectangle)
+                            .skeleton(with: vm.showImage == nil, shape: .rectangle)
                             .scaledToFit()
                             .cornerRadius(15)
                             .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -60,8 +59,8 @@ struct UserUpdateDetailRow: View {
         .task {
             if (show == nil) { showVm.loadShow(modelData: modelData, id: update.showId) }
         }
-        .task(id: show?.name ?? nil) {
-            if (show != nil) { vm.loadImage(showName: show!.name) }
+        .task(id: show?.pictureUrl ?? nil) {
+            if (show?.pictureUrl != nil) { await vm.loadImage(pictureUrl: show!.pictureUrl!) }
         }
     }
 }

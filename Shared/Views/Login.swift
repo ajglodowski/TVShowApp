@@ -7,47 +7,10 @@
 
 import SwiftUI
 import Firebase
+import Supabase
 
 struct Login: View {
-    
-    @Binding var loggedIn: Bool
-    
-    func registerUser() {
-        if (!username.isEmpty) {
-            noUsername = false
-            Auth.auth().createUser(withEmail: email, password: password) { result, error in
-                if error != nil {
-                    errorText = error!.localizedDescription
-                    print(error!.localizedDescription)
-                } else {
-                    Firestore.firestore().collection("users").document(result!.user.uid).setData([
-                        //"uid": result!.user.uid,
-                        "username": username
-                        
-                    ])
-                }
-            }
-        } else {
-            noUsername = true
-        }
-    }
-    
-    func lgoinUser() {
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
-            if error != nil {
-                errorText = error!.localizedDescription
-                print(error!.localizedDescription)
-            }
-            /*
-            if result != nil {
-                print("success")
-                createNewUser(username: username)
-            }
-             */
-        }
         
-    }
-    
     @State var username: String = ""
     @State var email: String = ""
     @State var password: String = ""
@@ -56,10 +19,42 @@ struct Login: View {
     
     @State var noUsername = false
     @State var errorText = ""
+    
+    @State var isLoading = false
+    
+    @Environment(\.dismiss) var dismiss
+    
+    func loginUser() {
+        Task {
+            isLoading = true
+            defer { isLoading = false }
+            do {
+                try await supabase.auth.signIn(email: email, password: password)
+                dismiss()
+            } catch {
+                errorText = error.localizedDescription
+            }
+        }
+    }
+    
+    func createUser() {
+        Task {
+          isLoading = true
+          defer { isLoading = false }
+          do {
+              try await supabase.auth.signUp(email: username, password: password)
+              dismiss()
+          } catch {
+              errorText = error.localizedDescription
+          }
+        }
+    }
 
     var body: some View {
         VStack {
-            Text("Welcome")
+            Text("Welcome!")
+                .font(.title)
+                .bold()
             if (!login) {
                 TextField("Username", text: $username)
                     .disableAutocorrection(true)
@@ -73,7 +68,7 @@ struct Login: View {
                 .textInputAutocapitalization(.never)
             if (!login) {
                 Button(action: {
-                    registerUser()
+                    createUser()
                 }) {
                     Text("Create Account")
                 }
@@ -85,7 +80,7 @@ struct Login: View {
                 }
             } else {
                 Button(action: {
-                    lgoinUser()
+                    loginUser()
                 }) {
                     Text("Login")
                 }
@@ -119,24 +114,11 @@ struct Login: View {
                 .multilineTextAlignment(.center)
             }
         }
-        .onAppear {
-            Auth.auth().addStateDidChangeListener { auth, user in
-                if user != nil {
-                    //createNewUser(username: username)
-                    loggedIn = true
-                }
-            }
-        }
         .padding(5)
-        .background(.quaternary.opacity(0.5))
-        .cornerRadius(10)
-        .padding()
-        
+        .interactiveDismissDisabled()
     }
 }
 
-struct Login_Previews: PreviewProvider {
-    static var previews: some View {
-        Login(loggedIn: .constant(false))
-    }
+#Preview {
+    Login()
 }

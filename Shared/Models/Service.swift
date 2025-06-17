@@ -32,7 +32,7 @@ enum Service: String, CaseIterable, Codable, Identifiable {
     var color: Color {
         switch(self) {
         case Service.AMC, Service.ABC, Service.Apple, Service.FX, Service.USA, Service.Viceland, Service.Other:
-            return .gray
+            return .white
         case Service.Amazon:
             return Color(red: 0/255, green: 168/255, blue: 225/255)
         case Service.Max:
@@ -50,7 +50,7 @@ enum Service: String, CaseIterable, Codable, Identifiable {
         case Service.Showtime:
             return .red
         default:
-            return .gray
+            return .white
         }
     }
     

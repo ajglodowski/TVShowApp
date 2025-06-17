@@ -6,16 +6,28 @@
 //
 
 import SwiftUI
+import SkeletonUI
 
 struct ShowListTile: View {
-    
+
     @StateObject var listVm = ShowListViewModel()
     @EnvironmentObject var modelData : ModelData
     
-    var showListId: String
+    var showListId: Int
     
-    @State var showListObj: ShowList? = nil
+    var showListObj: ShowList? { listVm.showListObj }
+    var listLoaded: Bool { showListObj != nil }
+    var currentUserId: String? { modelData.currentUser?.id }
     
+    var visable: Bool {
+        var out = true
+        if (showListObj != nil && (showListObj!.priv && showListObj!.creator == currentUserId)) {
+            out = false
+        }
+        return out
+    }
+    
+    /* TODO
     var likedByCurrentUser: Bool {
         if (showListObj != nil &&
             modelData.currentUser != nil &&
@@ -26,73 +38,79 @@ struct ShowListTile: View {
             return false
         }
     }
+     */
     
-    var listShows: [Show] {
-        var output = [Show]()
-        if (showListObj == nil) { return output }
-        showListObj!.shows.forEach { show in
-            if (modelData.showDict[show] != nil) {
-                output.append(modelData.showDict[show]!)
-            }
-        }
-        return output
-    }
+    
+    
+    var listShows: [Show] { showListObj?.shows.map { $0.show } ?? [] }
     
     var body: some View {
         VStack {
-            if (showListObj != nil && (!showListObj!.priv || showListObj!.profile.id == modelData.currentUser?.id)) {
-                let listObj = showListObj!
-                NavigationLink(destination: ShowListDetail(listId: listObj.id)) {
+            if (visable) {
+                NavigationLink(destination: ShowListDetail(listId: showListId)) {
                     VStack(alignment: .leading) {
-                        VStack { // Image section
-                            ZStack(alignment: .leading) {
-                                ForEach(Array(listShows.enumerated()), id: \.offset) { loopInd, show in
-                                    ShowSquareTile(show: show, titleShown: false)
-                                        .offset(x: (CGFloat(loopInd) * 30) - 5.0)
-                                        .zIndex(Double(listShows.count - loopInd))
+                        if (!listLoaded) {
+                            Text("Loading")
+                        } else {
+                            let listObj = showListObj!
+                            VStack { // Image section
+                                ZStack(alignment: .leading) {
+                                    ForEach(Array(listShows.enumerated()), id: \.offset) { loopInd, show in
+                                        ShowSquareTile(show: show, titleShown: false)
+                                            .offset(x: (CGFloat(loopInd) * 30) - 5.0)
+                                            .zIndex(Double(listShows.count - loopInd))
+                                    }
+                                }
+                                .frame(width: 250, height: 150, alignment: .leading)
+                            }
+                            VStack (alignment: .leading) {
+                                HStack {
+                                    Text("\(listObj.name)")
+                                        .font(.headline)
+                                    if (listObj.priv) {
+                                        Text("Private")
+                                            .padding(5)
+                                            .background(.tertiary)
+                                            .cornerRadius(5)
+                                    }
+                                }
+                                .frame(height: 25)
+                                Text("\(listObj.description)")
+                                    .lineLimit(2)
+                                    .multilineTextAlignment(.leading)
+                                HStack {
+                                    ProfileBubble(profileId: listObj.creator)
+                                    Spacer()
+                                    /*
+                                     if (likedByCurrentUser) {
+                                     Text("Liked")
+                                     Image(systemName: "heart.fill")
+                                     .tint(.pink)
+                                     }
+                                     Text("\(listObj.likeCount) likes")
+                                     */
                                 }
                             }
-                            .frame(width: 250, height: 150, alignment: .leading)
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 10)
+                            .frame(width: 250, height: 100)
                         }
-                        VStack (alignment: .leading) {
-                            HStack {
-                                Text("\(listObj.name)")
-                                    .font(.headline)
-                                if (listObj.priv) {
-                                    Text("Private")
-                                        .padding(5)
-                                        .background(.tertiary)
-                                        .cornerRadius(5)
-                                }
-                            }
-                            .frame(height: 25)
-                            Text("\(listObj.description)")
-                                .lineLimit(2)
-                                .multilineTextAlignment(.leading)
-                            HStack {
-                                ProfileBubble(profileId: listObj.profile.id)
-                                Spacer()
-                                if (likedByCurrentUser) {
-                                    Text("Liked")
-                                    Image(systemName: "heart.fill")
-                                        .tint(.pink)
-                                }
-                                Text("\(listObj.likeCount) likes")
-                            }
-                            
-                        }
-                        .padding(.vertical, 5)
-                        .padding(.horizontal, 10)
                     }
-                    .frame(width: 250)
+                    .skeleton(with: !listLoaded)
+                    .frame(width: 250, height: 250)
                 }
+                .buttonStyle(PlainButtonStyle())
             }
         }
         .task {
-            await listVm.loadList(modelData: modelData, id: showListId, showLimit: 5)
-            self.showListObj = listVm.showListObj
+            await listVm.loadList(id: showListId, showLimit: 5)
         }
         .background(.quaternary)
         .cornerRadius(20)
     }
+}
+
+#Preview {
+    ShowListTile(showListId: 1)
+        .environmentObject(ModelData())
 }

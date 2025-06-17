@@ -12,9 +12,9 @@ import Firebase
 
 struct UserUpdate : Hashable, Identifiable, Codable {
     // Required
-    var id: String
+    var id: Int
     var userId: String
-    var showId: String
+    var showId: Int
     var updateType: UserUpdateCategory
     var updateDate: Date
     // Type-Dependent
@@ -29,7 +29,7 @@ struct UserUpdate : Hashable, Identifiable, Codable {
             case UserUpdateCategory.AddedToWatchlist:
                 return "Added to Watchlist"
             case UserUpdateCategory.UpdatedStatus:
-                return "Updated status to \(self.statusChange!.rawValue)"
+                return "Updated status to \(self.statusChange!.name)"
             case UserUpdateCategory.RemovedFromWatchlist:
                 return "Removed from your watchlist"
             case UserUpdateCategory.ChangedRating:
@@ -39,6 +39,17 @@ struct UserUpdate : Hashable, Identifiable, Codable {
             default:
                 return "Update Type Error"
         }
+    }
+    
+    init(from: SupabaseUserUpdate) {
+        self.id = from.id
+        self.userId = from.userId
+        self.showId = from.showId
+        self.updateType = from.updateType
+        self.updateDate = from.updateDate
+        self.statusChange = from.statusChange
+        self.seasonChange = from.seasonChange
+        self.ratingChange = from.ratingChange
     }
     
 }
@@ -51,9 +62,12 @@ enum UserUpdateCategory: String, CaseIterable, Codable, Identifiable {
     case ChangedRating
     case RemovedRating
     
+    case Other
+    
     var id: String { self.rawValue }
 }
 
+/*
 func convertUpdateToDict(update: UserUpdate) -> [String:Any] {
     var out = [String:Any]()
     out["showId"] = update.showId
@@ -81,3 +95,4 @@ func convertDataDictToUserUpdate(updateId: String, data: [String:Any]) -> UserUp
     let update = UserUpdate(id: updateId, userId: userId, showId: showId, updateType: UserUpdateCategory(rawValue: updateType)!, updateDate: updateDate.dateValue(), statusChange: statusChange, seasonChange: seasonChange, ratingChange: ratingChange)
     return update
 }
+*/

@@ -10,34 +10,25 @@ import Charts
 
 struct ShowStatusGraph: View {
     
-    var show : Show
+    @StateObject var statusCountsVm = ShowStatusViewModel()
+    
     var backgroundColor: Color
+    var showId: Int
+    
+    var statusCounts: [Status: Int]? { statusCountsVm.statusCounts }
     
     var body: some View {
         VStack(alignment: .leading) {
             Text("Show Status Counts:")
                 .font(.headline)
-            Chart {
-                ForEach(Status.allCases.sorted { show.statusCounts[$0] ?? 0 > show.statusCounts[$1] ?? 0 }) { status in
-                    if (show.statusCounts[status] != nil) {
-                        BarMark(
-                            x: .value("Status", status.rawValue),
-                            y: .value("Count", show.statusCounts[status]!)
-                        )
-                        .annotation(position: .top) {
-                            Text(String(show.statusCounts[status]!))
-                        }
-                        .foregroundStyle(by: .value("Status", status.rawValue))
-                    }
-                }
+            if (statusCounts == nil) {
+                Text("Loading graph data")
+            } else {
+                StatusGraph(statusCounts: statusCounts!)
             }
-            
-            .chartPlotStyle { plotArea in
-                plotArea.frame(height: 200)
-            }
-            .chartScrollableAxes(.horizontal)
-            .padding(.top, 25)
-             
+        }
+        .task {
+            await statusCountsVm.loadStatusCounts(showId: showId)
         }
         .frame(minHeight: 400)
         .padding()
@@ -48,10 +39,38 @@ struct ShowStatusGraph: View {
     }
 }
 
+struct StatusGraph: View {
+    
+    var statusCounts: [Status: Int]
+    var statuses: [Status] { Array(statusCounts.keys) }
+    
+    var body: some View {
+        Chart {
+            ForEach(statuses.sorted { statusCounts[$0] ?? 0 > statusCounts[$1] ?? 0 }) { status in
+                if (statusCounts[status] != nil) {
+                    BarMark(
+                        x: .value("Status", status.name),
+                        y: .value("Count", statusCounts[status]!)
+                    )
+                    .annotation(position: .top) {
+                        Text(String(statusCounts[status]!))
+                    }
+                    .foregroundStyle(by: .value("Status", status.name))
+                }
+            }
+        }
+        .chartPlotStyle { plotArea in
+            plotArea.frame(height: 200)
+        }
+        .chartScrollableAxes(.horizontal)
+        .padding(.top, 25)
+    }
+}
+
 #Preview {
     ScrollView {
         VStack {
-            ShowStatusGraph(show: SampleShow, backgroundColor: .white)
+            ShowStatusGraph(backgroundColor: .white, showId: SampleShow.id)
         }
     }
 }

@@ -13,260 +13,223 @@ struct ProfileDetail: View {
     @EnvironmentObject var modelData : ModelData
     
     @StateObject var prof = ProfileViewModel()
-    @StateObject var showVm = ShowDetailViewModel()
+    @StateObject var imageVm = ProfilePictureViewModel()
+    
+    var profilePic: UIImage? { imageVm.profilePicture }
     
     let id: String
-    
-    let curUserId = Auth.auth().currentUser!.uid
+    var curUserId: String? { modelData.currentUser?.id }
     
     @State var unfollowConfirmation: Bool = false
     
     var currentProfile: Bool { prof.profile != nil && prof.profile!.id == curUserId }
     
+    @State var newListPresented = false
+    
     var body: some View {
-        let optProfile: Profile? = prof.profile
+        //let optProfile: Profile? = prof.profile // No longer needed directly here
         ScrollView {
             VStack {
-                if (optProfile == nil) {
-                    Text("Loading Profile")
+                // Use ViewModel's loading state
+                if prof.isLoadingProfile || prof.profile == nil {
+                    Text("Loading Profile...")
+                    // Consider adding a ProgressView here
+                    // ProgressView()
                 } else {
-                    let profile = optProfile!
+                    let profile = prof.profile! // Safe to unwrap now
                     VStack (alignment: .leading) {
                         userDetails
                         
                         Divider()
                         
-                        PinnedShowsSection(profile: profile, currentProfile: currentProfile)
+                        //PinnedShowsSection(profile: profile, currentProfile: currentProfile)
+                        PinnedShowsSection()
                         
                         Divider()
                         
-                        ownedLists
+                        OwnedLists(profile: profile)
                     }
                     .navigationTitle(profile.username)
+                    // Add error message display if needed
+                    if let errorMsg = prof.errorMessage {
+                        Text("Error: \(errorMsg)")
+                            .foregroundColor(.red)
+                            .padding()
+                    }
                 }
             }
-            .task {
-                prof.loadProfile(modelData: modelData, id: id)
+            .task(id: id) { // Use task with id to reload if id changes
+                await prof.loadProfileData(id: id) // Call the new loading function
+                await imageVm.loadImage(userId: id) // Add image loading call
             }
         }
     }
     
     var userDetails: some View {
-        
         VStack {
-            
-            let optProfile: Profile? = prof.profile
-            let profilePic: Image? = prof.profilePic
-            
-            let profile = optProfile!
-            
-            HStack {
-                VStack {
-                    if (profilePic != nil) {
-                        VStack {
-                            profilePic!
-                                .resizable()
-                                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                                .scaledToFit()
-                                .shadow(radius: 5)
-                        }
-                        .frame(width: 125, height: 125, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    } else {
-                        //Text("Loading Profile Picture")
-                    }
-                }
-                .padding(2)
-                VStack (alignment: .leading) {
-                    HStack {
-                        Text("@\(profile.username)")
-                            .font(.title)
-                            .italic()
-                            .bold()
-                    }
-                    HStack {
-                        if (currentProfile) {
-                            Button(action: {
-                                // Nothing
-                            }) {
-                                Text("You")
+            // Use prof.profile safely, as body checks for loading state
+            if let profile = prof.profile {
+                HStack {
+                    VStack {
+                        if (profilePic != nil) {
+                            VStack {
+                                Image(uiImage: profilePic)
+                                    .resizable()
+                                    .skeleton(with: profilePic == nil, shape: .rectangle)
+                                    .clipShape(Circle())
+                                    .scaledToFit()
+                                    .shadow(radius: 5)
                             }
-                            .buttonStyle(.bordered)
-                            .tint(.blue)
-                        } else if (profile.followers != nil && profile.followers![curUserId] != nil) {
-                            Button(action: {
-                                unfollowConfirmation = true
-                            }) {
-                                Text("Following")
-                            }
-                            .buttonStyle(.bordered)
-                            .tint(.green)
-                            .confirmationDialog("Are you sure you want to unfollow \(profile.username)?", isPresented: $unfollowConfirmation) {
-                                Button("Unfollow \(profile.username)", role: .destructive) {
-                                    unfollowUser(userToUnfollow: (profile.id, profile.username), currentUser: (curUserId, modelData.currentUser!.username))
-                                }
-                            } message: {
-                                Text("Are you sure you want to unfollow \(profile.username)?")
-                            }
+                            .frame(width: 125, height: 125, alignment: .center)
                         } else {
-                            Button(action: {
-                                // Follow User
-                                followUser(userToFollow: (profile.id, profile.username), currentUser: (curUserId, modelData.currentUser!.username))
-                            }) {
-                                Text("+ Follow \(profile.username)")
+                            // Placeholder for profile picture if needed
+                            Circle()
+                                .fill(Color.secondary.opacity(0.3))
+                                .frame(width: 125, height: 125)
+                                .overlay(Image(systemName: "person.fill").resizable().scaledToFit().padding(30).foregroundColor(.white))
+                        }
+                    }
+                    .padding(2)
+                    VStack (alignment: .leading) {
+                        HStack {
+                            Text("@\(profile.username)")
+                                .font(.title)
+                                .italic()
+                                .bold()
+                        }
+                        /*
+                        HStack {
+                            if (currentProfile) {
+                                Button(action: {
+                                    // Nothing
+                                }) {
+                                    Text("You")
+                                }
+                                .buttonStyle(.bordered)
+                                .tint(.blue)
+                            } else if (profile.followers != nil && profile.followers![curUserId] != nil) {
+                                Button(action: {
+                                    unfollowConfirmation = true
+                                }) {
+                                    Text("Following")
+                                }
+                                .buttonStyle(.bordered)
+                                .tint(.green)
+                                .confirmationDialog("Are you sure you want to unfollow \(profile.username)?", isPresented: $unfollowConfirmation) {
+                                    Button("Unfollow \(profile.username)", role: .destructive) {
+                                        //unfollowUser(userToUnfollow: (profile.id, profile.username), currentUser: (curUserId, modelData.currentUser!.username))
+                                    }
+                                } message: {
+                                    Text("Are you sure you want to unfollow \(profile.username)?")
+                                }
+                            } else {
+                                Button(action: {
+                                    // Follow User
+                                    //followUser(userToFollow: (profile.id, profile.username), currentUser: (curUserId, modelData.currentUser!.username))
+                                }) {
+                                    Text("+ Follow \(profile.username)")
+                                }
+                                .buttonStyle(.bordered)
                             }
-                            .buttonStyle(.bordered)
+                            
+                            if (currentProfile) {
+                                //Spacer()
+                                Button(action: {
+                                    Task {
+                                        await supabase.auth.signOut()
+                                    }
+                                }) {
+                                    Text("Logout")
+                                }
+                                .buttonStyle(.bordered)
+                                .tint(.red)
+                            }
+                        }
+                         */
+                        if (profile.bio != nil) {
+                            Text("\(profile.bio!)")
                         }
                         
-                        if (currentProfile) {
-                            //Spacer()
-                            Button(action: {
-                                modelData.entered = false
-                                try! Auth.auth().signOut()
-                            }) {
-                                Text("Logout")
-                            }
-                            .buttonStyle(.bordered)
-                            .tint(.red)
+                        // Display show count from ViewModel
+                        if prof.isLoadingShowCount {
+                            Text("Loading shows...")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .redacted(reason: .placeholder)
+                        } else {
+                            Text("\(prof.showsLoggedCount ?? 0) shows logged")
+                                .bold()
                         }
+                        
+                        followerSection
                     }
-                    if (profile.bio != nil) {
-                        Text("\(profile.bio!)")
-                    }
-                    Text("\(profile.showCount) shows logged")
-                        .bold()
-                    
-                    followerSection
                 }
-                    
+            } else {
+                // Placeholder while profile is loading (body already handles main loading text)
+                EmptyView()
             }
         }
         .padding()
     }
     
     var followerSection: some View {
-        HStack {
+        // Use a VStack to stack the links vertically
+        VStack(alignment: .leading, spacing: 8) { // Add spacing between lines
             let optProfile: Profile? = prof.profile
-            //var profilePic: Image? = prof.profilePic
             
-            let profile = optProfile!
-            
-            if (profile.followers != nil) {
-                NavigationLink(destination: FollowerList(followerList: profile.followers!, type: "\(profile.username)'s Followers")) {
-                    VStack {
-                        Text("\(profile.followerCount)")
-                            .font(.title)
-                        Text("Followers")
-                            .bold()
+            if let profile = optProfile {
+                // Profile loaded: Show follower/following links
+                NavigationLink(destination: FollowerList(userId: profile.id, listType: .followers, profileUsername: profile.username)) {
+                    HStack {
+                        Text("**\(profile.followerCount ?? 0)** Followers")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.secondary) // Make chevron less prominent
                     }
-                    .padding(5)
-                    .foregroundColor(Color.primary)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.primary, lineWidth: 2)
-                    )
-                    .padding(2)
-                    .cornerRadius(10)
-                }
-            } else {
-                Text("No followers")
-                    .bold()
-            }
-            
-            if (profile.following != nil) {
-                NavigationLink(destination: FollowerList(followerList: profile.following!, type: "\(profile.username)'s Following")) {
-                    VStack {
-                        Text("\(profile.followingCount)")
-                            .font(.title)
-                        Text("Following")
-                            .bold()
-                    }
-                    .padding(5)
-                    .foregroundColor(Color.primary)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.primary, lineWidth: 2)
-                    )
-                    .padding(2)
-                    .cornerRadius(10)
-                }
-            } else {
-                Text("Not following anyone")
-                    .bold()
-            }
-        }
-    }
-    
-    
-    @State var newListPresented = false
-    @State var newList = ShowList(id: "", name: "New List", description: "", shows: [], ordered: false, priv: false, profile: Profile(id: Auth.auth().currentUser!.uid, username: "", pinnedShowCount: 0, showCount: 0, followingCount: 0, followerCount: 0), likeCount: 0)
-    
-    var ownedLists: some View {
-        VStack(alignment: .leading) {
-            let optProfile: Profile? = prof.profile
-            if (optProfile != nil && (optProfile!.showLists != nil || currentProfile)) {
-                let profile = optProfile!
-                if (!currentProfile) {
-                    Text("\(profile.username)'s Lists")
-                        .font(.headline)
-                } else {
-                    Text("Your Lists")
-                        .font(.headline)
-                }
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(alignment: .center) {
-                        if (currentProfile) {
-                            VStack {
-                                Button(action: {
-                                    newListPresented = true
-                                }) {
-                                    VStack {
-                                        Image(systemName: "plus")
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 50, height: 50)
-                                        Text("Create a new list")
-                                            .font(.headline)
-                                    }
-                                    .frame(width: 150, height: 150)
-                                }
-                                .font(.title)
-                                .foregroundColor(.white)
-                                .frame(alignment: .center)
-                                .background(.green)
-                                .cornerRadius(10)
-                            }
-                            .padding(5)
-                        }
-                        if (profile.showLists != nil) {
-                            ForEach(profile.showLists!, id:\.self) { showListId in
-                                NavigationLink(destination: ShowListDetail(listId: showListId)) {
-                                    ShowListTile(showListId: showListId)
-                                        .foregroundColor(.primary)
-                                        .padding(.horizontal, 5)
-                                }
-                            }
-                        }
-                    }
+                    .foregroundColor(Color.primary) // Keep text color standard
                 }
                 
+                NavigationLink(destination: FollowerList(userId: profile.id, listType: .following, profileUsername: profile.username)) {
+                    HStack {
+                        Text("**\(profile.followingCount ?? 0)** Following")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.secondary)
+                    }
+                    .foregroundColor(Color.primary) // Keep text color standard
+                }
+            } else {
+                // Profile not loaded yet: Show placeholder
+                HStack {
+                    Text("Loading counts...")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                         .foregroundColor(.secondary)
+                }
+                .redacted(reason: .placeholder)
+                // You might want a second placeholder line for symmetry
+                HStack {
+                    Text("Loading counts...")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                     Spacer()
+                    Image(systemName: "chevron.right")
+                         .foregroundColor(.secondary)
+                }
+                .redacted(reason: .placeholder)
             }
         }
-        .sheet(isPresented: $newListPresented) {
-            NavigationView {
-                //ShowDetailEdit(isPresented: self.$isPresented, show: newShow, showIndex: shows.count-1)
-                ShowListDetailEdit(showList: $newList, isPresented: self.$newListPresented)
-                    .navigationTitle(newList.name)
-                    .navigationBarItems(leading: Button("Cancel") {
-                        newListPresented = false
-                    }, trailing: Button("Done") {
-                        addList(list: newList, userId: Auth.auth().currentUser!.uid)
-                        newListPresented = false
-                    })
-            }
-        }
-        
+        .padding(.vertical, 4) // Add a little vertical padding to the VStack
     }
-    
-    
+}
+
+#Preview {
+    let id = "c52a052a-4944-4257-ad77-34f2f002104c"
+    NavigationView {
+        ProfileDetail(id: id)
+            .environmentObject(ModelData())
+    }
 }
 

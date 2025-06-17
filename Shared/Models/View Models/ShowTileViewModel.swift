@@ -11,116 +11,24 @@ import SwiftUI
 import Firebase
 import FirebaseStorage
 
-class ShowTileCacheManager {
-    
-    static let instance = ShowTileCacheManager()
-    private init() {}
-    
-    var imageCache: NSCache<NSString, UIImage> = {
-        let cache = NSCache<NSString, UIImage>()
-        cache.countLimit = 500
-        cache.totalCostLimit = 1024 * 1024 * 1024 // 1 GB
-        return cache
-    }()
-    
-    var imagesLoading = Set<String>()
-    
-    func add(image: UIImage, name: String) {
-        imageCache.setObject(image, forKey: name as NSString)
-    }
-    
-    func remove(name: String) {
-        imageCache.removeObject(forKey: name as NSString)
-    }
-    
-    func get(name: String) -> UIImage? {
-        return imageCache.object(forKey: name as NSString)
-    }
-    
-}
-
 class ShowTileViewModel: ObservableObject {
     
     @Published var showImage: UIImage? = nil
-    @Published var cachedShowImage: UIImage? = nil
     
-    let cacheManager = ShowTileCacheManager.instance
+    let fetcherInstance = ShowTileImageFetcher.shared
     
-    //private var ref: DatabaseReference = Database.database().reference()
-    private var fireStore = Firebase.Firestore.firestore()
-    private var store = Storage.storage().reference()
-    
-    //@MainActor
-    func loadImage(showName: String) {
-        //fireStore.clearPersistence()
-        self.getFromCache(showName: showName)
-        if (cachedShowImage == nil) {
-            DispatchQueue.global().async {
-                let picRef = self.store.child("showImages/resizedImages/\(showName)_200x200.jpeg")
-                picRef.getData(maxSize: 1 * 512 * 1024) { data, error in // 0.5 MB Max
-                    if let error = error {
-                        if (!error.localizedDescription.contains("does not exist.")) {
-                            print(error.localizedDescription)
-                        }
-                    } else {
-                        let profImage = UIImage(data: data!)!
-                        DispatchQueue.main.async { [self] in
-                            self.showImage = profImage
-                            self.saveToCache(showName: showName)
-                        }
-                    }
-                }
-            }
-        } else {
-            //print("Using cache")
-            self.showImage = self.cachedShowImage
+    @MainActor
+    func setShowImage(image: UIImage?) {
+        self.showImage = image
+    }
+
+    func loadImage(pictureUrl: String) async {
+        do {
+            let fetchedImage = try await fetcherInstance.fetchImage(pictureUrl: pictureUrl)
+            await setShowImage(image: fetchedImage)
+        } catch {
+            //dump(error)
         }
-    }
-    
-    func loadImage(modelData: ModelData, showId: String, showName: String) {
-        //fireStore.clearPersistence()
-        if (modelData.showDict[showId]?.tileImage != nil) {
-            self.showImage = modelData.showDict[showId]?.tileImage
-            return
-        }
-        self.getFromCache(showName: showName)
-        if (cachedShowImage == nil) {
-            DispatchQueue.global().async {
-                let picRef = self.store.child("showImages/resizedImages/\(showName)_200x200.jpeg")
-                picRef.getData(maxSize: 1 * 512 * 1024) { data, error in // 0.5 MB Max
-                    if let error = error {
-                        if (!error.localizedDescription.contains("does not exist.")) {
-                            print(error.localizedDescription)
-                        }
-                    } else {
-                        let profImage = UIImage(data: data!)!
-                        DispatchQueue.main.async { [self] in
-                            modelData.showDict[showId]?.tileImage = profImage
-                            self.showImage = profImage
-                            self.saveToCache(showName: showName)
-                        }
-                    }
-                }
-            }
-        } else {
-            if (modelData.showDict[showId] != nil) { modelData.showDict[showId]!.tileImage = self.cachedShowImage }
-            self.showImage = self.cachedShowImage
-        }
-    }
-    
-    
-    
-    func saveToCache(showName: String) {
-        guard let image = self.showImage else { return }
-        cacheManager.add(image: image, name: showName)
-    }
-    
-    func removeFromCache(showName: String) {
-        cacheManager.remove(name: showName)
-    }
-    
-    func getFromCache(showName: String) {
-        self.cachedShowImage = cacheManager.get(name: showName)
     }
     
 }

@@ -10,6 +10,11 @@ import Charts
 
 struct AverageRatingsGraphs: View {
     
+    var body: some View {
+        Text("TODO")
+    }
+    
+    /*
     @EnvironmentObject var modelData: ModelData
     
     var ratedShows: [Show] { modelData.shows.filter { !$0.avgRating.isNaN } }
@@ -72,6 +77,7 @@ struct AverageRatingsGraphs: View {
             .padding(.horizontal, 10)
         }
     }
+    */
     
 }
 

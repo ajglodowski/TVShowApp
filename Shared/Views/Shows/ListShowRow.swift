@@ -10,92 +10,77 @@ import SkeletonUI
 
 struct ListShowRow: View {
     
-    @EnvironmentObject var modelData : ModelData
-    
-    @ObservedObject var vm = ShowTileViewModel()
+    @StateObject var vm = ShowTileViewModel()
     
     var show: Show
     
-    @State private var scrollOffset = 0
+    var loadUserData: Bool?
+    var alreadyLoadedMultiUserData: ShowMultiUserData?
+    
+    var seasonsText: String {
+        let seasons = show.totalSeasons > 1 ? "Seasons" : "Season"
+        let currentSeason = show.addedToUserShows ? "\(show.userSpecificValues!.currentSeason)/" : ""
+        return "\(currentSeason)\(show.totalSeasons) \(seasons)"
+    }
     
     var body: some View {
         HStack {
-            
             VStack { // Show Image
-                Image(uiImage: show.tileImage)
+                Image(uiImage: vm.showImage)
                     .resizable()
-                    .skeleton(with: show.tileImage == nil)
-                    .shape(type: .rectangle)
+                    .skeleton(with: vm.showImage == nil, shape: .rectangle)
                     .scaledToFit()
                     .cornerRadius(5)
                     .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
-            
-            
             VStack(alignment: .leading, spacing: 0) {
                 Text(show.name)
                     .font(.headline)
-                //ScrollView(.horizontal) {
+                ScrollView(.horizontal) {
                     HStack {
-                        
                         Text("\(show.length.rawValue)m")
                             .font(.callout)
                         ServiceBubble(service: show.service)
                         if (show.limitedSeries) {
-                            Text("Limited")
-                                .font(.callout)
-                                .padding(6)
-                                .foregroundColor(.white)
-                                .background(Capsule().fill(.black))
+                            ShowRowBubble(text: "Limited", backgroundColor: Color(.black))
                         }
-                        /*
-                         if (show.status != nil) {
-                         Text("\(show.status!.rawValue)")
-                         .font(.callout)
-                         .padding(6)
-                         .background(Capsule().fill(.quaternary))
-                         }
-                         */
-                        if (show.addedToUserShows) {
-                            Text("\(show.userSpecificValues!.currentSeason)/\(show.totalSeasons) \(show.totalSeasons > 1 ? "Seasons" : "Season")")
-                                .font(.callout)
-                                .padding(6)
-                                .background(Capsule().fill(.quaternary))
-                        } else {
-                            Text("\(show.totalSeasons) \(show.totalSeasons > 1 ? "Seasons" : "Season")")
-                                .font(.callout)
-                                .padding(6)
-                                .background(Capsule().fill(.quaternary))
-                        }
+                        ShowRowBubble(text: seasonsText, backgroundColor: Color(.quaternaryLabel))
                     }
                     .fixedSize()
-                    .offset(x: CGFloat(scrollOffset))
-                    .animation(.linear(duration: 10).repeatForever(autoreverses: true), value: scrollOffset)
-                //}
+                }
+                .scrollIndicators(.hidden)
             }
             Spacer()
-            if (show.addedToUserShows && show.userSpecificValues!.rating != nil) {
-                Image(systemName: "\(show.userSpecificValues!.rating!.ratingSymbol).fill")
-                    .foregroundColor(show.userSpecificValues!.rating!.color)
-            }
+            
+            UserDetailsDropdown(showId: show.id, loadUserData: loadUserData, alreadyLoadedMultiUserData: alreadyLoadedMultiUserData)
+//            UserDetailsDropdownLoading()
         }
         .padding(.vertical, 4)
         .padding(.horizontal, 4)
-        .task(id: show.name) {
-            vm.loadImage(modelData: modelData, showId: show.id, showName: show.name)
-            //vm.loadImage(showName: show.name)
+        .task(id: show.pictureUrl) {
+            if (show.pictureUrl != nil) {
+                await vm.loadImage(pictureUrl: show.pictureUrl!)
+            }
         }
     }
 }
 
-struct ListShowRow_Previews: PreviewProvider {
-
-    static var shows = ModelData().shows
-    
-    //@ObservedObject var showStore = ShowStore()
-    static var previews: some View {
-        //Grid() {
-            ListShowRow(show: shows[0])
-        //}
+struct ShowRowBubble: View {
+    var text: String
+    var backgroundColor: Color
+    var body: some View {
+        Text(text)
+            .font(.callout)
+            .padding(6)
+            .background(Capsule().fill(backgroundColor))
     }
 }
+
+#Preview {
+    var mockShow = Show(from: MockSupabaseShow)
+    mockShow.name = "House of the Dragon"
+    return ListShowRow(show: mockShow)
+        .environmentObject(ModelData())
+    
+}
+

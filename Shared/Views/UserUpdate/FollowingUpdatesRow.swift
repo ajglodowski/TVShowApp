@@ -20,10 +20,16 @@ struct FollowingUpdatesRow: View {
                 .font(.title)
             ScrollView (.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach (updates) { update in
-                        NavigationLink(destination: ShowDetail(showId: update.showId)) {
-                            UserUpdateCard(update: update)
-                                .foregroundColor(.white)
+                    if (updates.isEmpty) {
+                        ForEach(0..<5) { _ in
+                            UserUpdateCardLoading()
+                        }
+                    } else {
+                        ForEach (updates) { update in
+                            NavigationLink(destination: ShowDetail(showId: update.showId)) {
+                                UserUpdateCard(update: update)
+                                    .foregroundColor(.white)
+                            }
                         }
                     }
                 }
@@ -37,5 +43,6 @@ struct FollowingUpdatesRow: View {
 struct FollowingUpdatesRow_Previews: PreviewProvider {
     static var previews: some View {
         FollowingUpdatesRow()
+            .environmentObject(ModelData())
     }
 }
